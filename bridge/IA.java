@@ -107,13 +107,13 @@ public class IA {
     
      /**
      * pioche une carte , le plus grand atout possible, si pas d'atout la plus grande carte d'une autre couleur 
-     * @return une carte parmis les cartes de la pioche. 
+     * @return la carte carte parmis les cartes de la pioche. 
      */
     public Carte piocheMoyenne(){
         int i = 0;
-        Carte res = choisirMeilleureCarte(atout);
+        Carte res = choisirMeilleureCarte(atout); // Si on a des atout dans la picohe on prend le plus grand 
         
-        if (res == null){
+        if (res == null){ // si pas d'atout dans la pioche 
             res = pioche[0];
             while(i<lg){
                 if (pioche[i].valeur>res.valeur){ // Recherche de la carte de valeur maximale 
@@ -143,6 +143,10 @@ public class IA {
         return res != null;
     }
     
+    /**
+     * @param couleur
+     * @return la carte de plus grande valeur de la couleur passée en paramètre présente dans la pioche
+     */
     public Carte choisirMeilleureCarte(int couleur){
         Carte res = null;
         for(int i = 0; i < lg; i++){
