@@ -87,10 +87,10 @@ public class IA {
         }
         else{ // si l'adversaire a déjà joué 
             Carte res;
-            if (this.fournir(courante.couleur)){ // si on a la couleur demandé 
-                res = main.max(courante.couleur); // A CHANGER !!!!! prendre la carte gagnante juste au dessus !!!!!!
-                if (res.valeur<courante.valeur){ // si on a pas de carte gsupérieure de la couleur en question 
-                    res = main.min(courante.couleur); // on donne la plus petite carte de cette couleur 
+            if (this.fournir(courante.couleur)){ // si on a la couleur demandée 
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la carte gagnante juste au dessus
+                if (res == null){ // si on ne peut pas gagner le pli 
+                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
                 }
             }else{ // si on a pas la couleur demandée
                 if (this.fournir(atout)){ // on joue de l'atout si possible
@@ -105,19 +105,23 @@ public class IA {
        
     }
     
-         /**
+     /**
      * pioche une carte , le plus grand atout possible, si pas d'atout la plus grande carte d'une autre couleur 
      * @return une carte parmis les cartes de la pioche. 
      */
     public Carte piocheMoyenne(){
         int i = 0;
-        Carte res = pioche[0];
-        while(i<lg){
-            if (pioche[i].valeur>res.valeur){ // Recherche de la carte de valeur maximale 
-                res = pioche[i];
+        Carte res = choisirMeilleureCarte(atout);
+        
+        if (res == null){
+            res = pioche[0];
+            while(i<lg){
+                if (pioche[i].valeur>res.valeur){ // Recherche de la carte de valeur maximale 
+                    res = pioche[i];
+                }
+                i++;
             }
-            i++;
-        }
+        }   
         return res;
     }
     
@@ -139,5 +143,20 @@ public class IA {
         return res != null;
     }
     
-    
+    public Carte choisirMeilleureCarte(int couleur){
+        Carte res = null;
+        for(int i = 0; i < lg; i++){
+           if (pioche[i].couleur == couleur){
+               if(res == null){
+                   res = pioche[i];
+               }
+               else{
+                   if(res.valeur < pioche[i].valeur){
+                       res = pioche[i];
+                   }
+               }
+           } 
+        }
+        return res;
+    }
 }
