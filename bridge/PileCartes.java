@@ -84,4 +84,82 @@ public class PileCartes {
         return res;
     }
     
+    public Carte max(){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        res = it.next();
+        
+        do{
+            tmp = it.next();
+            if(tmp.valeur>res.valeur){
+                res = tmp;
+            }
+        }while(it.hasNext());
+        
+        return res;
+    }
+    
+    public Carte max(int couleur){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur==couleur){
+                res = tmp;
+            }
+        }while(res==null && it.hasNext());
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur == couleur && tmp.valeur>res.valeur){
+                res = tmp;
+            }
+        }while(it.hasNext());
+        
+        return res;
+    }
+    
+    public Carte min(){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        res = it.next();
+        
+        do{
+            tmp = it.next();
+            if(tmp.valeur<res.valeur){
+                res = tmp;
+            }
+        }while(it.hasNext());
+        
+        return res;
+    }
+    
+    public Carte min(int couleur){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur==couleur){
+                res = tmp;
+            }
+        }while(res==null && it.hasNext());
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur == couleur && tmp.valeur<res.valeur){
+                res = tmp;
+            }
+        }while(it.hasNext());
+        
+        return res;
+    }
+    
 }
