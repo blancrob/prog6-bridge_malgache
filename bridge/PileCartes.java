@@ -167,7 +167,7 @@ public class PileCartes {
         return res;
     }
     
-    public Carte min(int couleur, int valeur){
+    public Carte minGagnant(int couleur, int valeur){
         Carte res = null;
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
