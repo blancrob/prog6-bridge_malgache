@@ -30,6 +30,11 @@ public class PileCartes {
         return pile.isEmpty();
     }
     
+    public Iterator<Carte> iterateur(){
+        Iterator<Carte> it = pile.iterator();
+        return it;
+    }
+    
     public void ajouter(Carte c){
         pile.add(c);
     }
