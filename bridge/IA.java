@@ -125,6 +125,37 @@ public class IA {
         return res;
     }
     
+  /**
+    * Si IA commence 
+    *   
+    * 
+    * si Adversaire a déjà joué 
+    *       Si on a la couleur demandée
+    *           Si on peut gagner : mettre la gagne gagnante juste au dessus
+    *           Sinon : mettre la plus petite carte 
+    * 
+    *       Si on a pas la couleur 
+    *           Regarder la pioche 
+    *           Si pioche cool : jouer le plus petit atout possible si il y a 
+    *           Si pioche pas cool : mettre la plus petite carte 
+    */
+    public Carte iaDifficile(){
+        return main.aleatoire(true);
+    }
+    
+    /**
+     * Choisir plus gros atout si il y en a
+     * Choisir plus grosse carte autre couleur 
+     * Si que des truc pourris , quand 2 trucs égaux choisir celui ou la pile est la plus petite (proba plus faible d'avoir une cool dessous)
+     * @return 
+     */
+
+    public Carte piocheDifficile(){
+        Carte res = choisirMeilleureCarte(atout);
+        return res;
+    }
+    
+    
     /**
      * @param couleur demandée
      * @return true si on a une carte de la couleur passée en paramètre
