@@ -20,6 +20,13 @@ public class Carte {
     static final int CARREAU=2;
     static final int TREFLE=1;
     
+    
+    public Carte(){
+        valeur = 0;
+        couleur = 0;
+        visible = false;
+    }
+    
     public Carte(int couleur, int valeur, boolean visible){
         this.valeur = valeur;
         this.couleur = couleur;
