@@ -19,9 +19,6 @@ public class IA {
     int atout;
     Carte courante;
    
-     
-    
-    
     public IA(){
         main = new PileCartes();
         cartesDejaJouees = new PileCartes();
@@ -55,22 +52,22 @@ public class IA {
      * @return Carte à jouer
      */
     public Carte iaFacile(){
-        if (courante == null){
+        if (courante == null){ //si c'est au tour de l'IA elle joue une carte aléatoire de sa main
             return main.aleatoire(true);
         }
-        else{
-            int couleur = courante.couleur;
+        else{ // si l'adversaire à joué 
+            int couleur = courante.couleur; // on récupère la couleur jouée par l'adversaire
             Carte res = new Carte();
             Iterator<Carte> it = main.iterateur();
             do{
                 res = it.next();
-            }while(res.couleur!=couleur && it.hasNext());
+            }while(res.couleur!=couleur && it.hasNext()); // Recherche d'une carte de la bonne couleur 
             return res;
         }
     }
     
     /**
-     * pioche une carte de façon aléatoire.
+     * pioche une carte de façon aléatoire parmis les différents tas.
      * @return une carte parmis les cartes de la pioche. 
      */
     public Carte piocheFacile(){
@@ -85,22 +82,22 @@ public class IA {
      * @return une carte gagnante, de valeur maximal si premier à jouer et sinon de valeur minimal si impossible de gagner le plie.
      */
     public Carte iaMoyenne(){
-        if(courante == null){
+        if(courante == null){ // si c'est au tour de l'IA elle joue la plus grosse carte
             return main.max();
         }
-        else{
+        else{ // si l'adversaire a déjà joué 
             Carte res;
-            if (this.fournir(courante.couleur)){
-                res = main.max(courante.couleur);
-                if (res.valeur<courante.valeur){
-                    res = main.min(courante.couleur);
+            if (this.fournir(courante.couleur)){ // si on a la couleur demandé 
+                res = main.max(courante.couleur); // A CHANGER !!!!! prendre la carte gagnante juste au dessus !!!!!!
+                if (res.valeur<courante.valeur){ // si on a pas de carte gsupérieure de la couleur en question 
+                    res = main.min(courante.couleur); // on donne la plus petite carte de cette couleur 
                 }
-            }else{
-                if (this.fournir(atout)){
-                    res = main.min(atout);
+            }else{ // si on a pas la couleur demandée
+                if (this.fournir(atout)){ // on joue de l'atout si possible
+                    res = main.min(atout); // on joue le plus petit atout 
                 }
-                else{
-                    res = main.min();
+                else{ // si on a pas d'atout 
+                    res = main.min(); // on donne la plus petite carte de la main 
                 }
             }
             return res;
@@ -108,6 +105,26 @@ public class IA {
        
     }
     
+         /**
+     * pioche une carte , le plus grand atout possible, si pas d'atout la plus grande carte d'une autre couleur 
+     * @return une carte parmis les cartes de la pioche. 
+     */
+    public Carte piocheMoyenne(){
+        int i = 0;
+        Carte res = pioche[0];
+        while(i<lg){
+            if (pioche[i].valeur>res.valeur){ // Recherche de la carte de valeur maximale 
+                res = pioche[i];
+            }
+            i++;
+        }
+        return res;
+    }
+    
+    /**
+     * @param couleur demandée
+     * @return true si on a une carte de la couleur passée en paramètre
+     */
     public boolean fournir(int couleur){
         Carte res = null;
         Carte tmp;
@@ -123,15 +140,4 @@ public class IA {
     }
     
     
-    public Carte piocheMoyenne(){
-        int i = 0;
-        Carte res = pioche[0];
-        while(i<lg){
-            if (pioche[i].valeur>res.valeur){
-                res = pioche[i];
-            }
-            i++;
-        }
-        return res;
-    }
 }
