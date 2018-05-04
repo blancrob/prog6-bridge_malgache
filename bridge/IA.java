@@ -107,7 +107,7 @@ public class IA {
     
     
     /**************************************************************************************************************************
-     * Ia Moyenne : Coup gagnant/Coup non perdant.
+     * Ia Moyenne.
      * Si IA commence : joue la plus grande carte 
      * SI IA termine :
         * 1) Joue la plus petite carte gagnante de la bonne couleur
