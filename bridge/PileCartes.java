@@ -296,4 +296,17 @@ public class PileCartes {
         return res;
     }
     
+    public boolean contient(int couleur){
+        Carte res = null;
+        Iterator<Carte> it = pile.iterator();
+        
+        do{
+            res = it.next();
+            
+        }while(res.couleur!=couleur && it.hasNext());
+        
+        
+        return res.couleur == couleur;
+    }
+    
 }
