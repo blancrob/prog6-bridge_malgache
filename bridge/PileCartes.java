@@ -89,6 +89,14 @@ public class PileCartes {
     }
     
     /**
+     * Supprime la carte demandée dans la pile
+     * @param c Carte à retirer de la pile
+     */
+    public void retirer(Carte c){
+        pile.remove(c);
+    }
+    
+    /**
      * Vide la pile puis la remplis avec un exemplaire de chaque carte d'un jeu de 52 cartes
      */
     public void paquet(){
@@ -121,6 +129,50 @@ public class PileCartes {
         if (res.visible!=visible){
             res.visible=visible;
         }
+        
+        return res;
+    }
+    
+    /**
+     * Renvoie une carte aléatoire de la couleur demandée, et la supprime dans la pile
+     * @param couleur couleur dont doit être la carte tirée aléatoirement
+     * @return une carte aléatoire de la pile
+     */
+    public Carte aleatoire(int couleur){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        res = it.next();
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur == couleur){
+                res = tmp;
+            }
+        }while(res==null && it.hasNext());
+        
+        return res;
+    }
+    
+    /**
+     * Renvoie une carte aléatoire de la couleur demandée et de valeur supérieure au paramètre valeur, et la supprime dans la pile
+     * @param couleur couleur dont doit être la carte tirée aléatoirement
+     * @return une carte aléatoire de la pile
+     */
+    public Carte aleatoireGagnant(int couleur, int valeur){
+        Carte res = null;
+        Carte tmp;
+        Iterator<Carte> it = pile.iterator();
+        
+        res = it.next();
+        
+        do{
+            tmp = it.next();
+            if(tmp.couleur == couleur && tmp.valeur>valeur ){
+                res = tmp;
+            }
+        }while(res==null && it.hasNext());
         
         return res;
     }
