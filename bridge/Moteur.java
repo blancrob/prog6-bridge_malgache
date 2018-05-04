@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class Moteur {
     static PileCartes pile1, pile2, pile3, pile4, pile5, pile6, mainj1, mainj2, tasj1, tasj2;
+    static PileCartes[] pioche;
     static Carte carteP, carteS;
     static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, taille, mode, difficulte;
     
@@ -29,6 +30,14 @@ public class Moteur {
         mainj2 = new PileCartes();
         tasj1 = new PileCartes();
         tasj2 = new PileCartes();
+        
+        pioche = new PileCartes[6];
+        pioche[0] = pile1;
+        pioche[1] = pile2;
+        pioche[2] = pile3;
+        pioche[3] = pile4;
+        pioche[4] = pile5;
+        pioche[5] = pile6;
         
         distribuer();
         set_atout();
@@ -379,29 +388,11 @@ public class Moteur {
      */
     public static void pioche(){
         System.out.println("Pioche:");
-        if(pile1.premiere()!=null){
-            System.out.print("[1]:");
-            afficherCarte(pile1.premiere());
-        }
-        if(pile2.premiere()!=null){
-            System.out.print("[2]:");
-            afficherCarte(pile2.premiere());
-        }
-        if(pile3.premiere()!=null){
-            System.out.print("[3]:");
-            afficherCarte(pile3.premiere());
-        }
-        if(pile4.premiere()!=null){
-            System.out.print("[4]:");
-            afficherCarte(pile4.premiere());
-        }
-        if(pile5.premiere()!=null){
-            System.out.print("[5]:");
-            afficherCarte(pile5.premiere());
-        }
-        if(pile6.premiere()!=null){
-            System.out.print("[6]:");
-            afficherCarte(pile6.premiere());
+        for(int i=0; i<6; i++){
+            if(pioche[i].premiere()!=null){
+                System.out.print("["+(i+1)+"]:");
+            afficherCarte(pioche[i].premiere());
+            }
         }
         
         System.out.println("Gagnant, choisissez une carte:");
@@ -455,29 +446,11 @@ public class Moteur {
         
         }
         System.out.println("Pioche:");
-        if(pile1.premiere()!=null){
-            System.out.print("[1]:");
-            afficherCarte(pile1.premiere());
-        }
-        if(pile2.premiere()!=null){
-            System.out.print("[2]:");
-            afficherCarte(pile2.premiere());
-        }
-        if(pile3.premiere()!=null){
-            System.out.print("[3]:");
-            afficherCarte(pile3.premiere());
-        }
-        if(pile4.premiere()!=null){
-            System.out.print("[4]:");
-            afficherCarte(pile4.premiere());
-        }
-        if(pile5.premiere()!=null){
-            System.out.print("[5]:");
-            afficherCarte(pile5.premiere());
-        }
-        if(pile6.premiere()!=null){
-            System.out.print("[6]:");
-            afficherCarte(pile6.premiere());
+        for(int i=0; i<6; i++){
+            if(pioche[i].premiere()!=null){
+                System.out.print("["+(i+1)+"]:");
+            afficherCarte(pioche[i].premiere());
+            }
         }
         
         System.out.println("Perdant, choisissez une carte:");
