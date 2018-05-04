@@ -116,34 +116,16 @@ public class Moteur {
         }
         else{   //Cas où l'ordinateur joue c;
             Carte c = null;
-            Carte[] pioche = new Carte[6];
+            Carte[] piocheIA = new Carte[6];
             int lg = 0;
-            if(pile1.premiere()!=null){
-                pioche[lg]=pile1.premiere();
-                lg++;
-            }
-            if(pile2.premiere()!=null){
-                pioche[lg]=pile2.premiere();
-                lg++;
-            }
-            if(pile3.premiere()!=null){
-                pioche[lg]=pile3.premiere();
-                lg++;
-            }
-            if(pile4.premiere()!=null){
-                pioche[lg]=pile4.premiere();
-                lg++;
-            }
-            if(pile5.premiere()!=null){
-                pioche[lg]=pile5.premiere();
-                lg++;
-            }
-            if(pile6.premiere()!=null){
-                pioche[lg]=pile6.premiere();
-                lg++;
+            for(int i=1; i<6; i++){
+                if(pioche[i].premiere()!=null){
+                    piocheIA[lg]=pioche[i].premiere();
+                    lg++;
+                }
             }
             
-            IA ia = new IA(mainj2,new PileCartes(), pioche, lg, atout);
+            IA ia = new IA(mainj2,new PileCartes(), piocheIA, lg, atout);
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -238,7 +220,7 @@ public class Moteur {
 
 
             Carte c = main[choix];
-            if(donneur!=1){
+            if(receveur==1){
                 mainj1.retirer(c);
             }else{
                 mainj2.retirer(c);
@@ -255,34 +237,16 @@ public class Moteur {
         }
         else{   //Cas où l'ordinateur jouearte c;
             Carte c = null;
-            Carte[] pioche = new Carte[6];
+            Carte[] piocheIA = new Carte[6];
             int lg = 0;
-            if(pile1.premiere()!=null){
-                pioche[lg]=pile1.premiere();
-                lg++;
-            }
-            if(pile2.premiere()!=null){
-                pioche[lg]=pile2.premiere();
-                lg++;
-            }
-            if(pile3.premiere()!=null){
-                pioche[lg]=pile3.premiere();
-                lg++;
-            }
-            if(pile4.premiere()!=null){
-                pioche[lg]=pile4.premiere();
-                lg++;
-            }
-            if(pile5.premiere()!=null){
-                pioche[lg]=pile5.premiere();
-                lg++;
-            }
-            if(pile6.premiere()!=null){
-                pioche[lg]=pile6.premiere();
-                lg++;
+            for(int i=1; i<6; i++){
+                if(pioche[i].premiere()!=null){
+                    piocheIA[lg]=pioche[i].premiere();
+                    lg++;
+                }
             }
             
-            IA ia = new IA(mainj2,new PileCartes(), pioche, lg, atout, carteP);
+            IA ia = new IA(mainj2,new PileCartes(), piocheIA, lg, atout, carteP);
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -298,10 +262,10 @@ public class Moteur {
                     break;
                 
             }
-            if (donneur==1){
-                mainj1.retirer(c);
-            }else{
+            if (receveur==1){
                 mainj2.retirer(c);
+            }else{
+                mainj1.retirer(c);
             }
             taille--;
             carteS = c;
@@ -651,7 +615,7 @@ public class Moteur {
         }
         
         while(taille>0){
-            System.out.println("Le joueur "+ donneur +"commence");
+            System.out.println("Le joueur "+ donneur +" commence");
             jouerCoupPremier();
             System.out.println("Tour Joueur "+ receveur);
             jouerCoupSecond();
@@ -667,6 +631,11 @@ public class Moteur {
                 pioche();
             }
             donneur = gagnant;
+            if(donneur==1){
+                receveur = 2;
+            }else{
+                receveur = 1;
+            }
         }
     }
     
