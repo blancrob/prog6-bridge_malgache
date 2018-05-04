@@ -12,8 +12,7 @@ import java.util.Scanner;
 public class Moteur {
     static PileCartes pile1, pile2, pile3, pile4, pile5, pile6, mainj1, mainj2, tasj1, tasj2;
     static Carte carteP, carteS;
-    static int atout, joueur, donneur, scorej1, scorej2, manche, gagnant;
-    static boolean fin, pioche;
+    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, taille, mode, difficulte;
     
     /**
      * Initialise le début de jeu
@@ -34,187 +33,279 @@ public class Moteur {
         distribuer();
         set_atout();
         
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur");
+        String str = sc.nextLine();
+        mode = Integer.parseInt(str);
+        
+        difficulte = 0;
+        
+        if(mode == 2){
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+            str = sc.nextLine();
+            difficulte = Integer.parseInt(str);
+        }
+        
         joueur=1;
         donneur=1;
+        receveur=2;
         gagnant=0;
-        fin = true;
-        pioche = true;
+        taille=11;
     }
     
+    /**
+     * Le joueur qui a le statut de donneur ou bien est gagnant joue en premier
+     */
     public static void jouerCoupPremier(){
         Iterator<Carte> it;
         Carte[] main = new Carte[11];
-        if(donneur==1){
-            it = mainj1.iterateur();
+        
+        if(mode == 1 || donneur==1){
+            if(donneur==1){
+                it = mainj1.iterateur();
+            }
+            else{
+                it = mainj2.iterateur();
+            }
+
+            int i=0;
+            do{
+               main[i]=it.next();
+               i++;
+            }while(i<11 && it.hasNext());
+
+            if(donneur==1){
+                System.out.println("Main Joueur 1");
+            }
+            else{
+                System.out.println("Main Joueur 2");
+            }
+            for(i=0; i<taille && main[i]!=null; i++){
+                System.out.print("["+i+"]:");
+                afficherCarte(main[i]);
+            }
+
+            System.out.println("Donnez le numéro de la carte à jouer:");
+            Scanner sc = new Scanner(System.in);
+            String str = sc.nextLine();
+            int choix = Integer.parseInt(str);
+
+            Carte c = main[choix];
+            if (donneur==1){
+                mainj1.retirer(c);
+            }else{
+                mainj2.retirer(c);
+            }
+            carteP = c;
+            
+            if(joueur == 1){
+                joueur = 2;
+            }else{
+                joueur = 1;
+            }
+            System.out.println();
         }
-        else{
-            it = mainj2.iterateur();
-        }
-        
-        int i=0;
-        do{
-           main[i]=it.next();
-           i++;
-        }while(i<11 && it.hasNext());
-        
-        if(donneur==1){
-            System.out.println("Main Joueur 1");
-        }
-        else{
-            System.out.println("Main Joueur 2");
-        }
-        for(i=0; i<11 && main[i]!=null; i++){
-            System.out.print("["+i+"]:");
-            afficherCarte(main[i]);
-        }
-        
-        System.out.println("Donnez le numéro de la carte à jouer:");
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        int choix = Integer.parseInt(str);
-        
-        Carte c = main[choix];
-        mainj1.retirer(c);
-        carteP = c;
-        
-        
-        
-        
-        if(donneur==1){
-            it = mainj1.iterateur();
-        }
-        else{
-            it = mainj2.iterateur();
-        }
-        
-        i=0;
-        do{
-           main[i]=it.next();
-           i++;
-        }while(i<11 && it.hasNext());
-        
-        if(donneur==1){
-            System.out.println("Main Joueur 1");
-        }
-        else{
-            System.out.println("Main Joueur 2");
-        }
-        for(i=0; i<11 && main[i]!=null; i++){
-            System.out.print("["+i+"]:");
-            afficherCarte(main[i]);
-        }
-        
-        if(joueur == 1){
-            joueur = 2;
-        }else{
-            joueur = 1;
+        else{   //Cas où l'ordinateur joue c;
+            Carte c = null;
+            Carte[] pioche = new Carte[6];
+            int lg = 0;
+            if(pile1.premiere()!=null){
+                pioche[lg]=pile1.premiere();
+                lg++;
+            }
+            if(pile2.premiere()!=null){
+                pioche[lg]=pile2.premiere();
+                lg++;
+            }
+            if(pile3.premiere()!=null){
+                pioche[lg]=pile3.premiere();
+                lg++;
+            }
+            if(pile4.premiere()!=null){
+                pioche[lg]=pile4.premiere();
+                lg++;
+            }
+            if(pile5.premiere()!=null){
+                pioche[lg]=pile5.premiere();
+                lg++;
+            }
+            if(pile6.premiere()!=null){
+                pioche[lg]=pile6.premiere();
+                lg++;
+            }
+            
+            IA ia = new IA(mainj2,new PileCartes(), pioche, lg, atout);
+            switch(difficulte){
+                case 1:
+                    c = ia.iaNovice();
+                    break;
+                case 2:
+                    c = ia.iaFacile();
+                    break;
+                case 3:
+                    c = ia.iaMoyenne();
+                    break;
+                case 4:
+                    c = ia.iaDifficile();
+                    break;
+            }
+            if (donneur==1){
+                mainj1.retirer(c);
+            }else{
+                mainj2.retirer(c);
+            }
+            carteP = c;
+
+            System.out.println("Le joueur " + donneur + " a joué:");
+            afficherCarte(c);
+            
         }
     }
     
+    /**
+     * Le joueur qui n'a pas le statut de donneur ou qui a perdu joue en deuxième
+     */
     public static void jouerCoupSecond(){
         Iterator<Carte> it;
         PileCartes mainjoueur;
         Carte[] main = new Carte[11];
         
-        switch (carteP.couleur){
-            case 1:
-                System.out.println("Fournir du TREFLE si vous en avez");
-                break;
-            case 2:
-                System.out.println("Fournir du CARREAU si vous en avez");
-                break;
-            case 3:
-                System.out.println("Fournir du COEUR si vous en avez");
-                break;
-            case 4:
-                System.out.println("Fournir du PIQUE si vous en avez");
-                break;
-        }
-        if(donneur==2){
-            mainjoueur= mainj1;
-        }
-        else{
-            mainjoueur = mainj2;
-        }
-        it = mainjoueur.iterateur();
-        
-        int i=0;
-        do{
-           main[i]=it.next();
-           i++;
-        }while(i<11 && it.hasNext());
-        
-        if(donneur==2){
-            System.out.println("Main Joueur 1");
-        }
-        else{
-            System.out.println("Main Joueur 2");
-        }
-        for(i=0; i<11 && main[i]!=null; i++){
-            System.out.print("["+i+"]:");
-            afficherCarte(main[i]);
-        }
-        
-        boolean condition = false;
-        System.out.println("Donnez le numéro de la carte à jouer:");
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        int choix = Integer.parseInt(str);
-        
-        if (main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur)){
-            while(!condition){
-                System.out.println("Jouez une carte de la couleur demandée");
-                str = sc.nextLine();
-                choix = Integer.parseInt(str);
-                if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
-                    condition = true;
+        if(mode == 1 || receveur == 1){
+            switch (carteP.couleur){
+                case 1:
+                    System.out.println("Fournir du TREFLE si vous en avez");
+                    break;
+                case 2:
+                    System.out.println("Fournir du CARREAU si vous en avez");
+                    break;
+                case 3:
+                    System.out.println("Fournir du COEUR si vous en avez");
+                    break;
+                case 4:
+                    System.out.println("Fournir du PIQUE si vous en avez");
+                    break;
+            }
+            if(receveur==1){
+                mainjoueur= mainj1;
+            }
+            else{
+                mainjoueur = mainj2;
+            }
+            it = mainjoueur.iterateur();
+
+            int i=0;
+            do{
+               main[i]=it.next();
+               i++;
+            }while(i<11 && it.hasNext());
+
+            if(donneur==2){
+                System.out.println("Main Joueur 1");
+            }
+            else{
+                System.out.println("Main Joueur 2");
+            }
+            for(i=0; i<taille && main[i]!=null; i++){
+                System.out.print("["+i+"]:");
+                afficherCarte(main[i]);
+            }
+
+            boolean condition = false;
+            System.out.println("Donnez le numéro de la carte à jouer:");
+            Scanner sc = new Scanner(System.in);
+            String str = sc.nextLine();
+            int choix = Integer.parseInt(str);
+
+            if (main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur)){
+                while(!condition){
+                    System.out.println("Jouez une carte de la couleur demandée");
+                    str = sc.nextLine();
+                    choix = Integer.parseInt(str);
+                    if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
+                        condition = true;
+                    }
                 }
             }
+
+
+            Carte c = main[choix];
+            if(donneur!=1){
+                mainj1.retirer(c);
+            }else{
+                mainj2.retirer(c);
+            }
+            taille--;
+            carteS = c;
+
+            if(joueur == 1){
+                joueur = 2;
+            }else{
+                joueur = 1;
+            }
+            System.out.println();
         }
-      
-        
-        Carte c = main[choix];
-        if(donneur!=1){
-            mainj1.retirer(c);
-        }else{
-            mainj2.retirer(c);
-        }
-        carteS = c;
-        
-        
-        
-        
-        if(donneur==2){
-            it = mainj1.iterateur();
-        }
-        else{
-            it = mainj2.iterateur();
-        }
-        
-        i=0;
-        do{
-           main[i]=it.next();
-           i++;
-        }while(i<11 && it.hasNext());
-        
-        if(donneur==2){
-            System.out.println("Main Joueur 1");
-        }
-        else{
-            System.out.println("Main Joueur 2");
-        }
-        for(i=0; i<11 && main[i]!=null; i++){
-            System.out.print("["+i+"]:");
-            afficherCarte(main[i]);
-        }
-        
-        if(joueur == 1){
-            joueur = 2;
-        }else{
-            joueur = 1;
+        else{   //Cas où l'ordinateur jouearte c;
+            Carte c = null;
+            Carte[] pioche = new Carte[6];
+            int lg = 0;
+            if(pile1.premiere()!=null){
+                pioche[lg]=pile1.premiere();
+                lg++;
+            }
+            if(pile2.premiere()!=null){
+                pioche[lg]=pile2.premiere();
+                lg++;
+            }
+            if(pile3.premiere()!=null){
+                pioche[lg]=pile3.premiere();
+                lg++;
+            }
+            if(pile4.premiere()!=null){
+                pioche[lg]=pile4.premiere();
+                lg++;
+            }
+            if(pile5.premiere()!=null){
+                pioche[lg]=pile5.premiere();
+                lg++;
+            }
+            if(pile6.premiere()!=null){
+                pioche[lg]=pile6.premiere();
+                lg++;
+            }
+            
+            IA ia = new IA(mainj2,new PileCartes(), pioche, lg, atout, carteP);
+            switch(difficulte){
+                case 1:
+                    c = ia.iaNovice();
+                    break;
+                case 2:
+                    c = ia.iaFacile();
+                    break;
+                case 3:
+                    c = ia.iaMoyenne();
+                    break;
+                case 4:
+                    c = ia.iaDifficile();
+                    break;
+                
+            }
+            if (donneur==1){
+                mainj1.retirer(c);
+            }else{
+                mainj2.retirer(c);
+            }
+            taille--;
+            carteS = c;
+
+            System.out.println("Le joueur " + receveur + " a joué:");
+            afficherCarte(c);
+            
         }
     }
     
+    /**
+     * Met à jour la variable gagnant, qui indique qui est le gagnant du dernier pli joué
+     */
     public static void gagnantPli(){
         if(carteP.couleur == carteS.couleur){
             if(carteP.valeur>carteS.valeur){
@@ -240,6 +331,9 @@ public class Moteur {
         }
     }
     
+    /**
+     * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
+     */
     public static void rangerPli(){
         if(gagnant==1){
             tasj1.ajouter(carteP);
@@ -254,6 +348,35 @@ public class Moteur {
         }
     }
     
+    /**
+     * Vérifie si une pioche n'est pas vide
+     * @return true si il est encore possible de piocher, false sinon
+     */
+    public static boolean piochable(){
+        if(pile1.premiere()!=null){
+            return true;
+        }
+        if(pile2.premiere()!=null){
+            return true;
+        }
+        if(pile3.premiere()!=null){
+            return true;
+        }
+        if(pile4.premiere()!=null){
+            return true;
+        }
+        if(pile5.premiere()!=null){
+            return true;
+        }
+        if(pile6.premiere()!=null){
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Permet aux deux joueurs de piocher, d'abord le gagnant, puis l'autre
+     */
     public static void pioche(){
         System.out.println("Pioche:");
         if(pile1.premiere()!=null){
@@ -407,8 +530,13 @@ public class Moteur {
             }
         
         }
+        taille++;
     }
     
+    /**
+     * Affiche la carte passée en paramètre et va à la ligne
+     * @param c La carte à afficher
+     */
     public static void afficherCarte(Carte c){
         switch(c.couleur){
                 case 1:
@@ -533,17 +661,40 @@ public class Moteur {
     
     public static void moteur(){
         initialiser();
-        jouerCoupPremier();
-        jouerCoupSecond();
-        gagnantPli();
-        if (gagnant == 1){
-            System.out.println("Le joueur 1 gagne le pli");
-        }else{
-            System.out.println("Le joueur 2 gagne le pli");
-        }
-        rangerPli();
-        pioche();
         
+        switch(atout){
+            case 1:
+                System.out.println("Atout: TREFLE");
+                break;
+            case 2:
+                System.out.println("Atout: CARREAU");
+                break;
+            case 3:
+                System.out.println("Atout: COEUR");
+                break;
+            case 4:
+                System.out.println("Atout: PIQUE");
+                break;
+        }
+        
+        while(taille>0){
+            System.out.println("Le joueur "+ donneur +"commence");
+            jouerCoupPremier();
+            System.out.println("Tour Joueur "+ receveur);
+            jouerCoupSecond();
+            gagnantPli();
+            if (gagnant == 1){
+                System.out.println("Le joueur 1 gagne le pli");
+            }else{
+                System.out.println("Le joueur 2 gagne le pli");
+            }
+            rangerPli();
+            piochable();
+            if(piochable()){
+                pioche();
+            }
+            donneur = gagnant;
+        }
     }
     
     public static void main(String[] args) {
