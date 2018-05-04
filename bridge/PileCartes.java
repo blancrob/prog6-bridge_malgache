@@ -102,16 +102,16 @@ public class PileCartes {
     public void paquet(){
         pile.clear();
         
-        for(int i=1; i<15; i++){
+        for(int i=2; i<15; i++){
             pile.add(new Carte(COEUR, i, false));
         }
-        for(int i=1; i<15; i++){
+        for(int i=2; i<15; i++){
             pile.add(new Carte(PIQUE, i, false));
         }
-        for(int i=1; i<15; i++){
+        for(int i=2; i<15; i++){
             pile.add(new Carte(CARREAU, i, false));
         }
-        for(int i=1; i<15; i++){
+        for(int i=2; i<15; i++){
             pile.add(new Carte(TREFLE, i, false));
         }
     }
