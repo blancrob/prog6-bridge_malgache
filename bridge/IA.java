@@ -96,7 +96,7 @@ public class IA {
         }
     }
     
-    /**
+    /** 
      * pioche une carte de façon aléatoire parmis les différents tas.
      * @return une carte parmis les cartes de la pioche. 
      */
@@ -123,7 +123,7 @@ public class IA {
         else{ // si l'adversaire a déjà joué 
             Carte res;
             if (fournir(courante.couleur)){ // si on a la couleur demandée 
-                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la carte gagnante juste au dessus
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
                     res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
                 }
@@ -142,7 +142,7 @@ public class IA {
     
      /**
      * pioche une carte , le plus grand atout possible, si pas d'atout la plus grande carte d'une autre couleur 
-     * @return la carte carte parmis les cartes de la pioche. 
+     * @return une carte parmis les cartes de la pioche. 
      */
     public Carte piocheMoyenne(){
         int i = 0;
@@ -161,19 +161,20 @@ public class IA {
     }
     
   /**************************************************************************************************************************
-    * Ia Difficile 
+    * Ia Difficile. 
     * Si IA commence 
-    *   
-    * 
+    *       Jouer carte de meilleure heuristique 
     * si Adversaire a déjà joué 
     *       Si on a la couleur demandée
-    *           Si on peut gagner : mettre la gagne gagnante juste au dessus
+    *           Si on peut gagner : mettre la plus petite carte gagnante 
     *           Sinon : mettre la plus petite carte 
     * 
     *       Si on a pas la couleur 
     *           Regarder la pioche 
     *           Si pioche cool : jouer le plus petit atout possible si il y a 
     *           Si pioche pas cool : mettre la plus petite carte 
+    * 
+    * @return une carte à jouer
     */
     public Carte iaDifficile(){
         return main.aleatoire(true);
@@ -181,42 +182,53 @@ public class IA {
     
     /**
      * Choisir plus gros atout si il y en a
-     * Choisir plus grosse carte autre couleur 
-     * Si que des truc pourris , quand 2 trucs égaux choisir celui ou la pile est la plus petite (proba plus faible d'avoir une cool dessous)
-     * @param gagnant : vrai ssi on pioche apres avoir gagne le pli.
-     * @param nbCartes : contient le nombre de carte dans la pile.
-     * @return 
+     * Choisir la carte d'une autre couleur qui a la meilleure heuristique 
+     * Si pioche pas cool : - Si on est le gagnant alors préférer une carte d'une pile ou il reste le moins de cartes (proba plus faible qu'en dessous il y ait une carte cool que l'adversaire pourra prendre)
+     *                      - Si on est perdant : prendre la carte qui a la meilleure heuristique 
+     * 
+     * @param gagnant : vrai ssi on pioche apres avoir gagné le pli.
+     * @param nbCartes : contient le nombre de carte dans les 6 piles de la pioche.
+     * @return la carte à jouer 
      */
 
     public Carte piocheDifficile(boolean gagnant, int[] nbCartes){
-        Carte res = choisirMeilleureCarte(atout);
-        if(res == null){
+        Carte res = choisirMeilleureCarte(atout); // Choisir le meilleur atout de la pioche 
+        if(res == null){ // si pas d'atout 
             int i = 0;
             double h = 0;
-            while (i<lg){
-                if(gagnant){
-                    if(heuristiqueCommence(pioche[i]) > h){
+            while (i<lg){ // pour chaque pile de la pioche 
+                if(gagnant){ // si on est gagnant donc 1er à piocher
+                    if(heuristiqueCommence(pioche[i]) > h){ // Prendre la carte avec la meilleure heuristique 
                         res = pioche[i];
                         h = heuristiqueCommence(pioche[i]);
                     }
                 }
-                else{
-                    if(heuristiqueTermine(pioche[i]) > h){
+                else{ // Si on est le 2ème à piocher 
+                    if(heuristiqueTermine(pioche[i]) > h){ // prendre la carte avec la meilleure heuristique 
                         res = pioche[i];
                         h = heuristiqueTermine(pioche[i]);
                     }
                 }
                 i++;
             }
-            if(gagnant){
-                if (h<0.4){                                 //à modifié si l'ia est trop mauvaise.
-                    res = meilleurPioche(nbCartes);
+            if(gagnant){ //Si on est gagnant  
+                if (h<0.4){ //mais que la pioche est pas très cool                              à modifier si l'ia est trop mauvaise.
+                    res = meilleurPioche(nbCartes);  //Choisir la carte de la pile qui a le moins de cartes
                 }
             }
         }
         return res;
     }
     
+    
+    
+    
+    
+    /**
+     * Choisit la carte de la pile qui a le moins de cartes 
+     * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
+     * @return la carte à choisir 
+     */
     public Carte meilleurPioche(int[] nbCartes){
         int i = 0;
         int taille = 10;
@@ -271,36 +283,46 @@ public class IA {
         return res;
     }
     
+    /**
+     * On enlève de toutes les cartes les cartes de la main, les cartes déjà jouées et les cartes qui sont découvertes dans les piles de la pioche.
+     * @return la liste de cartes qui ne sont pas encore connues (qui sont dans la pioche ou dans la main de l'adversaire)  
+     */
     public PileCartes cartesInconnues(){
         PileCartes res = new PileCartes();
-        res.paquet();
-        Iterator<Carte> it = main.iterateur();
+        res.paquet(); // Toutes les cartes d'un paquet de cartes
+        Iterator<Carte> it = main.iterateur(); 
         Carte tmp;
-        do{
+        do{ // Enlever les cartes qui sont dans la main
             tmp = it.next();
             res.retirer(tmp);
         }while(it.hasNext());
         it = cartesDejaJouees.iterateur();
-        do{
+        do{ // Enlever les cartes qui ont déjà été jouées
             tmp = it.next();
             res.retirer(tmp);
         }while(it.hasNext());
         int i = 0;
         while (i<lg){
-            res.retirer(pioche[i]);
+            res.retirer(pioche[i]); // Enlever les cartes visibles sur les piles de la pioche
             i++;
         }
-        return res;
+        return res; 
     }
     
+    /**
+     * HeuristiqueCommence. Cas ou on est le 1er a joué (cela détermine la couleur du pli)
+     * Correspond aux nb de cartes que la carte en paramètre peut battre / nb de cartes restantes (encore non jouées)
+     * @param c la carte dont on veut analyser l'heuristique 
+     * @return l'heuristique de la carte (Pourcentage de victoire du pli si on utilise cette carte) 
+     */
     public double heuristiqueCommence(Carte c){
         PileCartes cartesNonJouees = cartesInconnues();
         Carte tmp;
         Iterator<Carte> it = cartesNonJouees.iterateur();
         int taille = 0;
         int res = 0;
-        if(c.couleur == atout){
-            do{
+        if(c.couleur == atout){ // Si la carte est 1 atout, elle battra toutes les cartes sauf les atouts plus grands qu'elle 
+            do{ 
                 tmp = it.next();
                 taille++;
                 if (tmp.couleur != atout || tmp.valeur < c.valeur){
@@ -308,7 +330,7 @@ public class IA {
                 }
             }while(it.hasNext());
         }
-        else{
+        else{ // Si la carte est une couleur autre, elle battra toutes les cartes d'une autre couleurs (hors atouts) et les cartes inférieures de même couleur
             do{
                 tmp = it.next();
                 taille++;
@@ -320,13 +342,19 @@ public class IA {
         return (double)res/(double)taille;
     }
     
+    /**
+     * HeuristiqueTermine. Cas ou on est le 2ème a joué (la couleur du pli a déjà été décidée par l'adversaire)
+     * Correspond aux nb de cartes que la carte en paramètre peut battre / nb de cartes restantes (encore non jouées)
+     * @param c la carte dont on veut calculer l'heuristique
+     * @return l'heuristique de la carte (Pourcentage de victoire du pli si on utilise cette carte) 
+     */
     public double heuristiqueTermine(Carte c){
         PileCartes cartesNonJouees = cartesInconnues();
         Carte tmp;
         Iterator<Carte> it = cartesNonJouees.iterateur();
         int res = 0;
         int taille = 0;
-        if(c.couleur == atout){
+        if(c.couleur == atout){ // Si la carte est 1 atout, elle battra toutes les cartes sauf les atouts plus grands qu'elle 
             do{
                 tmp = it.next();
                 taille++;
@@ -335,7 +363,7 @@ public class IA {
                 }
             }while(it.hasNext());
         }
-        else{
+        else{// Si la carte est une couleur autre, elle battra les cartes de la couleur demandée de valeur inférieure
             do{
                 tmp = it.next();
                 taille++;
