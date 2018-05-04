@@ -83,6 +83,7 @@ public class PileCartes {
             Iterator<Carte> it = pile.iterator();
             res = it.next();
             pile.remove(res);
+            System.out.println(res.couleur + "|" + res.valeur);
         }
         
         return res;
