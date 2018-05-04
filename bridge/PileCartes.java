@@ -134,7 +134,7 @@ public class PileCartes {
     }
     
     /**
-     * Renvoie une carte aléatoire de la couleur demandée, et la supprime dans la pile
+     * Renvoie une carte aléatoire de la couleur demandée
      * @param couleur couleur dont doit être la carte tirée aléatoirement
      * @return une carte aléatoire de la pile
      */
@@ -156,7 +156,7 @@ public class PileCartes {
     }
     
     /**
-     * Renvoie une carte aléatoire de la couleur demandée et de valeur supérieure au paramètre valeur, et la supprime dans la pile
+     * Renvoie une carte aléatoire de la couleur demandée et de valeur supérieure au paramètre valeur
      * @param couleur couleur dont doit être la carte tirée aléatoirement
      * @return une carte aléatoire de la pile
      */
