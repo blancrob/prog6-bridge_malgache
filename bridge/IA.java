@@ -122,13 +122,13 @@ public class IA {
         }
         else{ // si l'adversaire a déjà joué 
             Carte res;
-            if (this.fournir(courante.couleur)){ // si on a la couleur demandée 
+            if (fournir(courante.couleur)){ // si on a la couleur demandée 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la carte gagnante juste au dessus
                 if (res == null){ // si on ne peut pas gagner le pli 
                     res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
                 }
             }else{ // si on a pas la couleur demandée
-                if (this.fournir(atout)){ // on joue de l'atout si possible
+                if (fournir(atout)){ // on joue de l'atout si possible
                     res = main.min(atout); // on joue le plus petit atout 
                 }
                 else{ // si on a pas d'atout 
@@ -183,12 +183,52 @@ public class IA {
      * Choisir plus gros atout si il y en a
      * Choisir plus grosse carte autre couleur 
      * Si que des truc pourris , quand 2 trucs égaux choisir celui ou la pile est la plus petite (proba plus faible d'avoir une cool dessous)
+     * @param gagnant : vrai ssi on pioche apres avoir gagne le pli.
+     * @param nbCartes : contient le nombre de carte dans la pile.
      * @return 
      */
 
-    public Carte piocheDifficile(){
+    public Carte piocheDifficile(boolean gagnant, int[] nbCartes){
         Carte res = choisirMeilleureCarte(atout);
+        if(res == null){
+            int i = 0;
+            double h = 0;
+            while (i<lg){
+                if(gagnant){
+                    if(heuristiqueCommence(pioche[i]) > h){
+                        res = pioche[i];
+                        h = heuristiqueCommence(pioche[i]);
+                    }
+                }
+                else{
+                    if(heuristiqueTermine(pioche[i]) > h){
+                        res = pioche[i];
+                        h = heuristiqueTermine(pioche[i]);
+                    }
+                }
+                i++;
+            }
+            if(gagnant){
+                if (h<0.4){                                 //à modifié si l'ia est trop mauvaise.
+                    res = meilleurPioche(nbCartes);
+                }
+            }
+        }
         return res;
+    }
+    
+    public Carte meilleurPioche(int[] nbCartes){
+        int i = 0;
+        int taille = 10;
+        int res = 0;
+        while(i<lg){
+            if(nbCartes[i] < taille){
+                res = i;
+                taille = nbCartes[i];
+            }
+            i++;
+        }
+        return pioche[res];
     }
     
     
@@ -230,4 +270,82 @@ public class IA {
         }
         return res;
     }
+    
+    public PileCartes cartesInconnues(){
+        PileCartes res = new PileCartes();
+        res.paquet();
+        Iterator<Carte> it = main.iterateur();
+        Carte tmp;
+        do{
+            tmp = it.next();
+            res.retirer(tmp);
+        }while(it.hasNext());
+        it = cartesDejaJouees.iterateur();
+        do{
+            tmp = it.next();
+            res.retirer(tmp);
+        }while(it.hasNext());
+        int i = 0;
+        while (i<lg){
+            res.retirer(pioche[i]);
+            i++;
+        }
+        return res;
+    }
+    
+    public double heuristiqueCommence(Carte c){
+        PileCartes cartesNonJouees = cartesInconnues();
+        Carte tmp;
+        Iterator<Carte> it = cartesNonJouees.iterateur();
+        int taille = 0;
+        int res = 0;
+        if(c.couleur == atout){
+            do{
+                tmp = it.next();
+                taille++;
+                if (tmp.couleur != atout || tmp.valeur < c.valeur){
+                    res++;
+                }
+            }while(it.hasNext());
+        }
+        else{
+            do{
+                tmp = it.next();
+                taille++;
+                if (tmp.couleur != atout && (tmp.couleur != c.couleur || tmp.valeur < c.valeur)){
+                    res++;
+                }
+            }while(it.hasNext());
+        }
+        return (double)res/(double)taille;
+    }
+    
+    public double heuristiqueTermine(Carte c){
+        PileCartes cartesNonJouees = cartesInconnues();
+        Carte tmp;
+        Iterator<Carte> it = cartesNonJouees.iterateur();
+        int res = 0;
+        int taille = 0;
+        if(c.couleur == atout){
+            do{
+                tmp = it.next();
+                taille++;
+                if(tmp.couleur != atout || tmp.valeur < c.valeur){
+                    res++;
+                }
+            }while(it.hasNext());
+        }
+        else{
+            do{
+                tmp = it.next();
+                taille++;
+                if(tmp.couleur != atout && (tmp.couleur == c.couleur && tmp.valeur < c.valeur)){
+                    res++;
+                }
+            }while(it.hasNext());
+        }
+        return (double)res/(double)taille;
+    }
+    
+    
 }
