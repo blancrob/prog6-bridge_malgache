@@ -46,12 +46,12 @@ public class IA {
         courante = null;
     }
             
-    /**
-     * IA aléatoire.
+    /**************************************************************************************************************************
+     * IA Novice.
      * Joue un coup aléatoire parmis les coups possibles.
      * @return Carte à jouer
      */
-    public Carte iaFacile(){
+    public Carte iaNovice(){
         if (courante == null){ //si c'est au tour de l'IA elle joue une carte aléatoire de sa main
             return main.aleatoire(true);
         }
@@ -66,20 +66,55 @@ public class IA {
         }
     }
     
+     /**************************************************************************************************************************
+     * IA Facile.
+     * Si IA commence : Aléatoire 
+     * SI IA termine :
+        * 1)Joue un coup gagnant aléatoire dans la bonne couleur, perdant sinon
+        * 2)Joue un atout aléatoire
+        * 3)Joue une carte aléatoire
+     * @return Carte à jouer
+     */
+    public Carte iaFacile(){
+        if (courante == null){ //si c'est au tour de l'IA elle joue une carte aléatoire de sa main
+            return main.aleatoire(true);
+        }
+        else{ // si l'adversaire a joué 
+            int couleur = courante.couleur; // on récupère la couleur jouée par l'adversaire
+            Carte res = new Carte();
+            res = main.aleatoireGagnant(couleur,courante.valeur);
+            if (res == null){
+                res = main.aleatoire(couleur);
+            }
+            if (res == null){
+                res = main.aleatoire(atout);
+            }
+            if (res == null){
+               res = main.aleatoire(true);
+            }
+            return res;
+        }
+    }
+    
     /**
      * pioche une carte de façon aléatoire parmis les différents tas.
      * @return une carte parmis les cartes de la pioche. 
      */
-    public Carte piocheFacile(){
+    public Carte piocheNoviceEtFacile(){
         Random r = new Random();
         return pioche[r.nextInt(lg-1)];
     }
     
     
-    /**
-     * Coup gagnant/Coup non perdant.
-     * joue une carte permettant de gagner le plie si possible sinon de perdre le moins de point possible.
-     * @return une carte gagnante, de valeur maximal si premier à jouer et sinon de valeur minimal si impossible de gagner le plie.
+    /**************************************************************************************************************************
+     * Ia Moyenne : Coup gagnant/Coup non perdant.
+     * Si IA commence : joue la plus grande carte 
+     * SI IA termine :
+        * 1) Joue la plus petite carte gagnante de la bonne couleur
+        * 2) Joue la plus petite carte perdante de la bonne couleur
+        * 3) Joue le plus petit atout 
+        * 4) Joue la plus petite carte d'une autre couleur
+     * @return une carte à jouer
      */
     public Carte iaMoyenne(){
         if(courante == null){ // si c'est au tour de l'IA elle joue la plus grosse carte
@@ -125,7 +160,8 @@ public class IA {
         return res;
     }
     
-  /**
+  /**************************************************************************************************************************
+    * Ia Difficile 
     * Si IA commence 
     *   
     * 
