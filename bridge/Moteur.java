@@ -195,7 +195,7 @@ public class Moteur {
                i++;
             }while(i<11 && it.hasNext());
 
-            if(donneur==2){
+            if(receveur==1){
                 System.out.println("Main Joueur 1");
             }
             else{
@@ -212,7 +212,8 @@ public class Moteur {
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
 
-            if (main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur)){
+            
+            if (main[choix].couleur != carteP.couleur && mainjoueur.contient(carteP.couleur)){
                 while(!condition){
                     System.out.println("Jouez une carte de la couleur demandée");
                     str = sc.nextLine();
@@ -226,9 +227,9 @@ public class Moteur {
 
             Carte c = main[choix];
             if(receveur==1){
-                mainj1.retirer(c);
+                mainjoueur.retirer(c);
             }else{
-                mainj2.retirer(c);
+                mainjoueur.retirer(c);
             }
             taille--;
             carteS = c;
@@ -341,23 +342,10 @@ public class Moteur {
      * @return true si il est encore possible de piocher, false sinon
      */
     public static boolean piochable(){
-        if(pile1.premiere()!=null){
-            return true;
-        }
-        if(pile2.premiere()!=null){
-            return true;
-        }
-        if(pile3.premiere()!=null){
-            return true;
-        }
-        if(pile4.premiere()!=null){
-            return true;
-        }
-        if(pile5.premiere()!=null){
-            return true;
-        }
-        if(pile6.premiere()!=null){
-            return true;
+        for(int i=0; i<6; i++){
+            if(pioche[i].premiere()!=null){
+                return true;
+            }
         }
         return false;
     }
@@ -381,15 +369,15 @@ public class Moteur {
      * @param piocheur Le numéro du joueur qui va piocher
      */
     public static void pioche(int piocheur){
-        if(mode == 1 || piocheur == 1){
+        if(mode == 1 || piocheur == 1){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
         
             System.out.println("Joueur "+ piocheur +", choisissez une carte:");
 
-            Scanner sc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);    //on lit le choix du joueur
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
             
-            for(int i=0; i<6; i++){
+            for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
                     if(piocheur == 1){
                         mainj1.ajouter(pioche[i].retirer());
@@ -399,7 +387,8 @@ public class Moteur {
                 }
             }
             
-        }else{
+        }else{  //Si c'est à l'ordinateur de jouer
+            
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
             int[] nbCartes = new int[6];
@@ -495,51 +484,17 @@ public class Moteur {
     public static void set_atout(){
         Carte res = pile1.premiere();
         
-       if(res.valeur < pile2.premiere().valeur){
-           res = pile2.premiere();
-       }
-       else if(res.valeur == pile2.premiere().valeur){
-           if(res.couleur < pile2.premiere().valeur){
-               res = pile2.premiere();
-           }
-       }
-       
-       if(res.valeur < pile3.premiere().valeur){
-           res = pile3.premiere();
-       }
-       else if(res.valeur == pile3.premiere().valeur){
-           if(res.couleur < pile3.premiere().valeur){
-               res = pile3.premiere();
-           }
-       }
-       
-       if(res.valeur < pile4.premiere().valeur){
-           res = pile4.premiere();
-       }
-       else if(res.valeur == pile4.premiere().valeur){
-           if(res.couleur < pile4.premiere().valeur){
-               res = pile4.premiere();
-           }
-       }
-       
-       if(res.valeur < pile5.premiere().valeur){
-           res = pile5.premiere();
-       }
-       else if(res.valeur == pile5.premiere().valeur){
-           if(res.couleur < pile5.premiere().valeur){
-               res = pile5.premiere();
-           }
-       }
-       
-       if(res.valeur < pile6.premiere().valeur){
-           res = pile6.premiere();
-       }
-       else if(res.valeur == pile6.premiere().valeur){
-           if(res.couleur < pile6.premiere().valeur){
-               res = pile6.premiere();
-           }
-       }
-       
+        for(int i=1; i<6; i++){
+            if(res.valeur < pioche[i].premiere().valeur){   //si la carte courante a une plus grande valeur que la carte résultat, elle deviens la carte résultat
+                res = pioche[i].premiere();
+            }
+            else if(res.valeur == pioche[i].premiere().valeur){ //si les valeurs des cartes sont égales, si la couleur de la carte courante est plus forte, elle deviens la carte résultat
+                if(res.couleur < pioche[i].premiere().valeur){
+                    res = pioche[i].premiere();
+                }
+            }
+        }
+        
        atout = res.couleur;
        
     }
