@@ -13,7 +13,7 @@ public class Moteur {
     static PileCartes pile1, pile2, pile3, pile4, pile5, pile6, mainj1, mainj2, tasj1, tasj2;
     static PileCartes[] pioche;
     static Carte carteP, carteS;
-    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, taille, mode, difficulte;
+    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode, difficulte;
     
     /**
      * Initialise le début de jeu
@@ -59,6 +59,7 @@ public class Moteur {
         donneur=1;
         receveur=2;
         gagnant=0;
+        perdant=0;
         taille=11;
     }
     
@@ -125,7 +126,11 @@ public class Moteur {
                 }
             }
             
-            IA ia = new IA(mainj2,new PileCartes(), piocheIA, lg, atout);
+            PileCartes cartesDejaJouees = new PileCartes();
+            cartesDejaJouees.pile.addAll(tasj1.pile);
+            cartesDejaJouees.pile.addAll(tasj2.pile);
+            
+            IA ia = new IA(mainj2, cartesDejaJouees, piocheIA, lg, atout);
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -246,7 +251,11 @@ public class Moteur {
                 }
             }
             
-            IA ia = new IA(mainj2,new PileCartes(), piocheIA, lg, atout, carteP);
+            PileCartes cartesDejaJouees = new PileCartes();
+            cartesDejaJouees.pile.addAll(tasj1.pile);
+            cartesDejaJouees.pile.addAll(tasj2.pile);
+            
+            IA ia = new IA(mainj2,cartesDejaJouees, piocheIA, lg, atout, carteP);
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -262,7 +271,7 @@ public class Moteur {
                     break;
                 
             }
-            if (receveur==1){
+            if (receveur==1){   
                 mainj2.retirer(c);
             }else{
                 mainj1.retirer(c);
@@ -283,24 +292,30 @@ public class Moteur {
         if(carteP.couleur == carteS.couleur){
             if(carteP.valeur>carteS.valeur){
                 gagnant = donneur;
+                perdant = receveur;
             }
             else{
                 if(donneur == 1){
                     gagnant = 2;
+                    perdant = 1;
                 }else{
                     gagnant = 1;
+                    perdant = 2;
                 }
             }
         }
         else if(carteS.couleur==atout){
             if(donneur == 1){
                 gagnant = 2;
+                perdant = 1;
             }else{
                 gagnant = 1;
+                perdant = 2;
             }
         }
         else{
             gagnant = donneur;
+            perdant = receveur;
         }
     }
     
@@ -348,9 +363,9 @@ public class Moteur {
     }
     
     /**
-     * Permet aux deux joueurs de piocher, d'abord le gagnant, puis l'autre
+     * Affiche le contenu de la pioche
      */
-    public static void pioche(){
+    public static void afficherPioche(){
         System.out.println("Pioche:");
         for(int i=0; i<6; i++){
             if(pioche[i].premiere()!=null){
@@ -358,116 +373,116 @@ public class Moteur {
             afficherCarte(pioche[i].premiere());
             }
         }
+        System.out.println();
+    }
+    
+    /**
+     * Permet au joueur désigné en paramètre de piocher
+     * @param piocheur Le numéro du joueur qui va piocher
+     */
+    public static void pioche(int piocheur){
+        if(mode == 1 || piocheur == 1){
         
-        System.out.println("Gagnant, choisissez une carte:");
-        
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        int choix = Integer.parseInt(str);
-        
-        if (gagnant == 1){
-            switch(choix){
-                case 1:
-                    mainj1.ajouter(pile1.retirer());
-                    break;
-                case 2:
-                    mainj1.ajouter(pile2.retirer());
-                    break;
-                case 3:
-                    mainj1.ajouter(pile3.retirer());
-                    break;
-                case 4:
-                    mainj1.ajouter(pile4.retirer());
-                    break;
-                case 5:
-                    mainj1.ajouter(pile5.retirer());
-                    break;
-                case 6:
-                    mainj1.ajouter(pile6.retirer());
-                    break;
+            System.out.println("Joueur "+ piocheur +", choisissez une carte:");
+
+            Scanner sc = new Scanner(System.in);
+            String str = sc.nextLine();
+            int choix = Integer.parseInt(str);
+
+            if (piocheur == 1){
+                switch(choix){
+                    case 1:
+                        mainj1.ajouter(pile1.retirer());
+                        break;
+                    case 2:
+                        mainj1.ajouter(pile2.retirer());
+                        break;
+                    case 3:
+                        mainj1.ajouter(pile3.retirer());
+                        break;
+                    case 4:
+                        mainj1.ajouter(pile4.retirer());
+                        break;
+                    case 5:
+                        mainj1.ajouter(pile5.retirer());
+                        break;
+                    case 6:
+                        mainj1.ajouter(pile6.retirer());
+                        break;
+                }
+            }else{
+                switch(choix){
+                    case 1:
+                        mainj2.ajouter(pile1.retirer());
+                        break;
+                    case 2:
+                        mainj2.ajouter(pile2.retirer());
+                        break;
+                    case 3:
+                        mainj2.ajouter(pile3.retirer());
+                        break;
+                    case 4:
+                        mainj2.ajouter(pile4.retirer());
+                        break;
+                    case 5:
+                        mainj2.ajouter(pile5.retirer());
+                        break;
+                    case 6:
+                        mainj2.ajouter(pile6.retirer());
+                        break;
+                }
+
             }
         }else{
-            switch(choix){
+            Carte c = null;
+            Carte[] piocheIA = new Carte[6];
+            int[] nbCartes = new int[6];
+            int lg = 0;
+            for(int i=1; i<6; i++){
+                if(pioche[i].premiere()!=null){
+                    piocheIA[lg]=pioche[i].premiere();
+                    nbCartes[lg]=pioche[i].taille();
+                    lg++;
+                }
+            }
+            
+            PileCartes cartesDejaJouees = new PileCartes();
+            cartesDejaJouees.pile.addAll(tasj1.pile);
+            cartesDejaJouees.pile.addAll(tasj2.pile);
+            
+            IA ia = new IA(mainj2, cartesDejaJouees, piocheIA, lg, atout, carteP);
+            switch(difficulte){
                 case 1:
-                    mainj2.ajouter(pile1.retirer());
+                    c = ia.piocheNoviceEtFacile();
                     break;
                 case 2:
-                    mainj2.ajouter(pile2.retirer());
+                    c = ia.piocheNoviceEtFacile();
                     break;
                 case 3:
-                    mainj2.ajouter(pile3.retirer());
+                    c = ia.piocheMoyenne();
                     break;
                 case 4:
-                    mainj2.ajouter(pile4.retirer());
+                    if(gagnant==2){
+                        c = ia.piocheDifficile(true,nbCartes);
+                    }else{
+                        c = ia.piocheDifficile(false,nbCartes);
+                    }
                     break;
-                case 5:
-                    mainj2.ajouter(pile5.retirer());
-                    break;
-                case 6:
-                    mainj2.ajouter(pile6.retirer());
-                    break;
+                
             }
-        
+            for(int i=0; i<6; i++){
+                if(c == pioche[i].premiere()){
+                    if (piocheur==1){   
+                        mainj1.ajouter(pioche[i].retirer());
+                    }else{
+                        mainj2.ajouter(pioche[i].retirer());
+                    }
+                }
+            }
+
+            System.out.println("Le joueur " + piocheur + " a pioché:");
+            afficherCarte(c);
         }
-        System.out.println("Pioche:");
-        for(int i=0; i<6; i++){
-            if(pioche[i].premiere()!=null){
-                System.out.print("["+(i+1)+"]:");
-            afficherCarte(pioche[i].premiere());
-            }
-        }
-        
-        System.out.println("Perdant, choisissez une carte:");
-        
-        sc = new Scanner(System.in);
-        str = sc.nextLine();
-        choix = Integer.parseInt(str);
-        
-        if (gagnant == 2){
-            switch(choix){
-                case 1:
-                    mainj1.ajouter(pile1.retirer());
-                    break;
-                case 2:
-                    mainj1.ajouter(pile2.retirer());
-                    break;
-                case 3:
-                    mainj1.ajouter(pile3.retirer());
-                    break;
-                case 4:
-                    mainj1.ajouter(pile4.retirer());
-                    break;
-                case 5:
-                    mainj1.ajouter(pile5.retirer());
-                    break;
-                case 6:
-                    mainj1.ajouter(pile6.retirer());
-                    break;
-            }
-        }else{
-            switch(choix){
-                case 1:
-                    mainj2.ajouter(pile1.retirer());
-                    break;
-                case 2:
-                    mainj2.ajouter(pile2.retirer());
-                    break;
-                case 3:
-                    mainj2.ajouter(pile3.retirer());
-                    break;
-                case 4:
-                    mainj2.ajouter(pile4.retirer());
-                    break;
-                case 5:
-                    mainj2.ajouter(pile5.retirer());
-                    break;
-                case 6:
-                    mainj2.ajouter(pile6.retirer());
-                    break;
-            }
-        
-        }
-        taille++;
     }
     
     /**
@@ -613,22 +628,30 @@ public class Moteur {
                 System.out.println("Atout: PIQUE");
                 break;
         }
+        System.out.println();
         
         while(taille>0){
-            System.out.println("Le joueur "+ donneur +" commence");
+            if(piochable()){
+                afficherPioche();
+            }
+            System.out.println("Tour joueur "+ donneur);
+            System.out.println();
             jouerCoupPremier();
             System.out.println("Tour Joueur "+ receveur);
+            System.out.println();
             jouerCoupSecond();
             gagnantPli();
-            if (gagnant == 1){
-                System.out.println("Le joueur 1 gagne le pli");
-            }else{
-                System.out.println("Le joueur 2 gagne le pli");
-            }
+            System.out.println("Le joueur "+ gagnant +" gagne le pli");
+            System.out.println();
             rangerPli();
-            piochable();
             if(piochable()){
-                pioche();
+                afficherPioche();
+                pioche(gagnant);
+                System.out.println();
+                afficherPioche();
+                pioche(perdant);
+                System.out.println();
+                taille++;
             }
             donneur = gagnant;
             if(donneur==1){
@@ -636,6 +659,18 @@ public class Moteur {
             }else{
                 receveur = 1;
             }
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+        }
+        System.out.println();
+        if(tasj1.taille()>tasj2.taille()){
+            System.out.println("LE JOUEUR 1 GAGNE");
+        }else if(tasj1.taille()<tasj2.taille()){
+            System.out.println("LE JOUEUR 2 GAGNE");
+        }
+        else{
+            System.out.println("EGALITE");
         }
     }
     
