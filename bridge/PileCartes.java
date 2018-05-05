@@ -164,8 +164,6 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        res = it.next();
-        
         do{
             tmp = it.next();
             if(tmp.couleur == couleur && tmp.valeur>valeur ){
