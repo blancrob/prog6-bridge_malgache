@@ -212,14 +212,26 @@ public class Moteur {
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
 
-            
-            if (main[choix].couleur != carteP.couleur && mainjoueur.contient(carteP.couleur)){
-                while(!condition){
-                    System.out.println("Jouez une carte de la couleur demandée");
-                    str = sc.nextLine();
-                    choix = Integer.parseInt(str);
-                    if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
-                        condition = true;
+            if(receveur == 1){
+                if (main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur)){
+                    while(!condition){
+                        System.out.println("Jouez une carte de la couleur demandée");
+                        str = sc.nextLine();
+                        choix = Integer.parseInt(str);
+                        if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
+                            condition = true;
+                        }
+                    }
+                }
+            }else{
+                if (main[choix].couleur != carteP.couleur && mainj2.contient(carteP.couleur)){
+                    while(!condition){
+                        System.out.println("Jouez une carte de la couleur demandée");
+                        str = sc.nextLine();
+                        choix = Integer.parseInt(str);
+                        if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
+                            condition = true;
+                        }
                     }
                 }
             }
@@ -227,9 +239,9 @@ public class Moteur {
 
             Carte c = main[choix];
             if(receveur==1){
-                mainjoueur.retirer(c);
+                mainj1.retirer(c);
             }else{
-                mainjoueur.retirer(c);
+                mainj2.retirer(c);
             }
             taille--;
             carteS = c;
