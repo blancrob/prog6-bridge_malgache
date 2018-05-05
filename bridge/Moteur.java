@@ -388,51 +388,17 @@ public class Moteur {
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
-
-            if (piocheur == 1){
-                switch(choix){
-                    case 1:
-                        mainj1.ajouter(pile1.retirer());
-                        break;
-                    case 2:
-                        mainj1.ajouter(pile2.retirer());
-                        break;
-                    case 3:
-                        mainj1.ajouter(pile3.retirer());
-                        break;
-                    case 4:
-                        mainj1.ajouter(pile4.retirer());
-                        break;
-                    case 5:
-                        mainj1.ajouter(pile5.retirer());
-                        break;
-                    case 6:
-                        mainj1.ajouter(pile6.retirer());
-                        break;
+            
+            for(int i=0; i<6; i++){
+                if(choix==i+1){
+                    if(piocheur == 1){
+                        mainj1.ajouter(pioche[i].retirer());
+                    }else{
+                        mainj2.ajouter(pioche[i].retirer());
+                    }
                 }
-            }else{
-                switch(choix){
-                    case 1:
-                        mainj2.ajouter(pile1.retirer());
-                        break;
-                    case 2:
-                        mainj2.ajouter(pile2.retirer());
-                        break;
-                    case 3:
-                        mainj2.ajouter(pile3.retirer());
-                        break;
-                    case 4:
-                        mainj2.ajouter(pile4.retirer());
-                        break;
-                    case 5:
-                        mainj2.ajouter(pile5.retirer());
-                        break;
-                    case 6:
-                        mainj2.ajouter(pile6.retirer());
-                        break;
-                }
-
             }
+            
         }else{
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
