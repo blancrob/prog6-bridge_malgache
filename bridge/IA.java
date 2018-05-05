@@ -102,9 +102,14 @@ public class IA {
      */
     public Carte piocheNoviceEtFacile(){
         Random r = new Random();
-        int tmp = r.nextInt(lg-1);
-        while(pioche[tmp]==null){
+        int tmp;
+        if(lg>1){
             tmp = r.nextInt(lg-1);
+            while(pioche[tmp]==null){
+                tmp = r.nextInt(lg-1);
+            }
+        }else{
+            tmp=0;
         }
         return pioche[tmp];
     }

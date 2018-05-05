@@ -404,7 +404,7 @@ public class Moteur {
             Carte[] piocheIA = new Carte[6];
             int[] nbCartes = new int[6];
             int lg = 0;
-            for(int i=1; i<6; i++){
+            for(int i=0; i<6; i++){
                 if(pioche[i].premiere()!=null){
                     piocheIA[lg]=pioche[i].premiere();
                     nbCartes[lg]=pioche[i].taille();
