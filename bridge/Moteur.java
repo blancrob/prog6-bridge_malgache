@@ -68,32 +68,34 @@ public class Moteur {
      */
     public static void jouerCoupPremier(){
         Iterator<Carte> it;
-        Carte[] main = new Carte[11];
+        Carte[] main = new Carte[20];
+        
+        if(donneur==1){
+            it = mainj1.iterateur();
+        }
+        else{
+            it = mainj2.iterateur();
+        }
+
+        int i=0;
+        do{
+           main[i]=it.next();
+           i++;
+        }while(i<20 && it.hasNext());
+
+        if(donneur==1){
+            System.out.println("Main Joueur 1");
+        }
+        else{
+            System.out.println("Main Joueur 2");
+        }
+        for(i=0; i<20 && main[i]!=null; i++){
+            System.out.print("["+i+"]:");
+            afficherCarte(main[i]);
+        }
         
         if(mode == 1 || donneur==1){
-            if(donneur==1){
-                it = mainj1.iterateur();
-            }
-            else{
-                it = mainj2.iterateur();
-            }
-
-            int i=0;
-            do{
-               main[i]=it.next();
-               i++;
-            }while(i<11 && it.hasNext());
-
-            if(donneur==1){
-                System.out.println("Main Joueur 1");
-            }
-            else{
-                System.out.println("Main Joueur 2");
-            }
-            for(i=0; i<taille && main[i]!=null; i++){
-                System.out.print("["+i+"]:");
-                afficherCarte(main[i]);
-            }
+            
 
             System.out.println("Donnez le numéro de la carte à jouer:");
             Scanner sc = new Scanner(System.in);
@@ -119,7 +121,7 @@ public class Moteur {
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
             int lg = 0;
-            for(int i=1; i<6; i++){
+            for(i=1; i<6; i++){
                 if(pioche[i].premiere()!=null){
                     piocheIA[lg]=pioche[i].premiere();
                     lg++;
@@ -164,7 +166,32 @@ public class Moteur {
     public static void jouerCoupSecond(){
         Iterator<Carte> it;
         PileCartes mainjoueur;
-        Carte[] main = new Carte[11];
+        Carte[] main = new Carte[20];
+        
+        if(receveur==1){
+            mainjoueur= mainj1;
+        }
+        else{
+            mainjoueur = mainj2;
+        }
+        it = mainjoueur.iterateur();
+
+        int i=0;
+        do{
+           main[i]=it.next();
+           i++;
+        }while(it.hasNext());
+
+        if(receveur==1){
+            System.out.println("Main Joueur 1");
+        }
+        else{
+            System.out.println("Main Joueur 2");
+        }
+        for(i=0; i<20 && main[i]!=null; i++){
+            System.out.print("["+i+"]:");
+            afficherCarte(main[i]);
+        }
         
         if(mode == 1 || receveur == 1){
             switch (carteP.couleur){
@@ -181,30 +208,7 @@ public class Moteur {
                     System.out.println("Fournir du PIQUE si vous en avez");
                     break;
             }
-            if(receveur==1){
-                mainjoueur= mainj1;
-            }
-            else{
-                mainjoueur = mainj2;
-            }
-            it = mainjoueur.iterateur();
-
-            int i=0;
-            do{
-               main[i]=it.next();
-               i++;
-            }while(i<11 && it.hasNext());
-
-            if(receveur==1){
-                System.out.println("Main Joueur 1");
-            }
-            else{
-                System.out.println("Main Joueur 2");
-            }
-            for(i=0; i<taille && main[i]!=null; i++){
-                System.out.print("["+i+"]:");
-                afficherCarte(main[i]);
-            }
+            
 
             boolean condition = false;
             System.out.println("Donnez le numéro de la carte à jouer:");
@@ -257,7 +261,7 @@ public class Moteur {
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
             int lg = 0;
-            for(int i=1; i<6; i++){
+            for(i=1; i<6; i++){
                 if(pioche[i].premiere()!=null){
                     piocheIA[lg]=pioche[i].premiere();
                     lg++;
@@ -284,7 +288,7 @@ public class Moteur {
                     break;
                 
             }
-            if (receveur==1){   
+            if (receveur==2){   
                 mainj2.retirer(c);
             }else{
                 mainj1.retirer(c);
