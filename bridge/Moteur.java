@@ -346,8 +346,8 @@ public class Moteur {
             carteP=null;
             carteS=null;
         }else{
-            tasj1.ajouter(carteP);
-            tasj1.ajouter(carteS);
+            tasj2.ajouter(carteP);
+            tasj2.ajouter(carteS);
             carteP=null;
             carteS=null;
         }
@@ -609,6 +609,22 @@ public class Moteur {
         else{
             System.out.println("EGALITE");
         }
+        
+        System.out.println("Score joueur 1: "+ (tasj1.taille()/2));
+        System.out.println("Score joueur 2: "+ (tasj2.taille()/2));
+        System.out.println();
+        System.out.println("Tas joueur 1:");
+        Iterator<Carte> it = tasj1.iterateur();
+        do{
+            afficherCarte(it.next());
+        }while(it.hasNext());
+        
+        System.out.println();
+        System.out.println("Tas joueur 2:");
+        it = tasj2.iterateur();
+        do{
+            afficherCarte(it.next());
+        }while(it.hasNext());
     }
     
     public static void main(String[] args) {

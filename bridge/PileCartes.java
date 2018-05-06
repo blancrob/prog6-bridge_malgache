@@ -157,6 +157,7 @@ public class PileCartes {
     /**
      * Renvoie une carte aléatoire de la couleur demandée et de valeur supérieure au paramètre valeur
      * @param couleur couleur dont doit être la carte tirée aléatoirement
+     * @param valeur dont la carte tirée aléatoirement doit être supérieure
      * @return une carte aléatoire de la pile
      */
     public Carte aleatoireGagnant(int couleur, int valeur){
