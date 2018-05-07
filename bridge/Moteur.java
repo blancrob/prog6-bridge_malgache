@@ -373,6 +373,7 @@ public class Moteur {
         System.out.println("Pioche:");
         for(int i=0; i<6; i++){
             if(pioche[i].premiere()!=null){
+                System.out.print(pioche[i].taille() +"||");
                 System.out.print("["+(i+1)+"]:");
             afficherCarte(pioche[i].premiere());
             }
