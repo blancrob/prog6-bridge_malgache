@@ -185,12 +185,14 @@ public class PileCartes {
         
         res = it.next();
         
-        do{
-            tmp = it.next();
-            if(tmp.valeur>res.valeur){
-                res = tmp;
-            }
-        }while(it.hasNext());
+        if(it.hasNext()){
+            do{
+                tmp = it.next();
+                if(tmp.valeur>res.valeur){
+                    res = tmp;
+                }
+            }while(it.hasNext());
+        }
         
         return res;
     }

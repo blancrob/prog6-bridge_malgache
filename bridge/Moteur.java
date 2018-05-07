@@ -10,10 +10,11 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class Moteur {
-    static PileCartes pile1, pile2, pile3, pile4, pile5, pile6, mainj1, mainj2, tasj1, tasj2;
+    static PileCartes pile1, pile2, pile3, pile4, pile5, pile6;
     static PileCartes[] pioche;
+    static Joueur j1, j2;
     static Carte carteP, carteS;
-    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode, difficulte;
+    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode;
     
     /**
      * Initialise le début de jeu
@@ -26,10 +27,6 @@ public class Moteur {
         pile4 = new PileCartes();
         pile5 = new PileCartes();
         pile6 = new PileCartes();
-        mainj1 = new PileCartes();
-        mainj2 = new PileCartes();
-        tasj1 = new PileCartes();
-        tasj2 = new PileCartes();
         
         pioche = new PileCartes[6];
         pioche[0] = pile1;
@@ -39,20 +36,31 @@ public class Moteur {
         pioche[4] = pile5;
         pioche[5] = pile6;
         
+        j1 = new Joueur();
+        j2 = new Joueur();
+        
         distribuer();
         set_atout();
         
         Scanner sc = new Scanner(System.in);
-        System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur");
+        System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur || 3: Ordinateur Contre Ordinateur");
         String str = sc.nextLine();
         mode = Integer.parseInt(str);
         
-        difficulte = 0;
-        
-        if(mode == 2){
+        if(mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+            str = sc.nextLine();
+            j2.difficulte = Integer.parseInt(str);
+        }else if(mode == 3){
+            System.out.println("Difficulté Joueur 1:");
             System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
             str = sc.nextLine();
-            difficulte = Integer.parseInt(str);
+            j1.difficulte = Integer.parseInt(str);
+            
+            System.out.println("Difficulté Joueur 2:");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+            str = sc.nextLine();
+            j2.difficulte = Integer.parseInt(str);
+            
         }
         
         joueur=1;
@@ -71,10 +79,10 @@ public class Moteur {
         Carte[] main = new Carte[20];
         
         if(donneur==1){
-            it = mainj1.iterateur();
+            it = j1.main.iterateur();
         }
         else{
-            it = mainj2.iterateur();
+            it = j2.main.iterateur();
         }
 
         int i=0;
@@ -94,7 +102,7 @@ public class Moteur {
             afficherCarte(main[i]);
         }
         
-        if(mode == 1 || donneur==1){
+        if(mode == 1 || (mode == 2 && donneur==1)){
             
 
             System.out.println("Donnez le numéro de la carte à jouer:");
@@ -104,9 +112,9 @@ public class Moteur {
 
             Carte c = main[choix];
             if (donneur==1){
-                mainj1.retirer(c);
+                j1.main.retirer(c);
             }else{
-                mainj2.retirer(c);
+                j2.main.retirer(c);
             }
             carteP = c;
             
@@ -129,10 +137,19 @@ public class Moteur {
             }
             
             PileCartes cartesDejaJouees = new PileCartes();
-            cartesDejaJouees.pile.addAll(tasj1.pile);
-            cartesDejaJouees.pile.addAll(tasj2.pile);
+            cartesDejaJouees.pile.addAll(j1.tas.pile);
+            cartesDejaJouees.pile.addAll(j2.tas.pile);
             
-            IA ia = new IA(mainj2, cartesDejaJouees, piocheIA, lg, atout);
+            int difficulte;
+            IA ia;
+            if(donneur==1){
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout);
+                difficulte = j1.difficulte;
+            }else{
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout);
+                difficulte = j2.difficulte;
+            }
+            
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -148,9 +165,9 @@ public class Moteur {
                     break;
             }
             if (donneur==1){
-                mainj1.retirer(c);
+                j1.main.retirer(c);
             }else{
-                mainj2.retirer(c);
+                j2.main.retirer(c);
             }
             carteP = c;
 
@@ -169,10 +186,10 @@ public class Moteur {
         Carte[] main = new Carte[20];
         
         if(receveur==1){
-            mainjoueur= mainj1;
+            mainjoueur= j1.main;
         }
         else{
-            mainjoueur = mainj2;
+            mainjoueur = j2.main;
         }
         it = mainjoueur.iterateur();
 
@@ -193,7 +210,7 @@ public class Moteur {
             afficherCarte(main[i]);
         }
         
-        if(mode == 1 || receveur == 1){
+        if(mode == 1 || (mode == 2 && donneur==2)){
             switch (carteP.couleur){
                 case 1:
                     System.out.println("Fournir du TREFLE si vous en avez");
@@ -217,23 +234,23 @@ public class Moteur {
             int choix = Integer.parseInt(str);
 
             if(receveur == 1){
-                if (main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur)){
+                if (main[choix].couleur != carteP.couleur && j1.main.contient(carteP.couleur)){
                     while(!condition){
                         System.out.println("Jouez une carte de la couleur demandée");
                         str = sc.nextLine();
                         choix = Integer.parseInt(str);
-                        if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
+                        if (!(main[choix].couleur != carteP.couleur && j1.main.contient(carteP.couleur))){
                             condition = true;
                         }
                     }
                 }
             }else{
-                if (main[choix].couleur != carteP.couleur && mainj2.contient(carteP.couleur)){
+                if (main[choix].couleur != carteP.couleur && j2.main.contient(carteP.couleur)){
                     while(!condition){
                         System.out.println("Jouez une carte de la couleur demandée");
                         str = sc.nextLine();
                         choix = Integer.parseInt(str);
-                        if (!(main[choix].couleur != carteP.couleur && mainj1.contient(carteP.couleur))){
+                        if (!(main[choix].couleur != carteP.couleur && j2.main.contient(carteP.couleur))){
                             condition = true;
                         }
                     }
@@ -243,11 +260,10 @@ public class Moteur {
 
             Carte c = main[choix];
             if(receveur==1){
-                mainj1.retirer(c);
+                j1.main.retirer(c);
             }else{
-                mainj2.retirer(c);
+                j2.main.retirer(c);
             }
-            taille--;
             carteS = c;
 
             if(joueur == 1){
@@ -257,7 +273,7 @@ public class Moteur {
             }
             System.out.println();
         }
-        else{   //Cas où l'ordinateur jouearte c;
+        else{   //Cas où l'ordinateur joue c;
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
             int lg = 0;
@@ -269,10 +285,19 @@ public class Moteur {
             }
             
             PileCartes cartesDejaJouees = new PileCartes();
-            cartesDejaJouees.pile.addAll(tasj1.pile);
-            cartesDejaJouees.pile.addAll(tasj2.pile);
+            cartesDejaJouees.pile.addAll(j1.tas.pile);
+            cartesDejaJouees.pile.addAll(j2.tas.pile);
             
-            IA ia = new IA(mainj2,cartesDejaJouees, piocheIA, lg, atout, carteP);
+            int difficulte;
+            IA ia;
+            if(receveur==1){
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout, carteP);
+                difficulte = j1.difficulte;
+            }else{
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout, carteP);
+                difficulte = j2.difficulte;
+            }
+            
             switch(difficulte){
                 case 1:
                     c = ia.iaNovice();
@@ -286,14 +311,12 @@ public class Moteur {
                 case 4:
                     c = ia.iaDifficile();
                     break;
-                
             }
-            if (receveur==2){   
-                mainj2.retirer(c);
+            if (receveur==1){
+                j1.main.retirer(c);
             }else{
-                mainj1.retirer(c);
+                j2.main.retirer(c);
             }
-            taille--;
             carteS = c;
 
             System.out.println("Le joueur " + receveur + " a joué:");
@@ -312,23 +335,13 @@ public class Moteur {
                 perdant = receveur;
             }
             else{
-                if(donneur == 1){
-                    gagnant = 2;
-                    perdant = 1;
-                }else{
-                    gagnant = 1;
-                    perdant = 2;
-                }
+                gagnant = receveur;
+                perdant = donneur;
             }
         }
         else if(carteS.couleur==atout){
-            if(donneur == 1){
-                gagnant = 2;
-                perdant = 1;
-            }else{
-                gagnant = 1;
-                perdant = 2;
-            }
+            gagnant = receveur;
+            perdant = donneur;
         }
         else{
             gagnant = donneur;
@@ -341,13 +354,13 @@ public class Moteur {
      */
     public static void rangerPli(){
         if(gagnant==1){
-            tasj1.ajouter(carteP);
-            tasj1.ajouter(carteS);
+            j1.tas.ajouter(carteP);
+            j1.tas.ajouter(carteS);
             carteP=null;
             carteS=null;
         }else{
-            tasj2.ajouter(carteP);
-            tasj2.ajouter(carteS);
+            j2.tas.ajouter(carteP);
+            j2.tas.ajouter(carteS);
             carteP=null;
             carteS=null;
         }
@@ -386,7 +399,7 @@ public class Moteur {
      * @param piocheur Le numéro du joueur qui va piocher
      */
     public static void pioche(int piocheur){
-        if(mode == 1 || piocheur == 1){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
+        if(mode == 1 || (mode == 2 && piocheur==1)){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
         
             System.out.println("Joueur "+ piocheur +", choisissez une carte:");
 
@@ -397,9 +410,9 @@ public class Moteur {
             for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
                     if(piocheur == 1){
-                        mainj1.ajouter(pioche[i].retirer());
+                        j1.main.ajouter(pioche[i].retirer());
                     }else{
-                        mainj2.ajouter(pioche[i].retirer());
+                        j2.main.ajouter(pioche[i].retirer());
                     }
                 }
             }
@@ -419,10 +432,19 @@ public class Moteur {
             }
             
             PileCartes cartesDejaJouees = new PileCartes();
-            cartesDejaJouees.pile.addAll(tasj1.pile);
-            cartesDejaJouees.pile.addAll(tasj2.pile);
+            cartesDejaJouees.pile.addAll(j1.tas.pile);
+            cartesDejaJouees.pile.addAll(j2.tas.pile);
             
-            IA ia = new IA(mainj2, cartesDejaJouees, piocheIA, lg, atout, carteP);
+            int difficulte;
+            IA ia;
+            if(piocheur==1){
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout);
+                difficulte = j1.difficulte;
+            }else{
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout);
+                difficulte = j2.difficulte;
+            }
+            
             switch(difficulte){
                 case 1:
                     c = ia.piocheNoviceEtFacile();
@@ -434,7 +456,7 @@ public class Moteur {
                     c = ia.piocheMoyenne();
                     break;
                 case 4:
-                    if(gagnant==2){
+                    if(gagnant==piocheur){
                         c = ia.piocheDifficile(true,nbCartes);
                     }else{
                         c = ia.piocheDifficile(false,nbCartes);
@@ -445,9 +467,9 @@ public class Moteur {
             for(int i=0; i<6; i++){
                 if(c == pioche[i].premiere()){
                     if (piocheur==1){   
-                        mainj1.ajouter(pioche[i].retirer());
+                        j1.main.ajouter(pioche[i].retirer());
                     }else{
-                        mainj2.ajouter(pioche[i].retirer());
+                        j2.main.ajouter(pioche[i].retirer());
                     }
                 }
             }
@@ -542,10 +564,10 @@ public class Moteur {
             pile6.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<11;i++){
-            mainj1.ajouter(paquet.aleatoire(false));
+            j1.main.ajouter(paquet.aleatoire(false));
         }
         for(int i=0;i<11;i++){
-            mainj2.ajouter(paquet.aleatoire(false));
+            j2.main.ajouter(paquet.aleatoire(false));
         }
     }
     
@@ -578,6 +600,7 @@ public class Moteur {
             System.out.println("Tour Joueur "+ receveur);
             System.out.println();
             jouerCoupSecond();
+            taille--;
             gagnantPli();
             System.out.println("Le joueur "+ gagnant +" gagne le pli");
             System.out.println();
@@ -602,27 +625,27 @@ public class Moteur {
             System.out.println("-----------------------------------------");
         }
         System.out.println();
-        if(tasj1.taille()>tasj2.taille()){
+        if(j1.tas.taille()>j2.tas.taille()){
             System.out.println("LE JOUEUR 1 GAGNE");
-        }else if(tasj1.taille()<tasj2.taille()){
+        }else if(j1.tas.taille()<j2.tas.taille()){
             System.out.println("LE JOUEUR 2 GAGNE");
         }
         else{
             System.out.println("EGALITE");
         }
         
-        System.out.println("Score joueur 1: "+ (tasj1.taille()/2));
-        System.out.println("Score joueur 2: "+ (tasj2.taille()/2));
+        System.out.println("Score joueur 1: "+ (j1.tas.taille()/2));
+        System.out.println("Score joueur 2: "+ (j2.tas.taille()/2));
         System.out.println();
         System.out.println("Tas joueur 1:");
-        Iterator<Carte> it = tasj1.iterateur();
+        Iterator<Carte> it = j1.tas.iterateur();
         do{
             afficherCarte(it.next());
         }while(it.hasNext());
         
         System.out.println();
         System.out.println("Tas joueur 2:");
-        it = tasj2.iterateur();
+        it = j2.tas.iterateur();
         do{
             afficherCarte(it.next());
         }while(it.hasNext());
