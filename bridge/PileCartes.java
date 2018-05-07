@@ -285,12 +285,14 @@ public class PileCartes {
         }while(res==null && it.hasNext());
         
         if(res!=null){
-            do{
-                tmp = it.next();
-                if(tmp.couleur == couleur && tmp.valeur<res.valeur && tmp.valeur>valeur){
-                    res = tmp;
-                }
-            }while(it.hasNext());
+            if(it.hasNext()){
+                do{
+                    tmp = it.next();
+                    if(tmp.couleur == couleur && tmp.valeur<res.valeur && tmp.valeur>valeur){
+                        res = tmp;
+                    }
+                }while(it.hasNext());
+            }
         }
         
         return res;
