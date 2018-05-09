@@ -6,8 +6,15 @@
 package bridge;
 
 import static bridge.Carte.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Moteur {
     static Configuration config;
@@ -75,6 +82,192 @@ public class Moteur {
         config.set_atout();
     }
     
+    public static void sauvegarder() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        Iterator<Carte> it;
+        Carte c;
+        
+        System.out.println("Entrez le nom du fichier de sauvegarde:");
+        String str = sc.nextLine();
+        
+        File f = new File(str);
+        FileWriter ffw = new FileWriter(f);
+        
+        ffw.write(config.conditionVictoire+"\n");
+        ffw.write(config.mancheMax+"\n");
+        ffw.write(config.scoreMax+"\n");
+        ffw.write(config.atout+"\n");
+        ffw.write(config.joueur+"\n");
+        ffw.write(config.donneur+"\n");
+        ffw.write(config.donneurInitial+"\n");
+        ffw.write(config.receveur+"\n");
+        ffw.write(config.manche+"\n");
+        ffw.write(config.gagnant+"\n");
+        ffw.write(config.perdant+"\n");
+        ffw.write(config.taille+"\n");
+        ffw.write(config.mode+"\n");
+        
+        ffw.write(j1.score+"\n");
+        ffw.write(j1.difficulte+"\n");
+        ffw.write(j1.scoreTotal+"\n");
+        
+        ffw.write(j2.score+"\n");
+        ffw.write(j2.difficulte+"\n");
+        ffw.write(j2.scoreTotal+"\n");
+        
+        
+        if(config.carteP!= null){
+            ffw.write(config.carteP.couleur+" "+config.carteP.valeur+"\n");
+        }
+        ffw.write("-\n");
+        
+        it = config.pile1.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = config.pile2.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = config.pile3.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = config.pile4.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = config.pile5.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = config.pile6.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = j1.main.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = j1.tas.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = j2.main.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        it = j2.tas.iterateur();
+        while(it.hasNext()){
+            c=it.next();
+            ffw.write(c.couleur+" "+c.valeur+"\n");
+        }
+        ffw.write("-\n");
+        ffw.close();
+    }
+    
+    public static void charger() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        Iterator<Carte> it;
+        String[] c;
+        
+        System.out.println("Entrez le nom du fichier à charger:");
+        String str = sc.nextLine();
+        
+        File f = new File(str);
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String line;
+        
+        config = new Configuration();
+        j1 = new Joueur();
+        j2 = new Joueur();
+        
+        config.conditionVictoire=Integer.parseInt(br.readLine());
+        config.mancheMax=Integer.parseInt(br.readLine());
+        config.scoreMax=Integer.parseInt(br.readLine());
+        config.atout=Integer.parseInt(br.readLine());
+        config.joueur=Integer.parseInt(br.readLine());
+        config.donneur=Integer.parseInt(br.readLine());
+        config.donneurInitial=Integer.parseInt(br.readLine());
+        config.receveur=Integer.parseInt(br.readLine());
+        config.manche=Integer.parseInt(br.readLine());
+        config.gagnant=Integer.parseInt(br.readLine());
+        config.perdant=Integer.parseInt(br.readLine());
+        config.taille=Integer.parseInt(br.readLine());
+        config.mode=Integer.parseInt(br.readLine());
+        
+        j1.score=Integer.parseInt(br.readLine());
+        j1.difficulte=Integer.parseInt(br.readLine());
+        j1.scoreTotal=Integer.parseInt(br.readLine());
+        
+        j2.score=Integer.parseInt(br.readLine());
+        j2.difficulte=Integer.parseInt(br.readLine());
+        j2.scoreTotal=Integer.parseInt(br.readLine());
+        
+        line = br.readLine();
+        if(!line.equals("-")){
+            c = line.split(" ");
+            config.carteP = new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false);
+            br.readLine();
+        }
+        
+        while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile1.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile2.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile3.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile4.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile5.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            config.pile6.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }
+        
+        while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            j1.main.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            j1.tas.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }
+        
+        while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            j2.main.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }while (!(line = br.readLine()).equals("-")) { 
+            c=line.split(" ");
+            j2.tas.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+        }
+     
+        br.close();
+    }
+    
     /**
      * Le joueur qui a le statut de donneur ou bien est gagnant joue en premier
      */
@@ -109,10 +302,52 @@ public class Moteur {
         if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){
             
 
-            System.out.println("Donnez le numéro de la carte à jouer:");
+            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
+            while(choix<0){
+                if(choix==-1){
+                    try {
+                        sauvegarder();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else if(choix==-2){
+                    try {
+                        charger();
+                        main = new Carte[20];
+                        if(config.donneur==1){
+                            it = j1.main.iterateur();
+                        }
+                        else{
+                            it = j2.main.iterateur();
+                        }
+                        i=0;
+                        do{
+                           main[i]=it.next();
+                           i++;
+                        }while(i<20 && it.hasNext());
+
+                        if(config.donneur==1){
+                            System.out.println("Main Joueur 1");
+                        }
+                        else{
+                            System.out.println("Main Joueur 2");
+                        }
+                        for(i=0; i<20 && main[i]!=null; i++){
+                            System.out.print("["+i+"]:");
+                            afficherCarte(main[i]);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+                sc = new Scanner(System.in);
+                str = sc.nextLine();
+                choix = Integer.parseInt(str);
+            }
 
             Carte c = main[choix];
             if (config.donneur==1){
@@ -232,10 +467,52 @@ public class Moteur {
             
 
             boolean condition = false;
-            System.out.println("Donnez le numéro de la carte à jouer:");
+            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
+            while(choix<0){
+                if(choix==-1){
+                    try {
+                        sauvegarder();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else if(choix==-2){
+                    try {
+                        charger();
+                        main = new Carte[20];
+                        if(config.receveur==1){
+                            it = j1.main.iterateur();
+                        }
+                        else{
+                            it = j2.main.iterateur();
+                        }
+                        i=0;
+                        do{
+                           main[i]=it.next();
+                           i++;
+                        }while(i<20 && it.hasNext());
+
+                        if(config.receveur==1){
+                            System.out.println("Main Joueur 1");
+                        }
+                        else{
+                            System.out.println("Main Joueur 2");
+                        }
+                        for(i=0; i<20 && main[i]!=null; i++){
+                            System.out.print("["+i+"]:");
+                            afficherCarte(main[i]);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+                sc = new Scanner(System.in);
+                str = sc.nextLine();
+                choix = Integer.parseInt(str);
+            }
 
             if(config.receveur == 1){
                 if (main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
