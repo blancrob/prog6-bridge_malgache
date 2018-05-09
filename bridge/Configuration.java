@@ -7,7 +7,7 @@ public class Configuration {
     PileCartes pile1, pile2, pile3, pile4, pile5, pile6;
     PileCartes[] pioche;
     Carte carteP, carteS;
-    int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode;
+    int conditionVictoire, mancheMax, scoreMax, atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode;
     
     public Configuration(){
         pile1 = new PileCartes();
@@ -25,7 +25,11 @@ public class Configuration {
         pioche[4] = pile5;
         pioche[5] = pile6;
         
+        conditionVictoire=0;
+        mancheMax=0;
+        scoreMax=0;
         mode = 0;
+        manche = 0;
         joueur=1;
         donneur=1;
         receveur=2;

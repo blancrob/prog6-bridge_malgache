@@ -23,12 +23,28 @@ public class Moteur {
         j1 = new Joueur();
         j2 = new Joueur();
         
-        distribuer();
-        config.set_atout();
+        config.conditionVictoire=0;
+        config.mancheMax=0;
+        config.scoreMax=0;
         
         Scanner sc = new Scanner(System.in);
-        System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur || 3: Ordinateur Contre Ordinateur");
+        
+        System.out.println("Choix de la condition de victoire:\n1: Nombre de Manches || 2: Score");
         String str = sc.nextLine();
+        config.conditionVictoire = Integer.parseInt(str);
+        
+        if(config.conditionVictoire==1){
+            System.out.println("Entrez le nombre de manches:");
+            str = sc.nextLine();
+            config.mancheMax = Integer.parseInt(str);
+        }else{
+            System.out.println("Entrez le score maximum:");
+            str = sc.nextLine();
+            config.scoreMax = Integer.parseInt(str);
+        }
+        
+        System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur || 3: Ordinateur Contre Ordinateur");
+        str = sc.nextLine();
         config.mode = Integer.parseInt(str);
         
         if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
@@ -46,6 +62,17 @@ public class Moteur {
             j2.difficulte = Integer.parseInt(str);
             
         }
+    }
+    
+    /**
+     * Initialise le début de la manche
+     */
+    public static void initialiserManche(){
+        j1.tas = new PileCartes();
+        j2.tas = new PileCartes();
+        distribuer();
+        config.taille=11;
+        config.set_atout();
     }
     
     /**
@@ -476,83 +503,108 @@ public class Moteur {
     }
     
     public static void moteur(){
+        
         initialiser();
         
-        switch(config.atout){
-            case 1:
-                System.out.println("Atout: TREFLE");
-                break;
-            case 2:
-                System.out.println("Atout: CARREAU");
-                break;
-            case 3:
-                System.out.println("Atout: COEUR");
-                break;
-            case 4:
-                System.out.println("Atout: PIQUE");
-                break;
-        }
-        System.out.println();
+        while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
         
-        while(config.taille>0){
-            if(config.piochable()){
-                config.afficherPioche();
+            config.manche++;
+            initialiserManche();
+
+            switch(config.atout){
+                case 1:
+                    System.out.println("Atout: TREFLE");
+                    break;
+                case 2:
+                    System.out.println("Atout: CARREAU");
+                    break;
+                case 3:
+                    System.out.println("Atout: COEUR");
+                    break;
+                case 4:
+                    System.out.println("Atout: PIQUE");
+                    break;
             }
-            System.out.println("Tour joueur "+ config.donneur);
             System.out.println();
-            jouerCoupPremier();
-            System.out.println("Tour Joueur "+ config.receveur);
-            System.out.println();
-            jouerCoupSecond();
-            config.taille--;
-            config.gagnantPli();
-            System.out.println("Le joueur "+ config.gagnant +" gagne le pli");
-            System.out.println();
-            rangerPli();
-            if(config.piochable()){
-                config.afficherPioche();
-                pioche(config.gagnant);
+
+            while(config.taille>0){
+                if(config.piochable()){
+                    config.afficherPioche();
+                }
+                System.out.println("Tour joueur "+ config.donneur);
                 System.out.println();
-                config.afficherPioche();
-                pioche(config.perdant);
+                jouerCoupPremier();
+                System.out.println("Tour Joueur "+ config.receveur);
                 System.out.println();
-                config.taille++;
+                jouerCoupSecond();
+                config.taille--;
+                config.gagnantPli();
+                System.out.println("Le joueur "+ config.gagnant +" gagne le pli");
+                System.out.println();
+                rangerPli();
+                if(config.piochable()){
+                    config.afficherPioche();
+                    pioche(config.gagnant);
+                    System.out.println();
+                    config.afficherPioche();
+                    pioche(config.perdant);
+                    System.out.println();
+                    config.taille++;
+                }
+                config.donneur = config.gagnant;
+                if(config.donneur==1){
+                    config.receveur = 2;
+                }else{
+                    config.receveur = 1;
+                }
+                System.out.println("-----------------------------------------");
+                System.out.println("-----------------------------------------");
+                System.out.println("-----------------------------------------");
             }
-            config.donneur = config.gagnant;
-            if(config.donneur==1){
-                config.receveur = 2;
-            }else{
-                config.receveur = 1;
+            System.out.println();
+            if(j1.tas.taille()>j2.tas.taille()){
+                System.out.println("LE JOUEUR 1 GAGNE");
+            }else if(j1.tas.taille()<j2.tas.taille()){
+                System.out.println("LE JOUEUR 2 GAGNE");
             }
-            System.out.println("-----------------------------------------");
-            System.out.println("-----------------------------------------");
-            System.out.println("-----------------------------------------");
+            else{
+                System.out.println("EGALITE");
+            }
+
+            j1.score=j1.tas.taille()/2;
+            j2.score=j2.tas.taille()/2;
+            System.out.println("Manche: "+ config.manche);
+            System.out.println("Score joueur 1: "+ (j1.score));
+            System.out.println("Score joueur 2: "+ (j2.score));
+            System.out.println();
+            System.out.println("Tas joueur 1:");
+            Iterator<Carte> it = j1.tas.iterateur();
+            while(it.hasNext()){
+                afficherCarte(it.next());
+            }
+
+            System.out.println();
+            System.out.println("Tas joueur 2:");
+            it = j2.tas.iterateur();
+            while(it.hasNext()){
+                afficherCarte(it.next());
+            }
+            
+            j1.scoreTotal=j1.scoreTotal+j1.score;
+            j2.scoreTotal=j2.scoreTotal+j2.score;
         }
+        
         System.out.println();
-        if(j1.tas.taille()>j2.tas.taille()){
-            System.out.println("LE JOUEUR 1 GAGNE");
-        }else if(j1.tas.taille()<j2.tas.taille()){
-            System.out.println("LE JOUEUR 2 GAGNE");
+        System.out.println("Score Total joueur 1: "+ (j1.scoreTotal));
+        System.out.println("Score Total joueur 2: "+ (j2.scoreTotal));
+        if(j1.scoreTotal>j2.scoreTotal){
+            System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+        }else if(j1.scoreTotal<j2.scoreTotal){
+            System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
         }
         else{
             System.out.println("EGALITE");
         }
-        
-        System.out.println("Score joueur 1: "+ (j1.tas.taille()/2));
-        System.out.println("Score joueur 2: "+ (j2.tas.taille()/2));
-        System.out.println();
-        System.out.println("Tas joueur 1:");
-        Iterator<Carte> it = j1.tas.iterateur();
-        do{
-            afficherCarte(it.next());
-        }while(it.hasNext());
-        
-        System.out.println();
-        System.out.println("Tas joueur 2:");
-        it = j2.tas.iterateur();
-        do{
-            afficherCarte(it.next());
-        }while(it.hasNext());
     }
     
     public static void main(String[] args) {
