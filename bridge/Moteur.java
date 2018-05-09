@@ -508,8 +508,23 @@ public class Moteur {
         
         while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
         
+            
+            if(config.donneurInitial==0){
+                config.donneurInitial=1;
+                config.donneur=1;
+            }else if(config.donneurInitial==1){
+                config.donneurInitial=2;
+                config.donneur=2;
+            }else{
+               config.donneurInitial=1;
+               config.donneur=1; 
+            }
+            
             config.manche++;
             initialiserManche();
+            
+            System.out.println("MANCHE "+ config.manche);
+            System.out.println();
 
             switch(config.atout){
                 case 1:
@@ -570,6 +585,7 @@ public class Moteur {
             else{
                 System.out.println("EGALITE");
             }
+            System.out.println();
 
             j1.score=j1.tas.taille()/2;
             j2.score=j2.tas.taille()/2;
