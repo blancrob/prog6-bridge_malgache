@@ -144,12 +144,12 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        while(res==null && it.hasNext()){
             tmp = it.next();
             if(tmp.couleur == couleur){
                 res = tmp;
             }
-        }while(res==null && it.hasNext());
+        }
         
         return res;
     }
