@@ -259,12 +259,14 @@ public class PileCartes {
             }
         }while(res==null && it.hasNext());
         
-        do{
-            tmp = it.next();
-            if(tmp.couleur == couleur && tmp.valeur<res.valeur){
-                res = tmp;
-            }
-        }while(it.hasNext());
+        if(it.hasNext()){
+            do{
+                tmp = it.next();
+                if(tmp.couleur == couleur && tmp.valeur<res.valeur){
+                    res = tmp;
+                }
+            }while(it.hasNext());
+        }
         
         return res;
     }

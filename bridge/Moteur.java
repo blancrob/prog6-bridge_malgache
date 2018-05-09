@@ -10,47 +10,31 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class Moteur {
-    static PileCartes pile1, pile2, pile3, pile4, pile5, pile6;
-    static PileCartes[] pioche;
+    static Configuration config;
     static Joueur j1, j2;
-    static Carte carteP, carteS;
-    static int atout, joueur, donneur, receveur, scorej1, scorej2, manche, gagnant, perdant, taille, mode;
     
     /**
      * Initialise le début de jeu
      */
     public static void initialiser(){
         
-        pile1 = new PileCartes();
-        pile2 = new PileCartes();
-        pile3 = new PileCartes();
-        pile4 = new PileCartes();
-        pile5 = new PileCartes();
-        pile6 = new PileCartes();
-        
-        pioche = new PileCartes[6];
-        pioche[0] = pile1;
-        pioche[1] = pile2;
-        pioche[2] = pile3;
-        pioche[3] = pile4;
-        pioche[4] = pile5;
-        pioche[5] = pile6;
+        config = new Configuration();
         
         j1 = new Joueur();
         j2 = new Joueur();
         
         distribuer();
-        set_atout();
+        config.set_atout();
         
         Scanner sc = new Scanner(System.in);
         System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur || 3: Ordinateur Contre Ordinateur");
         String str = sc.nextLine();
-        mode = Integer.parseInt(str);
+        config.mode = Integer.parseInt(str);
         
-        if(mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
-        }else if(mode == 3){
+        }else if(config.mode == 3){
             System.out.println("Difficulté Joueur 1:");
             System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
             str = sc.nextLine();
@@ -62,13 +46,6 @@ public class Moteur {
             j2.difficulte = Integer.parseInt(str);
             
         }
-        
-        joueur=1;
-        donneur=1;
-        receveur=2;
-        gagnant=0;
-        perdant=0;
-        taille=11;
     }
     
     /**
@@ -78,7 +55,7 @@ public class Moteur {
         Iterator<Carte> it;
         Carte[] main = new Carte[20];
         
-        if(donneur==1){
+        if(config.donneur==1){
             it = j1.main.iterateur();
         }
         else{
@@ -91,7 +68,7 @@ public class Moteur {
            i++;
         }while(i<20 && it.hasNext());
 
-        if(donneur==1){
+        if(config.donneur==1){
             System.out.println("Main Joueur 1");
         }
         else{
@@ -102,7 +79,7 @@ public class Moteur {
             afficherCarte(main[i]);
         }
         
-        if(mode == 1 || (mode == 2 && donneur==1)){
+        if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){
             
 
             System.out.println("Donnez le numéro de la carte à jouer:");
@@ -111,17 +88,17 @@ public class Moteur {
             int choix = Integer.parseInt(str);
 
             Carte c = main[choix];
-            if (donneur==1){
+            if (config.donneur==1){
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            carteP = c;
+            config.carteP = c;
             
-            if(joueur == 1){
-                joueur = 2;
+            if(config.joueur == 1){
+                config.joueur = 2;
             }else{
-                joueur = 1;
+                config.joueur = 1;
             }
             System.out.println();
         }
@@ -130,8 +107,8 @@ public class Moteur {
             Carte[] piocheIA = new Carte[6];
             int lg = 0;
             for(i=1; i<6; i++){
-                if(pioche[i].premiere()!=null){
-                    piocheIA[lg]=pioche[i].premiere();
+                if(config.pioche[i].premiere()!=null){
+                    piocheIA[lg]=config.pioche[i].premiere();
                     lg++;
                 }
             }
@@ -142,11 +119,11 @@ public class Moteur {
             
             int difficulte;
             IA ia;
-            if(donneur==1){
-                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout);
+            if(config.donneur==1){
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j1.difficulte;
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout);
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j2.difficulte;
             }
             
@@ -164,14 +141,14 @@ public class Moteur {
                     c = ia.iaDifficile();
                     break;
             }
-            if (donneur==1){
+            if (config.donneur==1){
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            carteP = c;
+            config.carteP = c;
 
-            System.out.println("Le joueur " + donneur + " a joué:");
+            System.out.println("Le joueur " + config.donneur + " a joué:");
             afficherCarte(c);
             
         }
@@ -185,7 +162,7 @@ public class Moteur {
         PileCartes mainjoueur;
         Carte[] main = new Carte[20];
         
-        if(receveur==1){
+        if(config.receveur==1){
             mainjoueur= j1.main;
         }
         else{
@@ -199,7 +176,7 @@ public class Moteur {
            i++;
         }while(it.hasNext());
 
-        if(receveur==1){
+        if(config.receveur==1){
             System.out.println("Main Joueur 1");
         }
         else{
@@ -210,8 +187,8 @@ public class Moteur {
             afficherCarte(main[i]);
         }
         
-        if(mode == 1 || (mode == 2 && donneur==2)){
-            switch (carteP.couleur){
+        if(config.mode == 1 || (config.mode == 2 && config.donneur==2)){
+            switch (config.carteP.couleur){
                 case 1:
                     System.out.println("Fournir du TREFLE si vous en avez");
                     break;
@@ -233,24 +210,24 @@ public class Moteur {
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
 
-            if(receveur == 1){
-                if (main[choix].couleur != carteP.couleur && j1.main.contient(carteP.couleur)){
+            if(config.receveur == 1){
+                if (main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
                     while(!condition){
                         System.out.println("Jouez une carte de la couleur demandée");
                         str = sc.nextLine();
                         choix = Integer.parseInt(str);
-                        if (!(main[choix].couleur != carteP.couleur && j1.main.contient(carteP.couleur))){
+                        if (!(main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur))){
                             condition = true;
                         }
                     }
                 }
             }else{
-                if (main[choix].couleur != carteP.couleur && j2.main.contient(carteP.couleur)){
+                if (main[choix].couleur != config.carteP.couleur && j2.main.contient(config.carteP.couleur)){
                     while(!condition){
                         System.out.println("Jouez une carte de la couleur demandée");
                         str = sc.nextLine();
                         choix = Integer.parseInt(str);
-                        if (!(main[choix].couleur != carteP.couleur && j2.main.contient(carteP.couleur))){
+                        if (!(main[choix].couleur != config.carteP.couleur && j2.main.contient(config.carteP.couleur))){
                             condition = true;
                         }
                     }
@@ -259,17 +236,17 @@ public class Moteur {
 
 
             Carte c = main[choix];
-            if(receveur==1){
+            if(config.receveur==1){
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            carteS = c;
+            config.carteS = c;
 
-            if(joueur == 1){
-                joueur = 2;
+            if(config.joueur == 1){
+                config.joueur = 2;
             }else{
-                joueur = 1;
+                config.joueur = 1;
             }
             System.out.println();
         }
@@ -278,8 +255,8 @@ public class Moteur {
             Carte[] piocheIA = new Carte[6];
             int lg = 0;
             for(i=1; i<6; i++){
-                if(pioche[i].premiere()!=null){
-                    piocheIA[lg]=pioche[i].premiere();
+                if(config.pioche[i].premiere()!=null){
+                    piocheIA[lg]=config.pioche[i].premiere();
                     lg++;
                 }
             }
@@ -290,11 +267,11 @@ public class Moteur {
             
             int difficulte;
             IA ia;
-            if(receveur==1){
-                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout, carteP);
+            if(config.receveur==1){
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout, config.carteP);
                 difficulte = j1.difficulte;
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout, carteP);
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout, config.carteP);
                 difficulte = j2.difficulte;
             }
             
@@ -312,40 +289,16 @@ public class Moteur {
                     c = ia.iaDifficile();
                     break;
             }
-            if (receveur==1){
+            if (config.receveur==1){
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            carteS = c;
+            config.carteS = c;
 
-            System.out.println("Le joueur " + receveur + " a joué:");
+            System.out.println("Le joueur " + config.receveur + " a joué:");
             afficherCarte(c);
             
-        }
-    }
-    
-    /**
-     * Met à jour la variable gagnant, qui indique qui est le gagnant du dernier pli joué
-     */
-    public static void gagnantPli(){
-        if(carteP.couleur == carteS.couleur){
-            if(carteP.valeur>carteS.valeur){
-                gagnant = donneur;
-                perdant = receveur;
-            }
-            else{
-                gagnant = receveur;
-                perdant = donneur;
-            }
-        }
-        else if(carteS.couleur==atout){
-            gagnant = receveur;
-            perdant = donneur;
-        }
-        else{
-            gagnant = donneur;
-            perdant = receveur;
         }
     }
     
@@ -353,45 +306,17 @@ public class Moteur {
      * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
      */
     public static void rangerPli(){
-        if(gagnant==1){
-            j1.tas.ajouter(carteP);
-            j1.tas.ajouter(carteS);
-            carteP=null;
-            carteS=null;
+        if(config.gagnant==1){
+            j1.tas.ajouter(config.carteP);
+            j1.tas.ajouter(config.carteS);
+            config.carteP=null;
+            config.carteS=null;
         }else{
-            j2.tas.ajouter(carteP);
-            j2.tas.ajouter(carteS);
-            carteP=null;
-            carteS=null;
+            j2.tas.ajouter(config.carteP);
+            j2.tas.ajouter(config.carteS);
+            config.carteP=null;
+            config.carteS=null;
         }
-    }
-    
-    /**
-     * Vérifie si une pioche n'est pas vide
-     * @return true si il est encore possible de piocher, false sinon
-     */
-    public static boolean piochable(){
-        for(int i=0; i<6; i++){
-            if(pioche[i].premiere()!=null){
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Affiche le contenu de la pioche
-     */
-    public static void afficherPioche(){
-        System.out.println("Pioche:");
-        for(int i=0; i<6; i++){
-            if(pioche[i].premiere()!=null){
-                System.out.print(pioche[i].taille() +"||");
-                System.out.print("["+(i+1)+"]:");
-            afficherCarte(pioche[i].premiere());
-            }
-        }
-        System.out.println();
     }
     
     /**
@@ -399,7 +324,7 @@ public class Moteur {
      * @param piocheur Le numéro du joueur qui va piocher
      */
     public static void pioche(int piocheur){
-        if(mode == 1 || (mode == 2 && piocheur==1)){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
+        if(config.mode == 1 || (config.mode == 2 && piocheur==1)){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
         
             System.out.println("Joueur "+ piocheur +", choisissez une carte:");
 
@@ -410,9 +335,9 @@ public class Moteur {
             for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
                     if(piocheur == 1){
-                        j1.main.ajouter(pioche[i].retirer());
+                        j1.main.ajouter(config.pioche[i].retirer());
                     }else{
-                        j2.main.ajouter(pioche[i].retirer());
+                        j2.main.ajouter(config.pioche[i].retirer());
                     }
                 }
             }
@@ -424,9 +349,9 @@ public class Moteur {
             int[] nbCartes = new int[6];
             int lg = 0;
             for(int i=0; i<6; i++){
-                if(pioche[i].premiere()!=null){
-                    piocheIA[lg]=pioche[i].premiere();
-                    nbCartes[lg]=pioche[i].taille();
+                if(config.pioche[i].premiere()!=null){
+                    piocheIA[lg]=config.pioche[i].premiere();
+                    nbCartes[lg]=config.pioche[i].taille();
                     lg++;
                 }
             }
@@ -438,10 +363,10 @@ public class Moteur {
             int difficulte;
             IA ia;
             if(piocheur==1){
-                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, atout);
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j1.difficulte;
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, atout);
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j2.difficulte;
             }
             
@@ -456,7 +381,7 @@ public class Moteur {
                     c = ia.piocheMoyenne();
                     break;
                 case 4:
-                    if(gagnant==piocheur){
+                    if(config.gagnant==piocheur){
                         c = ia.piocheDifficile(true,nbCartes);
                     }else{
                         c = ia.piocheDifficile(false,nbCartes);
@@ -465,11 +390,11 @@ public class Moteur {
                 
             }
             for(int i=0; i<6; i++){
-                if(c == pioche[i].premiere()){
+                if(c == config.pioche[i].premiere()){
                     if (piocheur==1){   
-                        j1.main.ajouter(pioche[i].retirer());
+                        j1.main.ajouter(config.pioche[i].retirer());
                     }else{
-                        j2.main.ajouter(pioche[i].retirer());
+                        j2.main.ajouter(config.pioche[i].retirer());
                     }
                 }
             }
@@ -518,27 +443,6 @@ public class Moteur {
     }
     
     /**
-     * Regarde la première carte de chaque pile pour définir l'atout
-     */    
-    public static void set_atout(){
-        Carte res = pile1.premiere();
-        
-        for(int i=1; i<6; i++){
-            if(res.valeur < pioche[i].premiere().valeur){   //si la carte courante a une plus grande valeur que la carte résultat, elle deviens la carte résultat
-                res = pioche[i].premiere();
-            }
-            else if(res.valeur == pioche[i].premiere().valeur){ //si les valeurs des cartes sont égales, si la couleur de la carte courante est plus forte, elle deviens la carte résultat
-                if(res.couleur < pioche[i].premiere().valeur){
-                    res = pioche[i].premiere();
-                }
-            }
-        }
-        
-       atout = res.couleur;
-       
-    }
-    
-    /**
      * Crée un paquet de 52 cartes de base et les distribue dans les piles et aux joueurs
      */
     public static void distribuer(){
@@ -546,22 +450,22 @@ public class Moteur {
         paquet.paquet();
         
         for(int i=0;i<5;i++){
-            pile1.ajouter(paquet.aleatoire(true));
+            config.pile1.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<5;i++){
-            pile2.ajouter(paquet.aleatoire(true));
+            config.pile2.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<5;i++){
-            pile3.ajouter(paquet.aleatoire(true));
+            config.pile3.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<5;i++){
-            pile4.ajouter(paquet.aleatoire(true));
+            config.pile4.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<5;i++){
-            pile5.ajouter(paquet.aleatoire(true));
+            config.pile5.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<5;i++){
-            pile6.ajouter(paquet.aleatoire(true));
+            config.pile6.ajouter(paquet.aleatoire(true));
         }
         for(int i=0;i<11;i++){
             j1.main.ajouter(paquet.aleatoire(false));
@@ -574,7 +478,7 @@ public class Moteur {
     public static void moteur(){
         initialiser();
         
-        switch(atout){
+        switch(config.atout){
             case 1:
                 System.out.println("Atout: TREFLE");
                 break;
@@ -590,35 +494,35 @@ public class Moteur {
         }
         System.out.println();
         
-        while(taille>0){
-            if(piochable()){
-                afficherPioche();
+        while(config.taille>0){
+            if(config.piochable()){
+                config.afficherPioche();
             }
-            System.out.println("Tour joueur "+ donneur);
+            System.out.println("Tour joueur "+ config.donneur);
             System.out.println();
             jouerCoupPremier();
-            System.out.println("Tour Joueur "+ receveur);
+            System.out.println("Tour Joueur "+ config.receveur);
             System.out.println();
             jouerCoupSecond();
-            taille--;
-            gagnantPli();
-            System.out.println("Le joueur "+ gagnant +" gagne le pli");
+            config.taille--;
+            config.gagnantPli();
+            System.out.println("Le joueur "+ config.gagnant +" gagne le pli");
             System.out.println();
             rangerPli();
-            if(piochable()){
-                afficherPioche();
-                pioche(gagnant);
+            if(config.piochable()){
+                config.afficherPioche();
+                pioche(config.gagnant);
                 System.out.println();
-                afficherPioche();
-                pioche(perdant);
+                config.afficherPioche();
+                pioche(config.perdant);
                 System.out.println();
-                taille++;
+                config.taille++;
             }
-            donneur = gagnant;
-            if(donneur==1){
-                receveur = 2;
+            config.donneur = config.gagnant;
+            if(config.donneur==1){
+                config.receveur = 2;
             }else{
-                receveur = 1;
+                config.receveur = 1;
             }
             System.out.println("-----------------------------------------");
             System.out.println("-----------------------------------------");
