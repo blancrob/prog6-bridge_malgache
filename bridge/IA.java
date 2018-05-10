@@ -170,7 +170,7 @@ public class IA {
     }
     
   /**************************************************************************************************************************
-    * Ia Avancée. 
+    * Ia Avancée et Difficile. 
     * Si IA commence 
     *       Jouer carte de meilleure heuristique 
     * si Adversaire a déjà joué 
@@ -183,9 +183,12 @@ public class IA {
     *           Si pioche cool : jouer le plus petit atout possible si il y a 
     *           Si pioche pas cool : mettre la plus petite carte 
     * 
+    * La seule différence c'est que la difficile se rapelle des cartes piochées par l'adversaire 
+    * (dans variable CartesDéjàJouée utilisées pour calculer l'heuristique des cartes mais ça c'est géré dans moteur)
+    * 
     * @return une carte à jouer
     */
-    public Carte iaAvancee(int[] nbCartes){
+    public Carte iaAvanceEtDifficile(int[] nbCartes){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             return main.max();
         }
@@ -236,7 +239,7 @@ public class IA {
      * @return la carte à jouer 
      */
 
-    public Carte piocheAvancee(boolean gagnant, int[] nbCartes){
+    public Carte piocheAvanceEtDifficile(boolean gagnant, int[] nbCartes){
         Carte res = choisirMeilleureCarte(atout); // Choisir le meilleur atout de la pioche 
         if(res == null){ // si pas d'atout 
             int i = 0;
@@ -264,17 +267,7 @@ public class IA {
         }
         return res;
     }
-    
-   /**************************************************************************************************************************
-   * iaDifficile
-   * @param nbCartes
-   * @return 
-   */
-   public Carte iaDifficile(int[] nbCartes){
-       return main.aleatoire(true);
-   }
-   
-  
+      
     /**
      * Retourne la taille de la pile la plus grande
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche

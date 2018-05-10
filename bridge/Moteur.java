@@ -58,17 +58,17 @@ public class Moteur {
         str = sc.nextLine();
         config.mode = Integer.parseInt(str);
         
-        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
+        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
         }else if(config.mode == 3){
             System.out.println("Difficulté Joueur 1:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
             str = sc.nextLine();
             j1.difficulte = Integer.parseInt(str);
             
             System.out.println("Difficulté Joueur 2:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
             
@@ -259,10 +259,10 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaAvancee(nbCartes);
+                    c = ia.iaAvanceEtDifficile(nbCartes);
                     break;
                 case 5:
-                    c = ia.iaDifficile(nbCartes);
+                    c = ia.iaAvanceEtDifficile(nbCartes);
             }
             if (config.donneur==1){
                 j1.main.retirer(c);
@@ -462,10 +462,10 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaAvancee(nbCartes);
+                    c = ia.iaAvanceEtDifficile(nbCartes);
                     break;
                 case 5:
-                    c = ia.iaDifficile(nbCartes);
+                    c = ia.iaAvanceEtDifficile(nbCartes);
             }
             if (config.receveur==1){
                 j1.main.retirer(c);
@@ -563,16 +563,16 @@ public class Moteur {
                     break;
                 case 4:
                     if(config.gagnant==piocheur){
-                        c = ia.piocheAvancee(true,nbCartes);
+                        c = ia.piocheAvanceEtDifficile(true,nbCartes);
                     }else{
-                        c = ia.piocheAvancee(false,nbCartes);
+                        c = ia.piocheAvanceEtDifficile(false,nbCartes);
                     }
                     break;
                 case 5:
                     if(config.gagnant==piocheur){
-                        c = ia.piocheAvancee(true,nbCartes);
+                        c = ia.piocheAvanceEtDifficile(true,nbCartes);
                     }else{
-                        c = ia.piocheAvancee(false,nbCartes);
+                        c = ia.piocheAvanceEtDifficile(false,nbCartes);
                     }
                     break;
             }
