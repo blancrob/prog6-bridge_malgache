@@ -235,11 +235,17 @@ public class Moteur {
             int difficulte;
             IA ia;
             if(config.donneur==1){
-                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j1.difficulte;
+                if(difficulte==5){
+                    cartesDejaJouees.pile.addAll(j1.cartesPiochees.pile);
+                }
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout);
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout);
                 difficulte = j2.difficulte;
+                if(difficulte==5){
+                    cartesDejaJouees.pile.addAll(j2.cartesPiochees.pile);
+                }
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout);
             }
             
             switch(difficulte){
@@ -255,6 +261,8 @@ public class Moteur {
                 case 4:
                     c = ia.iaAvancee(nbCartes);
                     break;
+                case 5:
+                    c = ia.iaDifficile(nbCartes);
             }
             if (config.donneur==1){
                 j1.main.retirer(c);
@@ -430,11 +438,17 @@ public class Moteur {
             int difficulte;
             IA ia;
             if(config.receveur==1){
-                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout, config.carteP);
                 difficulte = j1.difficulte;
+                if(difficulte==5){
+                    cartesDejaJouees.pile.addAll(j1.cartesPiochees.pile);
+                }
+                ia = new IA(j1.main, cartesDejaJouees, piocheIA, lg, config.atout);
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout, config.carteP);
                 difficulte = j2.difficulte;
+                if(difficulte==5){
+                    cartesDejaJouees.pile.addAll(j2.cartesPiochees.pile);
+                }
+                ia = new IA(j2.main, cartesDejaJouees, piocheIA, lg, config.atout);
             }
             
             switch(difficulte){
@@ -450,6 +464,8 @@ public class Moteur {
                 case 4:
                     c = ia.iaAvancee(nbCartes);
                     break;
+                case 5:
+                    c = ia.iaDifficile(nbCartes);
             }
             if (config.receveur==1){
                 j1.main.retirer(c);
@@ -486,6 +502,8 @@ public class Moteur {
      * @param piocheur Le numéro du joueur qui va piocher
      */
     public static void pioche(int piocheur){
+        Carte c=null;
+        
         if(config.mode == 1 || (config.mode == 2 && piocheur==1)){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
         
             System.out.println("Joueur "+ piocheur +", choisissez une carte:");
@@ -497,16 +515,17 @@ public class Moteur {
             for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
                     if(piocheur == 1){
-                        j1.main.ajouter(config.pioche[i].retirer());
+                        c = config.pioche[i].retirer();
+                        j1.main.ajouter(c);
                     }else{
-                        j2.main.ajouter(config.pioche[i].retirer());
+                        j2.main.ajouter(c);
                     }
                 }
             }
             
         }else{  //Si c'est à l'ordinateur de jouer
             
-            Carte c = null;
+            c = null;
             Carte[] piocheIA = new Carte[6];
             int[] nbCartes = new int[6];
             int lg = 0;
@@ -549,7 +568,13 @@ public class Moteur {
                         c = ia.piocheAvancee(false,nbCartes);
                     }
                     break;
-                
+                case 5:
+                    if(config.gagnant==piocheur){
+                        c = ia.piocheAvancee(true,nbCartes);
+                    }else{
+                        c = ia.piocheAvancee(false,nbCartes);
+                    }
+                    break;
             }
             for(int i=0; i<6; i++){
                 if(c == config.pioche[i].premiere()){
@@ -563,6 +588,12 @@ public class Moteur {
 
             System.out.println("Le joueur " + piocheur + " a pioché:");
             afficherCarte(c);
+        }
+        
+        if(j1.difficulte>0 && piocheur==2){
+            j1.cartesPiochees.ajouter(c);
+        }else if(j2.difficulte>0 && piocheur==1){
+            j1.cartesPiochees.ajouter(c);
         }
     }
     
