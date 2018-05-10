@@ -1,6 +1,8 @@
 package bridge;
 
-public class Joueur {
+import java.io.Serializable;
+
+public class Joueur implements Serializable{
     PileCartes main, tas;
     int score, difficulte, scoreTotal;
     

@@ -1,8 +1,9 @@
 package bridge;
 
 import static bridge.Moteur.afficherCarte;
+import java.io.Serializable;
 
-public class Configuration {
+public class Configuration implements Serializable {
     
     PileCartes pile1, pile2, pile3, pile4, pile5, pile6;
     PileCartes[] pioche;

@@ -5,7 +5,9 @@
  */
 package bridge;
 
-public class Carte {
+import java.io.Serializable;
+
+public class Carte implements Serializable {
     int valeur;
     int couleur;
     boolean visible;

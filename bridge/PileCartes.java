@@ -8,9 +8,10 @@ package bridge;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static bridge.Carte.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public class PileCartes {
+public class PileCartes implements Serializable{
     ArrayList<Carte> pile;
     
     /**
