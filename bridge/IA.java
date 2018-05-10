@@ -267,6 +267,24 @@ public class IA {
         }
         return res;
     }
+    
+    /**************************************************************************************************************************
+     * iaExperte.
+     * Connait tout le jeu dès le début et joue en concéquence
+     * 
+     * @param nbCartes
+     * @return la carte à jouer
+     */
+    public Carte iaExperte(int[] nbCartes){
+        return main.max();
+    }
+    
+   public Carte piocheExperte(boolean gagnant, int[] nbCartes){ 
+       return main.max();
+   }
+    
+    
+    
       
     /**
      * Retourne la taille de la pile la plus grande
