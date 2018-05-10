@@ -68,10 +68,8 @@ public class PileCartes {
             Iterator<Carte> it = pile.iterator();
             res = it.next();
         }
-        
         return res;
     }
-    
     
     /**
      * Renvoyer la première carte de la pile, celle sur le dessus, et la supprimer dans la pile
@@ -85,7 +83,6 @@ public class PileCartes {
             pile.remove(res);
             System.out.println(res.couleur + "|" + res.valeur);
         }
-        
         return res;
     }
     
@@ -165,12 +162,12 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        while(res==null && it.hasNext()){
             tmp = it.next();
             if(tmp.couleur == couleur && tmp.valeur>valeur ){
                 res = tmp;
             }
-        }while(res==null && it.hasNext());
+        }
         
         return res;
     }
@@ -185,13 +182,11 @@ public class PileCartes {
         
         res = it.next();
         
-        if(it.hasNext()){
-            do{
-                tmp = it.next();
-                if(tmp.valeur>res.valeur){
-                    res = tmp;
-                }
-            }while(it.hasNext());
+        while(it.hasNext()){
+            tmp = it.next();
+            if(tmp.valeur>res.valeur){
+                res = tmp;
+            }
         }
         
         return res;
@@ -206,19 +201,19 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        while(res==null && it.hasNext()){
             tmp = it.next();
             if(tmp.couleur==couleur){
                 res = tmp;
             }
-        }while(res==null && it.hasNext());
+        }
         
-        do{
+        while(it.hasNext()){
             tmp = it.next();
             if(tmp.couleur == couleur && tmp.valeur>res.valeur){
                 res = tmp;
             }
-        }while(it.hasNext());
+        }
         
         return res;
     }
@@ -231,16 +226,13 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        res = it.next();
-        
-        if(it.hasNext()){
-            do{
-                tmp = it.next();
-                if(tmp.valeur<res.valeur){
-                    res = tmp;
-                }
-            }while(it.hasNext());
+        while(it.hasNext()){
+            tmp = it.next();
+            if(res==null || tmp.valeur<res.valeur){
+                res = tmp;
+            }
         }
+        
         
         return res;
     }
@@ -254,20 +246,18 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        while(res==null && it.hasNext()){
             tmp = it.next();
             if(tmp.couleur==couleur){
                 res = tmp;
             }
-        }while(res==null && it.hasNext());
+        }
         
-        if(it.hasNext()){
-            do{
-                tmp = it.next();
-                if(tmp.couleur == couleur && tmp.valeur<res.valeur){
-                    res = tmp;
-                }
-            }while(it.hasNext());
+        while(it.hasNext()){
+            tmp = it.next();
+            if(tmp.couleur == couleur && tmp.valeur<res.valeur){
+                res = tmp;
+            }
         }
         
         return res;
@@ -283,21 +273,17 @@ public class PileCartes {
         Carte tmp;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        while(res==null && it.hasNext()){
             tmp = it.next();
             if(tmp.couleur==couleur && tmp.valeur >= valeur){
                 res = tmp;
             }
-        }while(res==null && it.hasNext());
+        }
         
-        if(res!=null){
-            if(it.hasNext()){
-                do{
-                    tmp = it.next();
-                    if(tmp.couleur == couleur && tmp.valeur<res.valeur && tmp.valeur>valeur){
-                        res = tmp;
-                    }
-                }while(it.hasNext());
+        while(it.hasNext()){
+            tmp = it.next();
+            if(tmp.couleur == couleur && tmp.valeur<res.valeur && tmp.valeur>valeur){
+                res = tmp;
             }
         }
         
@@ -308,10 +294,14 @@ public class PileCartes {
         Carte res = null;
         Iterator<Carte> it = pile.iterator();
         
-        do{
+        if(it.hasNext()){
+            res = it.next();
+        }
+        
+        while(it.hasNext() && res.couleur!=couleur){
             res = it.next();
             
-        }while(res.couleur!=couleur && it.hasNext());
+        }
         
         
         return res.couleur == couleur;
