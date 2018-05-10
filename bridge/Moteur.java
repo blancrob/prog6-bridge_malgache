@@ -54,17 +54,17 @@ public class Moteur {
         str = sc.nextLine();
         config.mode = Integer.parseInt(str);
         
-        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
         }else if(config.mode == 3){
             System.out.println("Difficulté Joueur 1:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
             str = sc.nextLine();
             j1.difficulte = Integer.parseInt(str);
             
             System.out.println("Difficulté Joueur 2:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Difficile");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
             
@@ -367,10 +367,12 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
+            int[] nbCartes = new int[6];
             int lg = 0;
             for(i=1; i<6; i++){
                 if(config.pioche[i].premiere()!=null){
                     piocheIA[lg]=config.pioche[i].premiere();
+                    nbCartes[lg]=config.pioche[i].taille();
                     lg++;
                 }
             }
@@ -400,7 +402,7 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaDifficile();
+                    c = ia.iaAvancee(nbCartes);
                     break;
             }
             if (config.donneur==1){
@@ -557,10 +559,12 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             Carte c = null;
             Carte[] piocheIA = new Carte[6];
+            int[] nbCartes = new int[6];
             int lg = 0;
             for(i=1; i<6; i++){
                 if(config.pioche[i].premiere()!=null){
                     piocheIA[lg]=config.pioche[i].premiere();
+                    nbCartes[lg]=config.pioche[i].taille();
                     lg++;
                 }
             }
@@ -590,7 +594,7 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaDifficile();
+                    c = ia.iaAvancee(nbCartes);
                     break;
             }
             if (config.receveur==1){
@@ -686,9 +690,9 @@ public class Moteur {
                     break;
                 case 4:
                     if(config.gagnant==piocheur){
-                        c = ia.piocheDifficile(true,nbCartes);
+                        c = ia.piocheAvancee(true,nbCartes);
                     }else{
-                        c = ia.piocheDifficile(false,nbCartes);
+                        c = ia.piocheAvancee(false,nbCartes);
                     }
                     break;
                 

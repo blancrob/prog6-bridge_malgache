@@ -126,7 +126,7 @@ public class IA {
      * @return une carte à jouer
      */
     public Carte iaMoyenne(){
-        if(courante == null){ // si c'est au tour de l'IA elle joue la plus grosse carte
+        if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             return main.max();
         }
         else{ // si l'adversaire a déjà joué 
@@ -170,7 +170,7 @@ public class IA {
     }
     
   /**************************************************************************************************************************
-    * Ia Difficile. 
+    * Ia Avancée. 
     * Si IA commence 
     *       Jouer carte de meilleure heuristique 
     * si Adversaire a déjà joué 
@@ -185,8 +185,44 @@ public class IA {
     * 
     * @return une carte à jouer
     */
-    public Carte iaDifficile(){
-        return main.aleatoire(true);
+    public Carte iaAvancee(int[] nbCartes){
+        if(courante == null){ // si l'IA commence elle joue la plus grosse carte
+            return main.max();
+        }
+        else{ // si l'adversaire a déjà joué 
+            Carte res;
+            if (fournir(courante.couleur)){ // si on a la couleur demandée 
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
+                if (res == null){ // si on ne peut pas gagner le pli 
+                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
+                }
+            }else{ // si on a pas la couleur demandée
+                
+                int i = 0;
+                double h = 0;
+                while (i<lg){ // On regarde à quoi ressemble la pioche
+                    if(heuristiqueTermine(pioche[i]) > h){ // trouver la carte avec la meilleure heuristique 
+                        res = pioche[i];
+                        h = heuristiqueTermine(pioche[i]);
+                    }
+                    i++;
+                }
+                if ((h<0.4) && (plusGrossePile(nbCartes)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte         à modifier si l'ia est trop mauvaise !!!!!!!!!!!!!!
+                    res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
+                }
+                
+                else{ // Si la pioche est cool on essaye de gagner le pli
+                    if (fournir(atout)){ // on joue de l'atout si possible
+                        res = main.min(atout); // on joue le plus petit atout 
+                    }
+                    else{ // si on a pas d'atout 
+                        res = main.min(); // on donne la plus petite carte de la main 
+                    }
+                }
+            }
+            return res;
+        }
+        
     }
     
     /**
@@ -200,20 +236,20 @@ public class IA {
      * @return la carte à jouer 
      */
 
-    public Carte piocheDifficile(boolean gagnant, int[] nbCartes){
+    public Carte piocheAvancee(boolean gagnant, int[] nbCartes){
         Carte res = choisirMeilleureCarte(atout); // Choisir le meilleur atout de la pioche 
         if(res == null){ // si pas d'atout 
             int i = 0;
             double h = 0;
             while (i<lg){ // pour chaque pile de la pioche 
                 if(gagnant){ // si on est gagnant donc 1er à piocher
-                    if(heuristiqueCommence(pioche[i]) > h){ // Prendre la carte avec la meilleure heuristique 
+                    if(heuristiqueCommence(pioche[i]) >= h){ // Trouver la carte avec la meilleure heuristique 
                         res = pioche[i];
                         h = heuristiqueCommence(pioche[i]);
                     }
                 }
                 else{ // Si on est le 2ème à piocher 
-                    if(heuristiqueTermine(pioche[i]) > h){ // prendre la carte avec la meilleure heuristique 
+                    if(heuristiqueTermine(pioche[i]) >= h){ // prendre la carte avec la meilleure heuristique 
                         res = pioche[i];
                         h = heuristiqueTermine(pioche[i]);
                     }
@@ -221,7 +257,7 @@ public class IA {
                 i++;
             }
             if(gagnant){ //Si on est gagnant  
-                if (h<0.4){ //mais que la pioche est pas très cool                              à modifier si l'ia est trop mauvaise.
+                if (h<0.4){ //mais que la pioche est pas très cool                              à modifier si l'ia est trop mauvaise!!!!!!!!!!!!!!!!!!!!!!!
                     res = meilleurPioche(nbCartes);  //Choisir la carte de la pile qui a le moins de cartes
                 }
             }
@@ -231,7 +267,22 @@ public class IA {
     
     
     
-    
+    /**
+     * Retourne la taille de la pile la plus grande
+     * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
+     * @return 
+     */
+    public int plusGrossePile(int[] nbCartes){
+        int i = 0;
+        int max = 0;
+        while(i<lg){
+            if(nbCartes[i] > max){
+                max = nbCartes[i];
+            }
+            i++;
+        }
+        return max;
+    }
     
     /**
      * Choisit la carte de la pile qui a le moins de cartes 
@@ -301,15 +352,15 @@ public class IA {
         res.paquet(); // Toutes les cartes d'un paquet de cartes
         Iterator<Carte> it = main.iterateur(); 
         Carte tmp;
-        do{ // Enlever les cartes qui sont dans la main
+        while(it.hasNext()){ // Enlever les cartes qui sont dans la main
             tmp = it.next();
             res.retirer(tmp);
-        }while(it.hasNext());
+        }
         it = cartesDejaJouees.iterateur();
-        do{ // Enlever les cartes qui ont déjà été jouées
+        while(it.hasNext()){ // Enlever les cartes qui ont déjà été jouées
             tmp = it.next();
             res.retirer(tmp);
-        }while(it.hasNext());
+        }
         int i = 0;
         while (i<lg){
             res.retirer(pioche[i]); // Enlever les cartes visibles sur les piles de la pioche
