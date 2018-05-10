@@ -265,8 +265,16 @@ public class IA {
         return res;
     }
     
-    
-    
+   /**************************************************************************************************************************
+   * iaDifficile
+   * @param nbCartes
+   * @return 
+   */
+   public Carte iaDifficile(int[] nbCartes){
+       return main.aleatoire(true);
+   }
+   
+  
     /**
      * Retourne la taille de la pile la plus grande
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
