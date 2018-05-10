@@ -808,6 +808,9 @@ public class Moteur {
             System.out.println();
 
             switch(config.atout){
+                case 0:
+                    System.out.println("SANS ATOUT");
+                    break;
                 case 1:
                     System.out.println("Atout: TREFLE");
                     break;
