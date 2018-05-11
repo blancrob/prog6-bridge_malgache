@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Configuration implements Serializable {
     
-    PileCartes pile1, pile2, pile3, pile4, pile5, pile6;
+    PileCartes pile1, pile2, pile3, pile4, pile5, pile6, piochees;
     PileCartes[] pioche;
     Carte carteP, carteS;
     int conditionVictoire, mancheMax, scoreMax, atout, joueur, donneur, donneurInitial, receveur, manche, gagnant, perdant, taille, mode;
@@ -17,6 +17,8 @@ public class Configuration implements Serializable {
         pile4 = new PileCartes();
         pile5 = new PileCartes();
         pile6 = new PileCartes();
+        
+        piochees = new PileCartes();
         
         pioche = new PileCartes[6];
         pioche[0] = pile1;
