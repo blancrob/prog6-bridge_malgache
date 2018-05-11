@@ -14,6 +14,7 @@ import java.util.Random;
 public class IA {
     PileCartes main;
     PileCartes cartesDejaJouees;
+    PileCartes cartesPiochees;
     Carte[] pioche;
     int lg;
     int atout;
@@ -22,24 +23,27 @@ public class IA {
     public IA(){
         main = new PileCartes();
         cartesDejaJouees = new PileCartes();
+        cartesPiochees = new PileCartes();
         pioche = new Carte[0];
         lg = 0;
         atout = 0;
         courante = null;
     }
     
-    public IA(PileCartes m, PileCartes c, Carte[] p, int l, int at, Carte cour){
+    public IA(PileCartes m, PileCartes c,PileCartes pi, Carte[] p, int l, int at, Carte cour){
         main = m;
         cartesDejaJouees = c;
+        cartesPiochees = pi;
         pioche = p;
         lg = l;
         atout = at;
         courante = cour;
     }
     
-    public IA(PileCartes m, PileCartes c, Carte[] p, int l, int at){
+    public IA(PileCartes m, PileCartes c,PileCartes pi, Carte[] p, int l, int at){
         main = m;
         cartesDejaJouees = c;
+        cartesPiochees = pi;
         pioche = p;
         lg = l;
         atout = at;
@@ -268,6 +272,147 @@ public class IA {
         return res;
     }
     
+    /**
+    * Ia Difficile. 
+    * Comme IA avancé, mis à part qu'il peut déduire une partie de la main adverse car il connait les cartes piochées et les cartes jouées.
+    * 
+     * @param nbCartes
+    * @return une carte à jouer
+    */
+    public Carte iaDifficile(int[] nbCartes){
+        if(courante == null){ // si l'IA commence elle joue la plus grosse carte
+            return meilleurCoupCommence();
+        }
+        else{ // si l'adversaire a déjà joué 
+            Carte res;
+            if (fournir(courante.couleur)){ // si on a la couleur demandée 
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
+                if (res == null){ // si on ne peut pas gagner le pli 
+                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
+                }
+            }else{ // si on a pas la couleur demandée
+                
+                int i = 0;
+                double h = 0;
+                while (i<lg){ // On regarde à quoi ressemble la pioche
+                    if(heuristiqueTermine(pioche[i]) > h){ // trouver la carte avec la meilleure heuristique 
+                        res = pioche[i];
+                        h = heuristiqueTermine(pioche[i]);
+                    }
+                    i++;
+                }
+                if ((h<0.4) && (plusGrossePile(nbCartes)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
+                    res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
+                }
+                
+                else{ // Si la pioche est cool on essaye de gagner le pli
+                    if (fournir(atout)){ // on joue de l'atout si possible
+                        res = main.min(atout); // on joue le plus petit atout 
+                    }
+                    else{ // si on a pas d'atout 
+                        res = main.min(); // on donne la plus petite carte de la main 
+                    }
+                }
+            }
+            return res;
+        }
+        
+    }
+    
+    /**
+     * Contruit la main adverse connue.
+     * @return une PileCartes contenant les cartes connu de la main adverse.
+     */
+    public PileCartes adversaire(){
+        PileCartes res = new PileCartes();
+        Iterator<Carte> it = cartesPiochees.iterateur();
+        Iterator<Carte> m = main.iterateur();
+        Iterator<Carte> j = cartesDejaJouees.iterateur();
+        Carte tmp;
+        Carte test;
+        do{
+            tmp = it.next();
+            do{
+                test = m.next();
+            }while(m.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+            if (m.hasNext()){
+            }
+            else{
+                do{
+                    test = j.next();
+                }while(j.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+                if(j.hasNext()){
+                }
+                else{
+                    res.ajouter(tmp);
+                }
+            }
+        }while(it.hasNext());
+        return res;
+    }
+    
+    /**
+     * 
+     * @param c une carte à tester
+     * @param p la main de l'adversaire
+     * @return vrai ssi l'adversaire a une carte connu de la même couleur que celle de c.
+     */
+    public boolean aCouleur(Carte c, PileCartes p){
+        boolean res = false;
+        Iterator<Carte> it = p.iterateur();
+        Carte tmp;
+        do{
+            tmp = it.next();
+            res = tmp.couleur == c.couleur;
+        }while(it.hasNext() && !res);
+        return res;
+    }
+    
+    /**
+     * 
+     * @param c une Carte
+     * @return vrai ssi la carte c peut être battu par une carte connu de l'adversaire.
+     */
+    public boolean battu(Carte c){
+        boolean res = false;
+        boolean fournir = aCouleur(c,adversaire());
+        Iterator<Carte> it = adversaire().iterateur();
+        Carte tmp;
+        do{
+            tmp = it.next();
+            if(fournir){
+                res = (tmp.couleur==c.couleur && tmp.valeur>c.valeur);
+            }else{
+                res = (tmp.couleur == atout);
+            }
+        }while(it.hasNext() && !res);
+        return res;
+    }
+    /**
+     * Cherche la meilleur carte a jouer
+     * @return Une carte étant la meilleur a jouer
+     */
+    public Carte meilleurCoupCommence(){
+        Carte res = null;
+        double h = 0;
+        Iterator<Carte> it = main.iterateur();
+        Carte tmp;
+        do{
+            tmp = it.next();
+            if(battu(tmp)){
+                if(h == 0){
+                    res = tmp;
+                }
+            }
+            else{
+                if(h<heuristiqueCommence(tmp)){
+                    h = heuristiqueCommence(tmp);
+                    res = tmp;
+                }
+            }
+        }while(it.hasNext());
+        return res;
+    }
       
     /**
      * Retourne la taille de la pile la plus grande
