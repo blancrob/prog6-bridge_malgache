@@ -210,7 +210,7 @@ public class IA {
                     }
                     i++;
                 }
-                if ((h<0.4) && (plusGrossePile(nbCartes)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte         à modifier si l'ia est trop mauvaise !!!!!!!!!!!!!!
+                if ((h<0.4) && (plusGrossePile(nbCartes)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
                     res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
                 }
                 
@@ -260,30 +260,13 @@ public class IA {
                 i++;
             }
             if(gagnant){ //Si on est gagnant  
-                if (h<0.4){ //mais que la pioche est pas très cool                              à modifier si l'ia est trop mauvaise!!!!!!!!!!!!!!!!!!!!!!!
+                if (h<0.4){ //mais que la pioche est pas très cool                             
                     res = meilleurPioche(nbCartes);  //Choisir la carte de la pile qui a le moins de cartes
                 }
             }
         }
         return res;
     }
-    
-    /**************************************************************************************************************************
-     * iaExperte.
-     * Connait tout le jeu dès le début et joue en concéquence
-     * 
-     * @param nbCartes
-     * @return la carte à jouer
-     */
-    public Carte iaExperte(int[] nbCartes){
-        return main.max();
-    }
-    
-   public Carte piocheExperte(boolean gagnant, int[] nbCartes){ 
-       return main.max();
-   }
-    
-    
     
       
     /**
