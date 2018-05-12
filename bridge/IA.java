@@ -287,12 +287,12 @@ public class IA {
             }
             System.out.println();
             
-            it2 = cartesDejaJouees.iterateur();
+            /*it2 = cartesDejaJouees.iterateur();
             System.out.println("Cartes déjà jouées");
              while(it2.hasNext()){
                 Moteur.afficherCarte(it2.next());
             }
-            System.out.println();
+            System.out.println();*/
             return meilleurCoupCommence();
         }
         else{ // si l'adversaire a déjà joué 
@@ -406,7 +406,11 @@ public class IA {
                 }
             }
         }
-        return res;
+        if(h==0){
+            return main.min();
+        }else{
+            return res;
+        }
     }
       
     /**
