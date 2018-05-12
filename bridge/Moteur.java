@@ -259,7 +259,7 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaAvanceEtDifficile(nbCartes);
+                    c = ia.iaAvancee(nbCartes);
                     break;
                 case 5:
                     c = ia.iaDifficile(nbCartes);
@@ -462,7 +462,7 @@ public class Moteur {
                     c = ia.iaMoyenne();
                     break;
                 case 4:
-                    c = ia.iaAvanceEtDifficile(nbCartes);
+                    c = ia.iaAvancee(nbCartes);
                     break;
                 case 5:
                     c = ia.iaDifficile(nbCartes);
