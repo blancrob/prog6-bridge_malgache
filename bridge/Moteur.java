@@ -262,7 +262,7 @@ public class Moteur {
                     c = ia.iaAvanceEtDifficile(nbCartes);
                     break;
                 case 5:
-                    c = ia.iaAvanceEtDifficile(nbCartes);
+                    c = ia.iaDifficile(nbCartes);
             }
             if (config.donneur==1){
                 j1.main.retirer(c);
@@ -465,7 +465,7 @@ public class Moteur {
                     c = ia.iaAvanceEtDifficile(nbCartes);
                     break;
                 case 5:
-                    c = ia.iaAvanceEtDifficile(nbCartes);
+                    c = ia.iaDifficile(nbCartes);
             }
             if (config.receveur==1){
                 j1.main.retirer(c);

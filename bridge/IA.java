@@ -330,24 +330,28 @@ public class IA {
         Iterator<Carte> j = cartesDejaJouees.iterateur();
         Carte tmp;
         Carte test;
-        do{
+        while(it.hasNext()){
             tmp = it.next();
-            do{
-                test = m.next();
-            }while(m.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+            if(m.hasNext()){        //CONDITIONS A FACTORISER (probablement)
+                do{
+                    test = m.next();
+                }while(m.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+            }
             if (m.hasNext()){
             }
             else{
-                do{
-                    test = j.next();
-                }while(j.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+                if(j.hasNext()){        //PAREIL ICI C'EST LA MÊME CHOSE
+                    do{
+                        test = j.next();
+                    }while(j.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
+                }
                 if(j.hasNext()){
                 }
                 else{
                     res.ajouter(tmp);
                 }
             }
-        }while(it.hasNext());
+        }
         return res;
     }
     
