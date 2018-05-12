@@ -398,7 +398,7 @@ public class IA {
         double h = 0;
         Iterator<Carte> it = main.iterateur();
         Carte tmp;
-        do{
+        while(it.hasNext()){
             tmp = it.next();
             if(battu(tmp)){
                 if(h == 0){
@@ -411,7 +411,7 @@ public class IA {
                     res = tmp;
                 }
             }
-        }while(it.hasNext());
+        }
         return res;
     }
       
