@@ -174,7 +174,7 @@ public class IA {
     }
     
   /**************************************************************************************************************************
-    * Ia Avancée et Difficile. 
+    * Ia Avancée. 
     * Si IA commence 
     *       Jouer carte de meilleure heuristique 
     * si Adversaire a déjà joué 
@@ -187,12 +187,9 @@ public class IA {
     *           Si pioche cool : jouer le plus petit atout possible si il y a 
     *           Si pioche pas cool : mettre la plus petite carte 
     * 
-    * La seule différence c'est que la difficile se rapelle des cartes piochées par l'adversaire 
-    * (dans variable CartesDéjàJouée utilisées pour calculer l'heuristique des cartes mais ça c'est géré dans moteur)
-    * 
     * @return une carte à jouer
     */
-    public Carte iaAvanceEtDifficile(int[] nbCartes){
+    public Carte iaAvancee(int[] nbCartes){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             return main.max();
         }
@@ -272,7 +269,7 @@ public class IA {
         return res;
     }
     
-    /**
+    /****************************************************************************************************************************
     * Ia Difficile. 
     * Comme IA avancé, mis à part qu'il peut déduire une partie de la main adverse car il connait les cartes piochées et les cartes jouées.
     * 
