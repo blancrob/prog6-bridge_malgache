@@ -484,8 +484,8 @@ public class Moteur {
      * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
      */
     public static void rangerPli(){
-        config.piochees.ajouter(config.carteP);
-        config.piochees.ajouter(config.carteS);
+        config.piochees.retirer(config.carteP);
+        config.piochees.retirer(config.carteS);
         if(config.gagnant==1){
             j1.tas.ajouter(config.carteP);
             j1.tas.ajouter(config.carteS);

@@ -278,10 +278,26 @@ public class IA {
     */
     public Carte iaDifficile(int[] nbCartes){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
+            PileCartes test = adversaire();
+            Iterator<Carte> it2= test.iterateur();
+            System.out.println();
+            System.out.println("Main connue joueur adverse");
+            while(it2.hasNext()){
+                Moteur.afficherCarte(it2.next());
+            }
+            System.out.println();
+            
+            it2 = cartesDejaJouees.iterateur();
+            System.out.println("Cartes déjà jouées");
+             while(it2.hasNext()){
+                Moteur.afficherCarte(it2.next());
+            }
+            System.out.println();
             return meilleurCoupCommence();
         }
         else{ // si l'adversaire a déjà joué 
             Carte res;
+            
             if (fournir(courante.couleur)){ // si on a la couleur demandée 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
@@ -322,32 +338,14 @@ public class IA {
      */
     public PileCartes adversaire(){
         PileCartes res = new PileCartes();
-        Iterator<Carte> it = cartesPiochees.iterateur();
+        res.pile = cartesPiochees.pile;
         Iterator<Carte> m = main.iterateur();
         Iterator<Carte> j = cartesDejaJouees.iterateur();
-        Carte tmp;
-        Carte test;
-        while(it.hasNext()){
-            tmp = it.next();
-            if(m.hasNext()){        //CONDITIONS A FACTORISER (probablement)
-                do{
-                    test = m.next();
-                }while(m.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
-            }
-            if (m.hasNext()){
-            }
-            else{
-                if(j.hasNext()){        //PAREIL ICI C'EST LA MÊME CHOSE
-                    do{
-                        test = j.next();
-                    }while(j.hasNext() && (test.couleur != tmp.couleur || test.valeur != tmp.valeur));
-                }
-                if(j.hasNext()){
-                }
-                else{
-                    res.ajouter(tmp);
-                }
-            }
+        while(m.hasNext()){
+            res.retirer(m.next());
+        }
+        while(j.hasNext()){
+            res.retirer(j.next());
         }
         return res;
     }
@@ -362,10 +360,10 @@ public class IA {
         boolean res = false;
         Iterator<Carte> it = p.iterateur();
         Carte tmp;
-        do{
+        while(it.hasNext() && !res){
             tmp = it.next();
             res = tmp.couleur == c.couleur;
-        }while(it.hasNext() && !res);
+        }
         return res;
     }
     
@@ -379,14 +377,14 @@ public class IA {
         boolean fournir = aCouleur(c,adversaire());
         Iterator<Carte> it = adversaire().iterateur();
         Carte tmp;
-        do{
+        while(it.hasNext() && !res){
             tmp = it.next();
             if(fournir){
                 res = (tmp.couleur==c.couleur && tmp.valeur>c.valeur);
             }else{
                 res = (tmp.couleur == atout);
             }
-        }while(it.hasNext() && !res);
+        }
         return res;
     }
     /**
