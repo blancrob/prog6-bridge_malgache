@@ -236,7 +236,7 @@ public class IA {
      *                      - Si on est perdant : prendre la carte qui a la meilleure heuristique 
      * 
      * @param gagnant : vrai ssi on pioche apres avoir gagné le pli.
-     * @param nbCartes : contient le nombre de carte dans les 6 piles de la pioche.
+     * @param nbCartes : contient le nombre de cartes dans les 6 piles de la pioche.
      * @return la carte à jouer 
      */
 
@@ -271,9 +271,9 @@ public class IA {
     
     /****************************************************************************************************************************
     * Ia Difficile. 
-    * Comme IA avancé, mis à part qu'il peut déduire une partie de la main adverse car il connait les cartes piochées et les cartes jouées.
+    * Comme IA avancé, mis à part qu'elle peut déduire une partie de la main adverse car elle connait les cartes piochées et les cartes jouées.
     * 
-     * @param nbCartes
+     * @param nbCartes contient le nombre de cartes dans les 6 piles de la pioche.
     * @return une carte à jouer
     */
     public Carte iaDifficile(int[] nbCartes){
