@@ -379,11 +379,7 @@ public class IA {
         Carte tmp;
         while(it.hasNext() && !res){
             tmp = it.next();
-            if(fournir){
-                res = (tmp.couleur==c.couleur && tmp.valeur>c.valeur);
-            }else{
-                res = (tmp.couleur == atout);
-            }
+            res = (tmp.couleur==c.couleur && tmp.valeur>c.valeur);
         }
         return res;
     }
