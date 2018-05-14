@@ -31,7 +31,7 @@ public class Bridge extends Application {
 
     private final int souris_carte = 610;
 
-    public Moteur m;
+    public Moteur2 m;
 
     public Carte[] j1main;
     public Carte[] j2main;
@@ -301,32 +301,32 @@ public class Bridge extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        m = new Moteur();
+        m = new Moteur2();
 
         m.initialiser();
 
-        switch (config.donneurInitial) {
+        switch (m.config.donneurInitial) {
             case 0:
-                config.donneurInitial = 1;
-                config.donneur = 1;
+                m.config.donneurInitial = 1;
+                m.config.donneur = 1;
                 break;
             case 1:
-                config.donneurInitial = 2;
-                config.donneur = 2;
+                m.config.donneurInitial = 2;
+                m.config.donneur = 2;
                 break;
             default:
-                config.donneurInitial = 1;
-                config.donneur = 1;
+                m.config.donneurInitial = 1;
+                m.config.donneur = 1;
                 break;
         }
 
-        config.manche++;
+        m.config.manche++;
         m.initialiserManche();
 
-        System.out.println("MANCHE " + config.manche);
+        System.out.println("MANCHE " + m.config.manche);
         System.out.println();
 
-        switch (config.atout) {
+        switch (m.config.atout) {
             case 1:
                 System.out.println("Atout: TREFLE");
                 break;
@@ -1067,21 +1067,21 @@ public class Bridge extends Application {
             public void handle(MouseEvent me) {
 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[0][0],0);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[0][0],0);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
                         tour_joueur = 1;
-                        config.receveur = 2;
+                        m.config.receveur = 2;
                         init_mainJ1(j1main);
                         affichage_face_mainJ1(j1main);
                     } else {
                         tour_joueur = 2;
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         init_mainJ2(j2main);
                         affichage_face_mainJ2(j2main);
                     }
@@ -1089,16 +1089,16 @@ public class Bridge extends Application {
                 }
                 
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[0][0],0);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[0][0],0);
                         System.out.println();
                         init_pile(pile);
                         affichage_face_pile(pile);
                     }
                     tour_pioche = 2;
                     
-                    /*if(config.perdant == 1){
+                    /*if(m.config.perdant == 1){
                         init_mainJ1(j1main);
                         affichage_face_mainJ1(j1main);
                     }
@@ -1115,9 +1115,9 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[1][0],1);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[1][0],1);
                         System.out.println();
                         
                     }
@@ -1125,18 +1125,18 @@ public class Bridge extends Application {
                 }
                 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[1][0],1);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[1][0],1);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
-                        config.receveur = 2;
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
+                        m.config.receveur = 2;
                         affichage_face_mainJ1(j1main);
                     } else {
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         affichage_face_mainJ2(j2main);
                     }
                     tour_pioche = 0;
@@ -1148,27 +1148,27 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[2][0],2);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[2][0],2);
                         System.out.println();
                     }
                     tour_pioche = 2;
                 }
                 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[2][0],2);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[2][0],2);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
-                        config.receveur = 2;
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
+                        m.config.receveur = 2;
                         affichage_face_mainJ1(j1main);
                     } else {
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         affichage_face_mainJ2(j2main);
                     }
                     tour_pioche = 0;
@@ -1180,27 +1180,27 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[3][0],3);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[3][0],3);
                         System.out.println();
                     }
                     tour_pioche = 2;
                 }
                 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[3][0],3);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[3][0],3);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
-                        config.receveur = 2;
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
+                        m.config.receveur = 2;
                         affichage_face_mainJ1(j1main);
                     } else {
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         affichage_face_mainJ2(j2main);
                     }
                     tour_pioche = 0;
@@ -1212,27 +1212,27 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[4][0],4);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[4][0],4);
                         System.out.println();
                     }
                     tour_pioche = 2;
                 }
                 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[4][0],4);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[4][0],4);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
-                        config.receveur = 2;
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
+                        m.config.receveur = 2;
                         affichage_face_mainJ1(j1main);
                     } else {
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         affichage_face_mainJ2(j2main);
                     }
                     tour_pioche = 0;
@@ -1244,27 +1244,27 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if(tour_pioche == 1){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.gagnant,pile[5][0],5);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant,pile[5][0],5);
                         System.out.println();
                     }
                     tour_pioche = 2;
                 }
                 
                 if(tour_pioche == 2){
-                    if (config.piochable()) {
-                        config.afficherPioche();
-                        m.pioche(config.perdant,pile[5][0],5);
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.perdant,pile[5][0],5);
                         System.out.println();
-                        config.taille++;
+                        m.config.taille++;
                     }
-                    config.donneur = config.gagnant;
-                    if (config.donneur == 1) {
-                        config.receveur = 2;
+                    m.config.donneur = m.config.gagnant;
+                    if (m.config.donneur == 1) {
+                        m.config.receveur = 2;
                         affichage_face_mainJ1(j1main);
                     } else {
-                        config.receveur = 1;
+                        m.config.receveur = 1;
                         affichage_face_mainJ2(j2main);
                     }
                     tour_pioche = 0;

@@ -14,16 +14,18 @@ public class Moteur2 {
     static Joueur j1, j2;
     
     public Moteur2(){
-        config = new Configuration();
         
-        j1 = new Joueur();
-        j2 = new Joueur();
     }
     
     /**
      * Initialise le début de jeu
      */
     public void initialiser(){
+        
+        config = new Configuration();
+        
+        j1 = new Joueur();
+        j2 = new Joueur();
         
         config.conditionVictoire=0;
         config.mancheMax=0;

@@ -5,9 +5,12 @@
  */
 package bridge;
 
-import java.io.Serializable;
+import javafx.scene.Parent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-public class Carte implements Serializable {
+public class Carte extends Parent{
+    
     int valeur;
     int couleur;
     boolean visible;
@@ -22,6 +25,7 @@ public class Carte implements Serializable {
     static final int CARREAU=2;
     static final int TREFLE=1;
     
+    Rectangle face, dos;
     
     public Carte(){
         valeur = 0;
@@ -33,6 +37,13 @@ public class Carte implements Serializable {
         this.valeur = valeur;
         this.couleur = couleur;
         this.visible = visible;
+        
+        face = new Rectangle(90,110,Color.BURLYWOOD);
+        dos = new Rectangle(90,110,Color.RED);
+        
+        this.getChildren().add(face);
+        this.getChildren().add(dos);
+        
     }
     
 }
