@@ -6,6 +6,8 @@
 package bridge;
 
 import static bridge.Moteur.config;
+import java.util.Iterator;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -39,6 +41,7 @@ public class Bridge extends Application {
     public Carte[] j1plis;
     public Carte[] j2plis;
 
+    int temps = 0;
     int carte_jouee = 0;
     int tour_joueur = 1;
     int tour_pioche = 0;
@@ -87,7 +90,7 @@ public class Bridge extends Application {
         String color;
         String number;
 
-        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+        for (int i = 0; i < m.j2.main.pile.size(); i++) {
             j2main[i] = m.j2.main.pile.get(i);
         }
 
@@ -159,6 +162,50 @@ public class Bridge extends Application {
         }
     }
 
+    public void maj_plisJ1(Carte[] j1plis) {
+        Iterator<Carte> it = m.j1.tas.iterateur();
+        Carte c;
+        int i = 0;
+        while (it.hasNext()) {
+            c = it.next();
+            //m.afficherCarte(c);
+            j1plis[i] = c;
+            m.afficherCarte(j1plis[i]);
+            i++;
+        }
+    }
+
+    public void maj_plisJ2(Carte[] j2plis) {
+        Iterator<Carte> it = m.j2.tas.iterateur();
+        Carte c;
+        int i = 0;
+        while (it.hasNext()) {
+            c = it.next();
+            //m.afficherCarte(c);
+            j2plis[i] = c;
+            m.afficherCarte(j2plis[i]);
+            i++;
+        }
+    }
+
+    public void affichage_dos_plisJ1(Carte[] j1plis) {
+        for (int i = 0; i < m.j1.tas.pile.size(); i++) {
+            j1plis[i].face.setVisible(false);
+            j1plis[i].dos.setTranslateX(1150);
+            j1plis[i].dos.setTranslateY(480);
+            j1plis[i].dos.setVisible(true);
+        }
+    }
+
+    public void affichage_dos_plisJ2(Carte[] j2plis) {
+        for (int i = 0; i < m.j2.tas.pile.size(); i++) {
+            j2plis[i].face.setVisible(false);
+            j2plis[i].dos.setTranslateX(1150);
+            j2plis[i].dos.setTranslateY(150);
+            j2plis[i].dos.setVisible(true);
+        }
+    }
+
     public void affichage_face_mainJ1(Carte[] j1main) {
         for (int i = 0; i < m.j1.main.pile.size(); i++) {
             j1main[i].face.setTranslateX(440 + (60 * i));
@@ -225,7 +272,6 @@ public class Bridge extends Application {
         m.afficherCarte(card);
 
         j1main[k].face.setTranslateX(710);
-        //j1main[k].face.setTranslateY(480);
         j1main[k].face.setTranslateY(150);
         j1main[k].face.toFront();
         tour_joueur = 2;
@@ -264,26 +310,49 @@ public class Bridge extends Application {
 
         //actualiser_main(j2main, k);
         //affichage_dos_mainJ2(j2main);
-        
-        affichage_face_mainJ1(j1main);
-
+        //affichage_face_mainJ1(j1main);
+        init_mainJ1(j1main);
         init_mainJ2(j2main);
+
+        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+            if (j1main[i] != card) {
+                j1main[i].face.setVisible(false);
+            }
+        }
 
         for (int i = 0; i < m.j2.main.pile.size(); i++) {
             if (j2main[i] != card) {
                 j2main[i].face.setVisible(false);
             }
         }
-        
+
         //affichage_face_mainJ2(j2main);
-        
         m.config.taille--;
         m.config.gagnantPli();
         System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
         System.out.println();
         m.rangerPli();
-        
-        tour_pioche = 1;    
+
+        if (m.config.gagnant == 1) {
+            maj_plisJ1(j1plis);
+        } else {
+            maj_plisJ2(j2plis);
+        }
+
+        if (m.config.gagnant == 1) {
+            affichage_dos_plisJ1(j1plis);
+        } else {
+            affichage_dos_plisJ2(j2plis);
+        }
+
+        if (m.config.gagnant == 1) {
+            affichage_face_mainJ1(j1main);
+            m.config.perdant = 2;
+        } else {
+            affichage_face_mainJ2(j2main);
+            m.config.perdant = 1;
+        }
+        tour_pioche = 1;
     }
 
     public void tour_J1() {
@@ -345,6 +414,8 @@ public class Bridge extends Application {
         j1main = new Carte[11];
         j2main = new Carte[11];
         pile = new Carte[6][5];
+        j1plis = new Carte[52];
+        j2plis = new Carte[52];
 
         init_mainJ1(j1main);
         init_mainJ2(j2main);
@@ -356,42 +427,41 @@ public class Bridge extends Application {
         affichage_face_pile(pile);
 
         /*
-        while (config.taille > 0) {
-            if (config.piochable()) {
-                config.afficherPioche();
-            }
-            System.out.println("Tour joueur " + config.donneur);
-            System.out.println();
-            //m.jouerCoupPremier();
-            System.out.println("Tour Joueur " + config.receveur);
-            System.out.println();
-            m.jouerCoupSecond();
-            config.taille--;
-            config.gagnantPli();
-            System.out.println("Le joueur " + config.gagnant + " gagne le pli");
-            System.out.println();
-            m.rangerPli();
-            if (config.piochable()) {
-                config.afficherPioche();
-                m.pioche(config.gagnant);
-                System.out.println();
-                config.afficherPioche();
-                m.pioche(config.perdant);
-                System.out.println();
-                config.taille++;
-            }
-            config.donneur = config.gagnant;
-            if (config.donneur == 1) {
-                config.receveur = 2;
-            } else {
-                config.receveur = 1;
-            }
-            System.out.println("-----------------------------------------");
-            System.out.println("-----------------------------------------");
-            System.out.println("-----------------------------------------");
-        }
-        */
-        
+         while (config.taille > 0) {
+         if (config.piochable()) {
+         config.afficherPioche();
+         }
+         System.out.println("Tour joueur " + config.donneur);
+         System.out.println();
+         //m.jouerCoupPremier();
+         System.out.println("Tour Joueur " + config.receveur);
+         System.out.println();
+         m.jouerCoupSecond();
+         config.taille--;
+         config.gagnantPli();
+         System.out.println("Le joueur " + config.gagnant + " gagne le pli");
+         System.out.println();
+         m.rangerPli();
+         if (config.piochable()) {
+         config.afficherPioche();
+         m.pioche(config.gagnant);
+         System.out.println();
+         config.afficherPioche();
+         m.pioche(config.perdant);
+         System.out.println();
+         config.taille++;
+         }
+         config.donneur = config.gagnant;
+         if (config.donneur == 1) {
+         config.receveur = 2;
+         } else {
+         config.receveur = 1;
+         }
+         System.out.println("-----------------------------------------");
+         System.out.println("-----------------------------------------");
+         System.out.println("-----------------------------------------");
+         }
+         */
         Rectangle menu = new Rectangle(260, 720, Color.PERU);
 
         // debut initialisation cartes        
@@ -1061,216 +1131,490 @@ public class Bridge extends Application {
                 }
             }
         });
-        
+
         pile[0][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-
-                if(tour_pioche == 2){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[0][0],0);
+                        m.pioche(m.config.perdant, pile[0][0], 0);
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         System.out.println();
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
                         tour_joueur = 1;
                         m.config.receveur = 2;
                         init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
                         tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
                         init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
                 }
-                
-                if(tour_pioche == 1){
+
+                if (tour_pioche == 1) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[0][0],0);
+                        m.pioche(m.config.gagnant, pile[0][0], 0);
                         System.out.println();
                         init_pile(pile);
                         affichage_face_pile(pile);
+                        tour_pioche = 2;
                     }
-                    tour_pioche = 2;
-                    
-                    /*if(m.config.perdant == 1){
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
                         init_mainJ1(j1main);
                         affichage_face_mainJ1(j1main);
                     }
-                    else{*/
-                        init_mainJ1(j1main);
-                        affichage_face_mainJ1(j1main);
-                    //}
                 }
-                
             }
         });
-        
+
         pile[1][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(tour_pioche == 1){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[1][0],1);
-                        System.out.println();
-                        
-                    }
-                    tour_pioche = 2;
-                }
-                
-                if(tour_pioche == 2){
-                    if (m.config.piochable()) {
-                        m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[1][0],1);
+                        m.pioche(m.config.perdant, pile[1][0], 1);
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         System.out.println();
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
+                        tour_joueur = 1;
                         m.config.receveur = 2;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
+                        tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
+                }
+
+                if (tour_pioche == 1) {
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant, pile[1][0], 1);
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        tour_pioche = 2;
+                    }
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
+                        init_mainJ1(j1main);
+                        affichage_face_mainJ1(j1main);
+                    }
                 }
             }
         });
-        
+
         pile[2][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(tour_pioche == 1){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[2][0],2);
+                        m.pioche(m.config.perdant, pile[2][0], 2);
                         System.out.println();
-                    }
-                    tour_pioche = 2;
-                }
-                
-                if(tour_pioche == 2){
-                    if (m.config.piochable()) {
-                        m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[2][0],2);
-                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
+                        tour_joueur = 1;
                         m.config.receveur = 2;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
+                        tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
+                }
+
+                if (tour_pioche == 1) {
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant, pile[2][0], 2);
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        tour_pioche = 2;
+                    }
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
+                        init_mainJ1(j1main);
+                        affichage_face_mainJ1(j1main);
+                    }
                 }
             }
         });
-        
+
         pile[3][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(tour_pioche == 1){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[3][0],3);
+                        m.pioche(m.config.perdant, pile[3][0], 3);
                         System.out.println();
-                    }
-                    tour_pioche = 2;
-                }
-                
-                if(tour_pioche == 2){
-                    if (m.config.piochable()) {
-                        m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[3][0],3);
-                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
+                        tour_joueur = 1;
                         m.config.receveur = 2;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
+                        tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
+                }
+
+                if (tour_pioche == 1) {
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant, pile[3][0], 3);
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        tour_pioche = 2;
+                    }
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
+                        init_mainJ1(j1main);
+                        affichage_face_mainJ1(j1main);
+                    }
                 }
             }
         });
-        
+
         pile[4][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(tour_pioche == 1){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[4][0],4);
+                        m.pioche(m.config.perdant, pile[4][0], 4);
                         System.out.println();
-                    }
-                    tour_pioche = 2;
-                }
-                
-                if(tour_pioche == 2){
-                    if (m.config.piochable()) {
-                        m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[4][0],4);
-                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
+                        tour_joueur = 1;
                         m.config.receveur = 2;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
+                        tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
+                }
+
+                if (tour_pioche == 1) {
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant, pile[4][0], 4);
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        tour_pioche = 2;
+                    }
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
+                        init_mainJ1(j1main);
+                        affichage_face_mainJ1(j1main);
+                    }
                 }
             }
         });
-        
+
         pile[5][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(tour_pioche == 1){
+                if (tour_pioche == 2) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
-                        m.pioche(m.config.gagnant,pile[5][0],5);
+                        m.pioche(m.config.perdant, pile[5][0], 5);
                         System.out.println();
-                    }
-                    tour_pioche = 2;
-                }
-                
-                if(tour_pioche == 2){
-                    if (m.config.piochable()) {
-                        m.config.afficherPioche();
-                        m.pioche(m.config.perdant,pile[5][0],5);
-                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
                         m.config.taille++;
                     }
                     m.config.donneur = m.config.gagnant;
-                    if (m.config.donneur == 1) {
+
+                    if (m.config.donneur == 1 && j1main[0] != null) {
+                        tour_joueur = 1;
                         m.config.receveur = 2;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].face.setVisible(false);
+                        }
                         affichage_face_mainJ1(j1main);
                     } else {
+                        tour_joueur = 2;
                         m.config.receveur = 1;
+                        init_mainJ1(j1main);
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
                         affichage_face_mainJ2(j2main);
                     }
+                    carte_jouee = 0;
                     tour_pioche = 0;
+                }
+
+                if (tour_pioche == 1) {
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        m.pioche(m.config.gagnant, pile[5][0], 5);
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        tour_pioche = 2;
+                    }
+
+                    if (m.config.gagnant == 1) {
+                        init_mainJ1(j1main);
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j1.main.pile.get(i));
+                            m.afficherCarte(j1main[i]);
+                        }
+                        init_mainJ2(j2main);
+                        affichage_face_mainJ2(j2main);
+                    } else {
+                        init_mainJ2(j2main);
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                            //m.afficherCarte(m.j2.main.pile.get(i));
+                            m.afficherCarte(j2main[i]);
+                        }
+                        init_mainJ1(j1main);
+                        affichage_face_mainJ1(j1main);
+                    }
                 }
             }
         });
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (temps + 2000 < System.currentTimeMillis()) {
+
+                }
+            }
+        };
+        timer.start();
 
         AnchorPane root = new AnchorPane();
 
@@ -1296,10 +1640,9 @@ public class Bridge extends Application {
             root.getChildren().add(pile[j][0].dos);
         }
 
-        root.getChildren().add(j1plis);
+        //root.getChildren().add(j1plis);
         //root.getChildren().add(j2carte_select);
-        root.getChildren().add(j2plis);
-
+        //root.getChildren().add(j2plis);
         root.getChildren().add(MessageT);
 
         root.getChildren().add(menu);
