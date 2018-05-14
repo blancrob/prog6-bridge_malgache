@@ -280,13 +280,6 @@ public class IA {
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             PileCartes test = adversaire();
             Iterator<Carte> it2= test.iterateur();
-            System.out.println();
-            System.out.println("Main connue joueur adverse");
-            while(it2.hasNext()){
-                Moteur.afficherCarte(it2.next());
-            }
-            System.out.println();
-            
             /*it2 = cartesDejaJouees.iterateur();
             System.out.println("Cartes déjà jouées");
              while(it2.hasNext()){
@@ -331,6 +324,111 @@ public class IA {
         }
         
     }
+    
+    /****************************************************************************************************************************
+     * Ia Experte.
+     * Elle connait la disposition de toutes les cartes après la distribution 
+     * @param nbCartes
+     * @return une carte à jouer
+     */
+    public Carte iaExperte(int[] nbCartes, PileCartes adverse){
+        if(courante == null){ // si l'IA commence elle joue la plus grosse carte
+            /*it2 = cartesDejaJouees.iterateur();
+            System.out.println("Cartes déjà jouées");
+             while(it2.hasNext()){
+                Moteur.afficherCarte(it2.next());
+            }
+            System.out.println();*/
+            return tricheCommence(adverse);
+        }
+        else{ // si l'adversaire a déjà joué 
+            Carte res;
+            
+            if (fournir(courante.couleur)){ // si on a la couleur demandée 
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
+                if (res == null){ // si on ne peut pas gagner le pli 
+                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
+                }
+            }else{ // si on a pas la couleur demandée
+                
+                int i = 0;
+                double h = 0;
+                while (i<lg){ // On regarde à quoi ressemble la pioche
+                    if(heuristiqueTermine(pioche[i]) > h){ // trouver la carte avec la meilleure heuristique 
+                        res = pioche[i];
+                        h = heuristiqueTermine(pioche[i]);
+                    }
+                    i++;
+                }
+                if ((h<0.4) && (plusGrossePile(nbCartes)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
+                    res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
+                }
+                
+                else{ // Si la pioche est cool on essaye de gagner le pli
+                    if (fournir(atout)){ // on joue de l'atout si possible
+                        res = main.min(atout); // on joue le plus petit atout 
+                    }
+                    else{ // si on a pas d'atout 
+                        res = main.min(); // on donne la plus petite carte de la main 
+                    }
+                }
+            }
+            return res;
+        }
+    }
+    
+    /****************************************************************************************************************************
+     * pioche Experte.
+     * Elle connait toute la pioche
+     * Si l'IA est la 2ème à piocher et que la pioche est pas très cool, 
+     * elle choisit de prendre une carte qui va entrainer la découverte d'une carte d'heuristique inférieure à celle qui vient d'être piochée
+     * @param gagnant
+     * @param nbCartes
+     * @return la carte à piocher 
+     */
+    public Carte piocheExperte(boolean gagnant, int[] nbCartes, PileCartes[] piocheEntiere){
+        Carte res = choisirMeilleureCarte(atout); // Choisir le meilleur atout de la pioche 
+        if(res == null){ // si pas d'atout 
+            int i = 0;
+            double h = 0;
+            while (i<lg){ // pour chaque pile de la pioche 
+                if(gagnant){ // si on est gagnant donc 1er à piocher
+                    if(heuristiqueCommence(pioche[i]) >= h){ // Trouver la carte avec la meilleure heuristique 
+                        res = pioche[i];
+                        h = heuristiqueCommence(pioche[i]);
+                    }
+                }
+                else{ // Si on est le 2ème à piocher 
+                    if(heuristiqueTermine(pioche[i]) >= h){ // prendre la carte avec la meilleure heuristique 
+                        res = pioche[i];
+                        h = heuristiqueTermine(pioche[i]);
+                    }
+                }
+                i++;
+            }
+            if(gagnant){ //Si on est gagnant  
+                if (h<0.4){ //mais que la pioche est pas très cool                             
+                    //Choisir une carte
+                    int j = 0;
+                    double heur = 1;
+                    int k = 0;
+                    while(j<piocheEntiere.length){
+                        if(heuristiqueTermine(piocheEntiere[j].pile.get(1))<heur){
+                            heur = heuristiqueTermine(piocheEntiere[j].pile.get(1));
+                            k = j;
+                        }
+                        j++;
+                    }
+                    res = piocheEntiere[k].premiere();
+                }
+            }
+        
+        }
+        return res;            
+    }
+    
+    
+    
     
     /**
      * Contruit la main adverse connue.
@@ -581,5 +679,70 @@ public class IA {
         return (double)res/(double)taille;
     }
     
+    public Carte tricheCommence(PileCartes adverse){
+        Carte res = null;
+        Iterator<Carte> c = main.iterateur();
+        Carte tmp;
+        Carte test;
+        while(c.hasNext()){
+            tmp = c.next();
+            if(tmp.couleur != atout){
+                if(adverse.contient(tmp.couleur)){
+                    int h = 1;
+                    Iterator<Carte> it = adverse.iterateur();
+                    while(it.hasNext() && h==1){
+                        test = it.next();
+                        if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){
+                            h = 0;
+                        }
+                    }
+                    if (h==1){
+                        res = tmp;
+                    }
+                }
+                else{
+                    if(!adverse.contient(atout)){
+                        res = tmp;
+                    }
+                }
+            }
+        }
+        if(res==null){
+            Iterator<Carte> c2 = main.iterateur();
+            while(c2.hasNext()){
+                tmp = c2.next();
+                if(tmp.couleur == atout){
+                    if(adverse.contient(tmp.couleur)){
+                        int h = 1;
+                        Iterator<Carte> it = adverse.iterateur();
+                        while(it.hasNext() && h==1){
+                            test = it.next();
+                            if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){
+                                h = 0;
+                            }
+                        }
+                        if (h==1){
+                            res = tmp;
+                        }
+                    }
+                    else{
+                        res = tmp;
+                    }
+                }
+            }
+        }
+        if(res==null && main.contientAutre(atout)){
+            int couleur = 1;
+            Random r = new Random();
+            while(couleur == atout){
+                couleur = r.nextInt(3)+1;
+            }
+            res = main.min(couleur);
+        }
+        if(res == null){
+            res = main.min();
+        }
+        return res;
+    }
     
 }

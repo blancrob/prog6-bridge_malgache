@@ -308,4 +308,20 @@ public class PileCartes implements Serializable{
         return res.couleur == couleur;
     }
     
+    public boolean contientAutre(int couleur){
+        Carte res = null;
+        Iterator<Carte> it = pile.iterator();
+        
+        if(it.hasNext()){
+            res = it.next();
+        }
+        
+        while(it.hasNext() && res.couleur==couleur){
+            res = it.next();  
+        }
+        
+        
+        return res.couleur != couleur;
+    }
+    
 }

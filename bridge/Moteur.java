@@ -58,17 +58,17 @@ public class Moteur {
         str = sc.nextLine();
         config.mode = Integer.parseInt(str);
         
-        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
+        if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile || 6: Expert");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
         }else if(config.mode == 3){
             System.out.println("Difficulté Joueur 1:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile || 6: Expert");
             str = sc.nextLine();
             j1.difficulte = Integer.parseInt(str);
             
             System.out.println("Difficulté Joueur 2:");
-            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile");
+            System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile || 6: Expert");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
             
@@ -263,6 +263,15 @@ public class Moteur {
                     break;
                 case 5:
                     c = ia.iaDifficile(nbCartes);
+                    break;
+                case 6:
+                    if(config.donneur==1){
+                        c = ia.iaExperte(nbCartes, j2.main);
+                    }else{
+                        c = ia.iaExperte(nbCartes,j1.main);
+                    }
+                    break;
+                    
             }
             if (config.donneur==1){
                 j1.main.retirer(c);
@@ -466,6 +475,14 @@ public class Moteur {
                     break;
                 case 5:
                     c = ia.iaDifficile(nbCartes);
+                    break;
+                case 6:
+                    if(config.receveur==1){
+                        c = ia.iaExperte(nbCartes, j2.main);
+                    }else{
+                        c = ia.iaExperte(nbCartes,j1.main);
+                    }
+                    break;
             }
             if (config.receveur==1){
                 j1.main.retirer(c);
@@ -577,6 +594,14 @@ public class Moteur {
                         c = ia.piocheAvanceEtDifficile(false,nbCartes);
                     }
                     break;
+                case 6:
+                    if(config.gagnant==piocheur){
+                        c = ia.piocheExperte(true,nbCartes,config.pioche);
+                    }else{
+                        c = ia.piocheExperte(false,nbCartes, config.pioche);
+                    }
+                    break;
+                    
             }
             for(int i=0; i<6; i++){
                 if(c == config.pioche[i].premiere()){
