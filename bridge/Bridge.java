@@ -277,9 +277,9 @@ public class Bridge extends Application {
         
         //affichage_face_mainJ2(j2main);
         
-        config.taille--;
-        config.gagnantPli();
-        System.out.println("Le joueur " + config.gagnant + " gagne le pli");
+        m.config.taille--;
+        m.config.gagnantPli();
+        System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
         System.out.println();
         m.rangerPli();
         
