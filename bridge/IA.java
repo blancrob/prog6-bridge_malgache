@@ -332,14 +332,8 @@ public class IA {
      * @return une carte à jouer
      */
     public Carte iaExperte(int[] nbCartes, PileCartes adverse){
-        if(courante == null){ // si l'IA commence elle joue la plus grosse carte
-            /*it2 = cartesDejaJouees.iterateur();
-            System.out.println("Cartes déjà jouées");
-             while(it2.hasNext()){
-                Moteur.afficherCarte(it2.next());
-            }
-            System.out.println();*/
-            return tricheCommence(adverse);
+        if(courante == null){ // si l'IA commence
+            return tricheCommence(adverse); //jouer une carte qui va gagner si possible 
         }
         else{ // si l'adversaire a déjà joué 
             Carte res;
@@ -679,43 +673,49 @@ public class IA {
         return (double)res/(double)taille;
     }
     
+    /**
+     * tricheCommence.
+     * Retourne la meilleure carte a jouer quand on commence (En connaissant la main de l'adversaire)
+     * @param adverse la main de l'adversaire 
+     * @return la carte la plus intéressante
+     */
     public Carte tricheCommence(PileCartes adverse){
         Carte res = null;
-        Iterator<Carte> c = main.iterateur();
+        Iterator<Carte> c = main.iterateur(); //La main de l'ia 
         Carte tmp;
         Carte test;
         while(c.hasNext()){
             tmp = c.next();
-            if(tmp.couleur != atout){
-                if(adverse.contient(tmp.couleur)){
+            if(tmp.couleur != atout){ // SI la carte courrante n'est pas un atout 
+                if(adverse.contient(tmp.couleur)){ // Si l'adversaire a la couleur de la carte courrante
                     int h = 1;
-                    Iterator<Carte> it = adverse.iterateur();
+                    Iterator<Carte> it = adverse.iterateur(); // Main de l'adversaire
                     while(it.hasNext() && h==1){
                         test = it.next();
-                        if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){
-                            h = 0;
+                        if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){ // SI l'adversaire peut battre la carte courrante 
+                            h = 0; //on lui met une heuristique nulle 
                         }
                     }
                     if (h==1){
-                        res = tmp;
+                        res = tmp; // SI la carte courrant n'est pas battue on la choisie 
                     }
                 }
-                else{
-                    if(!adverse.contient(atout)){
-                        res = tmp;
+                else{ // Si l'adversaire n'a pas la couleur de la carte courrante
+                    if(!adverse.contient(atout)){ // et qu'il n'a pas d'atout 
+                        res = tmp; // on l'a choisit parce qu'elle va gagner
                     }
                 }
             }
         }
-        if(res==null){
+        if(res==null){  
             Iterator<Carte> c2 = main.iterateur();
             while(c2.hasNext()){
                 tmp = c2.next();
-                if(tmp.couleur == atout){
-                    if(adverse.contient(tmp.couleur)){
+                if(tmp.couleur == atout){ // SI la carte courrante est un atout 
+                    if(adverse.contient(tmp.couleur)){ // SI l'adversaire a de l'atout aussi 
                         int h = 1;
                         Iterator<Carte> it = adverse.iterateur();
-                        while(it.hasNext() && h==1){
+                        while(it.hasNext() && h==1){ // On cherche si il peut battre l'atout courrant 
                             test = it.next();
                             if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){
                                 h = 0;
@@ -731,16 +731,16 @@ public class IA {
                 }
             }
         }
-        if(res==null && main.contientAutre(atout)){
+        if(res==null && main.contientAutre(atout)){ // Si on ne peut pas gagner et qu'on a une autre couleur que l'atout
             int couleur = 1;
             Random r = new Random();
             while(couleur == atout){
                 couleur = r.nextInt(3)+1;
             }
-            res = main.min(couleur);
+            res = main.min(couleur); // On joue la carte min (hors atout) 
         }
-        if(res == null){
-            res = main.min();
+        if(res == null){ // SI il nous reste que de l'atout
+            res = main.min(); // on joue l'atout min 
         }
         return res;
     }
