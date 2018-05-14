@@ -10,8 +10,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class Moteur2 {
-    static Configuration config;
-    static Joueur j1, j2;
+    Configuration config;
+    Joueur j1, j2;
     
     public Moteur2(){
         
