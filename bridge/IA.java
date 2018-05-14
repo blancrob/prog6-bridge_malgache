@@ -271,7 +271,7 @@ public class IA {
     
     /****************************************************************************************************************************
     * Ia Difficile. 
-    * Comme IA avancé, mis à part qu'elle peut déduire une partie de la main adverse car elle connait les cartes piochées et les cartes jouées.
+    * Comme IA avancée, mis à part qu'elle peut déduire une partie de la main adverse car elle connait les cartes piochées et les cartes jouées.
     * 
      * @param nbCartes contient le nombre de cartes dans les 6 piles de la pioche.
     * @return une carte à jouer
@@ -677,7 +677,7 @@ public class IA {
      * tricheCommence.
      * Retourne la meilleure carte a jouer quand on commence (En connaissant la main de l'adversaire)
      * @param adverse la main de l'adversaire 
-     * @return la carte la plus intéressante
+     * @return une carte intéressante
      */
     public Carte tricheCommence(PileCartes adverse){
         Carte res = null;
