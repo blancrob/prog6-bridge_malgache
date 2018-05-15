@@ -76,7 +76,7 @@ public class Moteur {
     }
     
     /**
-     * Initialise le début de la manche
+     * Initialise le début de la manche, distribue les cartes aux joueurs
      */
     public static void initialiserManche(){
         j1.tas = new PileCartes();
@@ -86,6 +86,10 @@ public class Moteur {
         config.set_atout();
     }
     
+    /**
+     * Sauvegarder la configuration courante dans un fichier dont le nom est demandé 
+     * @throws IOException 
+     */
     public static void sauvegarder() throws IOException{
         Scanner sc = new Scanner(System.in);
         
@@ -100,6 +104,11 @@ public class Moteur {
         oos.writeObject(j2);
     }
     
+    /**
+     * Charger la configuration contenue dans un fichier dont le nom est demandé
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     public static void charger() throws IOException, ClassNotFoundException{
         Scanner sc = new Scanner(System.in);
         
@@ -147,7 +156,7 @@ public class Moteur {
             afficherCarte(main[i]);
         }
         
-        if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){
+        if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){    //Cas où le joueur est un humain
             
 
             System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
@@ -155,13 +164,13 @@ public class Moteur {
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
             while(choix<0){
-                if(choix==-1){
+                if(choix==-1){  //Choix Sauvegarder
                     try {
                         sauvegarder();
                     } catch (IOException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }else if(choix==-2){
+                }else if(choix==-2){    //Choix Charger
                    
                     try {
                         charger();
@@ -201,7 +210,7 @@ public class Moteur {
             }
 
             Carte c = main[choix];
-            if (config.donneur==1){
+            if (config.donneur==1){ //On enlève la carte choisie de la main du donneur
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
@@ -337,18 +346,18 @@ public class Moteur {
             
 
             boolean condition = false;
-            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");   //Choix entre jouer une carte et sauvegarder ou charger
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
             while(choix<0){
-                if(choix==-1){
+                if(choix==-1){  //Choix Sauvegarder
                     try {
                         sauvegarder();
                     } catch (IOException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }else if(choix==-2){
+                }else if(choix==-2){    //Choix Charger
                    
                     try {
                         charger();

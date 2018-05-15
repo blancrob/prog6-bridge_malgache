@@ -111,7 +111,7 @@ public class Configuration implements Serializable {
             }
         }
         
-        if(res.valeur>10){
+        if(res.valeur>=10){
             atout = res.couleur;
         }else{
             atout = 0;
