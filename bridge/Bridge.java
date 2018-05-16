@@ -7,6 +7,8 @@ package bridge;
 
 import static bridge.Moteur.config;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -422,6 +424,7 @@ public class Bridge extends Application {
 
     public void tour_J1() {
         System.out.println("Tour 1");
+        //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
     }
 
     public void tour_J2() {

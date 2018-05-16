@@ -248,13 +248,13 @@ public class Moteur {
                 /*if(difficulte==5){
                     cartesDejaJouees.pile.addAll(j1.cartesPiochees.pile);
                 }*/
-                ia = new IA(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout);
+                ia = new IA(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
             }else{
                 difficulte = j2.difficulte;
                 /*if(difficulte==5){
                     cartesDejaJouees.pile.addAll(j2.cartesPiochees.pile);
                 }*/
-                ia = new IA(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout);
+                ia = new IA(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
             }
             
             switch(difficulte){
@@ -572,10 +572,10 @@ public class Moteur {
             int difficulte;
             IA ia;
             if(piocheur==1){
-                ia = new IA(j1.main, cartesDejaJouees, j1.cartesPiochees, piocheIA, lg, config.atout);
+                ia = new IA(j1.main, cartesDejaJouees, j1.cartesPiochees, piocheIA, lg, config.atout, null);
                 difficulte = j1.difficulte;
             }else{
-                ia = new IA(j2.main, cartesDejaJouees, j1.cartesPiochees, piocheIA, lg, config.atout);
+                ia = new IA(j2.main, cartesDejaJouees, j1.cartesPiochees, piocheIA, lg, config.atout, null);
                 difficulte = j2.difficulte;
             }
             
