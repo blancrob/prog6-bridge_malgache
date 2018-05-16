@@ -31,6 +31,7 @@ public class Bridge extends Application {
 
     //private final int hauteur_carte = 110;
     //private final int largeur_carte = 90;
+    
     private final int souris_carte = 610;
 
     public Moteur2 m;
@@ -76,12 +77,8 @@ public class Bridge extends Application {
             }
 
             number = Integer.toString(j1main[i].valeur);
-
             String carte = color + "_" + number + ".PNG";
-
-            //System.out.println(carte);
             ImagePattern img = new ImagePattern(new Image("images/" + carte));
-
             j1main[i].face.setFill(img);
             j1main[i].face.toFront();
 
@@ -434,80 +431,46 @@ public class Bridge extends Application {
 
     }
 
-    public void maj_handler_unitMain(int n, int j) {
-        if (j == 1) {
-            j1main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                        j1main[n].face.setTranslateY(souris_carte);
-                        //j1main[0].toFront();
-                    }
+    public void maj_handler_unitMain(int n, Carte[] main, int j) {
+        main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                    main[n].face.setTranslateY(souris_carte);
+                    //j1main[0].toFront();
                 }
-            });
+            }
+        });
 
-            j1main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                        j1main[n].face.setTranslateY(642);
-                    }
+        main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                    main[n].face.setTranslateY(642);
                 }
-            });
+            }
+        });
 
-            j1main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                        if (m.config.donneur == 1) {
-                            carte_select_P(n);
-                        } else {
-                            carte_select_S(n);
-                        }
+        main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                    if (m.config.donneur == j) {
+                        carte_select_P(n);
+                    } else {
+                        carte_select_S(n);
                     }
                 }
-            });
-        } else {
-            j2main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                        j2main[n].face.setTranslateY(souris_carte);
-                        //j1main[0].toFront();
-                    }
-                }
-            });
-
-            j2main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                        j2main[n].face.setTranslateY(642);
-                    }
-                }
-            });
-
-            j2main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                        if (m.config.donneur == 2) {
-                            carte_select_P(n);
-                        } else {
-                            carte_select_S(n);
-                        }
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     public void maj_handler_main() {
         for (k = 0; k < j1main.length; k++) {
-            maj_handler_unitMain(k, 1);
+            maj_handler_unitMain(k, j1main, 1);
         }
         for (k = 0; k < j2main.length; k++) {
-            maj_handler_unitMain(k, 2);
+            maj_handler_unitMain(k, j2main, 2);
         }
     }
 
@@ -664,8 +627,8 @@ public class Bridge extends Application {
 
         Rectangle menu = new Rectangle(260, 720, Color.PERU);
 
-        // debut initialisation cartes        
-        /*Rectangle j1plis = new Rectangle(largeur_carte, hauteur_carte, Color.BLACK);
+        /*
+         debut initialisation cartes Rectangle j1plis = new Rectangle(largeur_carte, hauteur_carte, Color.BLACK);
          j1plis.setTranslateX(1150);
          j1plis.setTranslateY(480);
 
@@ -675,12 +638,12 @@ public class Bridge extends Application {
 
          Rectangle j2plis = new Rectangle(largeur_carte, hauteur_carte, Color.BLACK);
          j2plis.setTranslateX(1150);
-         j2plis.setTranslateY(150);*/
-        // fin initialisation cartes
-        MessageT = new MessageTransition();
-        MessageT.setVisible(false);
-
-        // debut evenement souris
+         j2plis.setTranslateY(150);
+         fin initialisation cartes MessageT = new MessageTransition();
+         MessageT.setVisible(false);
+         */
+        
+        /*
         MessageT.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -692,20 +655,23 @@ public class Bridge extends Application {
                 }
             }
         });
-
+        */
+        
         maj_handler_main();
         maj_handler_pile();
 
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (temps + 2000 < System.currentTimeMillis()) {
+        /*
+         AnimationTimer timer = new AnimationTimer() {
+         @Override
+         public void handle(long now) {
+         if (temps + 2000 < System.currentTimeMillis()) {
 
-                }
-            }
-        };
-        timer.start();
-
+         }
+         }
+         };
+         timer.start();
+         */
+        
         root = new AnchorPane();
 
         for (int i = 0; i < j1main.length; i++) {
@@ -730,14 +696,15 @@ public class Bridge extends Application {
             root.getChildren().add(pile[j][0].dos);
         }
 
-        //root.getChildren().add(j1plis);
-        //root.getChildren().add(j2carte_select);
-        //root.getChildren().add(j2plis);
-        //root.getChildren().add(MessageT);
+        /*
+         root.getChildren().add(j1plis);
+         root.getChildren().add(j2carte_select);
+         root.getChildren().add(j2plis);
+         root.getChildren().add(MessageT);
+         */
         root.getChildren().add(menu);
 
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
-
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);
         primaryStage.show();
