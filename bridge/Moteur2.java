@@ -9,12 +9,11 @@ import static bridge.Carte.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class Moteur2 {
-    Configuration config;
-    Joueur j1, j2;
-    
+public class Moteur2 extends Moteur {
     public Moteur2(){
-        
+        config = new Configuration();
+        j1 = new Joueur();
+        j2 = new Joueur();
     }
     
     /**
