@@ -5,7 +5,7 @@
  */
 package bridge;
 
-import static bridge.Moteur.config;
+
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;

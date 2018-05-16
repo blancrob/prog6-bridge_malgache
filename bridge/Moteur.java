@@ -21,13 +21,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Moteur {
-    static Configuration config;
-    static Joueur j1, j2;
+    Configuration config;
+    Joueur j1, j2;
+    
+    public Moteur(){
+        
+    }
     
     /**
      * Initialise le début de jeu
      */
-    public static void initialiser(){
+    public void initialiser(){
         
         config = new Configuration();
         
@@ -78,7 +82,7 @@ public class Moteur {
     /**
      * Initialise le début de la manche, distribue les cartes aux joueurs
      */
-    public static void initialiserManche(){
+    public void initialiserManche(){
         j1.tas = new PileCartes();
         j2.tas = new PileCartes();
         distribuer();
@@ -90,7 +94,7 @@ public class Moteur {
      * Sauvegarder la configuration courante dans un fichier dont le nom est demandé 
      * @throws IOException 
      */
-    public static void sauvegarder() throws IOException{
+    public void sauvegarder() throws IOException{
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Entrez le nom du fichier de sauvegarde:");
@@ -109,7 +113,7 @@ public class Moteur {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static void charger() throws IOException, ClassNotFoundException{
+    public void charger() throws IOException, ClassNotFoundException{
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Entrez le nom du fichier à charger:");
@@ -128,7 +132,7 @@ public class Moteur {
     /**
      * Le joueur qui a le statut de donneur ou bien est gagnant joue en premier
      */
-    public static void jouerCoupPremier(){
+    public void jouerCoupPremier(){
         Iterator<Carte> it;
         Carte[] main = new Carte[20];
         
@@ -298,7 +302,7 @@ public class Moteur {
     /**
      * Le joueur qui n'a pas le statut de donneur ou qui a perdu joue en deuxième
      */
-    public static void jouerCoupSecond(){
+    public void jouerCoupSecond(){
         Iterator<Carte> it;
         PileCartes mainjoueur;
         Carte[] main = new Carte[20];
@@ -509,7 +513,7 @@ public class Moteur {
     /**
      * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
      */
-    public static void rangerPli(){
+    public void rangerPli(){
         config.piochees.retirer(config.carteP);
         config.piochees.retirer(config.carteS);
         if(config.gagnant==1){
@@ -529,7 +533,7 @@ public class Moteur {
      * Permet au joueur désigné en paramètre de piocher
      * @param piocheur Le numéro du joueur qui va piocher
      */
-    public static void pioche(int piocheur){
+    public void pioche(int piocheur){
         Carte c=null;
         
         if(config.mode == 1 || (config.mode == 2 && piocheur==1)){ //Si l'on est en mode joueur contre joueur ou alors que c'est le tour du joueur 1
@@ -633,7 +637,7 @@ public class Moteur {
      * Affiche la carte passée en paramètre et va à la ligne
      * @param c La carte à afficher
      */
-    public static void afficherCarte(Carte c){
+    public void afficherCarte(Carte c){
         switch(c.couleur){
                 case 1:
                     System.out.print("TREFLE");
@@ -670,7 +674,7 @@ public class Moteur {
     /**
      * Crée un paquet de 52 cartes de base et les distribue dans les piles et aux joueurs
      */
-    public static void distribuer(){
+    public void distribuer(){
         PileCartes paquet = new PileCartes();
         paquet.paquet();
         
@@ -700,7 +704,7 @@ public class Moteur {
         }
     }
     
-    public static void moteur() throws ClassNotFoundException{
+    public void moteur() throws ClassNotFoundException{
         
         initialiser();
         
@@ -825,6 +829,7 @@ public class Moteur {
     }
     
     public static void main(String[] args) throws ClassNotFoundException {
-        moteur();
+        Moteur m = new Moteur();
+        m.moteur();
     }
 }

@@ -1,6 +1,5 @@
 package bridge;
 
-import static bridge.Moteur.afficherCarte;
 import java.io.Serializable;
 
 public class Configuration implements Serializable {
@@ -84,11 +83,12 @@ public class Configuration implements Serializable {
      */
     public void afficherPioche(){
         System.out.println("Pioche:");
+        Moteur m = new Moteur();
         for(int i=0; i<6; i++){
             if(pioche[i].premiere()!=null){
                 System.out.print(pioche[i].taille() +"||");
                 System.out.print("["+(i+1)+"]:");
-            afficherCarte(pioche[i].premiere());
+            m.afficherCarte(pioche[i].premiere());
             }
         }
         System.out.println();
