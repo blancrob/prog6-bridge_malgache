@@ -129,13 +129,12 @@ public class Bridge extends Application {
             }
         }
     }
-    
+
     public void maj_plis(Carte[] plis, int j) {
         Iterator<Carte> it;
-        if(j==1){
+        if (j == 1) {
             it = m.j1.tas.iterateur();
-        }
-        else{
+        } else {
             it = m.j2.tas.iterateur();
         }
         Carte c;
@@ -144,30 +143,6 @@ public class Bridge extends Application {
             c = it.next();
             plis[i] = c;
             m.afficherCarte(plis[i]);
-            i++;
-        }
-    }
-    
-    public void maj_plisJ1(Carte[] j1plis) {
-        Iterator<Carte> it = m.j1.tas.iterateur();
-        Carte c;
-        int i = 0;
-        while (it.hasNext()) {
-            c = it.next();
-            j1plis[i] = c;
-            m.afficherCarte(j1plis[i]);
-            i++;
-        }
-    }
-
-    public void maj_plisJ2(Carte[] j2plis) {
-        Iterator<Carte> it = m.j2.tas.iterateur();
-        Carte c;
-        int i = 0;
-        while (it.hasNext()) {
-            c = it.next();
-            j2plis[i] = c;
-            m.afficherCarte(j2plis[i]);
             i++;
         }
     }
@@ -244,56 +219,37 @@ public class Bridge extends Application {
         }
     }
 
-    public void carte_select_P(int k) {
+    public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
-        Carte card;
-        if (m.config.donneur == 1) {
-            card = m.jouerCoupPremier(j1main[k]);
-            m.afficherCarte(card);
+        Carte card = m.jouerCoupPremier(main[k]);
+        
+        m.afficherCarte(card);
 
-            j1main[k].face.setTranslateX(710);
-            j1main[k].face.setTranslateY(150);
-            j1main[k].face.toFront();
-            tour_joueur = 2;
-            carte_jouee = 0;
+        main[k].face.setTranslateX(710);
+        main[k].face.setTranslateY(150);
+        main[k].face.toFront();
 
-            System.out.println("Carte jouée");
+        //System.out.println("Carte jouée");
+        //actualiser_main(j1main, k);
+        //affichage_dos_mainJ1(j1main);
+        
+        init_main(main, m.config.donneur);
 
-            //actualiser_main(j1main, k);
-            //affichage_dos_mainJ1(j1main);
-            init_main(j1main, 1);
-
-            for (int i = 0; i < j1main.length; i++) {
-                if (j1main[i] != card) {
-                    j1main[i].face.setVisible(false);
-                }
+        for (int i = 0; i < main.length; i++) {
+            if (main[i] != card) {
+                main[i].face.setVisible(false);
             }
-
+        }
+        
+        if (m.config.donneur == 1) {
+            tour_joueur = 2;
             affichage_face_mainJ2(j2main);
         } else {
-            card = m.jouerCoupPremier(j2main[k]);
-            m.afficherCarte(card);
-
-            j2main[k].face.setTranslateX(710);
-            j2main[k].face.setTranslateY(150);
-            j2main[k].face.toFront();
             tour_joueur = 1;
-            carte_jouee = 0;
-
-            System.out.println("Carte jouée");
-
-            //actualiser_main(j1main, k);
-            //affichage_dos_mainJ1(j1main);
-            init_main(j2main, 2);
-
-            for (int i = 0; i < j2main.length; i++) {
-                if (j2main[i] != card) {
-                    j2main[i].face.setVisible(false);
-                }
-            }
-
             affichage_face_mainJ1(j1main);
         }
+        
+        carte_jouee = 0;
     }
 
     public void carte_select_S(int k) {
@@ -358,8 +314,8 @@ public class Bridge extends Application {
         System.out.println();
         m.rangerPli();
 
-        maj_plisJ1(j1plis);
-        maj_plisJ2(j2plis);
+        maj_plis(j1plis, 1);
+        maj_plis(j2plis, 2);
         affichage_dos_plisJ1(j1plis);
         affichage_dos_plisJ2(j2plis);
 
@@ -397,7 +353,6 @@ public class Bridge extends Application {
     }
 
     //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
-
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -423,7 +378,7 @@ public class Bridge extends Application {
             public void handle(MouseEvent me) {
                 if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
                     if (m.config.donneur == j) {
-                        carte_select_P(n);
+                        carte_select_P(main,n);
                     } else {
                         carte_select_S(n);
                     }
@@ -608,7 +563,6 @@ public class Bridge extends Application {
          fin initialisation cartes MessageT = new MessageTransition();
          MessageT.setVisible(false);
          */
-        
         /*
          MessageT.setOnMouseClicked(new EventHandler<MouseEvent>() {
          @Override
@@ -622,9 +576,6 @@ public class Bridge extends Application {
          }
          });
          */
-        
-        maj_handler_main();
-        maj_handler_pile();
 
         /*
          AnimationTimer timer = new AnimationTimer() {
@@ -637,7 +588,9 @@ public class Bridge extends Application {
          };
          timer.start();
          */
-        
+        maj_handler_main();
+        maj_handler_pile();
+
         root = new AnchorPane();
 
         for (int i = 0; i < j1main.length; i++) {
@@ -650,14 +603,14 @@ public class Bridge extends Application {
             root.getChildren().add(j2main[i].dos);
         }
 
-        for (int j = 0; j < 6; j++) {
-            for (int i = 1; i < 5; i++) {
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 1; i < pile[j].length; i++) {
                 root.getChildren().add(pile[j][i].face);
                 root.getChildren().add(pile[j][i].dos);
             }
         }
 
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < pile.length; j++) {
             root.getChildren().add(pile[j][0].face);
             root.getChildren().add(pile[j][0].dos);
         }
@@ -668,7 +621,6 @@ public class Bridge extends Application {
          root.getChildren().add(j2plis);
          root.getChildren().add(MessageT);
          */
-        
         root.getChildren().add(menu);
 
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
