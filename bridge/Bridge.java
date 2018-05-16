@@ -28,9 +28,6 @@ public class Bridge extends Application {
 
     private final int hauteur_scene = 720;
     private final int largeur_scene = 1280;
-
-    //private final int hauteur_carte = 110;
-    //private final int largeur_carte = 90;
     
     private final int souris_carte = 610;
     
@@ -54,6 +51,7 @@ public class Bridge extends Application {
     int k = 0;
 
     //MessageTransition MessageT;
+    
     public void init_main(Carte[] main, int j) {
         String color;
         String number;

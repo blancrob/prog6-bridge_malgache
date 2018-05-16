@@ -15,6 +15,9 @@ public class Carte extends Parent{
     int couleur;
     boolean visible;
     
+    private final int hauteur_carte = 110;
+    private final int largeur_carte = 90;
+    
     static final int V=11;
     static final int D=12;
     static final int R=13;
@@ -38,8 +41,8 @@ public class Carte extends Parent{
         this.couleur = couleur;
         this.visible = visible;
         
-        face = new Rectangle(90,110,Color.BURLYWOOD);
-        dos = new Rectangle(90,110,Color.RED);
+        face = new Rectangle(largeur_carte,hauteur_carte,Color.BURLYWOOD);
+        dos = new Rectangle(largeur_carte,hauteur_carte,Color.MEDIUMAQUAMARINE);
         
         this.getChildren().add(face);
         this.getChildren().add(dos);
