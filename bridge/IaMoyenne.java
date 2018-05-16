@@ -17,6 +17,7 @@ public class IaMoyenne extends IaNovice {
     }
     
     /**
+     * Jouer.
      * Si IA commence : joue la plus grande carte 
      * SI IA termine :
         * 1) Joue la plus petite carte gagnante de la bonne couleur
@@ -52,6 +53,7 @@ public class IaMoyenne extends IaNovice {
     
     
      /**
+     * Piocher.
      * pioche une carte , le plus grand atout possible, si pas d'atout la plus grande carte d'une autre couleur 
      * @return une carte parmis les cartes de la pioche. 
      */

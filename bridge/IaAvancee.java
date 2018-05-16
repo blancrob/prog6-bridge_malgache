@@ -6,17 +6,35 @@
 package bridge;
 
 /**
- *
  * Ia Avancée.
  */
-public class IaAvancee extends IaMoyenne {
-
-    public IaAvancee(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour) {
-        super(m, c, pi, p, l, at, cour);
+public class IaAvancee implements IA {
+    PileCartes main;
+    PileCartes cartesDejaJouees;
+    PileCartes cartesPiochees;
+    Carte[] pioche;
+    int lg;
+    int atout;
+    Carte courante;
+    int[] nbCartes;
+    boolean gagnant;
+    
+    
+    public IaAvancee(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g) {
+        main = m;
+        cartesDejaJouees = c;
+        cartesPiochees = pi;
+        pioche = p;
+        lg = l;
+        atout = at;
+        courante = cour;
+        nbCartes = n;
+        gagnant = g;
     }
     
     
     /** 
+    * Jouer.
     * Si IA commence 
     *       Jouer carte de meilleure heuristique 
     * si Adversaire a déjà joué 
@@ -29,10 +47,10 @@ public class IaAvancee extends IaMoyenne {
     *           Si pioche cool : jouer le plus petit atout possible si il y a 
     *           Si pioche pas cool : mettre la plus petite carte 
     * 
-    * @param nbCartes
     * @return une carte à jouer
     */
-    public Carte jouer(int[] nbCartes){
+    @Override
+    public Carte jouer(){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             return main.max();
         }
@@ -49,7 +67,6 @@ public class IaAvancee extends IaMoyenne {
                 double h = 0;
                 while (i<lg){ // On regarde à quoi ressemble la pioche
                     if(IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg) > h){ // trouver la carte avec la meilleure heuristique 
-                        res = pioche[i];
                         h = IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg);
                     }
                     i++;
@@ -72,17 +89,16 @@ public class IaAvancee extends IaMoyenne {
     }
         
     /**
+     * Piocher.
      * Choisir plus gros atout si il y en a
      * Choisir la carte d'une autre couleur qui a la meilleure heuristique 
      * Si pioche pas cool : - Si on est le gagnant alors préférer une carte d'une pile ou il reste le moins de cartes (proba plus faible qu'en dessous il y ait une carte cool que l'adversaire pourra prendre)
      *                      - Si on est perdant : prendre la carte qui a la meilleure heuristique 
      * 
-     * @param gagnant : vrai ssi on pioche apres avoir gagné le pli.
-     * @param nbCartes : contient le nombre de cartes dans les 6 piles de la pioche.
      * @return la carte à jouer 
      */
-
-    public Carte piocher(boolean gagnant, int[] nbCartes){
+    @Override
+    public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCarte(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ // si pas d'atout 
             int i = 0;

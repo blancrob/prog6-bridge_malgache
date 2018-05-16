@@ -16,7 +16,7 @@ public class IA_Util {
     
     /**
      * @param couleur demandée
-     * @param main
+     * @param main main de l'IA
      * @return true si on a une carte de la couleur passée en paramètre
      */
     public static boolean fournir(int couleur, PileCartes main){
@@ -35,8 +35,8 @@ public class IA_Util {
     
     /**
      * @param couleur
-     * @param pioche
-     * @param lg
+     * @param pioche tableau contenant les cartes retournées de la pioche 
+     * @param lg nombre de piles de la pioche 
      * @return la carte de plus grande valeur de la couleur passée en paramètre présente dans la pioche
      */
     public static Carte choisirMeilleureCarte(int couleur, Carte[] pioche, int lg){
@@ -59,8 +59,8 @@ public class IA_Util {
        
     /**
      * Contruit la main adverse connue.
-     * @param main
-     * @param cartesDejaJouees
+     * @param main main de l'IA
+     * @param cartesDejaJouees 
      * @param cartesPiochees
      * @return une PileCartes contenant les cartes connu de la main adverse.
      */
@@ -98,7 +98,7 @@ public class IA_Util {
     /**
      * 
      * @param c une Carte
-     * @param main
+     * @param main main de l'IA
      * @param cartesDejaJouees
      * @param cartesPiochees
      * @return vrai ssi la carte c peut être battu par une carte connu de l'adversaire.
@@ -116,12 +116,12 @@ public class IA_Util {
     }
     /**
      * Cherche la meilleur carte a jouer
-     * @param main
+     * @param main main de l'IA
      * @param cartesDejaJouees
      * @param cartesPiochees
      * @param atout
-     * @param pioche
-     * @param lg
+     * @param pioche tableau contenant les cartes retournées de la pioche 
+     * @param lg nombre de piles de la pioche
      * @return Une carte étant la meilleur a jouer
      */
     public static Carte meilleurCoupCommence(PileCartes main, PileCartes cartesDejaJouees, PileCartes cartesPiochees, int atout, Carte[] pioche, int lg){
@@ -153,7 +153,7 @@ public class IA_Util {
     /**
      * Retourne la taille de la pile la plus grande
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
-     * @param lg
+     * @param lg nombre de piles de la pioche
      * @return 
      */
     public static int plusGrossePile(int[] nbCartes, int lg){
@@ -171,8 +171,8 @@ public class IA_Util {
     /**
      * Choisit la carte de la pile qui a le moins de cartes 
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
-     * @param lg
-     * @param pioche
+     * @param lg nombre de piles de la pioche 
+     * @param pioche tableau contenant les cartes retournées de la pioche 
      * @return la carte à choisir 
      */
     public static Carte meilleurPioche(int[] nbCartes, int lg, Carte[] pioche){
@@ -191,10 +191,10 @@ public class IA_Util {
     
     /**
      * On enlève de toutes les cartes les cartes de la main, les cartes déjà jouées et les cartes qui sont découvertes dans les piles de la pioche.
-     * @param main
+     * @param main main de l'IA
      * @param cartesDejaJouees
-     * @param pioche
-     * @param lg
+     * @param pioche tableau contenant les cartes retournées de la pioche 
+     * @param lg nombre de piles de la pioche
      * @return la liste de cartes qui ne sont pas encore connues (qui sont dans la pioche ou dans la main de l'adversaire)  
      */
     public static PileCartes cartesInconnues(PileCartes main, PileCartes cartesDejaJouees, Carte[] pioche, int lg){
@@ -224,10 +224,10 @@ public class IA_Util {
      * Correspond aux nb de cartes que la carte en paramètre peut battre / nb de cartes restantes (encore non jouées)
      * @param c la carte dont on veut analyser l'heuristique
      * @param atout 
-     * @param main 
+     * @param main main de l'IA
      * @param cartesDejaJouees 
-     * @param pioche 
-     * @param lg 
+     * @param pioche tableau contenant les cartes retournées de la pioche 
+     * @param lg nombre de piles de la pioche 
      * @return l'heuristique de la carte (Pourcentage de victoire du pli si on utilise cette carte) 
      */
     public static double heuristiqueCommence(Carte c , int atout , PileCartes main , PileCartes cartesDejaJouees , Carte[] pioche , int lg){
@@ -262,10 +262,10 @@ public class IA_Util {
      * Correspond aux nb de cartes que la carte en paramètre peut battre / nb de cartes restantes (encore non jouées)
      * @param c la carte dont on veut calculer l'heuristique
      * @param atout
-     * @param main
+     * @param main main de l'IA
      * @param cartesDejaJouees
-     * @param pioche
-     * @param lg
+     * @param pioche tableau contenant les cartes retournées de la pioche 
+     * @param lg nombre de piles de la pioches
      * @return l'heuristique de la carte (Pourcentage de victoire du pli si on utilise cette carte) 
      */
     public static double heuristiqueTermine(Carte c , int atout , PileCartes main , PileCartes cartesDejaJouees , Carte[] pioche , int lg){
@@ -299,7 +299,7 @@ public class IA_Util {
      * tricheCommence.
      * Retourne la meilleure carte a jouer quand on commence (En connaissant la main de l'adversaire)
      * @param adverse la main de l'adversaire
-     * @param main 
+     * @param main main de l'IA
      * @param atout 
      * @return une carte intéressante
      */

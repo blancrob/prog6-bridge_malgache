@@ -9,12 +9,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Cette classe contient les différentes méthodes implémentant les différents niveaux de l'IA.
+ * Interface qui contient une méthode jouer et une méthode piocher.
  */
 public interface IA {
     
-        
-
     public Carte jouer();
     public Carte piocher();
     

@@ -9,18 +9,39 @@ package bridge;
  *
  * Ia Experte.
  */
-public class IaExperte extends IaDifficile{
-
-    public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour) {
-        super(m, c, pi, p, l, at, cour);
+public class IaExperte implements IA{
+    PileCartes main;
+    PileCartes cartesDejaJouees;
+    PileCartes cartesPiochees;
+    Carte[] pioche;
+    int lg;
+    int atout;
+    Carte courante;
+    int[] nbCartes;
+    boolean gagnant;
+    PileCartes adverse;
+    PileCartes[] piocheEntiere;
+    
+   public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, PileCartes j2, PileCartes[] pe) {
+        main = m;
+        cartesDejaJouees = c;
+        cartesPiochees = pi;
+        pioche = p;
+        lg = l;
+        atout = at;
+        courante = cour;
+        nbCartes = n;
+        gagnant = g;
+        adverse = j2;
+        piocheEntiere = pe;
     }
     
     /**
      * Elle connait la disposition de toutes les cartes après la distribution 
-     * @param nbCartes
      * @return une carte à jouer
      */
-    public Carte jouer(int[] nbCartes, PileCartes adverse){
+    @Override
+    public Carte jouer(){
         if(courante == null){ // si l'IA commence
             return IA_Util.tricheCommence(adverse, main, atout); //jouer une carte qui va gagner si possible 
         }
@@ -38,7 +59,6 @@ public class IaExperte extends IaDifficile{
                 double h = 0;
                 while (i<lg){ // On regarde à quoi ressemble la pioche
                     if(IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg) > h){ // trouver la carte avec la meilleure heuristique 
-                        res = pioche[i];
                         h = IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg);
                     }
                     i++;
@@ -65,11 +85,10 @@ public class IaExperte extends IaDifficile{
      * Elle connait toute la pioche
      * Si l'IA est la 2ème à piocher et que la pioche est pas très cool, 
      * elle choisit de prendre une carte qui va entrainer la découverte d'une carte d'heuristique inférieure à celle qui vient d'être piochée
-     * @param gagnant
-     * @param nbCartes
      * @return la carte à piocher 
      */
-    public Carte piocher(boolean gagnant, int[] nbCartes, PileCartes[] piocheEntiere){
+    @Override
+    public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCarte(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ // si pas d'atout 
             int i = 0;
