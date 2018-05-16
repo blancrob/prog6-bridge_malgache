@@ -19,17 +19,7 @@ public class IA {
     int lg;
     int atout;
     Carte courante;
-   
-    public IA(){
-        main = new PileCartes();
-        cartesDejaJouees = new PileCartes();
-        cartesPiochees = new PileCartes();
-        pioche = new Carte[0];
-        lg = 0;
-        atout = 0;
-        courante = null;
-    }
-    
+     
     public IA(PileCartes m, PileCartes c,PileCartes pi, Carte[] p, int l, int at, Carte cour){
         main = m;
         cartesDejaJouees = c;
@@ -40,16 +30,6 @@ public class IA {
         courante = cour;
     }
     
-    public IA(PileCartes m, PileCartes c,PileCartes pi, Carte[] p, int l, int at){
-        main = m;
-        cartesDejaJouees = c;
-        cartesPiochees = pi;
-        pioche = p;
-        lg = l;
-        atout = at;
-        courante = null;
-    }
-            
     /**************************************************************************************************************************
      * IA Novice.
      * Joue un coup aléatoire parmis les coups possibles.
