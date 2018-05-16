@@ -31,7 +31,6 @@ public class Bridge extends Application {
 
     //private final int hauteur_carte = 110;
     //private final int largeur_carte = 90;
-    
     private final int souris_carte = 610;
 
     public Moteur2 m;
@@ -48,20 +47,25 @@ public class Bridge extends Application {
     int carte_jouee = 0;
     int tour_joueur = 1;
     int tour_pioche = 0;
-    int k;
+    int k = 0;
 
-    MessageTransition MessageT;
-
-    public void init_mainJ1(Carte[] j1main) {
+    //MessageTransition MessageT;
+    public void init_main(Carte[] main, int j) {
         String color;
         String number;
 
-        for (int i = 0; i < m.j1.main.pile.size(); i++) {
-            j1main[i] = m.j1.main.pile.get(i);
+        if (j == 1) {
+            for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                main[i] = m.j1.main.pile.get(i);
+            }
+        } else {
+            for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                main[i] = m.j2.main.pile.get(i);
+            }
         }
 
-        for (int i = 0; i < j1main.length; i++) {
-            switch (j1main[i].couleur) {
+        for (int i = 0; i < main.length; i++) {
+            switch (main[i].couleur) {
                 case 1:
                     color = "TREFLE";
                     break;
@@ -76,54 +80,20 @@ public class Bridge extends Application {
                     break;
             }
 
-            number = Integer.toString(j1main[i].valeur);
+            number = Integer.toString(main[i].valeur);
             String carte = color + "_" + number + ".PNG";
             ImagePattern img = new ImagePattern(new Image("images/" + carte));
-            j1main[i].face.setFill(img);
-            j1main[i].face.toFront();
+            main[i].face.setFill(img);
+            main[i].face.toFront();
 
-            //j1main[i].face.setTranslateX(440+(60*i));
-            //j1main[i].face.setTranslateY(642);
+            //main[i].face.setTranslateX(440+(60*i));
+            //main[i].face.setTranslateY(642);
         }
     }
 
-    public void init_mainJ2(Carte[] j2main) {
-        String color;
-        String number;
-
-        for (int i = 0; i < m.j2.main.pile.size(); i++) {
-            j2main[i] = m.j2.main.pile.get(i);
-        }
-
-        for (int i = 0; i < j2main.length; i++) {
-            switch (j2main[i].couleur) {
-                case 1:
-                    color = "TREFLE";
-                    break;
-                case 2:
-                    color = "CARREAU";
-                    break;
-                case 3:
-                    color = "COEUR";
-                    break;
-                default:
-                    color = "PIQUE";
-                    break;
-            }
-
-            number = Integer.toString(j2main[i].valeur);
-
-            String carte = color + "_" + number + ".PNG";
-
-            //System.out.println(carte);
-            ImagePattern img = new ImagePattern(new Image("images/" + carte));
-
-            j2main[i].face.setFill(img);
-            j2main[i].face.toFront();
-
-            //j2main[i].face.setTranslateX(440+(60*i));
-            //j2main[i].face.setTranslateY(642);
-        }
+    public void init_mainJ1J2() {
+        init_main(j1main, 1);
+        init_main(j2main, 2);
     }
 
     public void init_pile(Carte[][] pile) {
@@ -153,24 +123,37 @@ public class Bridge extends Application {
                 }
 
                 number = Integer.toString(pile[j][i].valeur);
-
                 String carte = color + "_" + number + ".PNG";
-
-                //System.out.println(carte);
                 ImagePattern img = new ImagePattern(new Image("images/" + carte));
-
                 pile[j][i].face.setFill(img);
             }
         }
     }
-
+    
+    public void maj_plis(Carte[] plis, int j) {
+        Iterator<Carte> it;
+        if(j==1){
+            it = m.j1.tas.iterateur();
+        }
+        else{
+            it = m.j2.tas.iterateur();
+        }
+        Carte c;
+        int i = 0;
+        while (it.hasNext()) {
+            c = it.next();
+            plis[i] = c;
+            m.afficherCarte(plis[i]);
+            i++;
+        }
+    }
+    
     public void maj_plisJ1(Carte[] j1plis) {
         Iterator<Carte> it = m.j1.tas.iterateur();
         Carte c;
         int i = 0;
         while (it.hasNext()) {
             c = it.next();
-            //m.afficherCarte(c);
             j1plis[i] = c;
             m.afficherCarte(j1plis[i]);
             i++;
@@ -183,7 +166,6 @@ public class Bridge extends Application {
         int i = 0;
         while (it.hasNext()) {
             c = it.next();
-            //m.afficherCarte(c);
             j2plis[i] = c;
             m.afficherCarte(j2plis[i]);
             i++;
@@ -225,7 +207,7 @@ public class Bridge extends Application {
     }
 
     public void affichage_face_pile(Carte[][] pile) {
-        for (int j = 0; j < m.config.pioche.length; j++) {
+        for (int j = 0; j < pile.length; j++) {
             pile[j][0].face.setTranslateX(430 + (110 * j));
             pile[j][0].face.setTranslateY(315);
             pile[j][0].face.toFront();
@@ -252,18 +234,14 @@ public class Bridge extends Application {
     }
 
     public void affichage_dos_pile(Carte[][] pile) {
-        for (int j = 0; j < 6; j++) {
-            for (int i = 1; i < 5; i++) {
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 1; i < pile[j].length; i++) {
                 pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
                 pile[j][i].dos.setTranslateY(315);
                 ImagePattern img = new ImagePattern(new Image("images/DOS_1.PNG"));
                 pile[j][i].dos.setFill(img);
             }
         }
-    }
-
-    public void actualiser_main(Carte[] jmain, int k) {
-
     }
 
     public void carte_select_P(int k) {
@@ -283,7 +261,7 @@ public class Bridge extends Application {
 
             //actualiser_main(j1main, k);
             //affichage_dos_mainJ1(j1main);
-            init_mainJ1(j1main);
+            init_main(j1main, 1);
 
             for (int i = 0; i < j1main.length; i++) {
                 if (j1main[i] != card) {
@@ -306,7 +284,7 @@ public class Bridge extends Application {
 
             //actualiser_main(j1main, k);
             //affichage_dos_mainJ1(j1main);
-            init_mainJ2(j2main);
+            init_main(j2main, 2);
 
             for (int i = 0; i < j2main.length; i++) {
                 if (j2main[i] != card) {
@@ -357,8 +335,8 @@ public class Bridge extends Application {
         //actualiser_main(j2main, k);
         //affichage_dos_mainJ2(j2main);
         //affichage_face_mainJ1(j1main);
-        init_mainJ1(j1main);
-        init_mainJ2(j2main);
+        init_main(j1main, 1);
+        init_main(j2main, 2);
 
         for (int i = 0; i < j1main.length; i++) {
             if (j1main[i] != card) {
@@ -393,8 +371,8 @@ public class Bridge extends Application {
             m.config.perdant = 1;
         }
         if (!m.config.piochable()) {
-            init_mainJ1(j1main);
-            init_mainJ2(j2main);
+            init_main(j1main, 1);
+            init_main(j2main, 2);
             for (int i = 0; i < m.j1.main.pile.size(); i++) {
                 j1main[i].face.setVisible(false);
             }
@@ -418,18 +396,7 @@ public class Bridge extends Application {
         }
     }
 
-    public void tour_J1() {
-        System.out.println("Tour 1");
-        //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
-    }
-
-    public void tour_J2() {
-        System.out.println("Tour 2");
-    }
-
-    public void trier_carte() {
-
-    }
+    //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
 
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -492,8 +459,8 @@ public class Bridge extends Application {
                     if (m.config.donneur == 1 && j1main[0] != null) {
                         tour_joueur = 1;
                         m.config.receveur = 2;
-                        init_mainJ1(j1main);
-                        init_mainJ2(j2main);
+                        init_main(j1main, 1);
+                        init_main(j2main, 2);
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             j1main[i].face.setVisible(false);
                         }
@@ -507,8 +474,8 @@ public class Bridge extends Application {
                     } else {
                         tour_joueur = 2;
                         m.config.receveur = 1;
-                        init_mainJ1(j1main);
-                        init_mainJ2(j2main);
+                        init_main(j1main, 1);
+                        init_main(j2main, 2);
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             m.afficherCarte(j1main[i]);
                             j1main[i].face.setVisible(false);
@@ -536,22 +503,22 @@ public class Bridge extends Application {
                     }
 
                     if (m.config.gagnant == 1) {
-                        init_mainJ1(j1main);
+                        init_main(j1main, 1);
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             j1main[i].face.setVisible(false);
                             //m.afficherCarte(m.j1.main.pile.get(i));
                             m.afficherCarte(j1main[i]);
                         }
-                        init_mainJ2(j2main);
+                        init_main(j2main, 2);
                         affichage_face_mainJ2(j2main);
                     } else {
-                        init_mainJ2(j2main);
+                        init_main(j2main, 2);
                         for (int i = 0; i < m.j2.main.pile.size(); i++) {
                             j2main[i].face.setVisible(false);
                             //m.afficherCarte(m.j2.main.pile.get(i));
                             m.afficherCarte(j2main[i]);
                         }
-                        init_mainJ1(j1main);
+                        init_main(j1main, 1);
                         affichage_face_mainJ1(j1main);
                     }
                 }
@@ -616,8 +583,7 @@ public class Bridge extends Application {
         j1plis = new Carte[52];
         j2plis = new Carte[52];
 
-        init_mainJ1(j1main);
-        init_mainJ2(j2main);
+        init_mainJ1J2();
         init_pile(pile);
 
         affichage_face_mainJ1(j1main);
@@ -644,18 +610,18 @@ public class Bridge extends Application {
          */
         
         /*
-        MessageT.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                MessageT.setVisible(false);
-                if (tour_joueur == 1) {
-                    affichage_face_mainJ1(j1main);
-                } else {
-                    affichage_face_mainJ2(j2main);
-                }
-            }
-        });
-        */
+         MessageT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+         @Override
+         public void handle(MouseEvent me) {
+         MessageT.setVisible(false);
+         if (tour_joueur == 1) {
+         affichage_face_mainJ1(j1main);
+         } else {
+         affichage_face_mainJ2(j2main);
+         }
+         }
+         });
+         */
         
         maj_handler_main();
         maj_handler_pile();
@@ -702,6 +668,7 @@ public class Bridge extends Application {
          root.getChildren().add(j2plis);
          root.getChildren().add(MessageT);
          */
+        
         root.getChildren().add(menu);
 
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
