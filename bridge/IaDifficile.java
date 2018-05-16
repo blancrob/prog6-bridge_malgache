@@ -14,18 +14,19 @@ import java.util.Iterator;
  */
 public class IaDifficile extends IaAvancee {
 
-    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour) {
-        super(m, c, pi, p, l, at, cour);
+    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g) {
+        super(m, c, pi, p, l, at, cour, n, g);
     }
+
+    
     
     
    /**
     * Comme IA avancée, mis à part qu'elle peut déduire une partie de la main adverse car elle connait les cartes piochées et les cartes jouées.
-    * @param nbCartes contient le nombre de cartes dans les 6 piles de la pioche.
     * @return une carte à jouer
     */
     @Override
-    public Carte jouer(int[] nbCartes){
+    public Carte jouer(){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
             PileCartes test = IA_Util.adversaire(main, cartesDejaJouees, cartesPiochees);
             Iterator<Carte> it2= test.iterateur();
