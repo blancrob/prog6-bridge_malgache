@@ -304,8 +304,11 @@ public class PileCartes implements Serializable{
             
         }
         
-        
-        return res.couleur == couleur;
+        if(res!=null){
+            return res.couleur == couleur;
+        }else{
+            return false;
+        }
     }
     
     public boolean contientAutre(int couleur){
