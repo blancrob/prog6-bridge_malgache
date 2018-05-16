@@ -31,7 +31,11 @@ public class Bridge extends Application {
 
     //private final int hauteur_carte = 110;
     //private final int largeur_carte = 90;
+    
     private final int souris_carte = 610;
+    
+    private final int J1 = 1;
+    private final int J2 = 2;
 
     public Moteur2 m;
 
@@ -92,8 +96,8 @@ public class Bridge extends Application {
     }
 
     public void init_mainJ1J2() {
-        init_main(j1main, 1);
-        init_main(j2main, 2);
+        init_main(j1main, J1);
+        init_main(j2main, J2);
     }
 
     public void init_pile(Carte[][] pile) {
@@ -164,20 +168,19 @@ public class Bridge extends Application {
             j2plis[i].dos.setVisible(true);
         }
     }
-
-    public void affichage_face_mainJ1(Carte[] j1main) {
-        for (int i = 0; i < m.j1.main.pile.size(); i++) {
-            j1main[i].face.setTranslateX(440 + (60 * i));
-            j1main[i].face.setTranslateY(642);
-            j1main[i].face.setVisible(true);
+    
+    public void affichage_face_main(Carte[] main, int j) {
+        int t;
+        if(j == 1){
+            t = m.j1.main.pile.size();
         }
-    }
-
-    public void affichage_face_mainJ2(Carte[] j2main) {
-        for (int i = 0; i < m.j2.main.pile.size(); i++) {
-            j2main[i].face.setTranslateX(440 + (60 * i));
-            j2main[i].face.setTranslateY(642);
-            j2main[i].face.setVisible(true);
+        else{
+            t = m.j2.main.pile.size();
+        }
+        for (int i = 0; i < t; i++) {
+            main[i].face.setTranslateX(440 + (60 * i));
+            main[i].face.setTranslateY(642);
+            main[i].face.setVisible(true);
         }
     }
 
@@ -222,7 +225,7 @@ public class Bridge extends Application {
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
         Carte card = m.jouerCoupPremier(main[k]);
-        
+
         m.afficherCarte(card);
 
         main[k].face.setTranslateX(710);
@@ -240,72 +243,54 @@ public class Bridge extends Application {
                 main[i].face.setVisible(false);
             }
         }
-        
+
         if (m.config.donneur == 1) {
             tour_joueur = 2;
-            affichage_face_mainJ2(j2main);
+            affichage_face_main(j2main,J2);
         } else {
             tour_joueur = 1;
-            affichage_face_mainJ1(j1main);
+            affichage_face_main(j1main,J1);
         }
-        
+
         carte_jouee = 0;
     }
 
-    public void carte_select_S(int k) {
+    public void carte_select_S(Carte[] main, int k) {
         carte_jouee = 1;
-        Carte card;
+        Carte card = m.jouerCoupSecond(main[k]);
 
+        //Boolean carte_correcte = false;
+        //while (!carte_correcte) {
+        //card = m.jouerCoupSecond(j2main[k]);
+        //}
+        
+        m.afficherCarte(card);
+
+        main[k].face.setTranslateX(710);
+        main[k].face.setTranslateY(480);
+        main[k].face.toFront();
+        
+        /*
         if (m.config.receveur == 2) {
-
-            //Boolean carte_correcte = false;
-            //while (!carte_correcte) {
-            //card = m.jouerCoupSecond(j2main[k]);
-            //}
-            card = m.jouerCoupSecond(j2main[k]);
-            m.afficherCarte(card);
-
-            j2main[k].face.setTranslateX(710);
-            j2main[k].face.setTranslateY(480);
-            j2main[k].face.toFront();
             tour_joueur = 1;
-            carte_jouee = 0;
-
         } else {
-            //Boolean carte_correcte = false;
-            //while (!carte_correcte) {
-            //card = m.jouerCoupSecond(j2main[k]);
-            //}
-
-            card = m.jouerCoupSecond(j1main[k]);
-            m.afficherCarte(card);
-
-            j1main[k].face.setTranslateX(710);
-            j1main[k].face.setTranslateY(480);
-            j1main[k].face.toFront();
             tour_joueur = 2;
-            carte_jouee = 0;
         }
-        System.out.println("Carte jouée");
-
+        */
+        
+        //System.out.println("Carte jouée");
         //actualiser_main(j2main, k);
         //affichage_dos_mainJ2(j2main);
-        //affichage_face_mainJ1(j1main);
-        init_main(j1main, 1);
-        init_main(j2main, 2);
+        
+        init_main(j1main, J1);
+        init_main(j2main, J2);
 
-        for (int i = 0; i < j1main.length; i++) {
-            if (j1main[i] != card) {
-                j1main[i].face.setVisible(false);
+        for (int i = 0; i < main.length; i++) {
+            if (main[i] != card) {
+                main[i].face.setVisible(false);
             }
         }
 
-        for (int i = 0; i < j2main.length; i++) {
-            if (j2main[i] != card) {
-                j2main[i].face.setVisible(false);
-            }
-        }
-        //affichage_face_mainJ2(j2main);
         m.config.taille--;
         m.config.gagnantPli();
         System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
@@ -314,38 +299,39 @@ public class Bridge extends Application {
         System.out.println();
         m.rangerPli();
 
-        maj_plis(j1plis, 1);
-        maj_plis(j2plis, 2);
+        maj_plis(j1plis, J1);
+        maj_plis(j2plis, J2);
+        
         affichage_dos_plisJ1(j1plis);
         affichage_dos_plisJ2(j2plis);
 
-        if (m.config.gagnant == 1) {
-            affichage_face_mainJ1(j1main);
-            m.config.perdant = 2;
+        if (m.config.gagnant == J1) {
+            affichage_face_main(j1main,J1);
+            m.config.perdant = J2;
         } else {
-            affichage_face_mainJ2(j2main);
-            m.config.perdant = 1;
+            affichage_face_main(j2main,J2);
+            m.config.perdant = J1;
         }
+        
         if (!m.config.piochable()) {
-            init_main(j1main, 1);
-            init_main(j2main, 2);
+            init_main(j1main, J1);
+            init_main(j2main, J2);
             for (int i = 0; i < m.j1.main.pile.size(); i++) {
                 j1main[i].face.setVisible(false);
             }
             for (int i = 0; i < m.j2.main.pile.size(); i++) {
-                m.afficherCarte(j2main[i]);
                 j2main[i].face.setVisible(false);
             }
             maj_handler_main();
             maj_handler_pile();
             carte_jouee = 0;
             tour_pioche = 0;
-            if (m.config.donneur == 1) {
-                tour_joueur = 1;
-                affichage_face_mainJ1(j1main);
+            if (m.config.donneur == J1) {
+                tour_joueur = J1;
+                affichage_face_main(j1main,J1);
             } else {
-                tour_joueur = 2;
-                affichage_face_mainJ2(j2main);
+                tour_joueur = J2;
+                affichage_face_main(j2main,J2);
             }
         } else {
             tour_pioche = 1;
@@ -353,6 +339,7 @@ public class Bridge extends Application {
     }
 
     //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
+    
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -378,9 +365,9 @@ public class Bridge extends Application {
             public void handle(MouseEvent me) {
                 if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
                     if (m.config.donneur == j) {
-                        carte_select_P(main,n);
+                        carte_select_P(main, n);
                     } else {
-                        carte_select_S(n);
+                        carte_select_S(main, n);
                     }
                 }
             }
@@ -389,10 +376,10 @@ public class Bridge extends Application {
 
     public void maj_handler_main() {
         for (k = 0; k < j1main.length; k++) {
-            maj_handler_unitMain(k, j1main, 1);
+            maj_handler_unitMain(k, j1main, J1);
         }
         for (k = 0; k < j2main.length; k++) {
-            maj_handler_unitMain(k, j2main, 2);
+            maj_handler_unitMain(k, j2main, J2);
         }
     }
 
@@ -425,7 +412,7 @@ public class Bridge extends Application {
                         }
                         maj_handler_main();
                         maj_handler_pile();
-                        affichage_face_mainJ1(j1main);
+                        affichage_face_main(j1main,1);
                     } else {
                         tour_joueur = 2;
                         m.config.receveur = 1;
@@ -440,7 +427,7 @@ public class Bridge extends Application {
                         }
                         maj_handler_main();
                         maj_handler_pile();
-                        affichage_face_mainJ2(j2main);
+                        affichage_face_main(j2main,2);
                     }
                     carte_jouee = 0;
                     tour_pioche = 0;
@@ -465,7 +452,7 @@ public class Bridge extends Application {
                             m.afficherCarte(j1main[i]);
                         }
                         init_main(j2main, 2);
-                        affichage_face_mainJ2(j2main);
+                        affichage_face_main(j2main,2);
                     } else {
                         init_main(j2main, 2);
                         for (int i = 0; i < m.j2.main.pile.size(); i++) {
@@ -474,7 +461,7 @@ public class Bridge extends Application {
                             m.afficherCarte(j2main[i]);
                         }
                         init_main(j1main, 1);
-                        affichage_face_mainJ1(j1main);
+                        affichage_face_main(j1main,1);
                     }
                 }
             }
@@ -541,9 +528,11 @@ public class Bridge extends Application {
         init_mainJ1J2();
         init_pile(pile);
 
-        affichage_face_mainJ1(j1main);
+        affichage_face_main(j1main,J1);
         affichage_dos_mainJ2(j2main);
-        affichage_dos_pile(pile);
+        
+        //affichage_dos_pile(pile);
+        
         affichage_face_pile(pile);
 
         Rectangle menu = new Rectangle(260, 720, Color.PERU);
@@ -569,9 +558,9 @@ public class Bridge extends Application {
          public void handle(MouseEvent me) {
          MessageT.setVisible(false);
          if (tour_joueur == 1) {
-         affichage_face_mainJ1(j1main);
+         affichage_face_main(j1main,1);
          } else {
-         affichage_face_mainJ2(j2main);
+         affichage_face_main(j2main,2);
          }
          }
          });
@@ -588,6 +577,7 @@ public class Bridge extends Application {
          };
          timer.start();
          */
+        
         maj_handler_main();
         maj_handler_pile();
 
@@ -621,6 +611,7 @@ public class Bridge extends Application {
          root.getChildren().add(j2plis);
          root.getChildren().add(MessageT);
          */
+        
         root.getChildren().add(menu);
 
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
