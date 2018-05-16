@@ -5,7 +5,6 @@
  */
 package bridge;
 
-
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +47,7 @@ public class Bridge extends Application {
     int carte_jouee = 0;
     int tour_joueur = 1;
     int tour_pioche = 0;
+    int k;
 
     MessageTransition MessageT;
 
@@ -409,15 +409,14 @@ public class Bridge extends Application {
             maj_handler_pile();
             carte_jouee = 0;
             tour_pioche = 0;
-            if(m.config.donneur == 1){
+            if (m.config.donneur == 1) {
                 tour_joueur = 1;
                 affichage_face_mainJ1(j1main);
-            } else{
+            } else {
                 tour_joueur = 2;
                 affichage_face_mainJ2(j2main);
             }
-        }
-        else{
+        } else {
             tour_pioche = 1;
         }
     }
@@ -435,732 +434,77 @@ public class Bridge extends Application {
 
     }
 
+    public void maj_handler(int n) {
+        j1main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
+                    j1main[n].face.setTranslateY(souris_carte);
+                    //j1main[0].toFront();
+                }
+            }
+        });
+
+        j1main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
+                    j1main[n].face.setTranslateY(642);
+                }
+            }
+        });
+
+        j1main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
+                    if (m.config.donneur == 1) {
+                        carte_select_P(n);
+                    } else {
+                        carte_select_S(n);
+                    }
+                }
+            }
+        });
+
+        j2main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
+                    j2main[n].face.setTranslateY(souris_carte);
+                    //j1main[0].toFront();
+                }
+            }
+        });
+
+        j2main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
+                    j2main[n].face.setTranslateY(642);
+                }
+            }
+        });
+
+        j2main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
+                    if (m.config.donneur == 2) {
+                        carte_select_P(n);
+                    } else {
+                        carte_select_S(n);
+                    }
+                }
+            }
+        });
+
+    }
+
     public void maj_handler_main() {
-        j1main[0].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[0].face.setTranslateY(souris_carte);
-                    //j1main[0].toFront();
-                }
-            }
-        });
-
-        j1main[0].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[0].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 0;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[1].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[1].face.setTranslateY(souris_carte);
-                    //j1main[1].toFront();
-                }
-            }
-        });
-
-        j1main[1].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[1].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[1].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 1;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[2].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[2].face.setTranslateY(souris_carte);
-                    //j1main[2].toFront();
-                }
-            }
-        });
-
-        j1main[2].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[2].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[2].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 2;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[3].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[3].face.setTranslateY(souris_carte);
-                    //j1main[3].toFront();
-                }
-            }
-        });
-
-        j1main[3].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[3].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[3].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 3;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[4].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[4].face.setTranslateY(souris_carte);
-                    //j1main[4].toFront();
-                }
-            }
-        });
-
-        j1main[4].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[4].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[4].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 4;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[5].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[5].face.setTranslateY(souris_carte);
-                    //j1main[5].toFront();
-                }
-            }
-        });
-
-        j1main[5].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[5].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[5].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 5;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[6].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[6].face.setTranslateY(souris_carte);
-                    //j1main[6].toFront();
-                }
-            }
-        });
-
-        j1main[6].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[6].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[6].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 6;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[7].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[7].face.setTranslateY(souris_carte);
-                    //j1main[7].toFront();
-                }
-            }
-        });
-
-        j1main[7].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[7].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[7].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 7;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[8].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[8].face.setTranslateY(souris_carte);
-                    //j1main[8].toFront();
-                }
-            }
-        });
-
-        j1main[8].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[8].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[8].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 8;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[9].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[9].face.setTranslateY(souris_carte);
-                    //j1main[0]0.toFront();
-                }
-            }
-        });
-
-        j1main[9].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[9].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[9].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 9;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j1main[10].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[10].face.setTranslateY(souris_carte);
-                    //j1main[0]1.toFront();
-                }
-            }
-        });
-
-        j1main[10].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    j1main[10].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j1main[10].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                int k = 10;
-                if (carte_jouee == 0 && tour_joueur == 1 && tour_pioche == 0) {
-                    if (m.config.donneur == 1) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[0].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[0].face.setTranslateY(souris_carte);
-                    //j1main[0].toFront();
-                }
-            }
-        });
-
-        j2main[0].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[0].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 0;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[1].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[1].face.setTranslateY(souris_carte);
-                    //j1main[1].toFront();
-                }
-            }
-        });
-
-        j2main[1].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[1].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[1].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 1;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[2].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[2].face.setTranslateY(souris_carte);
-                    //j1main[2].toFront();
-                }
-            }
-        });
-
-        j2main[2].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[2].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[2].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 2;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[3].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[3].face.setTranslateY(souris_carte);
-                    //j1main[3].toFront();
-                }
-            }
-        });
-
-        j2main[3].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[3].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[3].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 3;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[4].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[4].face.setTranslateY(souris_carte);
-                    //j1main[4].toFront();
-                }
-            }
-        });
-
-        j2main[4].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[4].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[4].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 4;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[5].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[5].face.setTranslateY(souris_carte);
-                    //j1main[5].toFront();
-                }
-            }
-        });
-
-        j2main[5].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[5].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[5].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 5;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[6].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[6].face.setTranslateY(souris_carte);
-                    //j1main[6].toFront();
-                }
-            }
-        });
-
-        j2main[6].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[6].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[6].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 6;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[7].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[7].face.setTranslateY(souris_carte);
-                    //j1main[7].toFront();
-                }
-            }
-        });
-
-        j2main[7].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[7].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[7].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 7;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[8].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[8].face.setTranslateY(souris_carte);
-                    //j1main[8].toFront();
-                }
-            }
-        });
-
-        j2main[8].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[8].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[8].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 8;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[9].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[9].face.setTranslateY(souris_carte);
-                    //j1main[0]0.toFront();
-                }
-            }
-        });
-
-        j2main[9].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[9].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[9].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 9;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
-
-        j2main[10].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[10].face.setTranslateY(souris_carte);
-                    //j1main[0]1.toFront();
-                }
-            }
-        });
-
-        j2main[10].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    j2main[10].face.setTranslateY(642);
-                }
-            }
-        });
-
-        j2main[10].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == 2 && tour_pioche == 0) {
-                    int k = 10;
-                    if (m.config.donneur == 2) {
-                        carte_select_P(k);
-                    } else {
-                        carte_select_S(k);
-                    }
-                }
-            }
-        });
+        for (k = 0; k < j1main.length; k++) {
+            maj_handler(k);
+        }
     }
 
     public void maj_handler_pile() {
