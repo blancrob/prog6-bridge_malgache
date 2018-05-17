@@ -138,31 +138,16 @@ public class Moteur2 extends Moteur {
         c = card;
         //
 
-/*  //A revoir et modifier correctement
         if(config.receveur == 1){
-            if (main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
-                while(!condition){
-                    System.out.println("Jouez une carte de la couleur demandée");
-                    str = sc.nextLine();
-                    choix = Integer.parseInt(str);
-                    if (!(main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur))){
-                        condition = true;
-                    }
-                }
+            if (card.couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
+                return null;
             }
         }else{
-            if (main[choix].couleur != config.carteP.couleur && j2.main.contient(config.carteP.couleur)){
-                while(!condition){
-                    System.out.println("Jouez une carte de la couleur demandée");
-                    str = sc.nextLine();
-                    choix = Integer.parseInt(str);
-                    if (!(main[choix].couleur != config.carteP.couleur && j2.main.contient(config.carteP.couleur))){
-                        condition = true;
-                    }
-                }
+            if (card.couleur != config.carteP.couleur && j2.main.contient(config.carteP.couleur)){
+                return null;
             }
         }   
-*/           
+           
         if(config.receveur==1){
             j1.main.retirer(c);
         }else{
@@ -176,7 +161,7 @@ public class Moteur2 extends Moteur {
             config.joueur = 1;
         }
         System.out.println();
-        return card;
+        return c;
     }
     
     /**

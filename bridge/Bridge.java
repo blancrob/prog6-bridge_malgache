@@ -254,76 +254,80 @@ public class Bridge extends Application {
     }
 
     public void carte_select_S(Carte[] main, int k) {
-        carte_jouee = 1;
         Carte card = m.jouerCoupSecond(main[k]);
+        
+        if(card!=null){
+        
+            carte_jouee = 1;
 
-        //m.afficherCarte(card);
-        main[k].face.setTranslateX(710);
-        main[k].face.setTranslateY(480);
-        main[k].face.toFront();
+            //m.afficherCarte(card);
+            main[k].face.setTranslateX(710);
+            main[k].face.setTranslateY(480);
+            main[k].face.toFront();
 
-        //System.out.println("Carte jouée");
-        //actualiser_main(j2main, k);
-        //affichage_dos_main(j2main, J2);
-        init_main(j1main, J1);
-        init_main(j2main, J2);
-
-        for (int i = 0; i < main.length; i++) {
-            if (main[i] != card) {
-                main[i].face.setVisible(false);
-            }
-        }
-
-        m.config.taille--;
-        System.out.println("taille = " + m.config.taille);
-        m.config.gagnantPli();
-        System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
-        m.config.donneur = m.config.gagnant;
-        m.config.receveur = m.config.perdant;
-        System.out.println();
-        m.rangerPli();
-
-        maj_plis(j1plis, J1);
-        maj_plis(j2plis, J2);
-
-        affichage_dos_plis(j1plis, J1);
-        affichage_dos_plis(j2plis, J2);
-
-        if (m.config.gagnant == J1) {
-            affichage_face_main(j1main, J1);
-            m.config.perdant = J2;
-        } else {
-            affichage_face_main(j2main, J2);
-            m.config.perdant = J1;
-        }
-
-        if (!m.config.piochable()) {
+            //System.out.println("Carte jouée");
+            //actualiser_main(j2main, k);
+            //affichage_dos_main(j2main, J2);
             init_main(j1main, J1);
             init_main(j2main, J2);
-            for (int i = 0; i < m.j1.main.pile.size(); i++) {
-                j1main[i].face.setVisible(false);
-            }
-            for (int i = 0; i < m.j2.main.pile.size(); i++) {
-                j2main[i].face.setVisible(false);
-            }
-            maj_handler_main();
-            maj_handler_pile();
-            carte_jouee = 0;
-            tour_pioche = 0;
-            if (m.config.donneur == J1) {
-                tour_joueur = J1;
-                affichage_face_main(j1main, J1);
-            } else {
-                tour_joueur = J2;
-                affichage_face_main(j2main, J2);
-            }
-        } else {
-            tour_pioche = 1;
-        }
 
-        if (m.config.taille == 0) {
-            fin_manche();
-            score();
+            for (int i = 0; i < main.length; i++) {
+                if (main[i] != card) {
+                    main[i].face.setVisible(false);
+                }
+            }
+
+            m.config.taille--;
+            System.out.println("taille = " + m.config.taille);
+            m.config.gagnantPli();
+            System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
+            m.config.donneur = m.config.gagnant;
+            m.config.receveur = m.config.perdant;
+            System.out.println();
+            m.rangerPli();
+
+            maj_plis(j1plis, J1);
+            maj_plis(j2plis, J2);
+
+            affichage_dos_plis(j1plis, J1);
+            affichage_dos_plis(j2plis, J2);
+
+            if (m.config.gagnant == J1) {
+                affichage_face_main(j1main, J1);
+                m.config.perdant = J2;
+            } else {
+                affichage_face_main(j2main, J2);
+                m.config.perdant = J1;
+            }
+
+            if (!m.config.piochable()) {
+                init_main(j1main, J1);
+                init_main(j2main, J2);
+                for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                    j1main[i].face.setVisible(false);
+                }
+                for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                    j2main[i].face.setVisible(false);
+                }
+                maj_handler_main();
+                maj_handler_pile();
+                carte_jouee = 0;
+                tour_pioche = 0;
+                if (m.config.donneur == J1) {
+                    tour_joueur = J1;
+                    affichage_face_main(j1main, J1);
+                } else {
+                    tour_joueur = J2;
+                    affichage_face_main(j2main, J2);
+                }
+            } else {
+                tour_pioche = 1;
+            }
+
+            if (m.config.taille == 0) {
+                fin_manche();
+                score();
+            }
         }
     }
 
