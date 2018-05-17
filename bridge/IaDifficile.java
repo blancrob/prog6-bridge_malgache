@@ -14,8 +14,8 @@ import java.util.Iterator;
  */
 public class IaDifficile extends IaAvancee {
 
-    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g) {
-        super(m, c, pi, p, l, at, cour, n, g);
+    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, int nbPlisIA, int nbPlisAdv) {
+        super(m, c, pi, p, l, at, cour, n, g, nbPlisIA, nbPlisAdv);
     }
 
     

@@ -368,4 +368,8 @@ public class IA_Util {
         }
         return res;
     }
+    
+    public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
+        return((nbPlisIA > nbPlisAdv) || (nbPlisIA != 13));
+    }
 }

@@ -18,9 +18,11 @@ public class IaAvancee implements IA {
     Carte courante;
     int[] nbCartes;
     boolean gagnant;
+    int nbPlisIA;
+    int nbPlisAdv;
     
     
-    public IaAvancee(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g) {
+    public IaAvancee(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, int nbPlisIA, int nbPlisAdv) {
         main = m;
         cartesDejaJouees = c;
         cartesPiochees = pi;
@@ -30,6 +32,8 @@ public class IaAvancee implements IA {
         courante = cour;
         nbCartes = n;
         gagnant = g;
+        this.nbPlisIA = nbPlisIA;
+        this.nbPlisAdv = nbPlisAdv;
     }
     
     
@@ -71,7 +75,7 @@ public class IaAvancee implements IA {
                     }
                     i++;
                 }
-                if ((h<0.4) && (IA_Util.plusGrossePile(nbCartes, lg)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
+                if ((h<0.4) && (IA_Util.plusGrossePile(nbCartes, lg)>1) && IA_Util.ImtheBest(nbPlisIA,nbPlisAdv)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
                     res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
                 }
                 
