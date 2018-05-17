@@ -24,6 +24,8 @@ public class Moteur {
     Configuration config;
     Joueur j1, j2;
     
+    int joueur1donneur, joueur2donneur;
+    
     public Moteur(){
         
     }
@@ -37,6 +39,9 @@ public class Moteur {
         
         j1 = new Joueur();
         j2 = new Joueur();
+        
+        joueur1donneur=0;
+        joueur2donneur=0;
         
         config.conditionVictoire=0;
         config.mancheMax=0;
@@ -834,8 +839,14 @@ public class Moteur {
             System.out.println();
             if(j1.tas.taille()>j2.tas.taille()){
                 System.out.println("LE JOUEUR 1 GAGNE");
+                if(config.donneurInitial==1){
+                    joueur1donneur++;
+                }
             }else if(j1.tas.taille()<j2.tas.taille()){
                 System.out.println("LE JOUEUR 2 GAGNE");
+                if(config.donneurInitial==2){
+                    joueur2donneur++;
+                }
             }
             else{
                 System.out.println("EGALITE");
@@ -876,6 +887,8 @@ public class Moteur {
         else{
             System.out.println("EGALITE");
         }
+        System.out.println("Nombre de victoires du joueur 1 en commençant la manche donneur: " + joueur1donneur);
+        System.out.println("Nombre de victoires du joueur 2 en commençant la manche donneur: " + joueur2donneur);
     }
     
     public static void main(String[] args) throws ClassNotFoundException {
