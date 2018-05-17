@@ -148,7 +148,7 @@ public class Bridge extends Application {
         while (it.hasNext()) {
             c = it.next();
             plis[i] = c;
-            m.afficherCarte(plis[i]);
+            //m.afficherCarte(plis[i]);
             i++;
         }
     }
@@ -226,8 +226,7 @@ public class Bridge extends Application {
         carte_jouee = 1;
         Carte card = m.jouerCoupPremier(main[k]);
 
-        m.afficherCarte(card);
-
+        //m.afficherCarte(card);
         main[k].face.setTranslateX(710);
         main[k].face.setTranslateY(150);
         main[k].face.toFront();
@@ -258,8 +257,7 @@ public class Bridge extends Application {
         carte_jouee = 1;
         Carte card = m.jouerCoupSecond(main[k]);
 
-        m.afficherCarte(card);
-
+        //m.afficherCarte(card);
         main[k].face.setTranslateX(710);
         main[k].face.setTranslateY(480);
         main[k].face.toFront();
@@ -277,6 +275,7 @@ public class Bridge extends Application {
         }
 
         m.config.taille--;
+        System.out.println("taille = " + m.config.taille);
         m.config.gagnantPli();
         System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
         m.config.donneur = m.config.gagnant;
@@ -321,6 +320,47 @@ public class Bridge extends Application {
         } else {
             tour_pioche = 1;
         }
+
+        if (m.config.taille == 0) {
+            fin_manche();
+            score();
+        }
+    }
+
+    public void fin_manche() {
+        System.out.println();
+        if (m.j1.tas.taille() > m.j2.tas.taille()) {
+            System.out.println("LE JOUEUR 1 GAGNE");
+        } else if (m.j1.tas.taille() < m.j2.tas.taille()) {
+            System.out.println("LE JOUEUR 2 GAGNE");
+        } else {
+            System.out.println("EGALITE");
+        }
+        System.out.println();
+    }
+
+    public void score() {
+        m.j1.score = m.j1.tas.taille() / 2;
+        m.j2.score = m.j2.tas.taille() / 2;
+        System.out.println("Manche: " + m.config.manche);
+        System.out.println("Score joueur 1: " + (m.j1.score));
+        System.out.println("Score joueur 2: " + (m.j2.score));
+        System.out.println();
+        System.out.println("Tas joueur 1:");
+        Iterator<Carte> it = m.j1.tas.iterateur();
+        while (it.hasNext()) {
+            m.afficherCarte(it.next());
+        }
+
+        System.out.println();
+        System.out.println("Tas joueur 2:");
+        it = m.j2.tas.iterateur();
+        while (it.hasNext()) {
+            m.afficherCarte(it.next());
+        }
+
+        m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
+        m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
 
     //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
@@ -346,7 +386,6 @@ public class Bridge extends Application {
         main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                //System.out.println("tour_joueur = "+tour_joueur+" et j = "+j+"   et pioche = "+tour_pioche);
                 if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
                     if (m.config.donneur == j) {
                         carte_select_P(main, n);
@@ -379,7 +418,6 @@ public class Bridge extends Application {
                         init_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
-                        m.config.taille++;
                     }
 
                     m.config.donneur = m.config.gagnant;
@@ -416,19 +454,18 @@ public class Bridge extends Application {
                     }
                     carte_jouee = 0;
                     tour_pioche = 0;
-                    
+
                     /*for (int i = 0; i < pile.length; i++) {
-                        m.afficherCarte(pile[i][0]);
-                    }
-                    System.out.println();
-                    for (int i = 0; i < j1main.length; i++) {
-                        m.afficherCarte(j1main[i]);
-                    }
-                    System.out.println();
-                    for (int i = 0; i < j2main.length; i++) {
-                        m.afficherCarte(j2main[i]);
-                    }*/
-                    
+                     m.afficherCarte(pile[i][0]);
+                     }
+                     System.out.println();
+                     for (int i = 0; i < j1main.length; i++) {
+                     m.afficherCarte(j1main[i]);
+                     }
+                     System.out.println();
+                     for (int i = 0; i < j2main.length; i++) {
+                     m.afficherCarte(j2main[i]);
+                     }*/
                     System.out.println();
                 }
 
@@ -447,7 +484,7 @@ public class Bridge extends Application {
                         init_main(j1main, J1);
                         for (int i = 0; i < j1main.length; i++) {
                             j1main[i].face.setVisible(false);
-                            m.afficherCarte(j1main[i]);
+                            //m.afficherCarte(j1main[i]);
                         }
                         System.out.println();
                         init_main(j2main, J2);
@@ -456,7 +493,7 @@ public class Bridge extends Application {
                         init_main(j2main, J2);
                         for (int i = 0; i < j2main.length; i++) {
                             j2main[i].face.setVisible(false);
-                            m.afficherCarte(j2main[i]);
+                            //m.afficherCarte(j2main[i]);
                         }
                         System.out.println();
                         init_main(j1main, J1);
