@@ -489,28 +489,6 @@ public class Bridge extends Application {
             } else {
                 tour_pioche = 1;
             }
-
-            if (m.config.taille == 0) {
-                Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
-                Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
-                fin_manche();
-                score();
-                if (V1 || V2) {
-                    System.out.println("Manche SUIVANTE !");
-                    init_manche();
-                } else {
-                    System.out.println();
-                    System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
-                    System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
-                    if (m.j1.scoreTotal > m.j2.scoreTotal) {
-                        System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
-                    } else if (m.j1.scoreTotal < m.j2.scoreTotal) {
-                        System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
-                    } else {
-                        System.out.println("EGALITE");
-                    }
-                }
-            }
         }
     }
 
@@ -729,66 +707,27 @@ public class Bridge extends Application {
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
                     
                 }else if(m.finManche()){
-                    //Afficher le score de chaque joueur
-                    fin_manche();
-                    score();
-                    
-                    //Tentative ratée d'actualiser l'affichage après initialisation
-                    
-                    tour_joueur=0;
-                    tour_pioche=0;
-                    switch (m.config.donneurInitial) {
-                        case 0:
-                            m.config.donneurInitial = 1;
-                            m.config.donneur = 1;
-                            break;
-                        case 1:
-                            m.config.donneurInitial = 2;
-                            m.config.donneur = 2;
-                            break;
-                        default:
-                            m.config.donneurInitial = 1;
-                            m.config.donneur = 1;
-                            break;
+                    if (m.config.taille == 0) {
+                        Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
+                        Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
+                        fin_manche();
+                        score();
+                        if (V1 || V2) {
+                            System.out.println("Manche SUIVANTE !");
+                            init_manche();
+                        } else {
+                            System.out.println();
+                            System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
+                            System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
+                            if (m.j1.scoreTotal > m.j2.scoreTotal) {
+                                System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+                            } else if (m.j1.scoreTotal < m.j2.scoreTotal) {
+                                System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
+                            } else {
+                                System.out.println("EGALITE");
+                            }
+                        }
                     }
-
-                    m.config.manche++;
-                    m.initialiserManche();
-
-                    System.out.println("MANCHE " + m.config.manche);
-                    System.out.println();
-
-                    switch (m.config.atout) {
-                        case 1:
-                            System.out.println("Atout: TREFLE");
-                            break;
-                        case 2:
-                            System.out.println("Atout: CARREAU");
-                            break;
-                        case 3:
-                            System.out.println("Atout: COEUR");
-                            break;
-                        case 4:
-                            System.out.println("Atout: PIQUE");
-                            break;
-                    }
-
-                    System.out.println();
-
-                    j1main = new Carte[11];
-                    j2main = new Carte[11];
-                    pile = new Carte[6][5];
-                    j1plis = new Carte[52];
-                    j2plis = new Carte[52];
-
-                    init_mainJ1J2();
-                    init_pile(pile);
-
-                    affichage_face_main(j1main, J1);
-                    affichage_dos_main(j2main, J2);
-
-                    //affichage_dos_pile(pile);
-                    affichage_face_pile(pile);
                 }
                 
                 if( ((m.config.mode==2 && tour_joueur==2) || m.config.mode==3 && tour_joueur>0) && carte_jouee==0 && !m.finManche()){ //Cas où c'est au tour d'une IA de jouer

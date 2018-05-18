@@ -732,7 +732,7 @@ public class Moteur {
             }
             System.out.println();
 
-            while(config.taille>0){
+            while(!finManche()){
                 if(config.piochable()){
                     config.afficherPioche();
                 }
