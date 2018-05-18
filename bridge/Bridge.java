@@ -706,7 +706,7 @@ public class Bridge extends Application {
                 if(m.finPartie()){
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
                     
-                }else if(m.finManche()){
+                }else if(m.finManche()){    //Si la manche est finie
                     if (m.config.taille == 0) {
                         Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
                         Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
@@ -732,14 +732,33 @@ public class Bridge extends Application {
                 
                 if( ((m.config.mode==2 && tour_joueur==2) || m.config.mode==3 && tour_joueur>0) && carte_jouee==0 && !m.finManche()){ //Cas où c'est au tour d'une IA de jouer
                     carte_jouee=1;
-                    m.jouerCoupIA(tour_joueur);
-                    if(tour_joueur==1){
-                        tour_joueur=2;
+                    Carte c = m.jouerCoupIA(tour_joueur);
+                    
+                    if(m.config.carteS==null){  //Si la deuxieme carte n'est pas jouée, l'autre joueur devient le joueur courant AFFICHAGE DES MAINS EN CONSEQUENCE A FAIRE, PENSER A UTILISER UNE METHODE QUI AFFICHE LA MAIN DU JOUEUR PASSE EN PARAMETRE
+                        if(tour_joueur==1){
+                            tour_joueur=2;
+                        }else{
+                            tour_joueur=1;
+                        }
                     }else{
-                        tour_joueur=1;
+                        tour_joueur=0;
                     }
                     carte_jouee=0;
                     
+                }
+                
+                if(m.config.mode==2 && tour_pioche==2){ //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    Carte c = m.piocheIA(tour_pioche);
+                    
+                    if(tour_pioche==m.config.gagnant){  //Si le joueur courant était gagnant, l'autre joueur devient le piocheur courant AFFICHAGE DES MAINS EN CONSEQUENCE A FAIRE, PENSER A UTILISER UNE METHODE QUI AFFICHE LA MAIN DU JOUEUR PASSE EN PARAMETRE
+                        if(tour_pioche==1){
+                            tour_pioche=2;
+                        }else{
+                            tour_pioche=1;
+                        }
+                    }else{
+                        tour_pioche=0;
+                    }
                 }
             }
          };
