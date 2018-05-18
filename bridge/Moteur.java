@@ -514,114 +514,98 @@ public class Moteur {
                     }
                 }
             }
+           
+            config.piochees.ajouter(c);
             
         }else{  //Si c'est à l'ordinateur de jouer
-            
-            c = null;
-            Carte[] piocheIA = new Carte[6];
-            int[] nbCartes = new int[6];
-            int lg = 0;
-            for(int i=0; i<6; i++){
-                if(config.pioche[i].premiere()!=null){
-                    piocheIA[lg]=config.pioche[i].premiere();
-                    nbCartes[lg]=config.pioche[i].taille();
-                    lg++;
-                }
-            }
-            
-            PileCartes cartesDejaJouees = new PileCartes();
-            cartesDejaJouees.pile.addAll(j1.tas.pile);
-            cartesDejaJouees.pile.addAll(j2.tas.pile);
-            
-            int difficulte;
-            IA ia = null;
-            if(piocheur==1){
-                difficulte = j1.difficulte;
-                switch(difficulte){
-                    case 1:
-                        ia = new IaNovice(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 2:
-                        ia = new IaFacile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 3:
-                        ia = new IaMoyenne(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 4:
-                        if(config.gagnant==piocheur){
-                            ia = new IaAvancee(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, j1.score, j2.score);
-                        }else{
-                            ia = new IaAvancee(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, j1.score, j2.score);
-                        }
-                        break;
-                    case 5:
-                        if(config.gagnant==piocheur){
-                            ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, j1.score, j2.score);
-                        }else{
-                            ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, j1.score, j2.score);
-                        }
-                        break;
-                    case 6:
-                        if(config.gagnant==piocheur){
-                            ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, null, config.pioche);
-                        }else{
-                            ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, null, config.pioche);
-                        }
-                        break;
-                }
-            }else{
-                difficulte = j2.difficulte;
-                switch(difficulte){
-                    case 1:
-                        ia = new IaNovice(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 2:
-                        ia = new IaFacile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 3:
-                        ia = new IaMoyenne(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
-                        break;
-                    case 4:
-                        if(config.gagnant==piocheur){
-                            ia = new IaAvancee(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, j2.score, j1.score);
-                        }else{
-                            ia = new IaAvancee(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, j2.score, j1.score);
-                        }
-                        break;
-                    case 5:
-                        if(config.gagnant==piocheur){
-                            ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, j2.score, j1.score);
-                        }else{
-                            ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, j2.score, j1.score);
-                        }
-                        break;
-                    case 6:
-                        if(config.gagnant==piocheur){
-                            ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, true, null, config.pioche);
-                        }else{
-                            ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, false, null, config.pioche);
-                        }
-                        break;
-                }
-            }
-            
-            c = ia.piocher();
-            
-            for(int i=0; i<6; i++){
-                if(c == config.pioche[i].premiere()){
-                    if (piocheur==1){   
-                        j1.main.ajouter(config.pioche[i].retirer());
-                    }else{
-                        j2.main.ajouter(config.pioche[i].retirer());
-                    }
-                }
-            }
-
-            System.out.println("Le joueur " + piocheur + " a pioché:");
-            afficherCarte(c);
+            piocheIA(piocheur);
         }
-        
+    }
+    
+    public Carte piocheIA(int piocheur){
+        Carte c = null;
+        Carte[] piocheIA = new Carte[6];
+        int[] nbCartes = new int[6];
+        int lg = 0;
+        for(int i=0; i<6; i++){
+            if(config.pioche[i].premiere()!=null){
+                piocheIA[lg]=config.pioche[i].premiere();
+                nbCartes[lg]=config.pioche[i].taille();
+                lg++;
+            }
+        }
+
+        PileCartes cartesDejaJouees = new PileCartes();
+        cartesDejaJouees.pile.addAll(j1.tas.pile);
+        cartesDejaJouees.pile.addAll(j2.tas.pile);
+
+        int difficulte;
+        IA ia = null;
+        if(piocheur==1){
+            difficulte = j1.difficulte;
+            switch(difficulte){
+                case 1:
+                    ia = new IaNovice(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 2:
+                    ia = new IaFacile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 3:
+                    ia = new IaMoyenne(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 4:
+                    ia = new IaAvancee(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j1.score, j2.score);
+                    break;
+                case 5:
+                    ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j1.score, j2.score);
+                    break;
+                case 6:
+                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, null, config.pioche);
+                    break;
+            }
+        }else{
+            difficulte = j2.difficulte;
+            switch(difficulte){
+                case 1:
+                    ia = new IaNovice(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 2:
+                    ia = new IaFacile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 3:
+                    ia = new IaMoyenne(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null);
+                    break;
+                case 4:
+                    ia = new IaAvancee(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score);
+                    break;
+                case 5:
+                    ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score);
+                    break;
+                case 6:
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, null, config.pioche);
+                    break;
+            }
+        }
+
+        c = ia.piocher();
+
+        for(int i=0; i<6; i++){
+            if(c == config.pioche[i].premiere()){
+                if (piocheur==1){   
+                    j1.main.ajouter(config.pioche[i].retirer());
+                }else{
+                    j2.main.ajouter(config.pioche[i].retirer());
+                }
+            }
+        }
+
+        System.out.println("Le joueur " + piocheur + " a pioché:");
+        afficherCarte(c);
+
+
         config.piochees.ajouter(c);
+        
+        return c;
     }
     
     /**
