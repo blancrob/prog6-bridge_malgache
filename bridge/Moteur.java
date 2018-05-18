@@ -680,7 +680,7 @@ public class Moteur {
     }
     
     public boolean finManche(){
-        return config.taille==0;
+        return j1.main.vide() || j2.main.vide();
     }
     
     public boolean finPartie(){

@@ -667,7 +667,7 @@ public class Bridge extends Application {
                     affichage_face_pile(pile);
                 }
                 
-                if( ((m.config.mode==2 && tour_joueur==2) || m.config.mode==3 && tour_joueur>0) && carte_jouee==0){ //Cas où c'est au tour d'une IA de jouer
+                if( ((m.config.mode==2 && tour_joueur==2) || m.config.mode==3 && tour_joueur>0) && carte_jouee==0 && !m.finManche()){ //Cas où c'est au tour d'une IA de jouer
                     carte_jouee=1;
                     m.jouerCoupIA(tour_joueur);
                     if(tour_joueur==1){
