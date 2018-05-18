@@ -534,6 +534,89 @@ public class Moteur {
         }
     }
     
+    public Carte jouerCoupIA(int joueur){
+        Carte c = null;
+        Carte[] piocheIA = new Carte[6];
+        int[] nbCartes = new int[6];
+        int lg = 0;
+        for(int i=1; i<6; i++){
+            if(config.pioche[i].premiere()!=null){
+                piocheIA[lg]=config.pioche[i].premiere();
+                nbCartes[lg]=config.pioche[i].taille();
+                lg++;
+            }
+        }
+
+        PileCartes cartesDejaJouees = new PileCartes();
+        cartesDejaJouees.pile.addAll(j1.tas.pile);
+        cartesDejaJouees.pile.addAll(j2.tas.pile);
+
+        int difficulte;
+        IA ia = null;
+        
+        if(joueur==1){
+            difficulte = j1.difficulte;
+            switch(difficulte){
+                case 1:
+                    ia = new IaNovice(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 2:
+                    ia = new IaFacile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 3:
+                    ia = new IaMoyenne(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 4:
+                    ia = new IaAvancee(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.score, j2.score);
+                    break;
+                case 5:
+                    ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.score, j2.score);
+                    break;
+                case 6:
+                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.main, null);
+                    break;
+            }
+        }else{
+            difficulte = j2.difficulte;
+            switch(difficulte){
+                case 1:
+                    ia = new IaNovice(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 2:
+                    ia = new IaFacile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 3:
+                    ia = new IaMoyenne(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP);
+                    break;
+                case 4:
+                    ia = new IaAvancee(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score);
+                    break;
+                case 5:
+                    ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score);
+                    break;
+                case 6:
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.main, null);
+                    break;
+            }
+        }
+
+        c = ia.jouer();
+
+        if (joueur==1){
+            j1.main.retirer(c);
+        }else{
+            j2.main.retirer(c);
+        }
+
+        if(config.carteP==null){
+            config.carteP=c;
+        }else{
+            config.carteS=c;
+        }
+        
+        return c;
+    }
+    
     /**
      * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
      */
@@ -757,6 +840,14 @@ public class Moteur {
         for(int i=0;i<11;i++){
             j2.main.ajouter(paquet.aleatoire(false));
         }
+    }
+    
+    public boolean finManche(){
+        return config.taille==0;
+    }
+    
+    public boolean finPartie(){
+        return ((config.conditionVictoire==1 && config.manche>=config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal>=config.scoreMax || j2.scoreTotal>=config.scoreMax)));
     }
     
     public void moteur() throws ClassNotFoundException{

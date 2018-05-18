@@ -593,17 +593,95 @@ public class Bridge extends Application {
          });
          */
 
-        /*
+        
          AnimationTimer timer = new AnimationTimer() {
-         @Override
-         public void handle(long now) {
-         if (temps + 2000 < System.currentTimeMillis()) {
+            @Override
+            public void handle(long now) {
+                /*if (temps + 2000 < System.currentTimeMillis()) {
 
-         }
-         }
+                }*/
+                
+                if(m.finPartie()){
+                    //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
+                    
+                }else if(m.finManche()){
+                    //Afficher le score de chaque joueur
+                    fin_manche();
+                    score();
+                    
+                    //Tentative ratée d'actualiser l'affichage après initialisation
+                    
+                    tour_joueur=0;
+                    tour_pioche=0;
+                    switch (m.config.donneurInitial) {
+                        case 0:
+                            m.config.donneurInitial = 1;
+                            m.config.donneur = 1;
+                            break;
+                        case 1:
+                            m.config.donneurInitial = 2;
+                            m.config.donneur = 2;
+                            break;
+                        default:
+                            m.config.donneurInitial = 1;
+                            m.config.donneur = 1;
+                            break;
+                    }
+
+                    m.config.manche++;
+                    m.initialiserManche();
+
+                    System.out.println("MANCHE " + m.config.manche);
+                    System.out.println();
+
+                    switch (m.config.atout) {
+                        case 1:
+                            System.out.println("Atout: TREFLE");
+                            break;
+                        case 2:
+                            System.out.println("Atout: CARREAU");
+                            break;
+                        case 3:
+                            System.out.println("Atout: COEUR");
+                            break;
+                        case 4:
+                            System.out.println("Atout: PIQUE");
+                            break;
+                    }
+
+                    System.out.println();
+
+                    j1main = new Carte[11];
+                    j2main = new Carte[11];
+                    pile = new Carte[6][5];
+                    j1plis = new Carte[52];
+                    j2plis = new Carte[52];
+
+                    init_mainJ1J2();
+                    init_pile(pile);
+
+                    affichage_face_main(j1main, J1);
+                    affichage_dos_main(j2main, J2);
+
+                    //affichage_dos_pile(pile);
+                    affichage_face_pile(pile);
+                }
+                
+                if( ((m.config.mode==2 && tour_joueur==2) || m.config.mode==3 && tour_joueur>0) && carte_jouee==0){ //Cas où c'est au tour d'une IA de jouer
+                    carte_jouee=1;
+                    m.jouerCoupIA(tour_joueur);
+                    if(tour_joueur==1){
+                        tour_joueur=2;
+                    }else{
+                        tour_joueur=1;
+                    }
+                    carte_jouee=0;
+                    
+                }
+            }
          };
          timer.start();
-         */
+         
         maj_handler_main();
         maj_handler_pile();
 
