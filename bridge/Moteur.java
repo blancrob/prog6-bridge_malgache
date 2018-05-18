@@ -88,6 +88,8 @@ public class Moteur {
      * Initialise le début de la manche, distribue les cartes aux joueurs
      */
     public void initialiserManche(){
+        j1.main = new PileCartes();
+        j2.main = new PileCartes();
         j1.tas = new PileCartes();
         j2.tas = new PileCartes();
         distribuer();
