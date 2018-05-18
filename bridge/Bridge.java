@@ -37,6 +37,7 @@ public class Bridge extends Application {
     public Moteur2 m;
 
     AnchorPane root;
+    Rectangle menu;
 
     public Carte[] j1main;
     public Carte[] j2main;
@@ -46,16 +47,152 @@ public class Bridge extends Application {
 
     int temps = 0;
     int carte_jouee = 0;
-    int tour_joueur = 1;
+    int tour_joueur = J1;
     int tour_pioche = 0;
     int k = 0;
 
     //MessageTransition MessageT;
+    public void init_manche() {
+        carte_jouee = 0;
+        tour_pioche = 0;
+        tour_joueur = J1;
+        temps = 0;
+        k = 0;
+
+        j1main = new Carte[11];
+        j2main = new Carte[11];
+        pile = new Carte[6][5];
+        j1plis = new Carte[52];
+        j2plis = new Carte[52];
+
+        switch (m.config.donneurInitial) {
+            case 0:
+                m.config.donneurInitial = 1;
+                m.config.donneur = 1;
+                break;
+            case 1:
+                m.config.donneurInitial = 2;
+                m.config.donneur = 2;
+                break;
+            default:
+                m.config.donneurInitial = 1;
+                m.config.donneur = 1;
+                break;
+        }
+
+        m.config.manche++;
+        m.initialiserManche();
+
+        System.out.println("MANCHE " + m.config.manche);
+        System.out.println();
+
+        switch (m.config.atout) {
+            case 1:
+                System.out.println("Atout: TREFLE");
+                break;
+            case 2:
+                System.out.println("Atout: CARREAU");
+                break;
+            case 3:
+                System.out.println("Atout: COEUR");
+                break;
+            case 4:
+                System.out.println("Atout: PIQUE");
+                break;
+        }
+
+        System.out.println();
+
+        init_mainJ1J2();
+        init_pile(pile);
+
+        System.out.println();
+        System.out.println("Pile ");
+
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 0; i < pile[j].length; i++) {
+                if (pile[j][i] != null) {
+                    m.afficherCarte(pile[j][i]);
+                    //pile[j][i].dos.setVisible(false);
+                    //pile[j][i].face.setVisible(true);
+                }
+            }
+            System.out.println();
+        }
+
+        System.out.println();
+        System.out.println("Main J1");
+
+        for (int i = 0; i < j1main.length; i++) {
+            if (j1main[i] != null) {
+                m.afficherCarte(j1main[i]);
+                //j1main[i].dos.setVisible(false);
+                //j1main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+        System.out.println("Main J2");
+
+        for (int i = 0; i < j2main.length; i++) {
+            if (j2main[i] != null) {
+                m.afficherCarte(j2main[i]);
+                //j2main[i].dos.setVisible(false);
+                //j2main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+
+        if (m.config.donneur == J1) {
+            tour_joueur = J1;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, J2);
+        } else {
+            tour_joueur = J2;
+            affichage_face_main(j2main, J2);
+            affichage_dos_main(j1main, J1);
+        }
+
+        //affichage_dos_pile(pile);
+        affichage_face_pile(pile);
+
+        maj_handler_main();
+        maj_handler_pile();
+
+        if (m.config.manche > 1) {
+            root.getChildren().clear();
+            for (int i = 0; i < j1main.length; i++) {
+                if (j1main[i] != null) {
+                    root.getChildren().add(j1main[i].face);
+                    root.getChildren().add(j1main[i].dos);
+                }
+            }
+
+            for (int i = 0; i < j2main.length; i++) {
+                if (j2main[i] != null) {
+                    root.getChildren().add(j2main[i].face);
+                    root.getChildren().add(j2main[i].dos);
+                }
+            }
+
+            for (int j = 0; j < pile.length; j++) {
+                for (int i = 0; i < pile[j].length; i++) {
+                    if (pile[j][i] != null) {
+                        root.getChildren().add(pile[j][i].face);
+                        root.getChildren().add(pile[j][i].dos);
+                    }
+                }
+            }
+            root.getChildren().add(menu);
+        }
+    }
+
     public void init_main(Carte[] main, int j) {
         String color;
         String number;
 
-        if (j == 1) {
+        if (j == J1) {
             for (int i = 0; i < m.j1.main.pile.size(); i++) {
                 main[i] = m.j1.main.pile.get(i);
             }
@@ -242,11 +379,11 @@ public class Bridge extends Application {
             }
         }
 
-        if (m.config.donneur == 1) {
-            tour_joueur = 2;
+        if (m.config.donneur == J1) {
+            tour_joueur = J2;
             affichage_face_main(j2main, J2);
         } else {
-            tour_joueur = 1;
+            tour_joueur = J1;
             affichage_face_main(j1main, J1);
         }
 
@@ -254,10 +391,39 @@ public class Bridge extends Application {
     }
 
     public void carte_select_S(Carte[] main, int k) {
+        
+        
+        //
+        System.out.println("  Avant  joeurCoupSecond       --------------J1---------------");
+        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+            m.afficherCarte(m.j1.main.pile.get(i));
+        }
+        System.out.println("  Avant   joeurCoupSecond       --------------J2---------------");
+        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+            m.afficherCarte(m.j2.main.pile.get(i));
+        }
+        System.out.println();
+        //
+        
+        
         Carte card = m.jouerCoupSecond(main[k]);
         
-        if(card!=null){
         
+        //
+        System.out.println(" Apres  joeurCoupSecond       --------------J1---------------");
+        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+            m.afficherCarte(m.j1.main.pile.get(i));
+        }
+        System.out.println("   Apres  joeurCoupSecond       --------------J2---------------");
+        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+            m.afficherCarte(m.j2.main.pile.get(i));
+        }
+        System.out.println();
+        //
+        
+
+        if (card != null) {
+
             carte_jouee = 1;
 
             //m.afficherCarte(card);
@@ -325,8 +491,25 @@ public class Bridge extends Application {
             }
 
             if (m.config.taille == 0) {
+                Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
+                Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
                 fin_manche();
                 score();
+                if (V1 || V2) {
+                    System.out.println("Manche SUIVANTE !");
+                    init_manche();
+                } else {
+                    System.out.println();
+                    System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
+                    System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
+                    if (m.j1.scoreTotal > m.j2.scoreTotal) {
+                        System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+                    } else if (m.j1.scoreTotal < m.j2.scoreTotal) {
+                        System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
+                    } else {
+                        System.out.println("EGALITE");
+                    }
+                }
             }
         }
     }
@@ -428,10 +611,12 @@ public class Bridge extends Application {
                     m.config.receveur = m.config.perdant;
 
                     if (m.config.donneur == J1) {
-                        tour_joueur = 1;
-                        m.config.receveur = 2;
+                        tour_joueur = J1;
+                        m.config.receveur = J2;
+
                         init_main(j1main, J1);
                         init_main(j2main, J2);
+
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             j1main[i].face.setVisible(false);
                         }
@@ -442,34 +627,26 @@ public class Bridge extends Application {
                         maj_handler_pile();
                         affichage_face_main(j1main, J1);
                     } else {
-                        tour_joueur = 2;
-                        m.config.receveur = 1;
+                        tour_joueur = J2;
+                        m.config.receveur = J1;
+
                         init_main(j1main, J1);
                         init_main(j2main, J2);
+                            
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             j1main[i].face.setVisible(false);
                         }
                         for (int i = 0; i < m.j2.main.pile.size(); i++) {
                             j2main[i].face.setVisible(false);
                         }
+                            
                         maj_handler_main();
                         maj_handler_pile();
-                        affichage_face_main(j2main, 2);
+                        affichage_face_main(j2main, J2);
                     }
                     carte_jouee = 0;
                     tour_pioche = 0;
 
-                    /*for (int i = 0; i < pile.length; i++) {
-                     m.afficherCarte(pile[i][0]);
-                     }
-                     System.out.println();
-                     for (int i = 0; i < j1main.length; i++) {
-                     m.afficherCarte(j1main[i]);
-                     }
-                     System.out.println();
-                     for (int i = 0; i < j2main.length; i++) {
-                     m.afficherCarte(j2main[i]);
-                     }*/
                     System.out.println();
                 }
 
@@ -524,67 +701,14 @@ public class Bridge extends Application {
 
         m.initialiser();
 
-        switch (m.config.donneurInitial) {
-            case 0:
-                m.config.donneurInitial = 1;
-                m.config.donneur = 1;
-                break;
-            case 1:
-                m.config.donneurInitial = 2;
-                m.config.donneur = 2;
-                break;
-            default:
-                m.config.donneurInitial = 1;
-                m.config.donneur = 1;
-                break;
-        }
-
-        m.config.manche++;
-        m.initialiserManche();
-
-        System.out.println("MANCHE " + m.config.manche);
-        System.out.println();
-
-        switch (m.config.atout) {
-            case 1:
-                System.out.println("Atout: TREFLE");
-                break;
-            case 2:
-                System.out.println("Atout: CARREAU");
-                break;
-            case 3:
-                System.out.println("Atout: COEUR");
-                break;
-            case 4:
-                System.out.println("Atout: PIQUE");
-                break;
-        }
-
-        System.out.println();
-
-        j1main = new Carte[11];
-        j2main = new Carte[11];
-        pile = new Carte[6][5];
-        j1plis = new Carte[52];
-        j2plis = new Carte[52];
-
-        init_mainJ1J2();
-        init_pile(pile);
-
-        affichage_face_main(j1main, J1);
-        affichage_dos_main(j2main, J2);
-
-        //affichage_dos_pile(pile);
-        affichage_face_pile(pile);
-
-        Rectangle menu = new Rectangle(260, 720, Color.PERU);
+        init_manche();
 
         /*
          MessageT.setOnMouseClicked(new EventHandler<MouseEvent>() {
          @Override
          public void handle(MouseEvent me) {
          MessageT.setVisible(false);
-         if (tour_joueur == 1) {
+         if (tour_joueur == J1) {
          affichage_face_main(j1main,1);
          } else {
          affichage_face_main(j2main,2);
@@ -593,8 +717,8 @@ public class Bridge extends Application {
          });
          */
 
-        
-         AnimationTimer timer = new AnimationTimer() {
+ 
+          AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 /*if (temps + 2000 < System.currentTimeMillis()) {
@@ -681,9 +805,8 @@ public class Bridge extends Application {
             }
          };
          timer.start();
-         
-        maj_handler_main();
-        maj_handler_pile();
+        
+        menu = new Rectangle(260, 720, Color.PERU);
 
         root = new AnchorPane();
 
@@ -706,9 +829,9 @@ public class Bridge extends Application {
             }
         }
 
-        //root.getChildren().add(MessageT);
         root.getChildren().add(menu);
 
+        //root.getChildren().add(MessageT);
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);
