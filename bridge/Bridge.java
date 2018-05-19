@@ -777,7 +777,7 @@ public class Bridge extends Application {
                     carte_jouee = 0;
                 }
 
-                if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA ) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                     m.config.afficherPioche();
                     Carte c = m.piocheIA(tour_pioche);
                     System.out.println();
@@ -785,7 +785,7 @@ public class Bridge extends Application {
                     affichage_face_pile(pile);
                     maj_handler_pile();
                     init_main(j2main, IA);
-                    
+                    System.out.println("boucle ?");
                     m.config.taille++;
                     tour_pioche = 2;
 
@@ -851,19 +851,15 @@ public class Bridge extends Application {
                         m.config.perdant = J1;
                     }
                     //Temporairement
-                    tour_pioche = 1;
+                    if(m.config.piochable()){
+                        tour_pioche = 1;
+                    }
                 }
 
                 //A adapter !
-                /*if (m.config.mode == 2 && !m.config.piochable()) {
+                if (m.config.mode == 2 && carte_jouee == 1 && !m.config.piochable()) {
                     init_main(j1main, J1);
                     init_main(j2main, IA);
-                    for (int i = 0; i < m.j1.main.pile.size(); i++) {
-                        j1main[i].face.setVisible(false);
-                    }
-                    for (int i = 0; i < m.j2.main.pile.size(); i++) {
-                        j2main[i].face.setVisible(false);
-                    }
                     maj_handler_main();
                     maj_handler_pile();
                     carte_jouee = 0;
@@ -872,12 +868,9 @@ public class Bridge extends Application {
                         tour_joueur = J1;
                         affichage_face_main(j1main, J1);
                     } else {
-                        tour_joueur = J2;
-                        affichage_face_main(j2main, J2);
+                        tour_joueur = IA;
                     }
-                } else {
-                    tour_pioche = 1;
-                }*/
+                }
             }
         };
         timer.start();
