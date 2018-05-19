@@ -51,7 +51,7 @@ public class Bridge extends Application {
     int tour_joueur = J1;
     int tour_pioche = 0;
     int k = 0;
-    
+
     Carte J1_carte_jouee;
     Carte J2_carte_jouee;
 
@@ -250,6 +250,9 @@ public class Bridge extends Application {
                 pile[j][0] = null;
             }
         }
+        
+        
+        
         for (int j = 0; j < pile.length; j++) {
             for (int i = 0; i < pile[j].length; i++) {
                 if (pile[j][0] != null) {
@@ -382,7 +385,6 @@ public class Bridge extends Application {
         //System.out.println("Carte jouée");
         //actualiser_main(j1main, k);
         //affichage_dos_main(j1main, J1);
-        
         init_main(main, m.config.donneur);
 
         if (m.config.mode == 1) {
@@ -456,8 +458,8 @@ public class Bridge extends Application {
             //actualiser_main(j2main, k);
             //affichage_dos_main(j2main, J2);
             init_main(j1main, J1);
-            
-            if(m.config.mode == 1){
+
+            if (m.config.mode == 1) {
                 init_main(j2main, J2);
                 for (int i = 0; i < main.length; i++) {
                     if (main[i] != card) {
@@ -465,10 +467,10 @@ public class Bridge extends Application {
                     }
                 }
             }
-            
+
             m.config.taille--;
             System.out.println("taille = " + m.config.taille);
-            
+
             m.config.gagnantPli();
             System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
             m.config.donneur = m.config.gagnant;
@@ -490,8 +492,7 @@ public class Bridge extends Application {
                     affichage_face_main(j2main, J2);
                     m.config.perdant = J1;
                 }
-            } 
-            else if (m.config.mode == 2) {
+            } else if (m.config.mode == 2) {
                 affichage_face_main(j1main, J1);
 
                 if (m.config.gagnant == J1) {
@@ -500,7 +501,7 @@ public class Bridge extends Application {
                     m.config.perdant = J1;
                 }
             }
-            
+
             if (!m.config.piochable()) {
                 init_main(j1main, J1);
                 init_main(j2main, J2);
@@ -622,8 +623,8 @@ public class Bridge extends Application {
 
                     m.config.donneur = m.config.gagnant;
                     m.config.receveur = m.config.perdant;
-                    
-                    if(m.config.mode == 2){
+
+                    if (m.config.mode == 2) {
                         tour_joueur = m.config.gagnant;
                         init_main(j1main, J1);
                         affichage_face_main(j1main, J1);
@@ -631,8 +632,7 @@ public class Bridge extends Application {
                         //maj_handler_pile();
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
-                    }
-                    else {
+                    } else {
                         if (m.config.donneur == J1) {
                             tour_joueur = J1;
                             m.config.receveur = J2;
@@ -758,7 +758,9 @@ public class Bridge extends Application {
                 if (m.finPartie()) {
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
 
-                } else if (m.finManche()) {    //Si la manche est finie
+                }
+
+                if (m.finManche()) {    //Si la manche est finie
                     if (m.config.taille == 0) {
                         Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
                         Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
@@ -780,6 +782,7 @@ public class Bridge extends Application {
                             }
                         }
                     }
+                    System.exit(0);
                 }
 
                 if (((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3 && tour_joueur > 0) && carte_jouee == 0 && !m.finManche()) { //Cas où c'est au tour d'une IA de jouer
@@ -790,7 +793,7 @@ public class Bridge extends Application {
                     J2_carte_jouee.face.setTranslateX(710);
                     J2_carte_jouee.face.setTranslateY(150);
                     J2_carte_jouee.face.toFront();
-                    
+
                     //Si la deuxieme carte n'est pas jouée, l'autre joueur devient le joueur courant AFFICHAGE DES MAINS EN CONSEQUENCE A FAIRE, PENSER A UTILISER UNE METHODE QUI AFFICHE LA MAIN DU JOUEUR PASSE EN PARAMETRE
                     /*if (m.config.carteS == null) {  
                         if (tour_joueur == J1) {
@@ -801,29 +804,29 @@ public class Bridge extends Application {
                     } else {
                         tour_joueur = 0;
                     }*/
-                    
                     if (m.config.carteS == null) {
                         tour_joueur = J1;
                         carte_jouee = 0;
-                    }
-                    else{
+                    } else {
                         m.config.taille--;
                         System.out.println("taille = " + m.config.taille);
                     }
                 }
 
-                if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA ) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
-                    m.config.afficherPioche();
-                    System.out.println("IA a gagné et prend une carte en 1er");
-                    Carte c = m.piocheIA(IA);
-                    m.config.afficherPioche();
-                    System.out.println();
-                    init_pile(pile);
-                    affichage_face_pile(pile);
-                    maj_handler_pile();
-                    m.config.taille++;
-                    tour_pioche = 2;
-
+                if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        System.out.println("IA a gagné et prend une carte en 1er");
+                        Carte c = m.piocheIA(IA);
+                        m.config.afficherPioche();
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        maj_handler_pile();
+                        
+                        m.config.taille++;
+                        tour_pioche = 2;
+                    }
                     //Si le joueur courant était gagnant, l'autre joueur devient le piocheur courant AFFICHAGE DES MAINS EN CONSEQUENCE A FAIRE, PENSER A UTILISER UNE METHODE QUI AFFICHE LA MAIN DU JOUEUR PASSE EN PARAMETRE
                     /*if (tour_pioche == m.config.gagnant) {
                         if (tour_pioche == 1) {
@@ -837,33 +840,32 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
-                    m.config.afficherPioche();
-                    System.out.println("IA a perdu et prend une carte en 2nd");
-                    Carte c = m.piocheIA(IA);
-                    m.config.afficherPioche();
-                    System.out.println();
-                    init_pile(pile);
-                    affichage_face_pile(pile);
-                    maj_handler_pile();
-                    
-                    m.config.afficherPioche();
-                    
-                    //init_main(j2main, IA);
-                    
-                    m.config.donneur = m.config.gagnant;
-                    m.config.receveur = m.config.perdant;
+                    if (m.config.piochable()) {
+                        m.config.afficherPioche();
+                        System.out.println("IA a perdu et prend une carte en 2nd");
+                        Carte c = m.piocheIA(IA);
+                        m.config.afficherPioche();
+                        System.out.println();
+                        init_pile(pile);
+                        affichage_face_pile(pile);
+                        maj_handler_pile();
 
-                    tour_joueur = m.config.gagnant;
-                    
-                    J1_carte_jouee.face.setVisible(false);
-                    J2_carte_jouee.face.setVisible(false);
-                    
-                    maj_handler_main();
-                    maj_handler_pile();
-                    carte_jouee = 0;
-                    tour_pioche = 0;
+                        //init_main(j2main, IA);
+                        m.config.donneur = m.config.gagnant;
+                        m.config.receveur = m.config.perdant;
 
-                    System.out.println();
+                        tour_joueur = m.config.gagnant;
+
+                        J1_carte_jouee.face.setVisible(false);
+                        J2_carte_jouee.face.setVisible(false);
+
+                        maj_handler_main();
+                        maj_handler_pile();
+                        carte_jouee = 0;
+                        tour_pioche = 0;
+
+                        System.out.println();
+                    }
                 }
 
                 if (m.config.mode == 2 && m.config.receveur == IA && m.config.carteP != null && m.config.carteS != null) {
@@ -875,22 +877,21 @@ public class Bridge extends Application {
                     System.out.println();
                     m.rangerPli();
                     affichage_face_main(j1main, J1);
-                    
+
                     m.config.afficherPioche();
 
-                    //maj_plis(j1plis, J1);
-                    //maj_plis(j2plis, IA);
+                    maj_plis(j1plis, J1);
+                    maj_plis(j2plis, IA);
 
                     //affichage_dos_plis(j1plis, J1);
                     //affichage_dos_plis(j2plis, IA);
-                    
                     if (m.config.gagnant == J1) {
                         m.config.perdant = IA;
                     } else {
                         m.config.perdant = J1;
                     }
                     //Temporairement
-                    if(m.config.piochable()){
+                    if (m.config.piochable()) {
                         tour_pioche = 1;
                     }
                 }
