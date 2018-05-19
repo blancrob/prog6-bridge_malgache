@@ -11,4 +11,10 @@ public class EtatGlobal implements Serializable{
         this.j1 = j1;
         this.j2 = j2;
     }
+    
+    public EtatGlobal(){
+        config = new Configuration();
+        j1 = new Joueur();
+        j2 = new Joueur();
+    }
 }

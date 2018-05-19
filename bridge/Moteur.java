@@ -24,7 +24,7 @@ public class Moteur {
     Configuration config;
     Joueur j1, j2;
     
-    int joueur1donneur, joueur2donneur;
+    int joueur1donneur, joueur2donneur; //Utile uniquement pour l'affichage, à ne pas mettre dans Configuration donc
     
     public Moteur(){
         
@@ -136,6 +136,33 @@ public class Moteur {
        j2 = (Joueur)ois.readObject() ;
     }
     
+    public void undo(){
+        if(!config.estVideUndo()){
+            System.out.println("HEY");
+            EtatGlobal e = config.getUndo();
+            config.addRedo(e);
+            config = e.config;
+            //this.j1.main.pile = e.j1.main.pile;
+            Iterator<Carte> it = e.j1.main.iterateur();
+            System.out.println("Heyheyhey:");
+            while(it.hasNext()){
+                afficherCarte(it.next());
+            }
+           // j1 = e.j1;
+            j2 = e.j2;
+        }
+    }
+    
+    public void redo(){
+        if(!config.estVideUndo()){
+            EtatGlobal e = config.getRedo();
+            config.addUndo(e);
+            config = e.config;
+            j1 = e.j1;
+            j2 = e.j2;
+        }
+    }
+    
     /**
      * Le joueur qui a le statut de donneur ou bien est gagnant joue en premier
      */
@@ -170,7 +197,7 @@ public class Moteur {
         if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){    //Cas où le joueur est un humain
             
 
-            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
@@ -213,6 +240,56 @@ public class Moteur {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }else if(choix==-3){    //Choix Annuler
+                    undo();
+                    main = new Carte[20];
+                    if(config.donneur==1){
+                        it = j1.main.iterateur();
+                    }
+                    else{
+                        it = j2.main.iterateur();
+                    }
+                    i=0;
+                    do{
+                       main[i]=it.next();
+                       i++;
+                    }while(i<20 && it.hasNext());
+
+                    if(config.donneur==1){
+                        System.out.println("Main Joueur 1");
+                    }
+                    else{
+                        System.out.println("Main Joueur 2");
+                    }
+                    for(i=0; i<20 && main[i]!=null; i++){
+                        System.out.print("["+i+"]:");
+                        afficherCarte(main[i]);
+                    }
+                }else if(choix==-4){    //Choix Refaire
+                    redo();
+                    main = new Carte[20];
+                    if(config.donneur==1){
+                        it = j1.main.iterateur();
+                    }
+                    else{
+                        it = j2.main.iterateur();
+                    }
+                    i=0;
+                    do{
+                       main[i]=it.next();
+                       i++;
+                    }while(i<20 && it.hasNext());
+
+                    if(config.donneur==1){
+                        System.out.println("Main Joueur 1");
+                    }
+                    else{
+                        System.out.println("Main Joueur 2");
+                    }
+                    for(i=0; i<20 && main[i]!=null; i++){
+                        System.out.print("["+i+"]:");
+                        afficherCarte(main[i]);
+                    }
                 }
                 System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
                 sc = new Scanner(System.in);
@@ -220,6 +297,8 @@ public class Moteur {
                 choix = Integer.parseInt(str);
             }
 
+            
+            config.addUndo(new EtatGlobal(config,j1,j2));
             Carte c = main[choix];
             if (config.donneur==1){ //On enlève la carte choisie de la main du donneur
                 j1.main.retirer(c);
@@ -247,6 +326,8 @@ public class Moteur {
         Iterator<Carte> it;
         PileCartes mainjoueur;
         Carte[] main = new Carte[20];
+        
+        config.addUndo(new EtatGlobal(config,j1,j2));
         
         if(config.receveur==1){
             mainjoueur= j1.main;

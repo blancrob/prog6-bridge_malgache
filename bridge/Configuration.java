@@ -1,6 +1,7 @@
 package bridge;
 
 import java.io.Serializable;
+import java.util.Stack;
 
 public class Configuration implements Serializable {
     
@@ -8,6 +9,8 @@ public class Configuration implements Serializable {
     PileCartes[] pioche;
     Carte carteP, carteS;
     int conditionVictoire, mancheMax, scoreMax, atout, joueur, donneur, donneurInitial, receveur, manche, gagnant, perdant, taille, mode;
+    
+    Stack<EtatGlobal> undo, redo;
     
     public Configuration(){
         pile1 = new PileCartes();
@@ -26,6 +29,9 @@ public class Configuration implements Serializable {
         pioche[3] = pile4;
         pioche[4] = pile5;
         pioche[5] = pile6;
+        
+        undo = new Stack();
+        redo = new Stack();
         
         conditionVictoire=0;
         mancheMax=0;
@@ -117,6 +123,54 @@ public class Configuration implements Serializable {
             atout = 0;
         }
        
+    }
+    
+    /**
+     * Ajoute un EtatGlobal à la pile des undo
+     * @param e EtatGlobal qu'on ajoute
+     */
+    public void addUndo(EtatGlobal e){
+        undo.push(e);
+    }
+    
+    /**
+     * Donne l'etat global au sommet de la pile des undo, et l'y enlève
+     * @return le dernier coup placé en undo
+     */
+    public EtatGlobal getUndo(){
+        return undo.pop();
+    }
+    
+    /**
+     * Test si undo est vide
+     * @return true si undo est vide, false sinon
+     */
+    public boolean estVideUndo(){
+        return undo.empty();
+    }
+    
+    /**
+     * Ajoute un EtatGlobal à la pile des redo
+     * @param e EtatGlobal qu'on ajoute
+     */
+    public void addRedo(EtatGlobal e){
+        redo.push(e);
+    }
+    
+    /**
+     * Donne l'etat global au sommet de la pile des redo, et l'y enlève
+     * @return le dernier coup placé en redo
+     */
+    public EtatGlobal getRedo(){
+        return redo.pop();
+    }
+    
+    /**
+     * Test si redo est vide
+     * @return true si redo est vide, false sinon
+     */
+    public boolean estVideRedo(){
+        return redo.empty();
     }
     
 }
