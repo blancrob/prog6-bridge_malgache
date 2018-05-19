@@ -779,7 +779,7 @@ public class Bridge extends Application {
 
                 if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                     m.config.afficherPioche();
-                    Carte c = m.piocheIA(tour_pioche);
+                    Carte c = m.piocheIA(IA);
                     System.out.println();
                     init_pile(pile);
                     affichage_face_pile(pile);
@@ -803,7 +803,7 @@ public class Bridge extends Application {
 
                 if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                     m.config.afficherPioche();
-                    Carte c = m.piocheIA(tour_pioche);
+                    Carte c = m.piocheIA(IA);
                     System.out.println();
                     init_pile(pile);
                     affichage_face_pile(pile);
