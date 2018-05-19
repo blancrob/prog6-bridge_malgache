@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -138,28 +139,22 @@ public class Moteur {
     
     public void undo(){
         if(!config.estVideUndo()){
-            System.out.println("HEY");
             EtatGlobal e = config.getUndo();
-            config.addRedo(e);
             config = e.config;
-            //this.j1.main.pile = e.j1.main.pile;
-            Iterator<Carte> it = e.j1.main.iterateur();
-            System.out.println("Heyheyhey:");
-            while(it.hasNext()){
-                afficherCarte(it.next());
-            }
-           // j1 = e.j1;
+            j1 = e.j1;
             j2 = e.j2;
+            config.addRedo(e);
         }
     }
     
     public void redo(){
-        if(!config.estVideUndo()){
+        if(!config.estVideRedo()){
+            System.out.println("Passé ici");
             EtatGlobal e = config.getRedo();
-            config.addUndo(e);
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
+            config.addUndo(e);
         }
     }
     
@@ -291,14 +286,13 @@ public class Moteur {
                         afficherCarte(main[i]);
                     }
                 }
-                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
                 sc = new Scanner(System.in);
                 str = sc.nextLine();
                 choix = Integer.parseInt(str);
             }
 
-            
-            config.addUndo(new EtatGlobal(config,j1,j2));
+            config.addUndo(copieEtat());
             Carte c = main[choix];
             if (config.donneur==1){ //On enlève la carte choisie de la main du donneur
                 j1.main.retirer(c);
@@ -326,8 +320,6 @@ public class Moteur {
         Iterator<Carte> it;
         PileCartes mainjoueur;
         Carte[] main = new Carte[20];
-        
-        config.addUndo(new EtatGlobal(config,j1,j2));
         
         if(config.receveur==1){
             mainjoueur= j1.main;
@@ -372,7 +364,7 @@ public class Moteur {
             
 
             boolean condition = false;
-            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");   //Choix entre jouer une carte et sauvegarder ou charger
+            System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");   //Choix entre jouer une carte et sauvegarder ou charger
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
             int choix = Integer.parseInt(str);
@@ -415,13 +407,65 @@ public class Moteur {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }else if(choix==-3){    //Choix Annuler
+                    undo();
+                    main = new Carte[20];
+                    if(config.donneur==1){
+                        it = j1.main.iterateur();
+                    }
+                    else{
+                        it = j2.main.iterateur();
+                    }
+                    i=0;
+                    do{
+                       main[i]=it.next();
+                       i++;
+                    }while(i<20 && it.hasNext());
+
+                    if(config.donneur==1){
+                        System.out.println("Main Joueur 1");
+                    }
+                    else{
+                        System.out.println("Main Joueur 2");
+                    }
+                    for(i=0; i<20 && main[i]!=null; i++){
+                        System.out.print("["+i+"]:");
+                        afficherCarte(main[i]);
+                    }
+                }else if(choix==-4){    //Choix Refaire
+                    redo();
+                    main = new Carte[20];
+                    if(config.donneur==1){
+                        it = j1.main.iterateur();
+                    }
+                    else{
+                        it = j2.main.iterateur();
+                    }
+                    i=0;
+                    do{
+                       main[i]=it.next();
+                       i++;
+                    }while(i<20 && it.hasNext());
+
+                    if(config.donneur==1){
+                        System.out.println("Main Joueur 1");
+                    }
+                    else{
+                        System.out.println("Main Joueur 2");
+                    }
+                    for(i=0; i<20 && main[i]!=null; i++){
+                        System.out.print("["+i+"]:");
+                        afficherCarte(main[i]);
+                    }
                 }
-                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger:");
+                System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
                 sc = new Scanner(System.in);
                 str = sc.nextLine();
                 choix = Integer.parseInt(str);
             }
-
+            
+            config.addUndo(copieEtat());
+            
             if(config.receveur == 1){
                 if (main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
                     while(!condition){
@@ -768,6 +812,56 @@ public class Moteur {
     
     public boolean finPartie(){
         return ((config.conditionVictoire==1 && config.manche>=config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal>=config.scoreMax || j2.scoreTotal>=config.scoreMax)));
+    }
+    
+    public EtatGlobal copieEtat(){
+        EtatGlobal e = new EtatGlobal();
+        //Copie Joueur 1
+        e.j1.main = j1.main.clone();
+        e.j1.tas = j1.tas.clone();
+        e.j1.cartesPiochees = j1.cartesPiochees.clone();
+        e.j1.score = j1.score;
+        e.j1.difficulte = j1.difficulte;
+        e.j1.scoreTotal = j1.scoreTotal;
+        //Copie Joueur 2
+        e.j2.main = j2.main.clone();
+        e.j2.tas = j2.tas.clone();
+        e.j2.cartesPiochees = j2.cartesPiochees.clone();
+        e.j2.score = j2.score;
+        e.j2.difficulte = j2.difficulte;
+        e.j2.scoreTotal = j2.scoreTotal;
+        //Copie Configuration
+        e.config.pile1 = config.pile1.clone();
+        e.config.pile2 = config.pile2.clone();
+        e.config.pile3 = config.pile3.clone();
+        e.config.pile4 = config.pile4.clone();
+        e.config.pile5 = config.pile5.clone();
+        e.config.pile6 = config.pile6.clone();
+        e.config.piochees = config.piochees.clone();
+        e.config.pioche[0] = e.config.pile1;
+        e.config.pioche[1] = e.config.pile2;
+        e.config.pioche[2] = e.config.pile3;
+        e.config.pioche[3] = e.config.pile4;
+        e.config.pioche[4] = e.config.pile5;
+        e.config.pioche[5] = e.config.pile6;
+        
+        e.config.undo = (Stack<EtatGlobal>) config.undo.clone();
+        e.config.redo = (Stack<EtatGlobal>) config.redo.clone();
+        
+        e.config.conditionVictoire=config.conditionVictoire;
+        e.config.mancheMax=config.mancheMax;
+        e.config.scoreMax=config.scoreMax;
+        e.config.mode = config.mode;
+        e.config.manche = config.manche;
+        e.config.joueur=config.joueur;
+        e.config.donneur=config.donneur;
+        e.config.donneurInitial=config.donneurInitial;
+        e.config.receveur=config.receveur;
+        e.config.gagnant=config.gagnant;
+        e.config.perdant=config.perdant;
+        e.config.taille=config.taille;
+        
+        return e;
     }
     
     public void moteur() throws ClassNotFoundException{

@@ -11,7 +11,7 @@ import static bridge.Carte.*;
 import java.io.Serializable;
 import java.util.Random;
 
-public class PileCartes implements Serializable{
+public class PileCartes implements Serializable, Cloneable{
     ArrayList<Carte> pile;
     
     /**
@@ -325,6 +325,14 @@ public class PileCartes implements Serializable{
         
         
         return res.couleur != couleur;
+    }
+    
+    @Override
+    public PileCartes clone(){
+        PileCartes p = new PileCartes();
+        p.pile = (ArrayList<Carte>) pile.clone();
+        
+        return p;
     }
     
 }

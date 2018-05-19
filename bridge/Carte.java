@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Carte extends Parent{
+public class Carte extends Parent implements Cloneable{
     
     int valeur;
     int couleur;
@@ -47,6 +47,16 @@ public class Carte extends Parent{
         this.getChildren().add(face);
         this.getChildren().add(dos);
         
+    }
+    
+    @Override
+    public Carte clone(){
+        Carte res = new Carte();
+        res.valeur = valeur;
+        res.couleur = couleur;
+        res.visible = visible;
+        
+        return res;
     }
     
 }
