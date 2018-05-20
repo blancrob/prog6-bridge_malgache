@@ -10,10 +10,24 @@ import java.util.Iterator;
 /**
  * Ia Moyenne.
  */
-public class IaMoyenne extends IaNovice {
+public class IaMoyenne implements IA {
 
-    public IaMoyenne(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour) {
-        super(m, c, pi, p, l, at, cour);
+    PileCartes main;
+    PileCartes cartesDejaJouees;
+    PileCartes cartesPiochees;
+    Carte[] pioche;
+    int lg;
+    int atout;
+    Carte courante;
+    
+    public IaMoyenne(PileCartes m, PileCartes c,PileCartes pi, Carte[] p, int l, int at, Carte cour){
+        main = m;
+        cartesDejaJouees = c;
+        cartesPiochees = pi;
+        pioche = p;
+        lg = l;
+        atout = at;
+        courante = cour;
     }
     
     /**
