@@ -655,7 +655,7 @@ public class Bridge extends Application {
         pile[n][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (tour_pioche == 2) {
+                if (tour_pioche == 2 && m.config.perdant != IA) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         m.pioche(m.config.perdant, pile[n][0], n);
@@ -720,7 +720,7 @@ public class Bridge extends Application {
                     System.out.println();
                 }
 
-                if (tour_pioche == 1) {
+                if (tour_pioche == 1 && m.config.gagnant != IA) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         m.pioche(m.config.gagnant, pile[n][0], n);
