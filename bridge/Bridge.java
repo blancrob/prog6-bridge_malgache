@@ -801,10 +801,10 @@ public class Bridge extends Application {
             @Override
             public void handle(long now) {
 
-                /*
-                if (m.finPartie()) {
+                
+                /*if (m.finPartie()) {
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
-                }
+                }*/
 
                 if (m.finManche() && temps+3000<System.currentTimeMillis()) {    //Si la manche est finie
                     if (m.config.taille == 0) {
@@ -830,9 +830,9 @@ public class Bridge extends Application {
                         }
                     }
                 }
-                */
+                
 
-                if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0 && !m.finManche()) && clean == 0 && temps+1000<System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
+                if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && temps+1000<System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
                     carte_jouee = 1;
                     System.out.println("IA joue sa carte");
                     J2_carte_jouee = m.jouerCoupIA(tour_joueur);
