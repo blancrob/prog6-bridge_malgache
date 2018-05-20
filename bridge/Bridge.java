@@ -541,6 +541,9 @@ public class Bridge extends Application {
                 }                
                 maj_handler_main();
                 maj_handler_pile();
+                if(m.config.mode == 2){
+                    clean = 1;
+                }
                 carte_jouee = 0;
                 tour_pioche = 0;
                 if (m.config.mode == 1) {
@@ -556,7 +559,6 @@ public class Bridge extends Application {
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
-                    clean = 1;
                     if (m.config.donneur == J1) {
                         tour_joueur = J1;
                         affichage_face_main(j1main, J1);
@@ -613,7 +615,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0) {
                     main[n].face.setTranslateY(souris_carte);
                 }
             }
@@ -622,7 +624,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0) {
                     main[n].face.setTranslateY(642);
                 }
             }
@@ -631,7 +633,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0) {
                     if (m.config.donneur == j) {
                         carte_select_P(main, n);
                     } else {
@@ -798,16 +800,14 @@ public class Bridge extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                /*if (temps + 2000 < System.currentTimeMillis()) {
 
-                }*/
-
+                /*
                 if (m.finPartie()) {
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
                 }
 
                 if (m.finManche() && temps+3000<System.currentTimeMillis()) {    //Si la manche est finie
-                    //if (m.config.taille == 0) {
+                    if (m.config.taille == 0) {
                         Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
                         Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
                         fin_manche();
@@ -828,8 +828,9 @@ public class Bridge extends Application {
                             }
                             System.exit(0);
                         }
-                    //}
+                    }
                 }
+                */
 
                 if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0 && !m.finManche()) && clean == 0 && temps+1000<System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
                     carte_jouee = 1;
@@ -983,16 +984,16 @@ public class Bridge extends Application {
                     }
                     //Temporairement//
                     if (!m.config.piochable()) {
-                        J1_carte_jouee.face.setVisible(true);
-                        J2_carte_jouee.face.setVisible(true);
-                        temps = System.currentTimeMillis();
-                        clean = 1;
                         init_main(j1main, J1);
                         init_main(j2main, IA);
+                        clean = 1;
                         maj_handler_main();
                         maj_handler_pile();
                         carte_jouee = 0;
                         tour_pioche = 0;
+                        J1_carte_jouee.face.setVisible(true);
+                        J2_carte_jouee.face.setVisible(true);
+                        temps = System.currentTimeMillis();
                         if (m.config.donneur == J1) {
                             tour_joueur = J1;
                             affichage_face_main(j1main, J1);
