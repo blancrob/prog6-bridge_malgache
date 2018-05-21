@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bridge;
 
 import static bridge.Carte.*;
@@ -27,29 +22,32 @@ public class Moteur {
     
     int joueur1donneur, joueur2donneur; //Utile uniquement pour l'affichage, à ne pas mettre dans Configuration donc
     
-    public Moteur(){
+    public Moteur(){    //Voir si on peut pas mettre un truc dedans quand même
         
     }
     
     /**
-     * Initialise le début de jeu
+     * Initialise le début de jeu et les structures Configuration et Joueur 
      */
     public void initialiser(){
         
+        //Initialisation des structures
         config = new Configuration();
-        
         j1 = new Joueur();
         j2 = new Joueur();
         
+        //Utile juste pour voir en terminal si le joueur Donneur est celui qui gagne le pli
         joueur1donneur=0;
         joueur2donneur=0;
         
+        //On initialise les valeurs de la structure
         config.conditionVictoire=0;
         config.mancheMax=0;
         config.scoreMax=0;
         
         Scanner sc = new Scanner(System.in);
         
+        //Choix des conditions de victoire
         System.out.println("Choix de la condition de victoire:\n1: Nombre de Manches || 2: Score");
         String str = sc.nextLine();
         config.conditionVictoire = Integer.parseInt(str);
@@ -64,10 +62,12 @@ public class Moteur {
             config.scoreMax = Integer.parseInt(str);
         }
         
+        //Choix du mode de jeu
         System.out.println("1: Joueur Contre Joueur || 2: Joueur Contre Ordinateur || 3: Ordinateur Contre Ordinateur");
         str = sc.nextLine();
         config.mode = Integer.parseInt(str);
         
+        //En cas de mode de jeu impliquant des IA, choix de la difficulté des IA
         if(config.mode == 2){System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile || 6: Expert");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
@@ -81,7 +81,6 @@ public class Moteur {
             System.out.println("1: Novice || 2: Facile || 3: Moyen || 4: Avancé || 5: Difficile || 6: Expert");
             str = sc.nextLine();
             j2.difficulte = Integer.parseInt(str);
-            
         }
     }
     
@@ -137,6 +136,10 @@ public class Moteur {
        j2 = (Joueur)ois.readObject() ;
     }
     
+    /**
+     * Annule le coup précédent et retourne dans la dernière configuration enregistrée dans la pile Undo
+     * Permet de refaire le coup en stockant la configuration dans la pile Redo
+     */
     public void undo(){
         if(!config.estVideUndo()){
             EtatGlobal e = config.getUndo();
@@ -147,6 +150,10 @@ public class Moteur {
         }
     }
     
+    /**
+     * Refait le dernier coup enregistré dans la pile Redo
+     * Permet d'annuler de nouveau le coup en stockant la configuration dans la pile Undo
+     */
     public void redo(){
         if(!config.estVideRedo()){
             System.out.println("Passé ici");
@@ -165,6 +172,7 @@ public class Moteur {
         Iterator<Carte> it;
         Carte[] main = new Carte[20];
         
+        //Début affichage de la main du joueur
         if(config.donneur==1){
             it = j1.main.iterateur();
         }
@@ -188,10 +196,11 @@ public class Moteur {
             System.out.print("["+i+"]:");
             afficherCarte(main[i]);
         }
+        //Fin affichage de la main du joueur
         
         if(config.mode == 1 || (config.mode == 2 && config.donneur==1)){    //Cas où le joueur est un humain
             
-
+            //Le joueur entre le numéro de la carte à jouer, ou bien choisit de sauvegarde, charger, annuler ou refaire
             System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
             Scanner sc = new Scanner(System.in);
             String str = sc.nextLine();
@@ -207,6 +216,8 @@ public class Moteur {
                    
                     try {
                         charger();
+                        
+                        //Après avoir chargé la partie on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                         main = new Carte[20];
                         if(config.donneur==1){
                             it = j1.main.iterateur();
@@ -237,6 +248,8 @@ public class Moteur {
                     }
                 }else if(choix==-3){    //Choix Annuler
                     undo();
+                    
+                    //Après avoir annulé le coup on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                     main = new Carte[20];
                     if(config.donneur==1){
                         it = j1.main.iterateur();
@@ -262,6 +275,7 @@ public class Moteur {
                     }
                 }else if(choix==-4){    //Choix Refaire
                     redo();
+                    //Après avoir refait le coup on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                     main = new Carte[20];
                     if(config.donneur==1){
                         it = j1.main.iterateur();
@@ -286,22 +300,25 @@ public class Moteur {
                         afficherCarte(main[i]);
                     }
                 }
+                //Une fois qu'une option spéciale a été sélectionnée, on redemande au joueur de choisir une carte ou refaire une autre action
                 System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
                 sc = new Scanner(System.in);
                 str = sc.nextLine();
                 choix = Integer.parseInt(str);
             }
 
-            config.addUndo(copieEtat());
+            config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
+            
+            //La carte est jouée
             Carte c = main[choix];
             if (config.donneur==1){ //On enlève la carte choisie de la main du donneur
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            config.carteP = c;
+            config.carteP = c;  //La carte est placée sur le terrain
             
-            if(config.joueur == 1){
+            if(config.joueur == 1){//On change de joueur
                 config.joueur = 2;
             }else{
                 config.joueur = 1;
@@ -321,6 +338,7 @@ public class Moteur {
         PileCartes mainjoueur;
         Carte[] main = new Carte[20];
         
+        //Début affichage de la main du joueur
         if(config.receveur==1){
             mainjoueur= j1.main;
         }
@@ -345,8 +363,9 @@ public class Moteur {
             System.out.print("["+i+"]:");
             afficherCarte(main[i]);
         }
+        //Fin affichage de la main du joueur
         
-        if(config.mode == 1 || (config.mode == 2 && config.donneur==2)){
+        if(config.mode == 1 || (config.mode == 2 && config.donneur==2)){    //Affichage de la couleur à fournir si besoin
             switch (config.carteP.couleur){
                 case 1:
                     System.out.println("Fournir du TREFLE si vous en avez");
@@ -362,7 +381,7 @@ public class Moteur {
                     break;
             }
             
-
+            //Le joueur entre le numéro de la carte à jouer, ou bien choisit de sauvegarde, charger, annuler ou refaire
             boolean condition = false;
             System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");   //Choix entre jouer une carte et sauvegarder ou charger
             Scanner sc = new Scanner(System.in);
@@ -379,6 +398,7 @@ public class Moteur {
                    
                     try {
                         charger();
+                        //Après avoir chargé la partie on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                         main = new Carte[20];
                         if(config.receveur==1){
                             it = j1.main.iterateur();
@@ -409,6 +429,7 @@ public class Moteur {
                     }
                 }else if(choix==-3){    //Choix Annuler
                     undo();
+                    //Après avoir annulé le coup on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                     main = new Carte[20];
                     if(config.donneur==1){
                         it = j1.main.iterateur();
@@ -434,6 +455,7 @@ public class Moteur {
                     }
                 }else if(choix==-4){    //Choix Refaire
                     redo();
+                    //Après avoir refiat le coup on réaffiche la main du Joueur   PEUT S'EXPORTER DANS UNE METHODE CAR UTILISE PLUSIEURS FOIS
                     main = new Carte[20];
                     if(config.donneur==1){
                         it = j1.main.iterateur();
@@ -458,14 +480,16 @@ public class Moteur {
                         afficherCarte(main[i]);
                     }
                 }
+                //Une fois qu'une option spéciale a été sélectionnée, on redemande au joueur de choisir une carte ou refaire une autre action
                 System.out.println("Donnez le numéro de la carte à jouer, ou -1 pour sauvegarder, -2 pour charger, -3 pour annuler, -4 pour refaire:");
                 sc = new Scanner(System.in);
                 str = sc.nextLine();
                 choix = Integer.parseInt(str);
             }
             
-            config.addUndo(copieEtat());
+            config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
             
+            //Si la carte choisie n'est pas de la couleur qu'il fallait fournir, on demande de rejouer une carte appropriée
             if(config.receveur == 1){
                 if (main[choix].couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
                     while(!condition){
@@ -490,16 +514,16 @@ public class Moteur {
                 }
             }
 
-
+            //La carte est jouée
             Carte c = main[choix];
-            if(config.receveur==1){
+            if(config.receveur==1){ //On enlève la carte choisie de la main du receveur
                 j1.main.retirer(c);
             }else{
                 j2.main.retirer(c);
             }
-            config.carteS = c;
+            config.carteS = c;  //La carte est placée sur le terrain
 
-            if(config.joueur == 1){
+            if(config.joueur == 1){ //On change de joueur
                 config.joueur = 2;
             }else{
                 config.joueur = 1;
@@ -511,11 +535,22 @@ public class Moteur {
         }
     }
     
+    /**
+     * Renvoie une carte jouée par une IA
+     * La difficulté de l'IA est choisie par rapport à la difficulté présente dans la
+     * structure Joueur passée en paramètre
+     * @param joueur joueur auquel doit être attribué le coup joué par l'IA
+     * @return la carte jouée par l'IA
+     */
     public Carte jouerCoupIA(int joueur){
         Carte c = null;
         Carte[] piocheIA = new Carte[6];
         int[] nbCartes = new int[6];
         int lg = 0;
+        
+        //Création d'un tableau de cartes PiocheIA représentant le dessus de la pioche
+        //Et d'un tableau d'entiers représentant la taille de chaque tas de la pioche
+        //Nécessaires au constructeur de l'IA
         for(int i=1; i<6; i++){
             if(config.pioche[i].premiere()!=null){
                 piocheIA[lg]=config.pioche[i].premiere();
@@ -524,6 +559,7 @@ public class Moteur {
             }
         }
 
+        //Création d'une PileCartes contenant les cartes déjà jouées nécessaire dans le constructeur de l'IA
         PileCartes cartesDejaJouees = new PileCartes();
         cartesDejaJouees.pile.addAll(j1.tas.pile);
         cartesDejaJouees.pile.addAll(j2.tas.pile);
@@ -531,6 +567,7 @@ public class Moteur {
         int difficulte;
         IA ia = null;
         
+        //Création du constructeur de l'IA selon la difficulté A FACTORISER
         if(joueur==1){
             difficulte = j1.difficulte;
             switch(difficulte){
@@ -577,15 +614,15 @@ public class Moteur {
             }
         }
 
-        c = ia.jouer();
-
-        if (joueur==1){
+        //On joue le coup
+        c = ia.jouer(); 
+        if (joueur==1){ //on retire la carte de la main du joueur
             j1.main.retirer(c);
         }else{
             j2.main.retirer(c);
         }
 
-        if(config.carteP==null){
+        if(config.carteP==null){    //On met la carte sur le plateau de jeu à la place appropriée
             config.carteP=c;
         }else{
             config.carteS=c;
@@ -654,6 +691,10 @@ public class Moteur {
         Carte[] piocheIA = new Carte[6];
         int[] nbCartes = new int[6];
         int lg = 0;
+        
+        //Création d'un tableau de cartes PiocheIA représentant le dessus de la pioche
+        //Et d'un tableau d'entiers représentant la taille de chaque tas de la pioche
+        //Nécessaires au constructeur de l'IA
         for(int i=0; i<6; i++){
             if(config.pioche[i].premiere()!=null){
                 piocheIA[lg]=config.pioche[i].premiere();
@@ -662,12 +703,15 @@ public class Moteur {
             }
         }
 
+        //Création d'une PileCartes contenant les cartes déjà jouées nécessaire dans le constructeur de l'IA
         PileCartes cartesDejaJouees = new PileCartes();
         cartesDejaJouees.pile.addAll(j1.tas.pile);
         cartesDejaJouees.pile.addAll(j2.tas.pile);
 
         int difficulte;
         IA ia = null;
+        
+        //Création du constructeur de l'IA selon la difficulté A FACTORISER
         if(piocheur==1){
             difficulte = j1.difficulte;
             switch(difficulte){
@@ -714,9 +758,9 @@ public class Moteur {
             }
         }
 
+        //On pioche la carte
         c = ia.piocher();
-
-        for(int i=0; i<6; i++){
+        for(int i=0; i<6; i++){ //On ajoute la carte piochée à la main du joueur et on l'enlève de la pioche
             if(c == config.pioche[i].premiere()){
                 if (piocheur==1){   
                     j1.main.ajouter(config.pioche[i].retirer());
@@ -729,7 +773,7 @@ public class Moteur {
         System.out.println("Le joueur " + piocheur + " a pioché:");
         afficherCarte(c);
 
-
+        //On ajoute à la structure des cartes piochées la carte c
         config.piochees.ajouter(c);
         
         return c;
@@ -806,10 +850,16 @@ public class Moteur {
         }
     }
     
+    /**
+     * @return true si la manche est terminée, false sinon
+     */
     public boolean finManche(){
         return j1.main.vide() || j2.main.vide();
     }
     
+    /**
+     * @return true si la partie est terminée, false sinon
+     */
     public boolean finPartie(){
         return ((config.conditionVictoire==1 && config.manche>=config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal>=config.scoreMax || j2.scoreTotal>=config.scoreMax)));
     }
