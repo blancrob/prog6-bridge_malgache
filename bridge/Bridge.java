@@ -42,6 +42,7 @@ public class Bridge extends Application {
     public Carte[] j2plis;
 
     long temps = 0;
+    long temps2 = 0;
     int carte_jouee = 0;
     int tour_joueur = J1;
     int tour_pioche = 0;
@@ -70,6 +71,7 @@ public class Bridge extends Application {
         tour_pioche = 0;
         tour_joueur = J1;
         temps = 0;
+        temps2 = 0;
         k = 0;
         clean = 0;
         pause = 0;
@@ -162,7 +164,7 @@ public class Bridge extends Application {
         for (int i = 0; i < j2main.length; i++) {
             if (j2main[i] != null) {
                 m.afficherCarte(j2main[i]);
-                //j2main[i].dos.setVisible(false);
+                j2main[i].dos.setVisible(false);
                 j2main[i].face.setVisible(true);
             }
         }
@@ -387,11 +389,12 @@ public class Bridge extends Application {
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
 
-        /*
+        
         for (int i = main.length; i < 11; i++) {
             main[i].dos.setVisible(false);
         }
-         */
+         
+        
         if (j == J1) {
             //t = j1main.length;
             t = m.j1.main.pile.size();
@@ -480,6 +483,7 @@ public class Bridge extends Application {
                 affichage_face_main(j1main, J1);
             }*/
         } else if (m.config.mode == 2) {
+            init_main(main,J1);
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
                 tour_joueur = IA;
@@ -615,12 +619,6 @@ public class Bridge extends Application {
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
-                    
-                    for (int i = 0; i < 11; i++) {
-                        j1main[i].dos.setVisible(false);
-                        j2main[i].dos.setVisible(false);
-                    }
-                    
                     pause = 5;
                     /*if (m.config.donneur == J1) {
                         tour_joueur = J1;
@@ -765,7 +763,7 @@ public class Bridge extends Application {
                             affichage_face_main(j2main, J2);
                         }
                         
-                        temps = System.currentTimeMillis();
+                        temps2 = System.currentTimeMillis();
                         clean = 1;
                     }
                     carte_jouee = 0;
@@ -1010,7 +1008,7 @@ public class Bridge extends Application {
                     temps = System.currentTimeMillis();
                 }
 
-                if (m.config.mode == 1 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
+                if (m.config.mode == 1 && clean == 1 && temps2 + 1000 < System.currentTimeMillis()) {
                     J1_carte_jouee.face.setVisible(false);
                     J2_carte_jouee.face.setVisible(false);
                     if (J1_carte_jouee != null && J2_carte_jouee != null) {
@@ -1029,7 +1027,6 @@ public class Bridge extends Application {
                         affichage_dos_plis(j2plis, J2);
                         j2_lock = 1;
                     }
-                    
                     clean = 0;
                 }
 
@@ -1103,6 +1100,8 @@ public class Bridge extends Application {
                                 j1main[i].face.setVisible(false);
                             }
                         }
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1130,6 +1129,8 @@ public class Bridge extends Application {
                                 j2main[i].face.setVisible(false);
                             }
                         }
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1175,11 +1176,15 @@ public class Bridge extends Application {
                         }
                     }
                     if (m.config.gagnant == J1) {
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         J1_carte_jouee.face.setTranslateY(hauteur_scene/1.5);
                         J2_carte_jouee.face.setTranslateY(hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
                         affichage_dos_plis(j1plis, J1, (hauteur_scene/1.5));
                         affichage_dos_plis(j2plis, J2, hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
                         affichage_face_main(j1main, J1);
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1195,11 +1200,15 @@ public class Bridge extends Application {
                         affichage_dos_main(j2main,J2);
                         m.config.perdant = J2;
                     } else {
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         J1_carte_jouee.face.setTranslateY(hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
                         J2_carte_jouee.face.setTranslateY((hauteur_scene/1.5));
                         affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
                         affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
                         affichage_face_main(j2main, J2);
+                        init_main(j1main,J1);
+                        init_main(j2main,J2);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1297,56 +1306,6 @@ public class Bridge extends Application {
                         
                         maj_handler_main();
                         maj_handler_pile();
-                        affichage_face_main(j1main, J1);
-                    } else {
-                        affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
-                        affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
-                        tour_joueur = J2;
-                        m.config.receveur = J1;
-
-                        init_main(j1main, J1);
-                        init_main(j2main, J2);
-
-                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
-                            j1main[i].face.setVisible(false);
-                        }
-                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
-                            j2main[i].face.setVisible(false);
-                        }
-
-                        maj_handler_main();
-                        maj_handler_pile();
-                        affichage_face_main(j2main, J2);
-                    }
-                    pause = 0;
-                }
-                
-                if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
-                    
-                    System.out.println("Entree");
-                    
-                    //init_main(j1main,J1);
-                    //init_main(j2main,J2);
-                    
-                    J1_carte_jouee.face.setVisible(false);
-                    J2_carte_jouee.face.setVisible(false);
-                    
-                    /*if (J1_carte_jouee != null && J2_carte_jouee != null) {
-                        root.getChildren().remove(J1_carte_jouee);
-                        root.getChildren().remove(J2_carte_jouee);
-                    }*/
-                    
-                    for (int i = 0; i < m.j1.main.pile.size(); i++) {
-                        j1main[i].face.setVisible(false);
-                    }
-                    for (int i = 0; i < m.j2.main.pile.size(); i++) {
-                        j2main[i].face.setVisible(false);
-                    }
-                    
-                    if (m.config.donneur == J1) {
-                        affichage_dos_plis(j1plis, J1, (hauteur_scene/1.5));
-                        affichage_dos_plis(j2plis, J2, hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
-                        tour_joueur = J1;
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1366,6 +1325,20 @@ public class Bridge extends Application {
                         affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
                         affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
                         tour_joueur = J2;
+                        m.config.receveur = J1;
+
+                        init_main(j1main, J1);
+                        init_main(j2main, J2);
+
+                        for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                            j1main[i].face.setVisible(false);
+                        }
+                        for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                            j2main[i].face.setVisible(false);
+                        }
+
+                        maj_handler_main();
+                        maj_handler_pile();
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1377,6 +1350,73 @@ public class Bridge extends Application {
                             if (j2main[i] != J2_carte_jouee) {
                                 j2main[i].dos.setVisible(false);
                             }
+                        }
+                        //Afficher dos J1main
+                        affichage_dos_main(j1main,J1);
+                        affichage_face_main(j2main, J2);
+                    }
+                    pause = 0;
+                }
+                
+                if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
+                    
+                    System.out.println("Entree");
+                    
+                    init_main(j1main,J1);
+                    init_main(j2main,J2);
+                    
+                    J1_carte_jouee.face.setVisible(false);
+                    J2_carte_jouee.face.setVisible(false);
+                    
+                    /*if (J1_carte_jouee != null && J2_carte_jouee != null) {
+                        root.getChildren().remove(J1_carte_jouee);
+                        root.getChildren().remove(J2_carte_jouee);
+                    }*/
+                    
+                    for (int i = 0; i < m.j1.main.pile.size(); i++) {
+                        j1main[i].face.setVisible(false);
+                    }
+                    for (int i = 0; i < m.j2.main.pile.size(); i++) {
+                        j2main[i].face.setVisible(false);
+                    }
+                    
+                    init_main(j1main,J1);
+                    init_main(j2main,J2);
+                    
+                    if (m.config.donneur == J1) {
+                        affichage_dos_plis(j1plis, J1, (hauteur_scene/1.5));
+                        affichage_dos_plis(j2plis, J2, hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
+                        tour_joueur = J1;
+                        //Cacher dos J1main
+                        for (int i = 0; i < 11; i++) {
+                            //if (j1main[i] != J1_carte_jouee) {
+                                j1main[i].dos.setVisible(false);
+                            //}
+                        }
+                        //Cacher dos J2main
+                        for (int i = 0; i < 11; i++) {
+                            //if (j2main[i] != J2_carte_jouee) {
+                                j2main[i].dos.setVisible(false);
+                            //}
+                        }
+                        //Afficher dos J2main
+                        affichage_dos_main(j2main,J2);
+                        affichage_face_main(j1main, J1);
+                    } else {
+                        affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
+                        affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
+                        tour_joueur = J2;
+                        //Cacher dos J1main
+                        for (int i = 0; i < 11; i++) {
+                            //if (j1main[i] != J1_carte_jouee) {
+                                j1main[i].dos.setVisible(false);
+                            //}
+                        }
+                        //Cacher dos J2main
+                        for (int i = 0; i < 11; i++) {
+                            //if (j2main[i] != J2_carte_jouee) {
+                                j2main[i].dos.setVisible(false);
+                            //}
                         }
                         //Afficher dos J1main
                         affichage_dos_main(j1main,J1);
