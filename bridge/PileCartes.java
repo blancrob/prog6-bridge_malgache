@@ -332,14 +332,16 @@ public class PileCartes implements Serializable, Cloneable{
      * Ordre des couleurs: Trefle, Carreau, Pique, Coeur
      */
     public void trier(){
-        Iterator<Carte> it = this.iterateur();
+        Iterator<Carte> it = pile.iterator();
         Carte[] carreau = new Carte[15];
         Carte[] pique = new Carte[15];
         Carte[] coeur = new Carte[15];
         Carte[] trefle = new Carte[15];
         Carte c;
         while(it.hasNext()){
+            Moteur m = new Moteur();
             c = it.next();
+            //m.afficherCarte(c);
             switch(c.couleur){
                 case 1: //Trefle
                     trefle[c.valeur] = c;
@@ -378,6 +380,8 @@ public class PileCartes implements Serializable, Cloneable{
                 this.ajouter(coeur[i]);
             }
         }
+        
+        System.out.println();
 
     }
     
