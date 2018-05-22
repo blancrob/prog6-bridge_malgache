@@ -1,12 +1,8 @@
 package bridge;
 
-import static bridge.Carte.*;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -241,9 +237,7 @@ public class Moteur {
                             System.out.print("["+i+"]:");
                             afficherCarte(main[i]);
                         }
-                    } catch (IOException ex) {
-                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else if(choix==-3){    //Choix Annuler
@@ -328,6 +322,8 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             jouerCoupIA(config.donneur); 
         }
+        j1.main.trier();
+        j2.main.trier();
     }
     
     /**
@@ -422,9 +418,7 @@ public class Moteur {
                             System.out.print("["+i+"]:");
                             afficherCarte(main[i]);
                         }
-                    } catch (IOException ex) {
-                        Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else if(choix==-3){    //Choix Annuler
@@ -533,6 +527,8 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             jouerCoupIA(config.receveur); 
         }
+        j1.main.trier();
+        j2.main.trier();
     }
     
     /**
@@ -684,6 +680,8 @@ public class Moteur {
         }else{  //Si c'est à l'ordinateur de jouer
             piocheIA(piocheur);
         }
+        j1.main.trier();
+        j2.main.trier();
     }
     
     public Carte piocheIA(int piocheur){
@@ -775,6 +773,9 @@ public class Moteur {
 
         //On ajoute à la structure des cartes piochées la carte c
         config.piochees.ajouter(c);
+        
+        j1.main.trier();
+        j2.main.trier();
         
         return c;
     }

@@ -73,6 +73,10 @@ public class Moteur2 extends Moteur {
         }else{
             config.joueur = 1;
         }
+        
+        j1.main.trier();
+        j2.main.trier();
+        
         return c;
     }
     
@@ -161,6 +165,10 @@ public class Moteur2 extends Moteur {
             config.joueur = 1;
         }
         System.out.println();
+        
+        j1.main.trier();
+        j2.main.trier();
+        
         return c;
     }
     
