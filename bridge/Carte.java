@@ -15,8 +15,8 @@ public class Carte extends Parent implements Cloneable{
     int couleur;
     boolean visible;
     
-    private final int hauteur_carte = 110;
-    private final int largeur_carte = 90;
+    final int hauteur_carte = 165;
+    final int largeur_carte = 135;
     
     static final int V=11;
     static final int D=12;
