@@ -246,7 +246,7 @@ public class Bridge extends Application {
             }
 
             number = Integer.toString(main[i].valeur);
-            String carte = color + "_" + number + ".PNG";
+            String carte = color + "_" + number + ".png";
             ImagePattern img = new ImagePattern(new Image("images/" + carte));
             main[i].face.setFill(img);
             main[i].face.toFront();
@@ -294,7 +294,7 @@ public class Bridge extends Application {
                     }
 
                     number = Integer.toString(pile[j][i].valeur);
-                    String carte = color + "_" + number + ".PNG";
+                    String carte = color + "_" + number + ".png";
                     ImagePattern img = new ImagePattern(new Image("images/" + carte));
                     pile[j][i].face.setFill(img);
                 }
@@ -403,7 +403,7 @@ public class Bridge extends Application {
             main[i].face.setVisible(false);
             main[i].dos.setTranslateX(440 + (60 * i));
             main[i].dos.setTranslateY(-17);
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.PNG"));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
@@ -416,7 +416,7 @@ public class Bridge extends Application {
             for (int i = 1; i < pile[j].length; i++) {
                 pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
                 pile[j][i].dos.setTranslateY(315);
-                ImagePattern img = new ImagePattern(new Image("images/DOS_1.PNG"));
+                ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
                 pile[j][i].dos.setFill(img);
             }
         }
