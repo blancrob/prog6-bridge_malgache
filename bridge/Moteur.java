@@ -1,8 +1,10 @@
 package bridge;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -915,9 +917,128 @@ public class Moteur {
         return e;
     }
     
+    public void forcer() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        Iterator<Carte> it;
+        String[] c;
+        
+        System.out.println("Entrez le nom du fichier à charger:");
+        String str = sc.nextLine();
+        
+        File f = new File(str);
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String line;
+        
+        config.pile1 = new PileCartes();
+        config.pile2 = new PileCartes();
+        config.pile3 = new PileCartes();
+        config.pile4 = new PileCartes();
+        config.pile5 = new PileCartes();
+        config.pile6 = new PileCartes();
+        j1.main = new PileCartes();
+        j1.tas = new PileCartes();
+        j2.main = new PileCartes();
+        j2.tas = new PileCartes();
+        
+        if(j1.main.vide()){
+            System.out.println("C'est vide");
+        }
+        
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            j1.main.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            j2.main.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile1.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile2.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile3.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile4.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile5.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.pile6.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        
+        config.pioche = new PileCartes[6];
+        config.pioche[0] = config.pile1;
+        config.pioche[1] = config.pile2;
+        config.pioche[2] = config.pile3;
+        config.pioche[3] = config.pile4;
+        config.pioche[4] = config.pile5;
+        config.pioche[5] = config.pile6;
+        
+        if(j1.main.vide()){
+            System.out.println("C'est vide");
+        }
+        if(j2.main.vide()){
+            System.out.println("C'est videaaa");
+        }
+        if(config.pile1.vide()){
+            System.out.println("C'est vide1");
+        }
+        if(config.pile2.vide()){
+            System.out.println("C'est vide2");
+        }
+        if(config.pile3.vide()){
+            System.out.println("C'est vide3");
+        }
+        if(config.pile4.vide()){
+            System.out.println("C'est vide4");
+        }
+        if(config.pile5.vide()){
+            System.out.println("C'est vide5");
+        }
+        if(config.pile6.vide()){
+            System.out.println("C'est vide6");
+        }
+        
+        
+        br.close();
+}
+    
     public void moteur() throws ClassNotFoundException{
         
         initialiser();
+        
+        try {
+            forcer();
+        } catch (IOException ex) {
+            Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
         
@@ -934,7 +1055,9 @@ public class Moteur {
             }
             
             config.manche++;
-            initialiserManche();
+            //initialiserManche();
+            config.taille=11;
+            config.set_atout();
             
             System.out.println("MANCHE "+ config.manche);
             System.out.println();
