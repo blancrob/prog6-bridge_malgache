@@ -668,8 +668,8 @@ public class Moteur {
             
             for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
+                    c = config.pioche[i].retirer();
                     if(piocheur == 1){
-                        c = config.pioche[i].retirer();
                         j1.main.ajouter(c);
                     }else{
                         j2.main.ajouter(c);
@@ -940,10 +940,6 @@ public class Moteur {
         j2.main = new PileCartes();
         j2.tas = new PileCartes();
         
-        if(j1.main.vide()){
-            System.out.println("C'est vide");
-        }
-        
         line = br.readLine();
         while(!line.equals("-")){
             c = line.split(" ");
@@ -1001,31 +997,6 @@ public class Moteur {
         config.pioche[4] = config.pile5;
         config.pioche[5] = config.pile6;
         
-        if(j1.main.vide()){
-            System.out.println("C'est vide");
-        }
-        if(j2.main.vide()){
-            System.out.println("C'est videaaa");
-        }
-        if(config.pile1.vide()){
-            System.out.println("C'est vide1");
-        }
-        if(config.pile2.vide()){
-            System.out.println("C'est vide2");
-        }
-        if(config.pile3.vide()){
-            System.out.println("C'est vide3");
-        }
-        if(config.pile4.vide()){
-            System.out.println("C'est vide4");
-        }
-        if(config.pile5.vide()){
-            System.out.println("C'est vide5");
-        }
-        if(config.pile6.vide()){
-            System.out.println("C'est vide6");
-        }
-        
         
         br.close();
 }
@@ -1034,11 +1005,11 @@ public class Moteur {
         
         initialiser();
         
-        try {
+        /*try {
             forcer();
         } catch (IOException ex) {
             Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
         
@@ -1055,9 +1026,10 @@ public class Moteur {
             }
             
             config.manche++;
-            //initialiserManche();
-            config.taille=11;
-            config.set_atout();
+            initialiserManche();
+            /*config.taille=11;
+            config.set_atout();*/
+                    
             
             System.out.println("MANCHE "+ config.manche);
             System.out.println();
