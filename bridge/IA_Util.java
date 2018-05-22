@@ -39,7 +39,7 @@ public class IA_Util {
      * @param lg nombre de piles de la pioche 
      * @return la carte de plus grande valeur de la couleur passée en paramètre présente dans la pioche
      */
-    public static Carte choisirMeilleureCarte(int couleur, Carte[] pioche, int lg){
+    public static Carte choisirMeilleureCartePioche(int couleur, Carte[] pioche, int lg){
         Carte res = null;
         for(int i = 0; i < lg; i++){
            if (pioche[i].couleur == couleur){
@@ -54,6 +54,27 @@ public class IA_Util {
            } 
         }
         return res;
+    }
+    
+    
+    public static int positionMeilleurCartePioche(int couleur, Carte[] pioche, int lg){
+        Carte res = null;
+        int j = 0;
+        for(int i = 0; i < lg; i++){
+           if (pioche[i].couleur == couleur){
+               if(res == null){
+                   res = pioche[i];
+                   j=i;
+               }
+               else{
+                   if(res.valeur < pioche[i].valeur){
+                       res = pioche[i];
+                       j=i;
+                   }
+               }
+           } 
+        }
+        return j;
     }
     
        
@@ -303,73 +324,137 @@ public class IA_Util {
      * @param atout 
      * @return une carte intéressante
      */
-    public static Carte tricheCommence(PileCartes adverse, PileCartes main, int atout){
-        Carte res = null;
-        Iterator<Carte> c = main.iterateur(); //La main de l'ia 
-        Carte tmp;
-        Carte test;
-        while(c.hasNext()){
-            tmp = c.next();
-            if(tmp.couleur != atout){ // SI la carte courrante n'est pas un atout 
-                if(adverse.contient(tmp.couleur)){ // Si l'adversaire a la couleur de la carte courrante
-                    int h = 1;
-                    Iterator<Carte> it = adverse.iterateur(); // Main de l'adversaire
-                    while(it.hasNext() && h==1){
-                        test = it.next();
-                        if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){ // SI l'adversaire peut battre la carte courrante 
-                            h = 0; //on lui met une heuristique nulle 
-                        }
-                    }
-                    if (h==1){
-                        res = tmp; // SI la carte courrant n'est pas battue on la choisie 
-                    }
-                }
-                else{ // Si l'adversaire n'a pas la couleur de la carte courrante
-                    if(!adverse.contient(atout)){ // et qu'il n'a pas d'atout 
-                        res = tmp; // on l'a choisit parce qu'elle va gagner
-                    }
-                }
+    public static Carte tricheCommence(PileCartes adverse, PileCartes main, int atout){   
+        
+        // Victoire sûre à 100%
+        if(!adverse.contient(atout)){ // Si l'adversaire n'a pas d'atout 
+            if (minGagnantIAExperte(true,atout,main, adverse)!=null){ 
+                return minGagnantIAExperte(true,atout,main, adverse); // carte min gagnante d'une couleur que l'adversaire n'a pas (hors atout)
             }
         }
-        if(res==null){  
-            Iterator<Carte> c2 = main.iterateur();
-            while(c2.hasNext()){
-                tmp = c2.next();
-                if(tmp.couleur == atout){ // SI la carte courrante est un atout 
-                    if(adverse.contient(tmp.couleur)){ // SI l'adversaire a de l'atout aussi 
-                        int h = 1;
-                        Iterator<Carte> it = adverse.iterateur();
-                        while(it.hasNext() && h==1){ // On cherche si il peut battre l'atout courrant 
-                            test = it.next();
-                            if (test.couleur == tmp.couleur && test.valeur>tmp.valeur){
-                                h = 0;
-                            }
-                        }
-                        if (h==1){
-                            res = tmp;
-                        }
-                    }
-                    else{
-                        res = tmp;
-                    }
-                }
+        if(minGagnantIAExperte(false,atout,main, adverse)!=null){
+            return minGagnantIAExperte(false,atout,main, adverse); // carte min gagnante d'une couleur que l'adversaire a
+        }
+        // Victoire dépend de la stratégie de l'autre joueur (coupe ou se défausse).
+        if(adverse.contient(atout) && minGagnantIAExperte(true,atout,main, adverse)!=null){ //Si l'adversaire a de l'atout
+            return minGagnantIAExperte(true,atout,main, adverse);
+        }
+        // Perte
+        else{
+            if(main.contientAutre(atout)){ // Si on ne peut pas gagner et qu'on a une autre couleur que l'atout
+                return minHorsAtout(atout, main); // On joue la carte min (hors atout) 
+            }
+            else{ // Si il nous reste que de l'atout
+                return main.min(); // on joue l'atout min 
             }
         }
-        if(res==null && main.contientAutre(atout)){ // Si on ne peut pas gagner et qu'on a une autre couleur que l'atout
-            int couleur = 1;
-            Random r = new Random();
-            while(couleur == atout){
-                couleur = r.nextInt(3)+1;
-            }
-            res = main.min(couleur); // On joue la carte min (hors atout) 
-        }
-        if(res == null){ // SI il nous reste que de l'atout
-            res = main.min(); // on joue l'atout min 
-        }
-        return res;
     }
     
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
         return((nbPlisIA > nbPlisAdv) || (nbPlisIA != 13));
+    }
+    
+    /**
+     * MinGagnantIAExperte. 
+     * Cas 1 : on veut la carte min (hors atout) de la couleur que l'adversaire ne peut pas fournir
+     * Cas 2 : on veut la carte min gagnante dans la couleur que l'adversaire peut fournir
+     * @param atout
+     * @param mainj1
+     * @param mainj2
+     * @return la carte à jouer
+     */
+    public static Carte minGagnantIAExperte(boolean choix, int atout, PileCartes mainj1, PileCartes mainj2){
+        Carte[] cartes = new Carte[4];
+        Carte res = null;
+        
+        if (choix){ // Cas où on veut la carte min (hors atout) de la couleur que l'adversaire ne peut pas fournir
+            if ((atout != 1) && !mainj2.contient(1)){
+                cartes[0] = mainj1.min(1);
+            }        
+            if ((atout != 2) && !mainj2.contient(2)){
+               cartes[1] = mainj1.min(2);
+            }  
+            if ((atout != 3) && !mainj2.contient(3)){
+                cartes[2] = mainj1.min(3);
+            }  
+            if ((atout != 4) && !mainj2.contient(4)){
+                cartes[3] = mainj1.min(4);
+            }  
+
+            for (int i = 0; i<4; i++){
+               if(res==null){
+                   res = cartes[i];
+               }else{
+                   if(cartes[i]!= null && cartes[i].valeur < res.valeur){
+                       res = cartes[i];
+                   }
+               }
+            }
+
+            return res;
+        }
+        
+        else { // Cas ou on veut la carte min gagnante dans la couleur que l'adversaire peut fournir
+            if (mainj2.contient(1)){
+                cartes[0] = mainj1.minGagnant(1, mainj2.max(1).valeur);
+            }        
+            if (mainj2.contient(2)){
+               cartes[1] = mainj1.minGagnant(2, mainj2.max(2).valeur);
+            }  
+            if (mainj2.contient(3)){
+                cartes[2] = mainj1.minGagnant(3, mainj2.max(3).valeur);
+            }  
+            if (mainj2.contient(4)){
+                cartes[3] = mainj1.minGagnant(4, mainj2.max(4).valeur);
+            }  
+
+            for (int i = 0; i<4; i++){
+               if(res==null){
+                   res = cartes[i];
+               }else{
+                   if(cartes[i]!= null && cartes[i].valeur < res.valeur){
+                       res = cartes[i];
+                   }
+               }
+            }
+
+            return res;
+        }
+    }
+    
+    /**
+     * MinHorsAtout.
+     * Retourne la carte min de la main qui n'est pas de la couleur de l'atout
+     * @param atout
+     * @param mainj1
+     * @return la carte à jouer
+     */
+    public static Carte minHorsAtout(int atout, PileCartes mainj1){
+        Carte[] cartes = new Carte[4];
+        Carte res = null;
+        if ((atout != 1) && mainj1.contient(1)){
+            cartes[0] = mainj1.min(1);
+        }        
+        if ((atout != 2) && mainj1.contient(2)){
+           cartes[1] = mainj1.min(2);
+        }  
+        if ((atout != 3) && mainj1.contient(3)){
+            cartes[2] = mainj1.min(3);
+        }  
+        if ((atout != 4) && mainj1.contient(4)){
+            cartes[3] = mainj1.min(4);
+        }  
+        
+        for (int i = 0; i<4; i++){
+           if(res==null){
+               res = cartes[i];
+           }else{
+               if(cartes[i]!=null && cartes[i].valeur < res.valeur){
+                   res = cartes[i];
+               }
+           }
+        }
+        
+        return res;
     }
 }
