@@ -74,7 +74,7 @@ public class IaMoyenne implements IA {
     @Override
     public Carte piocher(){
         int i = 0;
-        Carte res = IA_Util.choisirMeilleureCarte(atout, pioche, lg); // Si on a des atout dans la picohe on prend le plus grand 
+        Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Si on a des atout dans la picohe on prend le plus grand 
     
         if (res == null){ // si pas d'atout dans la pioche 
             res = pioche[0];

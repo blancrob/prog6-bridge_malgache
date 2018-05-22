@@ -150,17 +150,17 @@ public class IaExperte implements IA{
                             if(res == null){
                                 res = pioche[j];
                             }
-                            if((pioche[j].couleur == atout && res.couleur != atout) || (pioche[j].valeur > res.valeur)){ // 
+                            if((pioche[j].couleur == atout && res.couleur != atout) || (pioche[j].valeur > res.valeur)){ // on prend la meilleur des cartes dont celle en dessous n'est pas trop forte.
                                 res = pioche[j];
                             }
                         }
                     }
                 }
             }
-            if(res == null){
+            if(res == null){ //Si toujours pas de pioche idéale on prend le meilleur atout
                 res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg);
             }
-            if(res == null){
+            if(res == null){ // si pas d'atout on prend la meilleure carte
                 for(int k = 0; k < pioche.length; k++){
                     if(res == null){
                         res = pioche[k];
@@ -170,9 +170,31 @@ public class IaExperte implements IA{
                     }
                 }
             }
+            if(IA_Util.heuristiqueCommence(res, atout, main, cartesDejaJouees, pioche, lg) < 0.4){
+                if(IA_Util.plusGrossePile(nbCartes, lg)>1){
+                    for(int k=0; k<piocheEntiere.length; k++){
+                        if(piocheEntiere[k].taille() == 1){
+                            res = pioche[k];
+                        }
+                    }
+                }
+            }
         }
-        else{
-           
+        else{ // Si on pioche en second.
+            for(int p = 0 ; p < pioche.length; p++){
+               if(adverse.minGagnant(pioche[p].couleur,pioche[p].valeur) == null){
+                    if(res == null){
+                        res = pioche[p];
+                    }
+                    if((res.couleur != atout && pioche[p].couleur == atout) || (pioche[p].valeur > res.valeur)){ //commentaire
+                        res = pioche[p];
+                    }
+                }
+            }
+            if (res == null){
+                
+            }
+            
         }
         return res;
     }

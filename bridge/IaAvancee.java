@@ -103,7 +103,7 @@ public class IaAvancee implements IA {
      */
     @Override
     public Carte piocher(){
-        Carte res = IA_Util.choisirMeilleureCarte(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
+        Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ // si pas d'atout 
             int i = 0;
             double h = 0;
