@@ -841,6 +841,7 @@ public class Bridge extends Application {
                 /*if (m.finPartie()) {
                     //Afficher le score de chaque joueur et une fenêtre pour recommencer, voir IHM
                 }*/
+                
                 if (m.finManche() && temps + 2000 < System.currentTimeMillis()) {    //Si la manche est finie
                     if (m.config.taille == 0) {
                         Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
@@ -878,7 +879,7 @@ public class Bridge extends Application {
                     J2_carte_jouee.face.setVisible(true);
                     //Affichage de sa carte à l'IA
                     J2_carte_jouee.face.setTranslateX(largeur_scene/1.8);
-                    J2_carte_jouee.face.setTranslateY(hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
+                    J2_carte_jouee.face.setTranslateY(hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
                     J2_carte_jouee.face.toFront();
 
                     //Si la deuxieme carte n'est pas jouée, l'autre joueur devient le joueur courant AFFICHAGE DES MAINS EN CONSEQUENCE A FAIRE, PENSER A UTILISER UNE METHODE QUI AFFICHE LA MAIN DU JOUEUR PASSE EN PARAMETRE
@@ -1308,7 +1309,9 @@ public class Bridge extends Application {
         System.out.println(screenSize.getWidth());
         System.out.println(screenSize.getHeight());
         primaryStage.setTitle("Bridge Chinois");
-        primaryStage.setScene(scene);      
+        primaryStage.setScene(scene);  
+        primaryStage.setFullScreenExitHint("");
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 
