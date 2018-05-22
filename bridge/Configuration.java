@@ -111,7 +111,7 @@ public class Configuration implements Serializable {
                 res = pioche[i].premiere();
             }
             else if(res.valeur == pioche[i].premiere().valeur){ //si les valeurs des cartes sont égales, si la couleur de la carte courante est plus forte, elle deviens la carte résultat
-                if(res.couleur < pioche[i].premiere().valeur){
+                if(res.couleur < pioche[i].premiere().couleur){
                     res = pioche[i].premiere();
                 }
             }
