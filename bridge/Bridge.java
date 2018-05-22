@@ -5,6 +5,8 @@
  */
 package bridge;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -23,11 +25,6 @@ import javafx.stage.Stage;
  * @author Florent
  */
 public class Bridge extends Application {
-
-    private final int hauteur_scene = 720;
-    private final int largeur_scene = 1280;
-
-    private final int souris_carte = 610;
 
     private final int J1 = 1;
     private final int J2 = 2;
@@ -58,6 +55,14 @@ public class Bridge extends Application {
     
     public int j1_lock = 0;
     public int j2_lock = 0;
+    
+    public int select = 0;
+    
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    
+    private final double largeur_scene = screenSize.getWidth();
+    private final double hauteur_scene = screenSize.getHeight();
+    private final double souris_carte = hauteur_scene - 165*1.5;
 
     //MessageTransition MessageT;
     public void init_manche() {
@@ -70,6 +75,7 @@ public class Bridge extends Application {
         pause = 0;
         j1_lock = 0;
         j2_lock = 0;
+        select = 0;
 
         m.config.carteP = null;
         m.config.carteS = null;
@@ -361,8 +367,8 @@ public class Bridge extends Application {
             t = m.j2.main.pile.size();
         }
         for (int i = 0; i < t; i++) {
-            main[i].face.setTranslateX(440 + (60 * i));
-            main[i].face.setTranslateY(642);
+            main[i].face.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].face.setTranslateY(hauteur_scene-main[i].hauteur_carte);
             main[i].face.setVisible(true);
         }
     }
@@ -370,8 +376,8 @@ public class Bridge extends Application {
     public void affichage_face_pile(Carte[][] pile) {
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
-                pile[j][0].face.setTranslateX(460 + (110 * j));
-                pile[j][0].face.setTranslateY(315);
+                pile[j][0].face.setTranslateX(largeur_scene/2.75 + (pile[j][0].largeur_carte*1.25 * j));
+                pile[j][0].face.setTranslateY((hauteur_scene/2)-(pile[j][0].hauteur_carte/2));
                 pile[j][0].face.toFront();
                 pile[j][0].face.setVisible(true);
             }
@@ -401,8 +407,8 @@ public class Bridge extends Application {
         }
         for (int i = 0; i < t; i++) {
             main[i].face.setVisible(false);
-            main[i].dos.setTranslateX(440 + (60 * i));
-            main[i].dos.setTranslateY(-17);
+            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].dos.setTranslateY(0);
             ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
@@ -672,8 +678,9 @@ public class Bridge extends Application {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && select == 0) {
                     main[n].face.setTranslateY(souris_carte);
+                    select = 1;
                 }
             }
         });
@@ -682,7 +689,8 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0) {
-                    main[n].face.setTranslateY(642);
+                    main[n].face.setTranslateY(hauteur_scene - main[n].hauteur_carte);
+                    select = 0;
                 }
             }
         });
@@ -1262,8 +1270,6 @@ public class Bridge extends Application {
         };
         timer.start();
 
-        menu = new Rectangle(260, 720, Color.PERU);
-
         root = new AnchorPane();
 
         for (int i = 0; i < j1main.length; i++) {
@@ -1284,13 +1290,22 @@ public class Bridge extends Application {
                 }
             }
         }
-
-        root.getChildren().add(menu);
+        
+       
 
         //root.getChildren().add(MessageT);
+        
+        //screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        primaryStage.setFullScreen(true);
+        //largeur_scene = screenSize.getWidth();
+        //hauteur_scene = screenSize.getHeight();
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
+        menu = new Rectangle(largeur_scene/4, hauteur_scene, Color.PERU);
+        root.getChildren().add(menu);
+        System.out.println(screenSize.getWidth());
+        System.out.println(screenSize.getHeight());
         primaryStage.setTitle("Bridge Chinois");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(scene);      
         primaryStage.show();
     }
 
