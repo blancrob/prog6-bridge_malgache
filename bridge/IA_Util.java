@@ -317,14 +317,14 @@ public class IA_Util {
     }
     
     /**
-     * tricheCommence.
+     * meilleurCoupCommenceExperte.
      * Retourne la meilleure carte a jouer quand on commence (En connaissant la main de l'adversaire)
      * @param adverse la main de l'adversaire
      * @param main main de l'IA
      * @param atout 
      * @return une carte intéressante
      */
-    public static Carte tricheCommence(PileCartes adverse, PileCartes main, int atout){   
+    public static Carte meilleurCoupCommenceExperte(PileCartes adverse, PileCartes main, int atout){   
         
         // Victoire sûre à 100%
         if(!adverse.contient(atout)){ // Si l'adversaire n'a pas d'atout 
@@ -348,6 +348,27 @@ public class IA_Util {
                 return main.min(); // on joue l'atout min 
             }
         }
+    }
+    /**
+     * meilleurCoupTermineExperte. On est le 2ème à jouer
+     * Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte
+     *    SI ON A LA COULEUR DEMANDEE    
+     *        1)Jouer la plus petite carte gagnante
+     *        2)Jouer la plus petite carte (perdante)
+     *    SI ON A PAS LA COULEUR DEMANDEE
+     *        1)Jouer le plus petit atout (pour gagner)
+     *        2)Jouer la plus petite carte (si on peut pas gagner)
+     *Si pioche nulle && que toutes les cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
+     *    SI ON A LA COULEUR DEMANDEE  
+     *        Jouer minimum de la couleur pour perdre le pli 
+     *    SI ON A PAS LA COULEUR DEMANDEE  
+     *        Jouer le minimum de la main (hors atout) pour perdre le pli 
+     * 
+     *
+     * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
+     */
+    public static Carte meilleurCoupTermineExperte(){   
+        return null;
     }
     
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){

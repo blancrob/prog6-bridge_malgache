@@ -37,18 +37,25 @@ public class IaExperte implements IA{
     }
     
     /**
-     * Elle connait la disposition de toutes les cartes après la distribution 
+     * Jouer Experte. Elle connait la disposition de toutes les cartes après la distribution 
+     * 1ERE A JOUER
+     * Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte
+     *      Jouer la carte la plus interressante connaissant la main de l'adversaire (voir spécif meilleurCoupCommenceExperte dans IA_Util)
+     * Si pioche nulle && que toutes les cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
+     *      Jouer minimum pour perdre le pli 
+     * 
+     * 2EME A JOUER
+     *  Jouer la carte la plus interressante en fonction de la pioche (voir specif meilleurCoupTermineExperte dans IA_Util)
+     *   
      * @return une carte à jouer
      */
     @Override
     public Carte jouer(){
         if(courante == null){ // si l'IA commence
-            
-            return IA_Util.tricheCommence(adverse, main, atout); //jouer une carte qui va gagner si possible 
+            return IA_Util.meilleurCoupCommenceExperte(adverse, main, atout); //jouer une carte qui va gagner si possible 
         }
         else{ // si l'adversaire a déjà joué 
             Carte res;
-            
             if (IA_Util.fournir(courante.couleur, main)){ // si on a la couleur demandée 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
@@ -81,19 +88,18 @@ public class IaExperte implements IA{
         }
     }
     
-    /****************************************************************************************************************************
-     * pioche Experte.
+    /**
+     * pioche Experte. 
      * Elle connait toute la pioche
      * Si l'IA est la 2ème à piocher et que la pioche est pas très cool, 
      * elle choisit de prendre une carte qui va entrainer la découverte d'une carte d'heuristique inférieure à celle qui vient d'être piochée
      * @return la carte à piocher 
      */
     @Override
-    public Carte piocher(){
+    /*  public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ //si pas d'atout 
             int i = 0;
-            
             double h = 0;
             while (i<lg){ // pour chaque pile de la pioche 
                 if(gagnant){ // si on est gagnant donc 1er à piocher
@@ -129,9 +135,34 @@ public class IaExperte implements IA{
         
         }
         return res;            
-    }
-    
-    public Carte piocherV2(){
+    }*/
+  
+    /**
+     * Pioche Experte. Connait la pioche
+     * 1ERE A PIOCHER
+     *  1) Choisir le plus grand atout : a. qui retourne une carte que l'on peut battre
+     *                                   b. qui retourne une carte que l'on peut pas battre
+     *  2)Trouver la plus grande carte : a. qui retourne une carte que l'on peut battre et la choisir 
+     *                                   b. qui retourne une carte que l'on ne peut pas battre (la garder en mémoire)
+     *  3)Si la carte gardée en mémoire a pas une heuristique géniale et si il y a une pioche avec 1 seule carte piocher cette carte,
+     *                                                                   sinon choisir carte gardée en mémoire 
+     *  
+     * 2EME A PIOCHER
+     * Si on est sûr de gagner le coup suivant quelque soit la couleur demandée par l'adversaire
+     *   1) Choisir le plus grand atout
+     *   2) Choisir la carte de plus grosse heuristique
+     * 
+     * Si on est pas sûr de gagner le coup suivant 
+     *   1) Choisir le plus grand atout : a. qui retourne une carte à faible heuristique 
+     *                                    b. qui retourne une carte à grande heuristique
+     *   2)Trouver la plus grande carte : a. qui retourne une carte à faible heuristique et la choisir 
+     *                                    b. qui retourne une carte à grande heuristique et la garder en mémoire 
+     *   3) si il y a une pioche avec 1 seule carte piocher cette carte,
+     *      sinon choisir carte gardée en mémoire 
+     * 
+     * @return la carte à piocher
+     */
+    public Carte piocher(){
         Carte res = null;
         
         if(gagnant){ // Si on est le premier à piocher/jouer le prochain tour.
