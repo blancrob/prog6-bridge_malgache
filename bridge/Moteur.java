@@ -324,8 +324,8 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             jouerCoupIA(config.donneur); 
         }
-        j1.main.trier();
-        j2.main.trier();
+        //j1.main.trier();
+        //j2.main.trier();
     }
     
     /**
@@ -529,8 +529,8 @@ public class Moteur {
         else{   //Cas où l'ordinateur joue c;
             jouerCoupIA(config.receveur); 
         }
-        j1.main.trier();
-        j2.main.trier();
+        //j1.main.trier();
+        //j2.main.trier();
     }
     
     /**
@@ -682,8 +682,8 @@ public class Moteur {
         }else{  //Si c'est à l'ordinateur de jouer
             piocheIA(piocheur);
         }
-        j1.main.trier();
-        j2.main.trier();
+        //j1.main.trier();
+        //j2.main.trier();
     }
     
     public Carte piocheIA(int piocheur){
@@ -773,11 +773,11 @@ public class Moteur {
         System.out.println("Le joueur " + piocheur + " a pioché:");
         afficherCarte(c);
 
-        //On ajoute à la structure des cartes piochées la carte c
+        //On ajoute à la structure des cartes piochées la car te c
         config.piochees.ajouter(c);
         
-        j1.main.trier();
-        j2.main.trier();
+        //j1.main.trier();
+        //j2.main.trier();
         
         return c;
     }
@@ -1082,8 +1082,8 @@ public class Moteur {
             System.out.println();
 
             while(!finManche()){
-                j1.main.trier();
-                j2.main.trier();
+                //j1.main.trier();
+                //j2.main.trier();
                 if(config.piochable()){
                     config.afficherPioche();
                 }

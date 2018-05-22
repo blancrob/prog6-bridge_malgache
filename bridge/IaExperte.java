@@ -43,6 +43,7 @@ public class IaExperte implements IA{
     @Override
     public Carte jouer(){
         if(courante == null){ // si l'IA commence
+            
             return IA_Util.tricheCommence(adverse, main, atout); //jouer une carte qui va gagner si possible 
         }
         else{ // si l'adversaire a déjà joué 
@@ -89,9 +90,10 @@ public class IaExperte implements IA{
      */
     @Override
     public Carte piocher(){
-        Carte res = IA_Util.choisirMeilleureCarte(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
-        if(res == null){ // si pas d'atout 
+        Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
+        if(res == null){ //si pas d'atout 
             int i = 0;
+            
             double h = 0;
             while (i<lg){ // pour chaque pile de la pioche 
                 if(gagnant){ // si on est gagnant donc 1er à piocher
@@ -114,7 +116,7 @@ public class IaExperte implements IA{
                     int j = 0;
                     double heur = 1;
                     int k = 0;
-                    while(j<piocheEntiere.length){
+                    while(j<piocheEntiere.length){      
                         if(IA_Util.heuristiqueTermine(piocheEntiere[j].pile.get(1), atout, main, cartesDejaJouees, pioche, lg)<heur){
                             heur = IA_Util.heuristiqueTermine(piocheEntiere[j].pile.get(1), atout, main, cartesDejaJouees, pioche, lg);
                             k = j;
@@ -127,5 +129,51 @@ public class IaExperte implements IA{
         
         }
         return res;            
+    }
+    
+    public Carte piocherV2(){
+        Carte res = null;
+        
+        if(gagnant){ // Si on est le premier à piocher/jouer le prochain tour.
+            int i = IA_Util.positionMeilleurCartePioche(atout, pioche, lg);
+            PileCartes temp = main.clone();
+            temp.ajouter(IA_Util.choisirMeilleureCartePioche(atout, pioche, lg));
+            if(temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si la carte en dessous de celle testé nous empêche pas de gagner le prochain pli.
+               res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // on prend la meilleur carte disponible.
+            }
+            else{ // Si la carte en dessous permet à l'adversaire de gagner, on regarde les autres tas.
+                for(int j=0; j<pioche.length; j++){ 
+                    if(j != i){                          //Pour chaque autre tas.
+                        PileCartes test = main.clone();
+                        test.ajouter(pioche[j]);
+                        if(temp.minGagnant(piocheEntiere[j].pile.get(1).couleur, piocheEntiere[j].pile.get(1).valeur) != null){   //si la carte en dessous nous empêche pas de gagner.
+                            if(res == null){
+                                res = pioche[j];
+                            }
+                            if((pioche[j].couleur == atout && res.couleur != atout) || (pioche[j].valeur > res.valeur)){ // 
+                                res = pioche[j];
+                            }
+                        }
+                    }
+                }
+            }
+            if(res == null){
+                res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg);
+            }
+            if(res == null){
+                for(int k = 0; k < pioche.length; k++){
+                    if(res == null){
+                        res = pioche[k];
+                    }
+                    if(pioche[k].valeur > res.valeur){
+                        res = pioche[k];
+                    }
+                }
+            }
+        }
+        else{
+           
+        }
+        return res;
     }
 }
