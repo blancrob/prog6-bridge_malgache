@@ -1,3 +1,5 @@
+package bridge;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -8,14 +10,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
-class Service extends Thread {
+class Recepteur extends Thread {
 	Socket socket;
 	/*BufferedReader entree;
 	PrintStream sortie;*/
         BufferedOutputStream sortie;
         BufferedReader entree;
 
-	Service(Socket socket) {
+	Recepteur(Socket socket) {
 		this.socket = socket;
 		try {
 			entree = new BufferedReader(new InputStreamReader
@@ -50,7 +52,6 @@ class Serveur {
     int portEcoute;
     ServerSocket server;
     Socket socket;
-    Service c;
     private boolean isRunning = true;
         
     public Serveur(){
@@ -63,8 +64,7 @@ class Serveur {
                     server = new ServerSocket(portEcoute);
                     socket = server.accept();
                     socket.setTcpNoDelay(true);                
-                    Thread t = new Thread(new Service(socket));
-                    t.start();  
+                    Thread t = new Thread(new Recepteur(socket));
                 } catch (IOException e) {
                    e.printStackTrace();
                 }

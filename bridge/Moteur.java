@@ -958,6 +958,8 @@ public class Moteur {
             System.out.println();
 
             while(!finManche()){
+                j1.main.trier();
+                j2.main.trier();
                 if(config.piochable()){
                     config.afficherPioche();
                 }

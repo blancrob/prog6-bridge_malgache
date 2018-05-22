@@ -327,6 +327,60 @@ public class PileCartes implements Serializable, Cloneable{
         return res.couleur != couleur;
     }
     
+    /**
+     * Trie les cartes de la PileCartes par valeurs
+     * Ordre des couleurs: Trefle, Carreau, Pique, Coeur
+     */
+    public void trier(){
+        Iterator<Carte> it = this.iterateur();
+        Carte[] carreau = new Carte[15];
+        Carte[] pique = new Carte[15];
+        Carte[] coeur = new Carte[15];
+        Carte[] trefle = new Carte[15];
+        Carte c;
+        while(it.hasNext()){
+            c = it.next();
+            switch(c.couleur){
+                case 1: //Trefle
+                    trefle[c.valeur] = c;
+                    break;
+                case 2: //Carreau
+                    carreau[c.valeur] = c;
+                    break;
+                case 3: //Coeur
+                    coeur[c.valeur] = c;
+                    break;
+                case 4: //Pique
+                    pique[c.valeur] = c;
+                    break;
+            }
+        }
+        
+        this.pile = new ArrayList();
+        
+        for(int i = 0; i<trefle.length; i++){
+            if(trefle[i]!=null){
+                this.ajouter(trefle[i]);
+            }
+        }
+        for(int i = 0; i<carreau.length; i++){
+            if(carreau[i]!=null){
+                this.ajouter(carreau[i]);
+            }
+        }
+        for(int i = 0; i<pique.length; i++){
+            if(pique[i]!=null){
+                this.ajouter(pique[i]);
+            }
+        }
+        for(int i = 0; i<coeur.length; i++){
+            if(coeur[i]!=null){
+                this.ajouter(coeur[i]);
+            }
+        }
+
+    }
+    
     @Override
     public PileCartes clone(){
         PileCartes p = new PileCartes();
