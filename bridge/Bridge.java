@@ -179,22 +179,18 @@ public class Bridge extends Application {
 
         if (m.config.mode == 1 && m.config.donneur == J1) {
             tour_joueur = J1;
-            bandeau.tourJ(J1);
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, J2);
         } else if (m.config.mode == 1 && m.config.donneur == J2) {
             tour_joueur = J2;
-            bandeau.tourJ(J2);
             affichage_face_main(j2main, J2);
             affichage_dos_main(j1main, J1);
         } else if (m.config.mode == 2 && m.config.donneur == J1) {
             tour_joueur = J1;
-            bandeau.tourJ(J1);
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
         } else if (m.config.mode == 2 && m.config.donneur == IA) {
             tour_joueur = IA;
-            bandeau.tourJ(IA);
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
             temps = System.currentTimeMillis();
