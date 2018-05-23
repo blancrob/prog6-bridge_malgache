@@ -397,6 +397,8 @@ public class Bridge extends Application {
 
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
+        String color;
+        String number;
 
         
         for (int i = main.length; i < 11; i++) {
@@ -417,7 +419,45 @@ public class Bridge extends Application {
                 init_main(j2main, IA);
             }
         }
-        for (int i = 0; i < t; i++) {
+        
+        for (int i = 0; i < main.length; i++) {
+            switch (main[i].couleur) {
+                case 1:
+                    color = "TREFLE";
+                    break;
+                case 2:
+                    color = "CARREAU";
+                    break;
+                case 3:
+                    color = "COEUR";
+                    break;
+                default:
+                    color = "PIQUE";
+                    break;
+            }
+
+            number = Integer.toString(main[i].valeur);
+            String carte = color + "_" + number + ".png";
+            ImagePattern img = new ImagePattern(new Image("images/" + carte));
+            main[i].face.setFill(img);
+            main[i].face.setVisible(true);
+            main[i].face.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].face.setTranslateY(0);
+            main[i].face.toFront();
+        }
+        /*for (int i = 0; i < t; i++) {
+            main[i].face.setVisible(false);
+            main[i].face.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].face.setTranslateY(-(main [i].hauteur_carte*0.25));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            main[i].face.setFill(img);
+            main[i].face.setVisible(true);
+            main[i].face.toFront();
+        }*/
+        
+            
+        //PAS A SUPPRIMER
+        /*for (int i = 0; i < t; i++) {
             main[i].face.setVisible(false);
             main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
             main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
@@ -425,7 +465,7 @@ public class Bridge extends Application {
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
-        }
+        }*/
     }
 
     /*
@@ -440,6 +480,7 @@ public class Bridge extends Application {
         }
     }
      */
+        
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
 
