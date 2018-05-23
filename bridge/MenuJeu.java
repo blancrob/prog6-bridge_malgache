@@ -31,8 +31,13 @@ public class MenuJeu extends Parent {
     Label tour;
     Rectangle mancheAtout;
     Label manche;
+    Label image_atout;
     Label atout;
     Label condition_victoire;
+    Label joueur1;
+    Label joueur2;
+    Label titre;
+    Button hist;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -110,7 +115,7 @@ public class MenuJeu extends Parent {
         manche.setTranslateX(largeur_scene/35);
         manche.setTranslateY(hauteur_scene-hauteur_scene/1.64);
         this.getChildren().add(manche);
-        
+            
         atout = new Label("Atout");
         atout.setFont(new Font("Arial",18));
         atout.setTextFill(Color.YELLOW);
@@ -118,14 +123,62 @@ public class MenuJeu extends Parent {
         atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
         this.getChildren().add(atout);
         
+        image_atout = new Label("");
+        image_atout.setFont(new Font("Arial",18));
+        image_atout.setTextFill(Color.YELLOW);
+        image_atout.setTranslateX(largeur_scene/7.75);
+        image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
+        this.getChildren().add(atout);
+        
         condition_victoire = new Label("Partie en 1 manche");
         condition_victoire.setFont(new Font("Arial",22));
         condition_victoire.setTextFill(Color.YELLOW);
-        condition_victoire.setTranslateX(largeur_scene/28);
-        condition_victoire.setTranslateY(hauteur_scene-hauteur_scene/1.4);
+        condition_victoire.setPrefWidth(300);
+        condition_victoire.setPrefHeight(90);
+        condition_victoire.setTranslateX(largeur_scene/48);
+        condition_victoire.setTranslateY(hauteur_scene-hauteur_scene/1.35);       
         condition_victoire.setStyle("-fx-alignment: center;");
         this.getChildren().add(condition_victoire);
-
+        
+        joueur2 = new Label("Joueur 2              0");
+        joueur2.setFont(new Font("Arial",22));
+        joueur2.setTextFill(Color.YELLOW);
+        joueur2.setPrefWidth(300);
+        joueur2.setPrefHeight(90);
+        joueur2.setTranslateX(largeur_scene/48);
+        joueur2.setTranslateY(hauteur_scene-hauteur_scene/1.2);
+        joueur2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(joueur2);
+        
+        joueur1 = new Label("Joueur 1              0");
+        joueur1.setFont(new Font("Arial",22));
+        joueur1.setTextFill(Color.YELLOW);
+        joueur1.setPrefWidth(300);
+        joueur1.setPrefHeight(90);
+        joueur1.setTranslateX(largeur_scene/48);
+        joueur1.setTranslateY(hauteur_scene-hauteur_scene/1.12);
+        joueur1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(joueur1);
+        
+        titre = new Label("Bridge Chinois");
+        titre.setFont(new Font("Arial",30));
+        titre.setTextFill(Color.YELLOW);
+        titre.setPrefWidth(300);
+        titre.setPrefHeight(90);
+        titre.setTranslateX(largeur_scene/48);
+        titre.setTranslateY(hauteur_scene-hauteur_scene/1.03);
+        titre.setStyle("-fx-font-weight: bold; -fx-alignment: center;");
+        this.getChildren().add(titre);
+        
+        hist = new Button("Historique");
+        hist.setFont(new Font("Arial",12));
+        hist.setPrefWidth(85);
+        hist.setPrefHeight(25);
+        hist.setTranslateX(largeur_scene/8);
+        hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
+        this.getChildren().add(hist);
+        
+        
+        
     }
-    
 }
