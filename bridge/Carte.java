@@ -41,8 +41,8 @@ public class Carte extends Parent implements Cloneable{
         this.couleur = couleur;
         this.visible = visible;
         
-        face = new Rectangle(largeur_carte,hauteur_carte,Color.BURLYWOOD);
-        dos = new Rectangle(largeur_carte,hauteur_carte,Color.MEDIUMAQUAMARINE);
+        face = new Rectangle(largeur_carte,hauteur_carte,Color.TRANSPARENT);
+        dos = new Rectangle(largeur_carte,hauteur_carte,Color.TRANSPARENT);
         
         this.getChildren().add(face);
         this.getChildren().add(dos);
