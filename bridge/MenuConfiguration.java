@@ -61,11 +61,14 @@ public class MenuConfiguration extends Application {
     public TextField nbpoints = new TextField();
     public TextField nbrounds = new TextField();
     
-    public String name1final = ("");
-    public String name2final = ("");
-    public int nbpointsfinal = 0;
-    public int nbroundsfinal = 0;
-    
+    public static String name1final = ("");
+    public static String name2final = ("");
+    public static int typegame = 0;
+    public static int typemode = 0;
+    public static int nbpointsfinal = 0;
+    public static int nbroundsfinal = 0;
+    public static int joueur1level = 0;
+    public static int joueur2level = 0;
     //Les ComboBox
     public ComboBox iaLevel1 = new ComboBox();
     public ComboBox iaLevel2 = new ComboBox();
@@ -82,11 +85,7 @@ public class MenuConfiguration extends Application {
     
     public String computer1final = ("");
     public String computer2final = ("");
-    
-    
-    public static void main() {
-        Application.launch(MenuConfiguration.class);   
-    }
+   
     
     public void firstMenu(Stage primaryStage, Button newgame, Button loadgame, Button rules, Button options, Button quit){
         primaryStage.setTitle("Menu Principal");
@@ -147,6 +146,19 @@ public class MenuConfiguration extends Application {
         });
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    public int stringToIntDifficulte(String difficulte){
+        switch (difficulte){
+            case "": return 0;
+            case "Novice": return 1;
+            case "Facile": return 2;
+            case "Moyenne": return 3;
+            case "Avancée": return 4;
+            case "Difficile": return 5;
+            case "Experte": return 6;
+        }
+        return -1;
     }
     
     public void nouvellePartie (Stage primaryStage, Button firstmenu, Button launchgame, Button advancedoptions){
@@ -395,14 +407,35 @@ public class MenuConfiguration extends Application {
                 System.out.println("Joueur 2 : Humain");
             }
             System.out.println(name1final + " contre " + name2final);
+            
+            joueur1level = stringToIntDifficulte(computer1final);
+            joueur2level = stringToIntDifficulte(computer2final);
+            if(joueur1level == 0 && joueur2level ==0){
+                typemode = 1;
+            }else{
+                if((joueur1level != 0 && joueur2level ==0) || (joueur1level == 0 && joueur2level != 0)){
+                    typemode = 2;
+                }else{
+                    if(joueur1level != 0 && joueur2level != 0){
+                        typemode = 3;
+                    }
+                }
+            }
+            
             //param final nombre de points/manches
             if(cbpoints.isSelected()){
                 System.out.println("Partie en "+ nbpointsfinal +" points");
+                typegame = 2;
             }
             else if(cbrounds.isSelected()){
                 System.out.println("Partie en "+ nbroundsfinal +" manches");
+                typegame = 1;
             }
             System.out.println("");
+            System.out.println("level joueur 1: "+joueur1level);
+            System.out.println("level joueur 2: "+joueur2level);
+            System.out.println("Mode de la partie: "+typemode);
+            System.out.println("Type de la partie: "+typegame);
             //validation des parametres
             if((cbhuman1.isSelected() || cbcomputer1.isSelected()) && (cbhuman2.isSelected() || cbcomputer2.isSelected()) && (cbpoints.isSelected() || cbrounds.isSelected()) 
                     && (cbcomputer1.isSelected() || cbhuman1.isSelected()) 
