@@ -175,8 +175,9 @@ public class IaExperte implements IA{
      * @return la carte à piocher
      */
     public Carte piocherv2(){
+       Carte res = null;
        if(gagnant){ //1ERE A PIOCHER
-           
+           res = IA_Util.piocheCommenceExperte(atout,piocheEntiere,pioche,lg,main,adverse,nbCartes);
        }
        else{ //2EME A PIOCHER
            
