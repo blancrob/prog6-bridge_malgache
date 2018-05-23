@@ -16,6 +16,20 @@ public class Moteur2 extends Moteur {
         j2 = new Joueur();
     }
     
+    public void initialiser(String nomj1, String nomj2, int j1difficulte, int j2difficulte, int conditionVictoire, int mancheMax,int scoreMax, int mode){
+        
+        j1.nom = nomj1;
+        j1.difficulte = j1difficulte;
+        j2.nom = nomj2;
+        j2.difficulte = j2difficulte;
+        
+        //On initialise les valeurs de la structure
+        config.conditionVictoire=conditionVictoire;
+        config.mancheMax=mancheMax;
+        config.scoreMax=scoreMax;
+        config.mode=mode;
+    }
+    
     /**
      * Le joueur qui a le statut de donneur ou bien est gagnant joue en premier
      */
