@@ -14,6 +14,7 @@ public class IaExperte implements IA{
     PileCartes cartesDejaJouees;
     PileCartes cartesPiochees;
     Carte[] pioche;
+    Carte[] piocheDessous;
     int lg;
     int atout;
     Carte courante;
@@ -22,11 +23,13 @@ public class IaExperte implements IA{
     PileCartes adverse;
     PileCartes[] piocheEntiere;
     
-   public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, PileCartes j2, PileCartes[] pe) {
+    
+   public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, Carte[] p2, int l, int at, Carte cour, int[] n, boolean g, PileCartes j2, PileCartes[] pe) {
         main = m;
         cartesDejaJouees = c;
         cartesPiochees = pi;
         pioche = p;
+        piocheDessous = p2;
         lg = l;
         atout = at;
         courante = cour;
@@ -41,7 +44,7 @@ public class IaExperte implements IA{
      * 1ERE A JOUER
      * Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte
      *      Jouer la carte la plus interressante connaissant la main de l'adversaire (voir spécif meilleurCoupCommenceExperte dans IA_Util)
-     * Si pioche nulle && que toutes les cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
+     * Si pioche nulle && que 4/6 cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
      *      Jouer minimum pour perdre le pli 
      * 
      * 2EME A JOUER
@@ -140,7 +143,7 @@ public class IaExperte implements IA{
     /**
      * Pioche Experte. Connait la pioche
      * 1ERE A PIOCHER
-     *  1) Choisir le plus grand atout : a. qui retourne une carte que l'on peut battre
+     *  1)Choisir le plus grand atout : a. qui retourne une carte que l'on peut battre
      *                                   b. qui retourne une carte que l'on peut pas battre
      *  2)Trouver la plus grande carte : a. qui retourne une carte que l'on peut battre et la choisir 
      *                                   b. qui retourne une carte que l'on ne peut pas battre (la garder en mémoire)
@@ -150,7 +153,8 @@ public class IaExperte implements IA{
      * 2EME A PIOCHER
      * Si on est sûr de gagner le coup suivant quelque soit la couleur demandée par l'adversaire
      *   1) Choisir le plus grand atout
-     *   2) Choisir la carte de plus grosse heuristique
+     *   2) trouver la carte de plus grosse heuristique
+     *             si elle est pas cool regarder en dessous et si une carte géniale en dessous piocher la carte qui va la découvrir 
      * 
      * Si on est pas sûr de gagner le coup suivant 
      *   1) Choisir le plus grand atout : a. qui retourne une carte à faible heuristique 
