@@ -619,7 +619,7 @@ public class IA_Util {
     public static boolean gagnerCommence(PileCartes[] piocheEntiere,int[] nbCartes, PileCartes adverse, int atout){
         int i = 0;
         double nb = 0;
-        while(i < nbCartes.length){
+        while(i < nbCartes.length && piocheEntiere[i].taille()>1){
             if (nbCartes[i]>1 && bat(piocheEntiere[i].pile.get(1),piocheEntiere[i].pile.get(0),atout)){
                 nb=nb+1;
             }
