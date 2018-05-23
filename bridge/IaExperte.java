@@ -5,6 +5,8 @@
  */
 package bridge;
 
+import static bridge.IA_Util.plusPetitePile;
+
 /**
  *
  * Ia Experte.
@@ -52,41 +54,48 @@ public class IaExperte implements IA{
      */
     @Override
     public Carte jouer(){
-        if(courante == null){ // si l'IA commence
-            return IA_Util.meilleurCoupCommenceExperte(adverse, main, atout); //jouer une carte qui va gagner si possible 
-        }
-        else{ // si l'adversaire a déjà joué 
-            Carte res;
-            if (IA_Util.fournir(courante.couleur, main)){ // si on a la couleur demandée 
-                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
-                if (res == null){ // si on ne peut pas gagner le pli 
-                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
-                }
-            }else{ // si on a pas la couleur demandée
-                
-                int i = 0;
-                double h = 0;
-                while (i<lg){ // On regarde à quoi ressemble la pioche
-                    if(IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg) > h){ // trouver la carte avec la meilleure heuristique 
-                        h = IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg);
-                    }
-                    i++;
-                }
-                if ((h<0.4) && (IA_Util.plusGrossePile(nbCartes, lg)>1)){ //Si la pioche est pas très cool et qu'il reste au moins une pile avec plus d'une carte
-                    res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
-                }
-                
-                else{ // Si la pioche est cool on essaye de gagner le pli
-                    if (IA_Util.fournir(atout, main)){ // on joue de l'atout si possible
-                        res = main.min(atout); // on joue le plus petit atout 
-                    }
-                    else{ // si on a pas d'atout 
-                        res = main.min(); // on donne la plus petite carte de la main 
-                    }
-                }
+        Carte res;
+         // On regarde à quoi ressemble la pioche
+         int i = 0;
+        double hCartesSurPioche = 0;
+        while (i<lg){
+            if(IA_Util.heuristiqueExperte(adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSurPioche = IA_Util.heuristiqueExperte(adverse,pioche[i],atout);
             }
-            return res;
+            i++;
         }
+        double hCartesSousPioche = 0;
+        Carte[] piocheDessous = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
+        int j=0;
+        for (j=0;j<6;j++){
+            piocheDessous[j]= piocheEntiere[j].pile.get(1);
+        }
+        
+        i=0;
+        //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
+        while (i<piocheDessous.length && piocheDessous[i] != null){
+            if(IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSousPioche = IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout);
+            }
+            i++;
+        }
+        
+        if(courante == null){ // 1ERE A JOUER
+            if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
+               ((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)) || // ou pioche nulle et un des tas de la pioche a une seule carte
+                    ((hCartesSurPioche>0.4)|| IA_Util.gagnerCommence(piocheEntiere, nbCartes, adverse, atout) || (IA_Util.plusPetitePile(nbCartes, lg) == 1))){ // Si pioche cool || interessant de gagner (voir gagnerCommence) ||un tas de la pioche à une carte 
+                    
+                return IA_Util.meilleurCoupCommenceExperte(adverse, main, atout); //jouer une carte qui va gagner si possible 
+        
+            }
+            else{
+                res = main.min();
+            }
+        }    
+        else{ // 2EME A JOUER
+            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere);
+        }
+        return res;
     }
     
     /**
