@@ -7,6 +7,7 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,6 +48,9 @@ public class MenuJeu extends Parent {
     private final double hauteur_scene = screenSize.getHeight();
     
     public MenuJeu() {
+        
+        //Moteur2 m = new Moteur2();
+        //Bridge b = new Bridge();
              
         menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));
         this.getChildren().add(menu);
@@ -93,7 +97,8 @@ public class MenuJeu extends Parent {
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
         
-        tour = new Label("Tour : Joueur 1");
+        tour = new Label("Tour : Joueur ");
+        //tour = new Label("Tour : Joueur "+b.tour_joueur);
         tour.setFont(new Font("Arial",25));
         tour.setTextFill(Color.WHITE);
         tour.setPrefWidth(300);
@@ -121,16 +126,40 @@ public class MenuJeu extends Parent {
             
         atout = new Label("Atout");
         atout.setFont(new Font("Arial",18));
-        atout.setTextFill(Color.WHITE);
+        atout.setTextFill(Color.WHITE);       
         atout.setTranslateX(largeur_scene/7.75);
         atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
+        /*if(m.config.atout == 0){
+            atout.setText("Sans Atout");
+            atout.setTranslateX(largeur_scene/8.7);
+            atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
+        }*/
         this.getChildren().add(atout);
         
         image_atout = new Label();
         image_atout.setFont(new Font("Arial",18));
-        image_atout.setTranslateX(largeur_scene/7.5);
-        image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.6);       
-        Image img = new Image("images/SYMBOLE_CARREAU.png");
+        image_atout.setTranslateX(largeur_scene/7.69);
+        image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.59);  
+        Image img;
+        int i = 0;
+        //switch(m.config.atout){
+        switch(i){
+            case 1:
+                img = new Image("images/SYMBOLE_TREFLE.png");
+                break;
+            case 2:
+                img = new Image("images/SYMBOLE_CARREAU.png");
+                break;
+            case 3:
+                img = new Image("images/SYMBOLE_COEUR.png");
+                break;
+            case 4:
+                img = new Image("images/SYMBOLE_PIQUE.png");
+                break;
+            default:
+                img = new Image("images/Vide.png");
+                break;
+        }
         image_atout.setGraphic(new ImageView(img));
         this.getChildren().add(image_atout);
         
@@ -182,7 +211,14 @@ public class MenuJeu extends Parent {
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         
-        
-        
+        /*
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                tour.setText("Tour : Joueur "+b.tour_joueur);
+            }
+        };
+        timer.start();
+        */   
     }
 }

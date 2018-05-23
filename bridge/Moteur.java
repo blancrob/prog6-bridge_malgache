@@ -950,9 +950,12 @@ public class Moteur {
         return e;
     }
     
+    /**
+     * Lis les valeurs des cartes à utiliser pour la partie dans un fichier texte, si il y a des cartes non assignées alors elles sont placées aléatoirement
+     * @throws IOException 
+     */
     public void forcer() throws IOException{
         Scanner sc = new Scanner(System.in);
-        Iterator<Carte> it;
         String[] c;
         
         System.out.println("Entrez le nom du fichier à charger:");
@@ -1032,6 +1035,60 @@ public class Moteur {
         
         
         br.close();
+        
+        //On regarde si toutes les cartes ont été dstribuées
+        PileCartes distribuees = new PileCartes();
+        distribuees.pile.addAll(j1.main.pile);
+        distribuees.pile.addAll(j2.main.pile);
+        for(int i=0; i<6; i++){
+            distribuees.pile.addAll(config.pioche[i].pile);
+        }
+        
+        if (distribuees.taille()<52){   //Si toutes les cartes n'ont pas été distribuées, on les distribue aléatoirement
+            Carte carte;
+            PileCartes paquet = new PileCartes();
+            paquet.paquet();
+            
+            Iterator<Carte> it = distribuees.iterateur();
+            
+            while(it.hasNext()){    //On enlève les cartes distribuées au paquet de cartes entier
+                paquet.retirer(it.next());
+            }
+            
+            while(j1.main.taille()<11){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                j1.main.ajouter(carte);
+            }while(j2.main.taille()<11){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                j2.main.ajouter(carte);
+            }while(config.pile1.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile1.ajouter(carte);
+            }while(config.pile2.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile2.ajouter(carte);
+            }while(config.pile3.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile3.ajouter(carte);
+            }while(config.pile4.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile4.ajouter(carte);
+            }while(config.pile5.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile5.ajouter(carte);
+            }while(config.pile6.taille()<5){
+                carte = paquet.aleatoire(true);
+                paquet.retirer(carte);
+                config.pile6.ajouter(carte);
+            }
+        }
 }
     
     public void moteur() throws ClassNotFoundException{
