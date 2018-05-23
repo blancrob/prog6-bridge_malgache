@@ -62,18 +62,11 @@ public class Moteur2 extends Moteur {
             afficherCarte(main[i]);
         }
         
-            
-        //System.out.println("Donnez le numéro de la carte à jouer:");
-        //Scanner sc = new Scanner(System.in);
-        //String str = sc.nextLine();
-        //int choix = Integer.parseInt(str);
-
-        //Carte c = main[choix];
-
-        //
+        config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
+        config.viderRedo();
+        
         Carte c;
         c = card;
-        //
 
         if (config.donneur==1){
             j1.main.retirer(c);
@@ -141,20 +134,12 @@ public class Moteur2 extends Moteur {
                 System.out.println("Fournir du PIQUE si vous en avez");
                 break;
         }
-
-        //boolean condition = false;
-
-        //System.out.println("Donnez le numéro de la carte à jouer:");
-        //Scanner sc = new Scanner(System.in);
-        //String str = sc.nextLine();
-        //int choix = Integer.parseInt(str);
-
-        //Carte c = main[choix];
-
-        //
+        
+        config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
+        config.viderRedo();
+        
         Carte c;
         c = card;
-        //
 
         if(config.receveur == 1){
             if (card.couleur != config.carteP.couleur && j1.main.contient(config.carteP.couleur)){
@@ -191,24 +176,7 @@ public class Moteur2 extends Moteur {
      * @param piocheur Le numéro du joueur qui va piocher
      */
     public void pioche(int piocheur, Carte card, int nbPile){
-        //System.out.println("Joueur "+ piocheur +", choisissez une carte:");
-        //Scanner sc = new Scanner(System.in);    //on lit le choix du joueur
-        //String str = sc.nextLine();
-        //int choix = Integer.parseInt(str);
-
-        /*
-        for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
-            if(choix==i+1){
-                if(piocheur == 1){
-                    j1.main.ajouter(config.pioche[i].retirer());
-                }else{
-                    j2.main.ajouter(config.pioche[i].retirer());
-                }
-            }
-        }
-        */
-
-        //
+        config.viderRedo();
         if(piocheur == 1){
             j1.main.ajouter(config.pioche[nbPile].retirer());
         }else{
