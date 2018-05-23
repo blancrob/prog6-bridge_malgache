@@ -24,7 +24,7 @@ public class MenuJeu extends Parent {
     
     public MenuJeu() {
              
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.PERU);
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));
         this.getChildren().add(menu);
         
     }
