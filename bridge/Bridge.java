@@ -63,7 +63,7 @@ public class Bridge extends Application {
     
     private final double largeur_scene = screenSize.getWidth();
     private final double hauteur_scene = screenSize.getHeight();
-    private final double souris_carte = hauteur_scene - 165;
+    private final double souris_carte = hauteur_scene - (hauteur_scene/5.45) + 1;
 
     //MessageTransition MessageT;
     
@@ -1553,8 +1553,8 @@ public class Bridge extends Application {
         redo.setTranslateY(hauteur_scene-hauteur_scene/11);
         root.getChildren().add(redo);
         
-        //System.out.println(screenSize.getWidth());
-        //System.out.println(screenSize.getHeight());
+        System.out.println(screenSize.getWidth());
+        System.out.println(screenSize.getHeight());
         
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);  

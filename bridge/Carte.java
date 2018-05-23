@@ -5,6 +5,8 @@
  */
 package bridge;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,8 +17,15 @@ public class Carte extends Parent implements Cloneable{
     int couleur;
     boolean visible;
     
-    final int hauteur_carte = 165;
-    final int largeur_carte = 135;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final double largeur_scene = screenSize.getWidth();
+    private final double hauteur_scene = screenSize.getHeight();
+    
+    //final int hauteur_carte = 165;
+    //final int largeur_carte = 135;
+    
+    final int hauteur_carte = (int)(hauteur_scene/5.45);
+    final int largeur_carte = (int)(largeur_scene/14.223);
     
     static final int V=11;
     static final int D=12;
