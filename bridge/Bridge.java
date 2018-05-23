@@ -17,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -33,7 +32,6 @@ public class Bridge extends Application {
     public Moteur2 m;
 
     AnchorPane root;
-    Rectangle menu;
 
     public Carte[] j1main;
     public Carte[] j2main;
@@ -222,7 +220,7 @@ public class Bridge extends Application {
                     }
                 }
             }
-            root.getChildren().add(menu);
+            //root.getChildren().add(menu);
         }
     }
 
@@ -1429,26 +1427,7 @@ public class Bridge extends Application {
                     pause = 0;
                     
                     System.out.println("Sortie");
-                    
-                    //temps = System.currentTimeMillis();
-                    //pause = 6;
-                }
-                
-                /*if (m.config.mode == 1 && pause == 6 && temps + 1000 < System.currentTimeMillis()) {
-                    if (m.config.donneur == J1) {
-                        affichage_dos_plis(j1plis, J1, 480);
-                        affichage_dos_plis(j2plis, J2, 150);
-                        tour_joueur = J1;
-                        affichage_face_main(j1main, J1);
-                    } else {
-                        affichage_dos_plis(j1plis, J1, 150);
-                        affichage_dos_plis(j2plis, J2, 480);
-                        tour_joueur = J2;
-                        affichage_face_main(j2main, J2);
-                    }
-                    pause = 0;
-                } */
-                
+                }               
             }
         };
         timer.start();
@@ -1476,12 +1455,10 @@ public class Bridge extends Application {
 
         //root.getChildren().add(MessageT);
         
-        //screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         primaryStage.setFullScreen(true);       
-        //largeur_scene = screenSize.getWidth();
-        //hauteur_scene = screenSize.getHeight();
         
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));
+        root.setStyle("-fx-background-color:#274e13;");
         
         bandeau = new MenuJeu();
         root.getChildren().add(bandeau);
