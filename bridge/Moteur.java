@@ -143,16 +143,12 @@ public class Moteur {
      */
     public void undo(){
         if(!config.estVideUndo()){
+            EtatGlobal e1 = copieEtat();
             EtatGlobal e = config.getUndo();
-            System.err.println("Attention 2:");
-            Iterator<Carte> it2 = e.j1.main.iterateur();
-            while(it2.hasNext()){
-                afficherCarte(it2.next());
-            }
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
-            config.addRedo(e);
+            config.addRedo(e1);
         }
     }
     
@@ -162,13 +158,7 @@ public class Moteur {
      */
     public void redo(){
         if(!config.estVideRedo()){
-            System.out.println("Passé ici");
             EtatGlobal e = config.getRedo();
-            System.err.println("Attention 3:");
-            Iterator<Carte> it2 = e.j1.main.iterateur();
-            while(it2.hasNext()){
-                afficherCarte(it2.next());
-            }
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
