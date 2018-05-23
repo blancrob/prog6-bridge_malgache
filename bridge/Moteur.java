@@ -169,7 +169,6 @@ public class Moteur {
             while(it2.hasNext()){
                 afficherCarte(it2.next());
             }
-            afficherCarte(e.config.pile1.premiere());
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
@@ -611,7 +610,7 @@ public class Moteur {
                     ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.score, j2.score);
                     break;
                 case 6:
-                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.main, null);
+                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.main, config.pioche);
                     break;
             }
         }else{
@@ -633,7 +632,7 @@ public class Moteur {
                     ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score);
                     break;
                 case 6:
-                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.main, null);
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.main, config.pioche);
                     break;
             }
         }
