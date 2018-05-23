@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Joueur implements Serializable{
     PileCartes main, tas, cartesPiochees;
     int score, difficulte, scoreTotal, manchesGagnees;
+    String nom;
     
     public Joueur(){
         main = new PileCartes();
@@ -14,6 +15,7 @@ public class Joueur implements Serializable{
         scoreTotal=0;
         difficulte=0;
         manchesGagnees=0;
+        nom = "";
     }
     
 }
