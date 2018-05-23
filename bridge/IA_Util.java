@@ -190,6 +190,24 @@ public class IA_Util {
     }
     
     /**
+     * Retourne la taille de la pile la plus petite
+     * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
+     * @param lg nombre de piles de la pioche
+     * @return 
+     */
+    public static int plusPetitePile(int[] nbCartes, int lg){
+        int i = 0;
+        int min = 10;
+        while(i<lg){
+            if(nbCartes[i] < min){
+                min = nbCartes[i];
+            }
+            i++;
+        }
+        return min;
+    }
+    
+    /**
      * Choisit la carte de la pile qui a le moins de cartes 
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
      * @param lg nombre de piles de la pioche 
@@ -358,7 +376,7 @@ public class IA_Util {
      *    SI ON A PAS LA COULEUR DEMANDEE
      *        1)Jouer le plus petit atout (pour gagner)
      *        2)Jouer la plus petite carte (si on peut pas gagner)
-     *Si pioche nulle && que toutes les cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
+     * Si pioche nulle && que 4/6 cartes de la pioche dévoileront une carte de meilleure heuristique && que tous les tas ont plus d'une carte 
      *    SI ON A LA COULEUR DEMANDEE  
      *        Jouer minimum de la couleur pour perdre le pli 
      *    SI ON A PAS LA COULEUR DEMANDEE  
@@ -367,8 +385,49 @@ public class IA_Util {
      *
      * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
      */
-    public static Carte meilleurCoupTermineExperte(){   
-        return null;
+    public static Carte meilleurCoupTermineExperte(PileCartes main, int atout, Carte courante,Carte[] pioche,int lg){   
+        Carte res;
+         // On regarde à quoi ressemble la pioche
+         int i = 0;
+        double hCartesSurPioche = 0;
+        while (i<lg){
+            if(IA_Util.heuristiqueExperte() > h){ // trouver la carte avec la meilleure heuristique 
+                h = IA_Util.heuristiqueExperte();
+            }
+            i++;
+        }
+        double hCartesSousPioche = 0;
+        
+        while (i<lg){
+            if(IA_Util.heuristiqueExperte() > h){ // trouver la carte avec la meilleure heuristique 
+                h = IA_Util.heuristiqueExperte();
+            }
+            i++;
+        }
+        
+        if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& )||((hCartesSurPioche<0.4)&&(IA_Util.plusPetitePile(nbCartes, lg)=1))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
+            if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
+                res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
+                if (res == null){ // si on ne peut pas gagner le pli 
+                    res = main.min(courante.couleur); // on prend la plus petite carte de la couleur 
+                }
+            }else{ //SI ON A PAS LA COULEUR DEMANDEE
+                if (IA_Util.fournir(atout, main)){ // on joue atout si possible
+                    res = main.min(atout); // le plus petit atout 
+                }
+                else{ // si on a pas d'atout 
+                    res = main.min(); // jouer la plus petite carte de la main 
+                }
+            }
+        
+        /////
+        if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
+            res = main.min(courante.couleur); // jouer la plus petite carte de la couleur
+        }else { //SI ON A PAS LA COULEUR DEMANDEE
+           res = main.min(); // jouer la plus petite carte de la main 
+        }
+           
+        return res;
     }
     
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
