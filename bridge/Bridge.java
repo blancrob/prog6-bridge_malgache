@@ -394,8 +394,40 @@ public class Bridge extends Application {
             }
         }
     }
-
+    
     public void affichage_dos_main(Carte[] main, int j) {
+        int t;
+        
+        for (int i = main.length; i < 11; i++) {
+            main[i].dos.setVisible(false);
+        }
+         
+        if (j == J1) {
+            //t = j1main.length;
+            t = m.j1.main.pile.size();
+            init_main(j1main, J1);
+        } else {
+            //t = j2main.length;
+            t = m.j2.main.pile.size();
+            if (m.config.mode == 1) {
+                init_main(j2main, J2);
+            } else {
+                init_main(j2main, IA);
+            }
+        }
+              
+        for (int i = 0; i < t; i++) {
+            main[i].face.setVisible(false);
+            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            main[i].dos.setFill(img);
+            main[i].dos.setVisible(true);
+            main[i].dos.toFront();
+        }
+    }
+
+    /*public void affichage_dos_main(Carte[] main, int j) {
         int t;
         String color;
         String number;
@@ -445,28 +477,7 @@ public class Bridge extends Application {
             main[i].face.setTranslateY(0);
             main[i].face.toFront();
         }
-        /*for (int i = 0; i < t; i++) {
-            main[i].face.setVisible(false);
-            main[i].face.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
-            main[i].face.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
-            main[i].face.setFill(img);
-            main[i].face.setVisible(true);
-            main[i].face.toFront();
-        }*/
-        
-            
-        //PAS A SUPPRIMER
-        /*for (int i = 0; i < t; i++) {
-            main[i].face.setVisible(false);
-            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
-            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
-            main[i].dos.setFill(img);
-            main[i].dos.setVisible(true);
-            main[i].dos.toFront();
-        }*/
-    }
+    }*/
 
     /*
     public void affichage_dos_pile(Carte[][] pile) {

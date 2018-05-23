@@ -140,7 +140,7 @@ public class MenuJeu extends Parent {
         
         image_atout = new Label();
         image_atout.setFont(new Font("Arial",18));
-        image_atout.setTranslateX(largeur_scene/7.69);
+        image_atout.setTranslateX(largeur_scene/7.78);
         image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.59);  
         Image img;
         switch(m.config.atout){
@@ -207,7 +207,7 @@ public class MenuJeu extends Parent {
         hist.setFont(new Font("Arial",12));
         hist.setPrefWidth(largeur_scene/22.588);
         hist.setPrefHeight(hauteur_scene/43.2);
-        hist.setTranslateX(largeur_scene/8);
+        hist.setTranslateX(largeur_scene/8.25);
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         
