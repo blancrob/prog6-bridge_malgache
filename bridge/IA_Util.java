@@ -6,7 +6,6 @@
 package bridge;
 
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * Contient toutes les méthodes utiles aux IA.
@@ -642,11 +641,11 @@ public class IA_Util {
    */
   public static Carte piocheCommenceExperte(int atout, PileCartes[] piocheEntiere, Carte[] pioche, int lg, PileCartes main){   
     Carte res = null;
-    int i = IA_Util.positionMeilleurCartePioche(atout, pioche, lg);
+    int i = positionMeilleurCartePioche(atout, pioche, lg);
     PileCartes temp = main.clone();
-    temp.ajouter(IA_Util.choisirMeilleureCartePioche(atout, pioche, lg));
+    temp.ajouter(choisirMeilleureCartePioche(atout, pioche, lg));
     if(temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si on peut battre la carte en dessous de celle testée 
-       res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // on prend la meilleur carte disponible.
+       res = choisirMeilleureCartePioche(atout, pioche, lg); // on prend la meilleur carte disponible.
     }
     else{ // Si la carte en dessous permet à l'adversaire de gagner, on regarde les autres tas de la pioche.
         for(int j=0; j<pioche.length; j++){ 
@@ -665,7 +664,7 @@ public class IA_Util {
         }
     } 
      if (res == null){ // sinon prendre le plus grand atout 
-        res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg);
+        res = choisirMeilleureCartePioche(atout, pioche, lg);
      }
      if (res == null){ // Si pas d'atout, Trouver la plus grande carte qui retourne une carte que l'on peut battre et la choisir 
          
@@ -675,4 +674,26 @@ public class IA_Util {
      }
     return res; 
   }
+  
+  public static boolean gagneProchain(PileCartes main, PileCartes adverse, Carte piochee, int atout){
+        Iterator<Carte> it = adverse.iterateur();
+        Carte tmp;
+        boolean res = true;
+        while(it.hasNext() && res){
+            tmp = it.next();
+            res = bat(piochee,tmp,atout) || (!main.contient(tmp.couleur) && main.contient(atout)) || (main.minGagnant(tmp.couleur,tmp.valeur) != null);
+        }
+        return res;
+    }
+    
+    
+    public static Carte piocherMeilleurAtout(PileCartes[] piocheEntiere, PileCartes main, PileCartes adverse, int atout){
+        Carte res = null;
+        for(int i = 0; i<piocheEntiere.length; i++){
+            if(!piocheEntiere[i].vide() && piocheEntiere[i].pile.get(0).couleur == atout && gagneProchain(main,adverse,piocheEntiere[i].pile.get(0),atout) && (res == null || res.valeur <piocheEntiere[i].pile.get(0).valeur)){
+                res = piocheEntiere[i].pile.get(0);
+            }
+        }
+        return res;
+    }
 }
