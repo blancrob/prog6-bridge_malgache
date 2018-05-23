@@ -144,6 +144,11 @@ public class Moteur {
     public void undo(){
         if(!config.estVideUndo()){
             EtatGlobal e = config.getUndo();
+            System.err.println("Attention 2:");
+            Iterator<Carte> it2 = e.j1.main.iterateur();
+            while(it2.hasNext()){
+                afficherCarte(it2.next());
+            }
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
@@ -159,6 +164,12 @@ public class Moteur {
         if(!config.estVideRedo()){
             System.out.println("Passé ici");
             EtatGlobal e = config.getRedo();
+            System.err.println("Attention 3:");
+            Iterator<Carte> it2 = e.j1.main.iterateur();
+            while(it2.hasNext()){
+                afficherCarte(it2.next());
+            }
+            afficherCarte(e.config.pile1.premiere());
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
@@ -306,6 +317,13 @@ public class Moteur {
                 choix = Integer.parseInt(str);
             }
 
+            /*System.err.println("Attention:");
+            EtatGlobal e = copieEtat();
+            Iterator<Carte> it2 = e.j1.main.iterateur();
+            while(it2.hasNext()){
+                afficherCarte(it2.next());
+            }
+            System.out.println();*/
             config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
             
             //La carte est jouée
@@ -322,6 +340,13 @@ public class Moteur {
             }else{
                 config.joueur = 1;
             }
+            
+            /*it2 = e.j1.main.iterateur();
+            while(it2.hasNext()){
+                afficherCarte(it2.next());
+            }
+            System.out.println();*/
+            
             System.out.println();
         }
         else{   //Cas où l'ordinateur joue c;
@@ -485,8 +510,6 @@ public class Moteur {
                 str = sc.nextLine();
                 choix = Integer.parseInt(str);
             }
-            
-            config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
             
             //Si la carte choisie n'est pas de la couleur qu'il fallait fournir, on demande de rejouer une carte appropriée
             if(config.receveur == 1){
