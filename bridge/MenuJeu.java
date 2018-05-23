@@ -28,10 +28,11 @@ public class MenuJeu extends Parent {
     Button restart;
     Button rules;
     Button help;
-    
     Label tour;
-    
     Rectangle mancheAtout;
+    Label manche;
+    Label atout;
+    Label condition_victoire;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -84,21 +85,47 @@ public class MenuJeu extends Parent {
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
         
-        tour = new Label("Tour joueur");
+        tour = new Label("Tour : Joueur 1");
         tour.setFont(new Font("Arial",25));
+        tour.setTextFill(Color.YELLOW);
         tour.setPrefWidth(300);
         tour.setPrefHeight(90);
         tour.setTranslateX(largeur_scene/48);
-        tour.setTranslateY(hauteur_scene-hauteur_scene/2);
-        tour.setTextFill(Color.YELLOW);
+        tour.setTranslateY(hauteur_scene-hauteur_scene/1.92);    
         tour.setStyle("-fx-alignment: center;");
         this.getChildren().add(tour);
         
-        mancheAtout = new Rectangle(largeur_scene/4,hauteur_scene/10, Color.web("4c1130"));
-        mancheAtout.setTranslateX(largeur_scene/48);
-        mancheAtout.setTranslateY(hauteur_scene-hauteur_scene/1.5);
+        mancheAtout = new Rectangle(largeur_scene/5.6,hauteur_scene/10, Color.TRANSPARENT);
+        mancheAtout.setTranslateX(largeur_scene/100);
+        mancheAtout.setTranslateY(hauteur_scene-hauteur_scene/1.55);
+        mancheAtout.setArcWidth(20);
+        mancheAtout.setArcHeight(20);
+        mancheAtout.setStroke(Color.BLACK);
+        mancheAtout.setStrokeWidth(2);
         this.getChildren().add(mancheAtout);
         
+        manche = new Label("Manche 1");
+        manche.setFont(new Font("Arial",25));
+        manche.setTextFill(Color.YELLOW);
+        manche.setTranslateX(largeur_scene/35);
+        manche.setTranslateY(hauteur_scene-hauteur_scene/1.64);
+        this.getChildren().add(manche);
+        
+        atout = new Label("Atout");
+        atout.setFont(new Font("Arial",18));
+        atout.setTextFill(Color.YELLOW);
+        atout.setTranslateX(largeur_scene/7.75);
+        atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
+        this.getChildren().add(atout);
+        
+        condition_victoire = new Label("Partie en 1 manche");
+        condition_victoire.setFont(new Font("Arial",22));
+        condition_victoire.setTextFill(Color.YELLOW);
+        condition_victoire.setTranslateX(largeur_scene/28);
+        condition_victoire.setTranslateY(hauteur_scene-hauteur_scene/1.4);
+        condition_victoire.setStyle("-fx-alignment: center;");
+        this.getChildren().add(condition_victoire);
+
     }
     
 }

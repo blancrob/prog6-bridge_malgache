@@ -220,7 +220,7 @@ public class Bridge extends Application {
                     }
                 }
             }
-            //root.getChildren().add(menu);
+            root.getChildren().add(bandeau);
         }
     }
 
