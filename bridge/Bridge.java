@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -66,6 +67,9 @@ public class Bridge extends Application {
     //MessageTransition MessageT;
     
     MenuJeu bandeau;
+    
+    Button undo;
+    Button redo;
     
     public void init_manche() {
         carte_jouee = 0;
@@ -1462,6 +1466,9 @@ public class Bridge extends Application {
         
         bandeau = new MenuJeu();
         root.getChildren().add(bandeau);
+        
+        undo = new Button("undo");
+        redo = new Button("redo");
         
         //System.out.println(screenSize.getWidth());
         //System.out.println(screenSize.getHeight());
