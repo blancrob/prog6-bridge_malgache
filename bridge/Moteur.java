@@ -138,6 +138,25 @@ public class Moteur {
     }
     
     /**
+     * Renvoie la liste des fichiers contenus dans le dossier sauvegardes
+     * @return un tableau de String contenant les noms des fichiers contenus dans le dossier sauvegardes
+     */
+    public String[] afficheSauvegardes(){
+        File dossier=new File("sauvegardes");
+        if (dossier.exists() && dossier.isDirectory()){ //Si le dossier sauvegarde existe
+            File[] files=dossier.listFiles();
+            String[] res = new String[files.length];
+            for(int i=0; i<files.length;i++){
+                res[i] = files[i].getName();
+            }
+            return res;
+        }else{
+            System.out.println("Le dossier \"sauvegardes\" n'existe pas");
+            return null;
+        }
+    }
+    
+    /**
      * Annule le coup précédent et retourne dans la dernière configuration enregistrée dans la pile Undo
      * Permet de refaire le coup en stockant la configuration dans la pile Redo
      */
