@@ -158,11 +158,12 @@ public class Moteur {
      */
     public void redo(){
         if(!config.estVideRedo()){
+            EtatGlobal e1 = copieEtat();
             EtatGlobal e = config.getRedo();
             config = e.config;
             j1 = e.j1;
             j2 = e.j2;
-            config.addUndo(e);
+            config.addUndo(e1);
         }
     }
     

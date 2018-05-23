@@ -150,6 +150,15 @@ public class Configuration implements Serializable {
     }
     
     /**
+     * Vide la pile undo
+     */
+    public void viderUndo(){
+        while(!estVideUndo()){
+            getUndo();
+        }
+    }
+    
+    /**
      * Ajoute un EtatGlobal à la pile des redo
      * @param e EtatGlobal qu'on ajoute
      */
@@ -173,4 +182,12 @@ public class Configuration implements Serializable {
         return redo.empty();
     }
     
+    /**
+     * Vide la pile redo
+     */
+    public void viderRedo(){
+        while(!estVideRedo()){
+            getRedo();
+        }
+    }
 }
