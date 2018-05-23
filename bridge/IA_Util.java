@@ -385,7 +385,7 @@ public class IA_Util {
      *
      * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
      */
-    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse int atout, Carte courante,Carte[] pioche,int lg, Carte[] piocheDessous,int lg2){   
+    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere){   
         Carte res;
          // On regarde à quoi ressemble la pioche
          int i = 0;
@@ -397,15 +397,22 @@ public class IA_Util {
             i++;
         }
         double hCartesSousPioche = 0;
+        Carte[] piocheDessous = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
+        int j=0;
+        for (j=0;j<6;j++){
+            piocheDessous[j]= piocheEntiere[j].pile.get(1);
+        }
+        
         i=0;
-        while (i<lg2){
+        //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
+        while (i<piocheDessous.length && piocheDessous[i] != null){
             if(IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
-                hCarteSousPioche = IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout);
+                hCartesSousPioche = IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout);
             }
             i++;
         }
         
-        if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& )||((hCartesSurPioche<0.4)&&(IA_Util.plusPetitePile(nbCartes, lg)=1))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
+        if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
             if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
@@ -419,15 +426,16 @@ public class IA_Util {
                     res = main.min(); // jouer la plus petite carte de la main 
                 }
             }
-        
-        /////
-        if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
-            res = main.min(courante.couleur); // jouer la plus petite carte de la couleur
-        }else { //SI ON A PAS LA COULEUR DEMANDEE
-           res = main.min(); // jouer la plus petite carte de la main 
         }
-           
-        return res;
+        else{
+            if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
+                res = main.min(courante.couleur); // jouer la plus petite carte de la couleur
+            }else { //SI ON A PAS LA COULEUR DEMANDEE
+               res = main.min(); // jouer la plus petite carte de la main 
+            }
+
+            return res;
+        }
     }
     
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
