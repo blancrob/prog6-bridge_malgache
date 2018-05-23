@@ -547,7 +547,14 @@ public class IA_Util {
         
         return res;
     }
-    
+    /**
+     * heuristiqueExperte. 
+     * Calcule l'heuristique d'une carte pour l'ia experte
+     * @param adverse
+     * @param c
+     * @param atout
+     * @return 
+     */
     public static int heuristiqueExperte(PileCartes adverse, Carte c, int atout){
         Iterator<Carte> it = adverse.iterateur();
         Carte tmp;
@@ -579,6 +586,15 @@ public class IA_Util {
         return h;
     }
      
+    /**
+     * GagnerCommence.
+     * Est-qu'il est interessant pour IA Experte de gagner le pli, ou est-il préférable de le laisser à l'adversaire pour qu'il retourne une carte cool ?
+     * @param piocheEntiere
+     * @param nbCartes
+     * @param adverse
+     * @param atout
+     * @return 
+     */
     public static boolean gagnerCommence(PileCartes[] piocheEntiere,int[] nbCartes, PileCartes adverse, int atout){
         int i = 0;
         double nb = 0;
@@ -591,6 +607,12 @@ public class IA_Util {
         return nb < ((double)i/2);
     }
     
+    /**
+     * @param c1
+     * @param c2
+     * @param atout
+     * @return true si la carte c1 bat la carte c2
+     */
     public static boolean bat(Carte c1, Carte c2, int atout){
         boolean res = false;
         if(c1.couleur == atout ){
