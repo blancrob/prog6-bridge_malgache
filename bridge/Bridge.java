@@ -412,7 +412,7 @@ public class Bridge extends Application {
             main[i].face.setVisible(false);
             main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
             main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_5.png"));
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
@@ -1479,8 +1479,8 @@ public class Bridge extends Application {
         primaryStage.setFullScreen(true);
         //largeur_scene = screenSize.getWidth();
         //hauteur_scene = screenSize.getHeight();
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.MEDIUMAQUAMARINE);
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.PERU);
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));
         root.getChildren().add(menu);
         //System.out.println(screenSize.getWidth());
         //System.out.println(screenSize.getHeight());
