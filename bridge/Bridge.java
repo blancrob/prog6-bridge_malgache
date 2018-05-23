@@ -395,7 +395,7 @@ public class Bridge extends Application {
         }
     }
     
-    public void affichage_dos_main(Carte[] main, int j) {
+    /*public void affichage_dos_main(Carte[] main, int j) {
         int t;
         
         for (int i = main.length; i < 11; i++) {
@@ -425,18 +425,12 @@ public class Bridge extends Application {
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
         }
-    }
+    }*/
 
-    /*public void affichage_dos_main(Carte[] main, int j) {
+    public void affichage_dos_main(Carte[] main, int j) {
         int t;
         String color;
-        String number;
-
-        
-        for (int i = main.length; i < 11; i++) {
-            main[i].dos.setVisible(false);
-        }
-         
+        String number;        
         
         if (j == J1) {
             //t = j1main.length;
@@ -477,7 +471,7 @@ public class Bridge extends Application {
             main[i].face.setTranslateY(0);
             main[i].face.toFront();
         }
-    }*/
+    }
 
     /*
     public void affichage_dos_pile(Carte[][] pile) {
