@@ -199,7 +199,10 @@ public class Bridge extends Application {
 
         maj_handler_main();
         maj_handler_pile();
-
+        
+        bandeau = new MenuJeu(m);
+        bandeau.tourJ(tour_joueur);
+        
         if (m.config.manche > 1) {
             root.getChildren().clear();
             for (int i = 0; i < j1main.length; i++) {
@@ -417,7 +420,7 @@ public class Bridge extends Application {
             main[i].face.setVisible(false);
             main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
             main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_5.png"));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
@@ -492,9 +495,11 @@ public class Bridge extends Application {
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
                 tour_joueur = IA;
+                bandeau.tourJ(IA);
                 temps = System.currentTimeMillis();
             } else {
                 tour_joueur = J1;
+                bandeau.tourJ(J1);
                 affichage_face_main(j1main, J1);
             }
         }
@@ -638,9 +643,9 @@ public class Bridge extends Application {
                     temps = System.currentTimeMillis();
                     if (m.config.donneur == J1) {
                         tour_joueur = J1;
+                        bandeau.tourJ(J1);
                         affichage_face_main(j1main, J1);
                     } else {
-                        tour_joueur = IA;
                         temps = System.currentTimeMillis();
                         affichage_face_main(j1main, J1);
                     }
@@ -749,6 +754,7 @@ public class Bridge extends Application {
 
                     if (m.config.mode == 2) {
                         tour_joueur = m.config.gagnant;
+                        bandeau.tourJ(m.config.gagnant);
                         init_main(j1main, J1);
                         affichage_face_main(j1main, J1);
                         maj_handler_main();
@@ -756,6 +762,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                         clean = 1;
                     } else if (m.config.mode == 1) {
+                        bandeau.tourJ(m.config.receveur);
                         temps = System.currentTimeMillis();
                         pause = 4;
                         
@@ -792,9 +799,11 @@ public class Bridge extends Application {
                     }
                     if (m.config.mode == 1) {
                         if (m.config.gagnant == J1) {
+                            bandeau.tourJ(J1);
                             init_main(j1main, J1);
                             affichage_face_main(j1main, J1);
                         } else {
+                            bandeau.tourJ(J2);
                             init_main(j2main, J2);
                             affichage_face_main(j2main, J2);
                         }
@@ -905,6 +914,7 @@ public class Bridge extends Application {
                     
                     if (m.config.carteS == null) {
                         tour_joueur = J1;
+                        bandeau.tourJ(J1);
                         carte_jouee = 0;
                     } else {
                         m.config.taille--;
@@ -977,7 +987,7 @@ public class Bridge extends Application {
                         m.config.receveur = m.config.perdant;
 
                         tour_joueur = m.config.gagnant;
-
+                        bandeau.tourJ(m.config.gagnant);
                         maj_handler_main();
                         maj_handler_pile();
                         carte_jouee = 0;
@@ -1081,9 +1091,11 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                         if (m.config.donneur == J1) {
                             tour_joueur = J1;
+                            bandeau.tourJ(J1);
                             affichage_face_main(j1main, J1);
                         } else {
                             tour_joueur = IA;
+                            bandeau.tourJ(IA);
                             temps = System.currentTimeMillis();
                             affichage_face_main(j1main, J1);
                         }
@@ -1122,6 +1134,7 @@ public class Bridge extends Application {
                         //Afficher dos J1main
                         affichage_dos_main(j1main,J1);
                         tour_joueur = J2;
+                        bandeau.tourJ(J2);
                         affichage_face_main(j2main, J2);
                     } else {
                         init_main(j1main,J1);
@@ -1151,12 +1164,14 @@ public class Bridge extends Application {
                         //Afficher dos J2main
                         affichage_dos_main(j2main,J2);
                         tour_joueur = J1;
+                        bandeau.tourJ(J1);
                         affichage_face_main(j1main, J1);
                     }
                     pause = 0;
                 }
 
                 if (m.config.mode == 1 && pause == 2 && temps + 1000 < System.currentTimeMillis()) {
+                    bandeau.tourJ(m.config.gagnant);
                     if (m.config.receveur == J1) {
                         for (int i = 0; i < j1main.length; i++) {
                             if (j1main[i] != J1_carte_jouee) {
@@ -1232,6 +1247,7 @@ public class Bridge extends Application {
                     pause = 0;
                 }
                 if (m.config.mode == 1 && pause == 3 && temps + 1000 < System.currentTimeMillis()) {
+                    bandeau.tourJ(m.config.perdant);
                     if (m.config.gagnant == J1) {
                         J2_carte_jouee.face.setTranslateY(hauteur_scene/1.5);
                         J1_carte_jouee.face.setTranslateY(hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
@@ -1297,6 +1313,7 @@ public class Bridge extends Application {
                         affichage_dos_plis(j1plis, J1, (hauteur_scene/1.5));
                         affichage_dos_plis(j2plis, J2, hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
                         tour_joueur = J1;
+                        bandeau.tourJ(J1);
                         m.config.receveur = J2;
 
                         init_main(j1main, J1);
@@ -1330,6 +1347,7 @@ public class Bridge extends Application {
                         affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
                         affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
                         tour_joueur = J2;
+                        bandeau.tourJ(J2);
                         m.config.receveur = J1;
 
                         init_main(j1main, J1);
@@ -1392,6 +1410,7 @@ public class Bridge extends Application {
                         affichage_dos_plis(j1plis, J1, (hauteur_scene/1.5));
                         affichage_dos_plis(j2plis, J2, hauteur_scene-(hauteur_scene/1.5)-J2_carte_jouee.hauteur_carte);
                         tour_joueur = J1;
+                        bandeau.tourJ(J1);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             //if (j1main[i] != J1_carte_jouee) {
@@ -1411,6 +1430,7 @@ public class Bridge extends Application {
                         affichage_dos_plis(j1plis, J1, hauteur_scene-(hauteur_scene/1.5)-J1_carte_jouee.hauteur_carte);
                         affichage_dos_plis(j2plis, J2, (hauteur_scene/1.5));
                         tour_joueur = J2;
+                        bandeau.tourJ(J2);
                         //Cacher dos J1main
                         for (int i = 0; i < 11; i++) {
                             //if (j1main[i] != J1_carte_jouee) {
@@ -1464,7 +1484,6 @@ public class Bridge extends Application {
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));
         root.setStyle("-fx-background-color:#274e13;");
         
-        bandeau = new MenuJeu();
         root.getChildren().add(bandeau);
         
         undo = new Button("undo");

@@ -43,14 +43,17 @@ public class MenuJeu extends Parent {
     Label titre;
     Button hist;
     
+    int tour_joueur;
+    
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
     private final double hauteur_scene = screenSize.getHeight();
     
-    public MenuJeu() {
-        
-        //Moteur2 m = new Moteur2();
-        //Bridge b = new Bridge();
+    public void tourJ(int i){
+        tour_joueur = i;
+    }
+    
+    public MenuJeu(Moteur m) {
              
         menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));
         this.getChildren().add(menu);
@@ -97,8 +100,7 @@ public class MenuJeu extends Parent {
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
         
-        tour = new Label("Tour : Joueur ");
-        //tour = new Label("Tour : Joueur "+b.tour_joueur);
+        tour = new Label("Tour : Joueur "+tour_joueur);
         tour.setFont(new Font("Arial",25));
         tour.setTextFill(Color.WHITE);
         tour.setPrefWidth(300);
@@ -129,11 +131,11 @@ public class MenuJeu extends Parent {
         atout.setTextFill(Color.WHITE);       
         atout.setTranslateX(largeur_scene/7.75);
         atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
-        /*if(m.config.atout == 0){
+        if(m.config.atout == 0){
             atout.setText("Sans Atout");
             atout.setTranslateX(largeur_scene/8.7);
             atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
-        }*/
+        }
         this.getChildren().add(atout);
         
         image_atout = new Label();
@@ -141,9 +143,7 @@ public class MenuJeu extends Parent {
         image_atout.setTranslateX(largeur_scene/7.69);
         image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.59);  
         Image img;
-        int i = 0;
-        //switch(m.config.atout){
-        switch(i){
+        switch(m.config.atout){
             case 1:
                 img = new Image("images/SYMBOLE_TREFLE.png");
                 break;
@@ -211,14 +211,14 @@ public class MenuJeu extends Parent {
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         
-        /*
+        
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tour.setText("Tour : Joueur "+b.tour_joueur);
+                tour.setText("Tour : Joueur "+tour_joueur);
             }
         };
         timer.start();
-        */   
+        
     }
 }
