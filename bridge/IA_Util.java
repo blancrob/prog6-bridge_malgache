@@ -546,7 +546,7 @@ public class IA_Util {
         return res;
     }
     
-     public static int heuristiqueExperte(PileCartes adverse, Carte c, int atout){
+    public static int heuristiqueExperte(PileCartes adverse, Carte c, int atout){
         Iterator<Carte> it = adverse.iterateur();
         Carte tmp;
         int h = 0;
@@ -575,6 +575,29 @@ public class IA_Util {
             }
         }
         return h;
+    }
+     
+    public static boolean gagnerCommence(PileCartes[] piocheEntiere,int[] nbCartes, PileCartes adverse, int atout){
+        int i = 0;
+        double nb = 0;
+        while(i < nbCartes.length){
+            if (nbCartes[i]>1 && bat(piocheEntiere[i].pile.get(1),piocheEntiere[i].pile.get(0),atout)){
+                nb=nb+1;
+            }
+            i++;
+        }
+        return nb < ((double)i/2);
+    }
+    
+    public static boolean bat(Carte c1, Carte c2, int atout){
+        boolean res = false;
+        if(c1.couleur == atout ){
+            res = (c2.couleur != atout || c2.valeur < c1.valeur);
+        }
+        if(c1.couleur != atout){
+            res = (c2.couleur != atout && (c2.couleur != c1.couleur || c2.valeur < c1.valeur));
+        }
+        return res;
     }
      
 }
