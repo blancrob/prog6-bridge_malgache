@@ -10,7 +10,10 @@ import java.awt.Toolkit;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -92,7 +95,7 @@ public class MenuJeu extends Parent {
         
         tour = new Label("Tour : Joueur 1");
         tour.setFont(new Font("Arial",25));
-        tour.setTextFill(Color.YELLOW);
+        tour.setTextFill(Color.WHITE);
         tour.setPrefWidth(300);
         tour.setPrefHeight(90);
         tour.setTranslateX(largeur_scene/48);
@@ -111,28 +114,29 @@ public class MenuJeu extends Parent {
         
         manche = new Label("Manche 1");
         manche.setFont(new Font("Arial",25));
-        manche.setTextFill(Color.YELLOW);
+        manche.setTextFill(Color.WHITE);
         manche.setTranslateX(largeur_scene/35);
         manche.setTranslateY(hauteur_scene-hauteur_scene/1.64);
         this.getChildren().add(manche);
             
         atout = new Label("Atout");
         atout.setFont(new Font("Arial",18));
-        atout.setTextFill(Color.YELLOW);
+        atout.setTextFill(Color.WHITE);
         atout.setTranslateX(largeur_scene/7.75);
         atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
         this.getChildren().add(atout);
         
-        image_atout = new Label("");
+        image_atout = new Label();
         image_atout.setFont(new Font("Arial",18));
-        image_atout.setTextFill(Color.YELLOW);
-        image_atout.setTranslateX(largeur_scene/7.75);
-        image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
+        image_atout.setTranslateX(largeur_scene/7.5);
+        image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.6);       
+        Image img = new Image("images/SYMBOLE_CARREAU.png");
+        image_atout.setGraphic(new ImageView(img));
         this.getChildren().add(image_atout);
         
         condition_victoire = new Label("Partie en 1 manche");
         condition_victoire.setFont(new Font("Arial",22));
-        condition_victoire.setTextFill(Color.YELLOW);
+        condition_victoire.setTextFill(Color.WHITE);
         condition_victoire.setPrefWidth(300);
         condition_victoire.setPrefHeight(90);
         condition_victoire.setTranslateX(largeur_scene/48);
@@ -142,7 +146,7 @@ public class MenuJeu extends Parent {
         
         joueur2 = new Label("Joueur 2              0");
         joueur2.setFont(new Font("Arial",22));
-        joueur2.setTextFill(Color.YELLOW);
+        joueur2.setTextFill(Color.WHITE);
         joueur2.setPrefWidth(300);
         joueur2.setPrefHeight(90);
         joueur2.setTranslateX(largeur_scene/48);
@@ -152,7 +156,7 @@ public class MenuJeu extends Parent {
         
         joueur1 = new Label("Joueur 1              0");
         joueur1.setFont(new Font("Arial",22));
-        joueur1.setTextFill(Color.YELLOW);
+        joueur1.setTextFill(Color.WHITE);
         joueur1.setPrefWidth(300);
         joueur1.setPrefHeight(90);
         joueur1.setTranslateX(largeur_scene/48);
@@ -162,7 +166,7 @@ public class MenuJeu extends Parent {
         
         titre = new Label("Bridge Chinois");
         titre.setFont(new Font("Arial",30));
-        titre.setTextFill(Color.YELLOW);
+        titre.setTextFill(Color.WHITE);
         titre.setPrefWidth(300);
         titre.setPrefHeight(90);
         titre.setTranslateX(largeur_scene/48);
