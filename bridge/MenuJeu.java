@@ -128,7 +128,7 @@ public class MenuJeu extends Parent {
         image_atout.setTextFill(Color.YELLOW);
         image_atout.setTranslateX(largeur_scene/7.75);
         image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.72);
-        this.getChildren().add(atout);
+        this.getChildren().add(image_atout);
         
         condition_victoire = new Label("Partie en 1 manche");
         condition_victoire.setFont(new Font("Arial",22));
