@@ -385,22 +385,22 @@ public class IA_Util {
      *
      * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
      */
-    public static Carte meilleurCoupTermineExperte(PileCartes main, int atout, Carte courante,Carte[] pioche,int lg){   
+    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse int atout, Carte courante,Carte[] pioche,int lg, Carte[] piocheDessous,int lg2){   
         Carte res;
          // On regarde à quoi ressemble la pioche
          int i = 0;
         double hCartesSurPioche = 0;
         while (i<lg){
-            if(IA_Util.heuristiqueExperte() > h){ // trouver la carte avec la meilleure heuristique 
-                h = IA_Util.heuristiqueExperte();
+            if(IA_Util.heuristiqueExperte(adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSurPioche = IA_Util.heuristiqueExperte(adverse,pioche[i],atout);
             }
             i++;
         }
         double hCartesSousPioche = 0;
-        
-        while (i<lg){
-            if(IA_Util.heuristiqueExperte() > h){ // trouver la carte avec la meilleure heuristique 
-                h = IA_Util.heuristiqueExperte();
+        i=0;
+        while (i<lg2){
+            if(IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+                hCarteSousPioche = IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout);
             }
             i++;
         }
@@ -537,4 +537,36 @@ public class IA_Util {
         
         return res;
     }
+    
+     public static int heuristiqueExperte(PileCartes adverse, Carte c, int atout){
+        Iterator<Carte> it = adverse.iterateur();
+        Carte tmp;
+        int h = 0;
+        while(it.hasNext()){
+            tmp = it.next();
+            if(c.couleur != atout){
+                if(adverse.contient(c.couleur)){
+                    if(tmp.couleur == c.couleur && tmp.valeur > c.valeur){}
+                    
+                    else{
+                        h++;
+                    }
+                }
+                else{
+                    if(tmp.couleur == atout){}
+                    else{
+                        h++;
+                    }       
+                }
+            }
+            else{
+                if(tmp.couleur == atout && tmp.valeur>c.valeur){}
+                else{
+                    h++;
+                }
+            }
+        }
+        return h;
+    }
+     
 }
