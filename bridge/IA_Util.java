@@ -434,8 +434,8 @@ public class IA_Util {
                res = main.min(); // jouer la plus petite carte de la main 
             }
 
-            return res;
         }
+        return res;
     }
     
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
