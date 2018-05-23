@@ -400,7 +400,9 @@ public class IA_Util {
         Carte[] piocheDessous = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
         int j=0;
         for (j=0;j<6;j++){
-            piocheDessous[j]= piocheEntiere[j].pile.get(1);
+            if(piocheEntiere[j].taille()>1){
+                piocheDessous[j]= piocheEntiere[j].pile.get(1);
+            }
         }
         
         i=0;

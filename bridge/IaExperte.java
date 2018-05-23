@@ -66,9 +66,10 @@ public class IaExperte implements IA{
         }
         double hCartesSousPioche = 0;
         Carte[] piocheDessous = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
-        int j=0;
-        for (j=0;j<6;j++){
-            piocheDessous[j]= piocheEntiere[j].pile.get(1);
+        for (int j=0; j<6; j++){
+            if(piocheEntiere[j].taille() > 1){
+               piocheDessous[j]= piocheEntiere[j].pile.get(1); 
+            }
         }
         
         i=0;
@@ -106,7 +107,7 @@ public class IaExperte implements IA{
      * @return la carte à piocher 
      */
     @Override
-    /*  public Carte piocher(){
+     public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ //si pas d'atout 
             int i = 0;
@@ -145,7 +146,7 @@ public class IaExperte implements IA{
         
         }
         return res;            
-    }*/
+    }
   
     /**
      * Pioche Experte. Connait la pioche
@@ -173,7 +174,7 @@ public class IaExperte implements IA{
      * 
      * @return la carte à piocher
      */
-    public Carte piocher(){
+    public Carte piocherv2(){
         Carte res = null;
         
         if(gagnant){ // Si on est le premier à piocher/jouer le prochain tour.
