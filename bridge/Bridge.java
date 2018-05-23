@@ -496,7 +496,7 @@ public class Bridge extends Application {
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
                 tour_joueur = IA;
-                bandeau.tourJ(IA);
+                //bandeau.tourJ(IA);
                 temps = System.currentTimeMillis();
             } else {
                 tour_joueur = J1;
@@ -755,7 +755,7 @@ public class Bridge extends Application {
 
                     if (m.config.mode == 2) {
                         tour_joueur = m.config.gagnant;
-                        bandeau.tourJ(m.config.gagnant);
+                        bandeau.tourJ(m.config.receveur);
                         init_main(j1main, J1);
                         affichage_face_main(j1main, J1);
                         maj_handler_main();
@@ -816,6 +816,8 @@ public class Bridge extends Application {
                             init_main(j1main, J1);
                             affichage_face_main(j1main, J1);
                             temps = System.currentTimeMillis();
+                        } else{
+                            bandeau.tourJ(J1);
                         }
                         tour_pioche = 2;
                     }
@@ -888,6 +890,7 @@ public class Bridge extends Application {
                 }
 
                 if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && m.config.taille > 0 && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
+                    bandeau.tourJ(IA);
                     carte_jouee = 1;
                     System.out.println("IA joue sa carte");
                     J2_carte_jouee = m.jouerCoupIA(tour_joueur);
@@ -924,6 +927,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    bandeau.tourJ(J1);
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         System.out.println("IA a gagné et prend une carte en 1er");
@@ -955,6 +959,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    bandeau.tourJ(IA);
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         System.out.println("IA a perdu et prend une carte en 2nd");
@@ -1003,6 +1008,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
+                    bandeau.tourJ(m.config.gagnant);
                     J1_carte_jouee.face.setVisible(false);
                     J2_carte_jouee.face.setVisible(false);
                     if (J1_carte_jouee != null && J2_carte_jouee != null) {
@@ -1052,6 +1058,7 @@ public class Bridge extends Application {
                     System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
                     m.config.donneur = m.config.gagnant;
                     m.config.receveur = m.config.perdant;
+                    bandeau.tourJ(m.config.gagnant);
                     System.out.println();
                     m.rangerPli();
                     if (m.finManche()) {
