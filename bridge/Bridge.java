@@ -66,6 +66,9 @@ public class Bridge extends Application {
     private final double souris_carte = hauteur_scene - 165;
 
     //MessageTransition MessageT;
+    
+    MenuJeu bandeau;
+    
     public void init_manche() {
         carte_jouee = 0;
         tour_pioche = 0;
@@ -1470,20 +1473,22 @@ public class Bridge extends Application {
                 }
             }
         }
-        
-       
 
         //root.getChildren().add(MessageT);
         
         //screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreen(true);       
         //largeur_scene = screenSize.getWidth();
         //hauteur_scene = screenSize.getHeight();
+        
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));
-        root.getChildren().add(menu);
+        
+        bandeau = new MenuJeu();
+        root.getChildren().add(bandeau);
+        
         //System.out.println(screenSize.getWidth());
         //System.out.println(screenSize.getHeight());
+        
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);  
         primaryStage.setFullScreenExitHint("");
