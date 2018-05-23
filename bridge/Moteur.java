@@ -43,6 +43,9 @@ public class Moteur {
         config.mancheMax=0;
         config.scoreMax=0;
         
+        j1.manchesGagnees=0;
+        j2.manchesGagnees=0;
+        
         Scanner sc = new Scanner(System.in);
         
         //Choix des conditions de victoire
@@ -652,6 +655,23 @@ public class Moteur {
     }
     
     /**
+     * Mets à our les scores des deux joueurs, à utiliser à la fin d'une manche
+     */
+    public void maj_score(){
+        j1.score=j1.tas.taille()/2;
+        j2.score=j2.tas.taille()/2;
+        
+        if(j1.score>j2.score){
+            j1.manchesGagnees++;
+        }else if(j1.score<j2.score){
+            j2.manchesGagnees++;
+        }
+        
+        j1.scoreTotal=j1.scoreTotal+j1.score;
+        j2.scoreTotal=j2.scoreTotal+j2.score;
+    }
+    
+    /**
      * Permet au joueur désigné en paramètre de piocher
      * @param piocheur Le numéro du joueur qui va piocher
      */
@@ -857,7 +877,7 @@ public class Moteur {
      * @return true si la manche est terminée, false sinon
      */
     public boolean finManche(){
-        return j1.main.vide() || j2.main.vide();
+        return j1.main.vide() && j2.main.vide();
     }
     
     /**
@@ -1105,9 +1125,9 @@ public class Moteur {
                 System.out.println("EGALITE");
             }
             System.out.println();
-
-            j1.score=j1.tas.taille()/2;
-            j2.score=j2.tas.taille()/2;
+            
+            maj_score();
+            
             System.out.println("Manche: "+ config.manche);
             System.out.println("Score joueur 1: "+ (j1.score));
             System.out.println("Score joueur 2: "+ (j2.score));
@@ -1124,21 +1144,38 @@ public class Moteur {
             while(it.hasNext()){
                 afficherCarte(it.next());
             }
-            
-            j1.scoreTotal=j1.scoreTotal+j1.score;
-            j2.scoreTotal=j2.scoreTotal+j2.score;
         }
         
         System.out.println();
         System.out.println("Score Total joueur 1: "+ (j1.scoreTotal));
         System.out.println("Score Total joueur 2: "+ (j2.scoreTotal));
-        if(j1.scoreTotal>j2.scoreTotal){
-            System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
-        }else if(j1.scoreTotal<j2.scoreTotal){
-            System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
-        }
-        else{
-            System.out.println("EGALITE");
+        System.out.println("Manches Gagnées joueur 1: "+ (j1.manchesGagnees));
+        System.out.println("Manches Gagnées joueur 2: "+ (j2.manchesGagnees));
+        if(config.conditionVictoire==1){
+            if(j1.manchesGagnees>j2.manchesGagnees){
+                System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+            }else if(j1.manchesGagnees<j2.manchesGagnees){
+                System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
+            }
+            else{
+                if(j1.scoreTotal>j2.scoreTotal){
+                    System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+                }else if(j1.scoreTotal<j2.scoreTotal){
+                    System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
+                }
+                else{
+                    System.out.println("EGALITE");
+                }
+            }
+        }else if(config.conditionVictoire==2){
+            if(j1.scoreTotal>j2.scoreTotal){
+                System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
+            }else if(j1.scoreTotal<j2.scoreTotal){
+                System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
+            }
+            else{
+                System.out.println("EGALITE");
+            }
         }
         System.out.println("Nombre de victoires du joueur 1 en commençant la manche donneur: " + joueur1donneur);
         System.out.println("Nombre de victoires du joueur 2 en commençant la manche donneur: " + joueur2donneur);
