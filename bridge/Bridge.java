@@ -231,7 +231,7 @@ public class Bridge extends Application {
             root.getChildren().add(bandeau);
         }
     }
-
+    
     public void init_main(Carte[] main, int j) {
         String color;
         String number;
@@ -692,6 +692,7 @@ public class Bridge extends Application {
         m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
         m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
+    
 
     //Logger.getLogger(this.getClass().getName()).log(Level.DEBUG, "TOUR 1");
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
@@ -1487,6 +1488,8 @@ public class Bridge extends Application {
         
         root.getChildren().add(bandeau);
         
+       
+        
         undo=new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
 	undo.setGraphic(imgUndo);
@@ -1495,7 +1498,9 @@ public class Bridge extends Application {
         undo.setTranslateX(largeur_scene/3.9);
         undo.setTranslateY(hauteur_scene-hauteur_scene/11);
         root.getChildren().add(undo);
-
+        undo.setOnMouseClicked((MouseEvent me) -> {
+            m.undo();
+        });
         redo=new Button();
         ImageView imgRedo = new ImageView(new Image("images/redo.png"));
 	redo.setGraphic(imgRedo);
@@ -1504,6 +1509,9 @@ public class Bridge extends Application {
         redo.setTranslateX(largeur_scene/3.3);
         redo.setTranslateY(hauteur_scene-hauteur_scene/11);
         root.getChildren().add(redo);
+        redo.setOnMouseClicked((MouseEvent me) -> {
+            m.redo();
+        });
         
         //System.out.println(screenSize.getWidth());
         //System.out.println(screenSize.getHeight());
