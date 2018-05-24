@@ -921,7 +921,6 @@ public class Bridge extends Application {
         }
     }
     
-    
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
 
@@ -956,15 +955,11 @@ public class Bridge extends Application {
         }
     }
     
-    
-    /*public void affichage_dos_main(Carte[] main, int j) {
+    /*
+    public void affichage_dos_main(Carte[] main, int j) {
         int t;
         String color;
         String number;
-        
-        for (int i = main.length; i < 11; i++) {
-            main[i].face.setVisible(false);
-        }
 
         if (j == J1) {
             //t = j1main.length;
@@ -1003,13 +998,14 @@ public class Bridge extends Application {
             ImagePattern img = new ImagePattern(new Image("images/" + carte));
             main[i].face.setFill(img);
             
-            main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
-            main[i].dos.setTranslateY(0);
+            main[i].face.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
+            main[i].face.setTranslateY(0);
             
-            main[i].dos.setVisible(true);
-            main[i].dos.toFront();
+            main[i].face.setVisible(true);
+            main[i].face.toFront();
         }
-    }*/
+    }
+    */
 
     /*
      public void affichage_dos_pile(Carte[][] pile) {
