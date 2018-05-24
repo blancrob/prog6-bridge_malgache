@@ -1,6 +1,6 @@
 package bridge;
 
-import static java.lang.System.exit;
+/*import static java.lang.System.exit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -453,4 +453,4 @@ public class MenuConfiguration extends Application {
     public void start(Stage primaryStage) {
         firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
     }
-}
+}*/
