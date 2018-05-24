@@ -5,7 +5,6 @@
  */
 package bridge;
 
-import static bridge.IA_Util.plusPetitePile;
 
 /**
  *
@@ -88,9 +87,9 @@ public class IaExperte implements IA{
         }
         
         if(courante == null){ // 1ERE A JOUER
-            if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
-               ((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)) || // ou pioche nulle et un des tas de la pioche a une seule carte
-                    ((hCartesSurPioche>0.4)|| IA_Util.gagnerCommence(piocheEntiere, nbCartes, adverse, atout) || (IA_Util.plusPetitePile(nbCartes, lg) == 1))){ // Si pioche cool || interessant de gagner (voir gagnerCommence) ||un tas de la pioche à une carte 
+            if (!(IA_Util.ImtheBest(plisIA,plisAdv) && pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)] != null && IA_Util.heuristiqueExperte(adverse,pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) &&((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
+               ((hCartesSurPioche<0.4)&&(IA_Util.plusPetitePile(nbCartes, lg)==1)) || // ou pioche nulle et un des tas de la pioche a une seule carte
+                    ((hCartesSurPioche>0.4)|| IA_Util.gagnerCommence(piocheEntiere, nbCartes, adverse, atout) || (IA_Util.plusPetitePile(nbCartes, lg) == 1)))){ // Si pioche cool || interessant de gagner (voir gagnerCommence) ||un tas de la pioche à une carte 
                     
                 return IA_Util.meilleurCoupCommenceExperte(adverse, main, atout); //jouer une carte qui va gagner si possible 
         
@@ -100,7 +99,7 @@ public class IaExperte implements IA{
             }
         }    
         else{ // 2EME A JOUER
-            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere);
+            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere,plisIA,plisAdv);
         }
         return res;
     }
@@ -112,8 +111,8 @@ public class IaExperte implements IA{
      * elle choisit de prendre une carte qui va entrainer la découverte d'une carte d'heuristique inférieure à celle qui vient d'être piochée
      * @return la carte à piocher 
      */
-    
-     public Carte piocherv2(){
+    @Override
+     public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ //si pas d'atout 
             int i = 0;
@@ -180,8 +179,7 @@ public class IaExperte implements IA{
      * 
      * @return la carte à piocher
      */
-     @Override
-    public Carte piocher(){
+    public Carte piocherv2(){
        Carte res = null;
        if(gagnant){ //1ERE A PIOCHER
            res = IA_Util.piocheCommenceExperte(atout,piocheEntiere,pioche,lg,main,adverse,nbCartes);

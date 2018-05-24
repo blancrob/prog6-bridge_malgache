@@ -29,8 +29,11 @@ import javafx.stage.Stage;
 public class Bridge extends Application {
 
     //Les Variables
-    private final int h_scene = 720;   //taille hauteur case
-    private final int l_scene = 1280;  //taille largeur case
+   // private final int h_scene = 720;   //taille hauteur case
+   // private final int l_scene = 1280;  //taille largeur case
+    Dimension screenSizeMenu = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int l_scene = (int) screenSizeMenu.getWidth();
+    private final int h_scene = (int) screenSizeMenu.getHeight();
     public int player1mode = 1;
     public int player2mode = 1;
     public int jour = 1;
@@ -942,8 +945,8 @@ public class Bridge extends Application {
 
             main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
             main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
 
+            ImagePattern img = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
@@ -1167,7 +1170,7 @@ public class Bridge extends Application {
                         bandeau.tourJ(J1);
                         affichage_face_main(j1main, J1);
                     } else {
-                        //tour_joueur = IA;
+                        tour_joueur = IA;
                         temps = System.currentTimeMillis();
                         affichage_face_main(j1main, J1);
                     }

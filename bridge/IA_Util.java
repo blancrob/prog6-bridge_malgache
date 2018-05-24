@@ -404,7 +404,7 @@ public class IA_Util {
      *
      * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
      */
-    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere){   
+    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere, int nbPlisIA, int nbPlisAdv){   
         Carte res;
          // On regarde à quoi ressemble la pioche
          int i = 0;
@@ -433,7 +433,7 @@ public class IA_Util {
             i++;
         }
         
-        if ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
+        if (!(ImtheBest(nbPlisIA,nbPlisAdv) && pioche[positionMeilleurCartePioche(pioche,lg)] != null && heuristiqueExperte(adverse,pioche[positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) && ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
             if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 

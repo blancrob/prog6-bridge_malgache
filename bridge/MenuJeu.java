@@ -173,7 +173,12 @@ public class MenuJeu extends Parent {
         image_atout.setGraphic(new ImageView(img));
         this.getChildren().add(image_atout);
         
-        condition_victoire = new Label("Partie en 1 manche");
+        if(m.config.conditionVictoire==1){
+            condition_victoire = new Label("Partie en "+m.config.mancheMax+" manches");
+        }
+        else{
+            condition_victoire = new Label("Partie en "+m.config.scoreMax+" points");
+        }
         condition_victoire.setFont(new Font("Arial",22));
         condition_victoire.setTextFill(Color.WHITE);
         condition_victoire.setPrefWidth(largeur_scene/6.4);

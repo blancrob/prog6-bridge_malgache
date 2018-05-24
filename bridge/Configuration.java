@@ -8,7 +8,9 @@ public class Configuration implements Serializable {
     PileCartes pile1, pile2, pile3, pile4, pile5, pile6, piochees;
     PileCartes[] pioche;
     Carte carteP, carteS;
-    int conditionVictoire, mancheMax, scoreMax, atout, joueur, donneur, donneurInitial, receveur, manche, gagnant, perdant, taille, mode;
+    int conditionVictoire;  // 1: partie en nombre de manches | 2: partie en nombre de points total
+    int mode;   // 1:Joueur vs Joueur | 2: Joueur vs IA | 3: IA vs IA
+    int mancheMax, scoreMax, atout, joueur, donneur, donneurInitial, receveur, manche, gagnant, perdant, taille;
     
     Stack<EtatGlobal> undo, redo;
     
