@@ -579,19 +579,24 @@ public class IA_Util {
         Carte tmp;
         double h = 0;
         double i = 0;
+        if(c.valeur > 9){
+            h=h+10;
+        }
+        if(c.couleur == atout){
+            h=h+20;
+        }
         while(it.hasNext()){
             tmp = it.next();
             i++;
             if(c.couleur != atout){
                 if(adverse.contient(c.couleur)){
-                    if(tmp.couleur == c.couleur && tmp.valeur > c.valeur){}
-                    
-                    else{
-                        h++;
-                    }
+                    if(tmp.couleur == c.couleur && tmp.valeur < c.valeur){}
+                         h++;
                 }
                 else{
-                    if(tmp.couleur == atout){}
+                    if(adverse.contient(atout)){
+                        h=0;
+                    }
                     else{
                         h++;
                     }       
