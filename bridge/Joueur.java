@@ -5,7 +5,8 @@ import java.util.Iterator;
 
 public class Joueur implements Serializable{
     PileCartes main, tas, cartesPiochees;
-    int score, difficulte, scoreTotal, manchesGagnees;
+    int difficulte; // 1: Joueur | 2 ou +: IA
+    int score, scoreTotal, manchesGagnees;
     String nom;
     
     public Joueur(){
