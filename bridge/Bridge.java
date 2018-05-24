@@ -686,8 +686,8 @@ public class Bridge extends Application {
             temps = System.currentTimeMillis();
         }
 
+        //affichage_dos_pile(pile);
         affichage_face_pile(pile);
-
         maj_handler_main();
         maj_handler_pile();
 
@@ -916,10 +916,11 @@ public class Bridge extends Application {
          */
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
-                pile[j][0].face.setTranslateX(largeur_scene / 2.75 + (pile[j][0].largeur_carte * 1.25 * j));
+                //pile[j][0].face.setTranslateX(largeur_scene / 2.75 + (pile[j][0].largeur_carte * 1.35 * j));
+                pile[j][0].face.setTranslateX(largeur_scene/3 + (pile[j][0].largeur_carte * 1.4 * j));
                 pile[j][0].face.setTranslateY((hauteur_scene / 2) - (pile[j][0].hauteur_carte / 2));
-                pile[j][0].face.toFront();
                 pile[j][0].face.setVisible(true);
+                pile[j][0].face.toFront();
             }
         }
     }
@@ -1042,20 +1043,91 @@ public class Bridge extends Application {
                 }
             }
         }
-    }
+    }  
+    
+    /*public void affichage_dos_pile(Carte[][] pile) {
+        String card;
+        for (int j = 0; j < pile.length; j++) {
+            //for (int i = pile[j].length-1; i!=0; i--) {
+            for (int i = 0; i<pile[j].length; i++) {
+                switch(i){
+                    case 1:
+                        card = "DOS_BLEU.png";
+                        break;
+                    case 2:
+                        card = "DOS_BLEU.png";
+                        break;
+                    case 3:
+                        card = "DOS_BLEU.png";
+                        break;
+                    case 4:
+                        card = "DOS_BLEU.png";
+                        break;
+                    default:
+                        card = "DOS_BLEU.png";
+                        break;
+                }
+                ImagePattern img = new ImagePattern(new Image("images/" + card));
+                pile[j][i].dos.setFill(img);
+                pile[j][i].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j) - 10*i);
+                pile[j][i].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));
+                pile[j][i].dos.setVisible(false);
+                //pile[j][i].dos.toFront();      
+
+                //pile[j][i].dos.toFront();
+                //pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
+                //pile[j][i].dos.setTranslateY(315);           
+            }
+            
+            pile[j][0].dos.setVisible(false);
+            pile[j][0].face.setVisible(true);
+            pile[j][0].face.toFront();   
+        }     
+    }*/
     
     /*
-     public void affichage_dos_pile(Carte[][] pile) {
-     for (int j = 0; j < pile.length; j++) {
-     for (int i = 1; i < pile[j].length; i++) {
-     pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
-     pile[j][i].dos.setTranslateY(315);
-     ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
-     pile[j][i].dos.setFill(img);
-     }
-     }
-     }
-     */
+    public void affichage_dos_pile(Carte[][] pile) {
+        String card;
+        ImagePattern img;
+        for (int j = 0; j < pile.length; j++) {
+            if(m.config.pioche[j].pile.size() >= 0){
+                System.out.println("Taille de la pile numéro "+j+" : "+m.config.pioche[j].pile.size());
+                switch(m.config.pioche[j].pile.size()){
+                    case 5:
+                        card = "pile_5.png";
+                        img = new ImagePattern(new Image("images/" + card));
+                        pile[j][1].dos.setFill(img);
+                        pile[j][1].dos.setVisible(true);
+                        break;
+                    case 4:
+                        card = "pile_4.png";
+                        img = new ImagePattern(new Image("images/" + card));
+                        pile[j][1].dos.setFill(img);
+                        pile[j][1].dos.setVisible(true);
+                        break;
+                    case 3:
+                        card = "pile_3.png";
+                        img = new ImagePattern(new Image("images/" + card));
+                        pile[j][1].dos.setFill(img);
+                        pile[j][1].dos.setVisible(true);
+                        break;
+                    case 2:
+                        card = "pile_2.png";
+                        img = new ImagePattern(new Image("images/" + card));
+                        pile[j][1].dos.setFill(img);
+                        pile[j][1].dos.setVisible(true);
+                        break;
+                    default:
+                        pile[j][1].dos.setFill(Color.TRANSPARENT);
+                        pile[j][1].dos.setVisible(false); 
+                        break;                    
+                }
+                    pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
+            }
+        }     
+    }
+    */
     
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
@@ -1387,6 +1459,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.perdant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
+                        //affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                     }
@@ -1433,6 +1506,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.gagnant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
+                       // affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                         m.config.taille++;
@@ -1573,7 +1647,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                     }
 
-                    if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(J1);
                         if (m.config.piochable()) {
                             m.config.afficherPioche();
@@ -1587,6 +1661,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
+                            //affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
@@ -1603,7 +1678,7 @@ public class Bridge extends Application {
                         }
                     }
 
-                    if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(IA);
                         if (m.config.piochable()) {
                             m.config.afficherPioche();
@@ -1617,6 +1692,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
+                            //affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
