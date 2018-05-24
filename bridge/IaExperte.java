@@ -23,9 +23,12 @@ public class IaExperte implements IA{
     boolean gagnant;
     PileCartes adverse;
     PileCartes[] piocheEntiere;
+    int plisAdv;
+    int plisIA;
+    int condVic;
     
     
-   public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, PileCartes j2, PileCartes[] pe) {
+   public IaExperte(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g,int nbPlisIA, int nbPlisAdv, int conditionVictoire, PileCartes j2, PileCartes[] pe) {
         main = m;
         cartesDejaJouees = c;
         cartesPiochees = pi;
@@ -35,6 +38,9 @@ public class IaExperte implements IA{
         courante = cour;
         nbCartes = n;
         gagnant = g;
+        plisAdv = nbPlisAdv;
+        plisIA = nbPlisIA;
+        condVic = conditionVictoire;
         adverse = j2;
         piocheEntiere = pe;
     }
