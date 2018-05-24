@@ -8,19 +8,15 @@ package bridge;
 import java.util.Iterator;
 
 /**
- *
  * Ia Difficile. 
  * Même pioche que IA avancée.
  */
 public class IaDifficile extends IaAvancee {
 
-    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, int nbPlisIA, int nbPlisAdv) {
-        super(m, c, pi, p, l, at, cour, n, g, nbPlisIA, nbPlisAdv);
+    public IaDifficile(PileCartes m, PileCartes c, PileCartes pi, Carte[] p, int l, int at, Carte cour, int[] n, boolean g, int nbPlisIA, int nbPlisAdv, int conditionVictoire) {
+        super(m, c, pi, p, l, at, cour, n, g, nbPlisIA, nbPlisAdv,conditionVictoire);
     }
-
-    
-    
-    
+  
    /**
     * Comme IA avancée, mis à part qu'elle peut déduire une partie de la main adverse car elle connait les cartes piochées et les cartes jouées.
     * @return une carte à jouer
