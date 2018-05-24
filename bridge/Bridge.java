@@ -118,8 +118,8 @@ public class Bridge extends Application {
             }
         }
         primaryStage.setFullScreen(true);
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));
-        root.setStyle("-fx-background-color:#274e13;");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("480c19"));//bleu : 042955 vert :274e13 rouge : 480c19
+        root.setStyle("-fx-background-color:#480c19;");
         root.getChildren().add(bandeau);
         undo = new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
@@ -939,9 +939,11 @@ public class Bridge extends Application {
 
         for (int i = 0; i < t; i++) {
             main[i].face.setVisible(false);
+
             main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
-            main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
