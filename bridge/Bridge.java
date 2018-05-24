@@ -830,7 +830,9 @@ public class Bridge extends Application {
                 dosPioche[j][i].dos.setVisible(false);
                 dosPioche[j][i].face.setVisible(false);
             }
-        }*/
+        }
+        
+        */
 
     }
 
@@ -1198,6 +1200,7 @@ public class Bridge extends Application {
             System.out.println("EGALITE");
         }
         System.out.println();
+        m.maj_score();
     }
 
     public void score() {
@@ -1223,12 +1226,32 @@ public class Bridge extends Application {
         m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
         m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
+    
+    public boolean carte_jouable(Carte c, int j){
+        if (m.config.donneur == J1 &&  j == J2){
+            Carte[] same_color = m.j2.jouables(J1_carte_jouee.couleur);
+            for(int i = 0; i < same_color.length; i++){
+                if(same_color[i] == c){
+                    return true;
+                }
+            }
+        }
+        else if(m.config.donneur == J2 &&  j == J1){
+            Carte[] same_color = m.j1.jouables(J2_carte_jouee.couleur);
+            for(int i = 0; i < same_color.length; i++){
+                if(same_color[i] == c){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
                     main[n].face.setTranslateY(souris_carte);
                 }
             }
@@ -1237,7 +1260,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
                     main[n].face.setTranslateY(hauteur_scene - main[n].hauteur_carte * 0.75);
                 }
             }
@@ -1246,7 +1269,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
                     if (m.config.donneur == j) {
                         carte_select_P(main, n);
                     } else {
@@ -1462,7 +1485,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                     }
 
-                    if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(J1);
                         if (m.config.piochable()) {
                             m.config.afficherPioche();
@@ -1492,7 +1515,7 @@ public class Bridge extends Application {
                         }
                     }
 
-                    if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(IA);
                         if (m.config.piochable()) {
                             m.config.afficherPioche();
@@ -1584,7 +1607,7 @@ public class Bridge extends Application {
                         clean = 0;
                     }
 
-                    if (m.config.mode == 2 && pause == 10 && temps + 500 < System.currentTimeMillis()) {
+                    if (m.config.mode == 2 && pause == 10 && temps + 1000 < System.currentTimeMillis()) {
                         bandeau.tourJ(IA);
                         tour_joueur = IA;
                         pause = 0;
