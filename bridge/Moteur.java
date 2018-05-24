@@ -684,6 +684,8 @@ public class Moteur {
             config.carteP=null;
             config.carteS=null;
         }
+        
+        maj_score();
     }
     
     /**
@@ -1215,7 +1217,7 @@ public class Moteur {
             }
             System.out.println();
             
-            maj_score();
+            //maj_score();
             
             System.out.println("Manche: "+ config.manche);
             System.out.println("Score joueur 1: "+ (j1.score));
