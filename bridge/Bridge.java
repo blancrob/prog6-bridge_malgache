@@ -887,8 +887,40 @@ public class Bridge extends Application {
             }
         }
     }
-
+    
     public void affichage_dos_main(Carte[] main, int j) {
+        int t;
+        
+        for (int i = main.length; i < 11; i++) {
+            main[i].dos.setVisible(false);
+        }
+         
+        if (j == J1) {
+            //t = j1main.length;
+            t = m.j1.main.pile.size();
+            init_main(j1main, J1);
+        } else {
+            //t = j2main.length;
+            t = m.j2.main.pile.size();
+            if (m.config.mode == 1) {
+                init_main(j2main, J2);
+            } else {
+                init_main(j2main, IA);
+            }
+        }
+              
+        for (int i = 0; i < t; i++) {
+            main[i].face.setVisible(false);
+            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            main[i].dos.setFill(img);
+            main[i].dos.setVisible(true);
+            main[i].dos.toFront();
+        }
+    }
+
+    /*public void affichage_dos_main(Carte[] main, int j) {
         int t;
         String color;
         String number;        
@@ -932,8 +964,21 @@ public class Bridge extends Application {
             main[i].face.setTranslateY(0);
             main[i].face.toFront();
         }
+    }*/
+
+    /*
+    public void affichage_dos_pile(Carte[][] pile) {
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 1; i < pile[j].length; i++) {
+                pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
+                pile[j][i].dos.setTranslateY(315);
+                ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+                pile[j][i].dos.setFill(img);
+            }
+        }
     }
-   
+     */
+        
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
 
@@ -968,9 +1013,8 @@ public class Bridge extends Application {
             init_main(main,J1);
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
-                tour_joueur = IA;
-                //bandeau.tourJ(IA);
-                temps = System.currentTimeMillis();
+                pause = 10;
+                temps = System.currentTimeMillis();      
             } else {
                 tour_joueur = J1;
                 bandeau.tourJ(J1);
@@ -1055,8 +1099,10 @@ public class Bridge extends Application {
                 affichage_face_main(j1main, J1);
 
                 if (m.config.gagnant == J1) {
+                    bandeau.tourJ(J1);
                     m.config.perdant = IA;
                 } else {
+                    bandeau.tourJ(IA);
                     m.config.perdant = J1;
                     temps = System.currentTimeMillis();
                 }
@@ -1257,9 +1303,18 @@ public class Bridge extends Application {
                         tour_pioche = 2;
                     } else if (m.config.mode == 2) {
                         if (m.config.gagnant == J1) {
+                            /*bandeau.tourJ(IA);
+                            init_main(j1main,J1);
+                            maj_handler_main();
+                            pause = 12;
+                            temps = System.currentTimeMillis();*/
+                            
+                            bandeau.tourJ(IA);
                             init_main(j1main, J1);
                             affichage_face_main(j1main, J1);
+                            maj_handler_main();
                             temps = System.currentTimeMillis();
+                            
                         } else{
                             bandeau.tourJ(J1);
                         }
@@ -1335,13 +1390,21 @@ public class Bridge extends Application {
                     J2_carte_jouee.face.toFront();
 
                     if (m.config.carteS == null) {
-                        tour_joueur = J1;
-                        bandeau.tourJ(J1);
-                        carte_jouee = 0;
+                        pause = 11;
+                        temps = System.currentTimeMillis();
                     } else {
                         m.config.taille--;
                         System.out.println("taille = " + m.config.taille);
+                        temps = System.currentTimeMillis();
                     }
+                }
+                
+                if(m.config.mode == 2 && pause == 11 && temps + 1000 < System.currentTimeMillis()){
+                    bandeau.tourJ(J1);
+                    tour_joueur = J1;
+                    carte_jouee = 0;
+                    pause = 0;
+                    temps = System.currentTimeMillis();
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
@@ -1465,8 +1528,15 @@ public class Bridge extends Application {
                     }
                     clean = 0;
                 }
+                
+                if(m.config.mode == 2 && pause == 10 && temps + 1000 < System.currentTimeMillis()){
+                    bandeau.tourJ(IA);
+                    tour_joueur = IA;
+                    pause = 0;
+                    temps = System.currentTimeMillis();
+                }
 
-                if (m.config.mode == 2 && m.config.receveur == IA && m.config.carteP != null && m.config.carteS != null) {
+                if (m.config.mode == 2 && m.config.receveur == IA && m.config.carteP != null && m.config.carteS != null && temps + 1000 < System.currentTimeMillis()) {
                     System.out.println("Fin tour  - resultat !");
                     m.config.gagnantPli();
                     System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
@@ -1520,6 +1590,15 @@ public class Bridge extends Application {
                         tour_pioche = 1;
                     }
                 }
+                
+                if(m.config.mode == 2 && pause == 12 && temps + 1000 < System.currentTimeMillis()) {
+                    bandeau.tourJ(IA);
+                    init_main(j1main, J1);
+                    affichage_face_main(j1main, J1);
+                    maj_handler_main();
+                    pause = 0;
+                    temps = System.currentTimeMillis();
+                }                   
 
                 if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis()) {
                     if (m.config.donneur == J1) {
