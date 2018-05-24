@@ -100,7 +100,7 @@ public class Bridge extends Application {
     
     public void fonctionmagique(Stage primaryStage){
         m = new Moteur2();
-        m.initialiser();
+        m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
         init_manche();
         root = new AnchorPane();
         for (int i = 0; i < j1main.length; i++) {
@@ -812,10 +812,11 @@ public class Bridge extends Application {
             }
         }
         
-        /*String card;
+        String card;
         
-        for(int j = 0; j < dosPioche.length; j++){
+        /*for(int j = 0; j < dosPioche.length; j++){
             for(int i = 0; i < dosPioche[j].length; i++) {
+                dosPioche[j][i] = pile[j][i];
                 switch (i) {
                     case 0:
                         card = "pile_5.png";
@@ -831,10 +832,9 @@ public class Bridge extends Application {
                         break;
                 }
                 ImagePattern img = new ImagePattern(new Image("images/" + card));
-                dosPioche[j][i].dos.setFill(img);
-                dosPioche[j][i].dos.setVisible(true);
+                dosPioche[j][i].face.setFill(img);
             }
-        }       */
+        }*/
     }
 
     public void maj_plis(Carte[] plis, int j) {
@@ -903,10 +903,13 @@ public class Bridge extends Application {
     }
 
     public void affichage_face_pile(Carte[][] pile) {
-        for (int j = 0; j < dosPioche.length; j++) {
-            
-        
-        }
+        /*for (int j = 0; j < dosPioche.length; j++) {
+            if (dosPioche[j][0] != null) {
+                dosPioche[j][0].face.setTranslateX(largeur_scene/2.75 + (pile[j][0].largeur_carte*1.25 * j));
+                dosPioche[j][0].face.setTranslateY((hauteur_scene/2)-(pile[j][0].hauteur_carte/2));
+                //dosPioche[j][0].face.setVisible(true);
+            }
+        }*/
         
         
         for (int j = 0; j < pile.length; j++) {
