@@ -40,6 +40,7 @@ public class Bridge extends Application {
     public Carte[][] pile;
     public Carte[] j1plis;
     public Carte[] j2plis;
+    public Carte[][] dosPioche;
 
     long temps = 0;
     long temps2 = 0;
@@ -95,6 +96,7 @@ public class Bridge extends Application {
         pile = new Carte[6][5];
         j1plis = new Carte[52];
         j2plis = new Carte[52];
+        dosPioche = new Carte[6][4];
 
         switch (m.config.donneurInitial) {
             case 0:
@@ -309,7 +311,6 @@ public class Bridge extends Application {
                             color = "PIQUE";
                             break;
                     }
-
                     number = Integer.toString(pile[j][i].valeur);
                     String carte = color + "_" + number + ".png";
                     ImagePattern img = new ImagePattern(new Image("images/" + carte));
@@ -317,6 +318,30 @@ public class Bridge extends Application {
                 }
             }
         }
+        
+        String card;
+        
+        for(int j = 0; j < dosPioche.length; j++){
+            for(int i = 0; i < dosPioche[j].length; i++) {
+                switch (i) {
+                    case 0:
+                        card = "pile_5.png";
+                        break;
+                    case 1:
+                        card = "pile_4.png";
+                        break;
+                    case 2:
+                        card = "pile_3.png";
+                        break;
+                    default:
+                        card = "pile_2.png";
+                        break;
+                }
+                ImagePattern img = new ImagePattern(new Image("images/" + card));
+                dosPioche[j][i].dos.setFill(img);
+                dosPioche[j][i].dos.setVisible(true);
+            }
+        }       
     }
 
     public void maj_plis(Carte[] plis, int j) {
@@ -385,6 +410,12 @@ public class Bridge extends Application {
     }
 
     public void affichage_face_pile(Carte[][] pile) {
+        for (int j = 0; j < dosPioche.length; j++) {
+            
+        
+        }
+        
+        
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
                 pile[j][0].face.setTranslateX(largeur_scene/2.75 + (pile[j][0].largeur_carte*1.25 * j));
