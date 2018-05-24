@@ -1170,6 +1170,7 @@ public class Bridge extends Application {
                         bandeau.tourJ(J1);
                         affichage_face_main(j1main, J1);
                     } else {
+                        tour_joueur = IA;
                         temps = System.currentTimeMillis();
                         affichage_face_main(j1main, J1);
                     }
