@@ -545,6 +545,8 @@ public class Bridge extends Application {
     public int j2_lock = 0;
 
     public int select = 0;
+    
+    public int cheat = 0;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -570,6 +572,7 @@ public class Bridge extends Application {
         j1_lock = 0;
         j2_lock = 0;
         select = 0;
+        cheat = 0;
 
         m.config.carteP = null;
         m.config.carteS = null;
@@ -921,6 +924,7 @@ public class Bridge extends Application {
         }
     }
     
+    /*
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
 
@@ -954,12 +958,17 @@ public class Bridge extends Application {
             main[i].dos.toFront();
         }
     }
+    */
     
-    /*
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
+        
         String color;
         String number;
+        
+        for (int i = main.length; i < 11; i++) {
+            main[i].dos.setVisible(false);
+        }
 
         if (j == J1) {
             //t = j1main.length;
@@ -974,39 +983,67 @@ public class Bridge extends Application {
                 init_main(j2main, IA);
             }
         }
+        
+        if(m.config.mode == 1){
+            for (int i = 0; i < t; i++) {
+                main[i].face.setVisible(false);
 
-        for (int i = 0; i < t; i++) {
-            switch (main[i].couleur) {
-                case 1:
-                    color = "TREFLE";
-                    break;
-                case 2:
-                    color = "CARREAU";
-                    break;
-                case 3:
-                    color = "COEUR";
-                    break;
-                default:
-                    color = "PIQUE";
-                    break;
+                main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
+                main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
+
+                ImagePattern img = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                main[i].dos.setFill(img);
+                main[i].dos.setVisible(true);
+                main[i].dos.toFront();
+            }      
+        }
+        
+        else if(m.config.mode == 2) {
+            for (int i = 0; i < t; i++) {
+                switch (main[i].couleur) {
+                    case 1:
+                        color = "TREFLE";
+                        break;
+                    case 2:
+                        color = "CARREAU";
+                        break;
+                    case 3:
+                        color = "COEUR";
+                        break;
+                    default:
+                        color = "PIQUE";
+                        break;
+                }
+
+                number = Integer.toString(main[i].valeur);
+
+                String carte = color + "_" + number + ".png";
+
+                ImagePattern img = new ImagePattern(new Image("images/" + carte));
+                main[i].face.setFill(img);
+
+                ImagePattern img2 = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                main[i].dos.setFill(img2);
+
+                main[i].face.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
+                main[i].face.setTranslateY(0);
+
+                main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
+                main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
+
+                if(cheat == 0){
+                    main[i].face.setVisible(false);
+                    main[i].dos.setVisible(true);
+                    main[i].dos.toFront();
+                } else {
+                    main[i].dos.setVisible(false);
+                    main[i].face.setVisible(true);
+                    main[i].face.toFront();
+                }
             }
-
-            number = Integer.toString(main[i].valeur);
-            
-            String carte = color + "_" + number + ".png";
-            
-            ImagePattern img = new ImagePattern(new Image("images/" + carte));
-            main[i].face.setFill(img);
-            
-            main[i].face.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
-            main[i].face.setTranslateY(0);
-            
-            main[i].face.setVisible(true);
-            main[i].face.toFront();
         }
     }
-    */
-
+    
     /*
      public void affichage_dos_pile(Carte[][] pile) {
      for (int j = 0; j < pile.length; j++) {
@@ -1019,6 +1056,7 @@ public class Bridge extends Application {
      }
      }
      */
+    
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
 
@@ -1276,10 +1314,20 @@ public class Bridge extends Application {
                 }
             }
         });
-
+        
         main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
+                
+                if (m.config.mode == 2 && cheat == 1) {
+                    for(int i=0;i<j2main.length;i++){                        
+                        j2main[i].face.setVisible(false);
+                        j2main[i].dos.setVisible(true);
+                        j2main[i].dos.toFront();
+                        cheat = 0;
+                    }
+                }
+                
                 if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j))) {
                     if (m.config.donneur == j) {
                         carte_select_P(main, n);
@@ -1287,18 +1335,37 @@ public class Bridge extends Application {
                         carte_select_S(main, n);
                     }
                 }
+                
             }
-        });
+        });    
         
-        /*j2main[n].dos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        /*j2main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (m.config.mode == 2) {
-                    j2main[n].dos.setVisible(false);
-                    j2main[n].face.setVisible(true);
+                if (m.config.mode == 2 && cheat == 1) {
+                    for(int i=0;i<j2main.length;i++){
+                        j2main[i].face.setVisible(false);
+                        j2main[i].dos.setVisible(true);
+                        j2main[i].dos.toFront();
+                        cheat = 0;
+                    }
                 }
             }
         });*/
+        
+        j2main[n].dos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (m.config.mode == 2 && cheat == 0) {
+                    for(int i=0;i<j2main.length;i++){                       
+                        j2main[i].dos.setVisible(false);
+                        j2main[i].face.setVisible(true);
+                        j2main[i].face.toFront();
+                        cheat = 1;
+                    }
+                }
+            }
+        });
     }
 
     public void maj_handler_main() {
@@ -1478,7 +1545,7 @@ public class Bridge extends Application {
                         J2_carte_jouee.face.setVisible(true);
                         //Affichage de sa carte à l'IA
                         J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
-                        J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                        J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                         J2_carte_jouee.face.toFront();
 
                         if (m.config.carteS == null) {
@@ -1703,7 +1770,7 @@ public class Bridge extends Application {
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
-                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
+                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte/1.3);
 
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
@@ -1734,7 +1801,7 @@ public class Bridge extends Application {
                         } else {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
-                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
                             for (int i = 0; i < j2main.length; i++) {
@@ -1794,7 +1861,7 @@ public class Bridge extends Application {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
                             J1_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
-                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
                             affichage_face_main(j1main, J1);
@@ -1817,7 +1884,7 @@ public class Bridge extends Application {
                         } else {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
-                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
+                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte/1.3);
                             J2_carte_jouee.face.setTranslateY((hauteur_scene / 1.5));
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
@@ -1845,7 +1912,7 @@ public class Bridge extends Application {
                         bandeau.tourJ(m.config.perdant);
                         if (m.config.gagnant == J1) {
                             J2_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
-                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
+                            J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
                             init_main(j1main, J1);
@@ -1871,7 +1938,7 @@ public class Bridge extends Application {
                             init_main(j2main, J2);
                             affichage_face_main(j2main, J2);
                         } else {
-                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                             J1_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
