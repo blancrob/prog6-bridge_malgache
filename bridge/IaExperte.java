@@ -106,8 +106,8 @@ public class IaExperte implements IA{
      * elle choisit de prendre une carte qui va entrainer la découverte d'une carte d'heuristique inférieure à celle qui vient d'être piochée
      * @return la carte à piocher 
      */
-    @Override
-     public Carte piocher(){
+    
+     public Carte piocherv2(){
         Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
         if(res == null){ //si pas d'atout 
             int i = 0;
@@ -174,14 +174,22 @@ public class IaExperte implements IA{
      * 
      * @return la carte à piocher
      */
-    public Carte piocherv2(){
+     @Override
+    public Carte piocher(){
        Carte res = null;
        if(gagnant){ //1ERE A PIOCHER
            res = IA_Util.piocheCommenceExperte(atout,piocheEntiere,pioche,lg,main,adverse,nbCartes);
        }
        else{ //2EME A PIOCHER
-           
+           res = IA_Util.piocherMeilleurAtout(piocheEntiere,main,adverse,atout);
+           if (res == null){
+               res = IA_Util.piocherMeilleurCarte(piocheEntiere,main,adverse,atout);
+           }if(res == null){
+               res = IA_Util.piocherAtoutPerdant(piocheEntiere,main,atout);
+           }if(res == null){
+               res = IA_Util.piocherCartePerdante(piocheEntiere,main,adverse,atout);
+           }
        }
-       return null;
+       return res;
     }
 }

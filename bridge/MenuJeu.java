@@ -59,43 +59,43 @@ public class MenuJeu extends Parent {
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
-        quit.setPrefWidth(300);
-        quit.setPrefHeight(90);
+        quit.setPrefWidth(largeur_scene/6.4);
+        quit.setPrefHeight(hauteur_scene/12);
         quit.setTranslateX(largeur_scene/48);
         quit.setTranslateY(hauteur_scene-hauteur_scene/10);
         this.getChildren().add(quit);
         
         save = new Button("Sauvegarder");
-        save.setPrefWidth(300);
-        save.setPrefHeight(90);
+        save.setPrefWidth(largeur_scene/6.4);
+        save.setPrefHeight(hauteur_scene/12);
         save.setTranslateX(largeur_scene/48);
         save.setTranslateY(hauteur_scene-hauteur_scene/5);
         this.getChildren().add(save);
         
         option = new Button("Options");
-        option.setPrefWidth(140);
-        option.setPrefHeight(90);
+        option.setPrefWidth(largeur_scene/13.715);
+        option.setPrefHeight(hauteur_scene/12);
         option.setTranslateX(largeur_scene/48);
         option.setTranslateY(hauteur_scene-hauteur_scene/3.3);
         this.getChildren().add(option);
         
         help = new Button("Aide");
-        help.setPrefWidth(140);
-        help.setPrefHeight(90);
+        help.setPrefWidth(largeur_scene/13.715);
+        help.setPrefHeight(hauteur_scene/12);
         help.setTranslateX(largeur_scene/9.6);
         help.setTranslateY(hauteur_scene-hauteur_scene/3.3);
         this.getChildren().add(help);
         
         restart = new Button("Recommencer");
-        restart.setPrefWidth(140);
-        restart.setPrefHeight(90);
+        restart.setPrefWidth(largeur_scene/13.715);
+        restart.setPrefHeight(hauteur_scene/12);
         restart.setTranslateX(largeur_scene/48);
         restart.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(restart);
         
         rules = new Button("Regles");
-        rules.setPrefWidth(140);
-        rules.setPrefHeight(90);
+        rules.setPrefWidth(largeur_scene/13.715);
+        rules.setPrefHeight(hauteur_scene/12);
         rules.setTranslateX(largeur_scene/9.6);
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
@@ -103,8 +103,8 @@ public class MenuJeu extends Parent {
         tour = new Label("Tour : Joueur "+tour_joueur);
         tour.setFont(new Font("Arial",25));
         tour.setTextFill(Color.WHITE);
-        tour.setPrefWidth(300);
-        tour.setPrefHeight(90);
+        tour.setPrefWidth(largeur_scene/6.4);
+        tour.setPrefHeight(hauteur_scene/12);
         tour.setTranslateX(largeur_scene/48);
         tour.setTranslateY(hauteur_scene-hauteur_scene/1.92);    
         tour.setStyle("-fx-alignment: center;");
@@ -140,7 +140,7 @@ public class MenuJeu extends Parent {
         
         image_atout = new Label();
         image_atout.setFont(new Font("Arial",18));
-        image_atout.setTranslateX(largeur_scene/7.69);
+        image_atout.setTranslateX(largeur_scene/7.78);
         image_atout.setTranslateY(hauteur_scene-hauteur_scene/1.59);  
         Image img;
         switch(m.config.atout){
@@ -166,8 +166,8 @@ public class MenuJeu extends Parent {
         condition_victoire = new Label("Partie en 1 manche");
         condition_victoire.setFont(new Font("Arial",22));
         condition_victoire.setTextFill(Color.WHITE);
-        condition_victoire.setPrefWidth(300);
-        condition_victoire.setPrefHeight(90);
+        condition_victoire.setPrefWidth(largeur_scene/6.4);
+        condition_victoire.setPrefHeight(hauteur_scene/12);
         condition_victoire.setTranslateX(largeur_scene/48);
         condition_victoire.setTranslateY(hauteur_scene-hauteur_scene/1.35);       
         condition_victoire.setStyle("-fx-alignment: center;");
@@ -176,8 +176,8 @@ public class MenuJeu extends Parent {
         joueur2 = new Label("Joueur 2              0");
         joueur2.setFont(new Font("Arial",22));
         joueur2.setTextFill(Color.WHITE);
-        joueur2.setPrefWidth(300);
-        joueur2.setPrefHeight(90);
+        joueur2.setPrefWidth(largeur_scene/6.4);
+        joueur2.setPrefHeight(hauteur_scene/12);
         joueur2.setTranslateX(largeur_scene/48);
         joueur2.setTranslateY(hauteur_scene-hauteur_scene/1.2);
         joueur2.setStyle("-fx-alignment: center;");
@@ -186,8 +186,8 @@ public class MenuJeu extends Parent {
         joueur1 = new Label("Joueur 1              0");
         joueur1.setFont(new Font("Arial",22));
         joueur1.setTextFill(Color.WHITE);
-        joueur1.setPrefWidth(300);
-        joueur1.setPrefHeight(90);
+        joueur1.setPrefWidth(largeur_scene/6.4);
+        joueur1.setPrefHeight(hauteur_scene/12);
         joueur1.setTranslateX(largeur_scene/48);
         joueur1.setTranslateY(hauteur_scene-hauteur_scene/1.12);
         joueur1.setStyle("-fx-alignment: center;");
@@ -196,8 +196,8 @@ public class MenuJeu extends Parent {
         titre = new Label("Bridge Chinois");
         titre.setFont(new Font("Arial",30));
         titre.setTextFill(Color.WHITE);
-        titre.setPrefWidth(300);
-        titre.setPrefHeight(90);
+        titre.setPrefWidth(largeur_scene/6.4);
+        titre.setPrefHeight(hauteur_scene/12);
         titre.setTranslateX(largeur_scene/48);
         titre.setTranslateY(hauteur_scene-hauteur_scene/1.03);
         titre.setStyle("-fx-font-weight: bold; -fx-alignment: center;");
@@ -205,9 +205,9 @@ public class MenuJeu extends Parent {
         
         hist = new Button("Historique");
         hist.setFont(new Font("Arial",12));
-        hist.setPrefWidth(85);
-        hist.setPrefHeight(25);
-        hist.setTranslateX(largeur_scene/8);
+        hist.setPrefWidth(largeur_scene/22.588);
+        hist.setPrefHeight(hauteur_scene/43.2);
+        hist.setTranslateX(largeur_scene/8.25);
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         

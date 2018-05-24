@@ -63,7 +63,7 @@ public class Bridge extends Application {
     
     private final double largeur_scene = screenSize.getWidth();
     private final double hauteur_scene = screenSize.getHeight();
-    private final double souris_carte = hauteur_scene - 165;
+    private final double souris_carte = hauteur_scene - (hauteur_scene/5.45) + 1;
 
     //MessageTransition MessageT;
     
@@ -394,15 +394,43 @@ public class Bridge extends Application {
             }
         }
     }
-
-    public void affichage_dos_main(Carte[] main, int j) {
+    
+    /*public void affichage_dos_main(Carte[] main, int j) {
         int t;
-
         
         for (int i = main.length; i < 11; i++) {
             main[i].dos.setVisible(false);
         }
          
+        if (j == J1) {
+            //t = j1main.length;
+            t = m.j1.main.pile.size();
+            init_main(j1main, J1);
+        } else {
+            //t = j2main.length;
+            t = m.j2.main.pile.size();
+            if (m.config.mode == 1) {
+                init_main(j2main, J2);
+            } else {
+                init_main(j2main, IA);
+            }
+        }
+              
+        for (int i = 0; i < t; i++) {
+            main[i].face.setVisible(false);
+            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
+            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
+            main[i].dos.setFill(img);
+            main[i].dos.setVisible(true);
+            main[i].dos.toFront();
+        }
+    }*/
+
+    public void affichage_dos_main(Carte[] main, int j) {
+        int t;
+        String color;
+        String number;        
         
         if (j == J1) {
             //t = j1main.length;
@@ -417,14 +445,31 @@ public class Bridge extends Application {
                 init_main(j2main, IA);
             }
         }
-        for (int i = 0; i < t; i++) {
-            main[i].face.setVisible(false);
-            main[i].dos.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
-            main[i].dos.setTranslateY(-(main [i].hauteur_carte*0.25));
-            ImagePattern img = new ImagePattern(new Image("images/DOS_1.png"));
-            main[i].dos.setFill(img);
-            main[i].dos.setVisible(true);
-            main[i].dos.toFront();
+        
+        for (int i = 0; i < main.length; i++) {
+            switch (main[i].couleur) {
+                case 1:
+                    color = "TREFLE";
+                    break;
+                case 2:
+                    color = "CARREAU";
+                    break;
+                case 3:
+                    color = "COEUR";
+                    break;
+                default:
+                    color = "PIQUE";
+                    break;
+            }
+
+            number = Integer.toString(main[i].valeur);
+            String carte = color + "_" + number + ".png";
+            ImagePattern img = new ImagePattern(new Image("images/" + carte));
+            main[i].face.setFill(img);
+            main[i].face.setVisible(true);
+            main[i].face.setTranslateX(largeur_scene/2.5 + ((main[i].largeur_carte/2) * i));
+            main[i].face.setTranslateY(0);
+            main[i].face.toFront();
         }
     }
 
@@ -440,6 +485,7 @@ public class Bridge extends Application {
         }
     }
      */
+        
     public void carte_select_P(Carte[] main, int k) {
         carte_jouee = 1;
 
@@ -496,7 +542,7 @@ public class Bridge extends Application {
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
                 tour_joueur = IA;
-                bandeau.tourJ(IA);
+                //bandeau.tourJ(IA);
                 temps = System.currentTimeMillis();
             } else {
                 tour_joueur = J1;
@@ -756,7 +802,7 @@ public class Bridge extends Application {
 
                     if (m.config.mode == 2) {
                         tour_joueur = m.config.gagnant;
-                        bandeau.tourJ(m.config.gagnant);
+                        bandeau.tourJ(m.config.receveur);
                         init_main(j1main, J1);
                         affichage_face_main(j1main, J1);
                         maj_handler_main();
@@ -817,6 +863,8 @@ public class Bridge extends Application {
                             init_main(j1main, J1);
                             affichage_face_main(j1main, J1);
                             temps = System.currentTimeMillis();
+                        } else{
+                            bandeau.tourJ(J1);
                         }
                         tour_pioche = 2;
                     }
@@ -889,6 +937,7 @@ public class Bridge extends Application {
                 }
 
                 if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && m.config.taille > 0 && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
+                    bandeau.tourJ(IA);
                     carte_jouee = 1;
                     System.out.println("IA joue sa carte");
                     J2_carte_jouee = m.jouerCoupIA(tour_joueur);
@@ -925,6 +974,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    bandeau.tourJ(J1);
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         System.out.println("IA a gagné et prend une carte en 1er");
@@ -956,6 +1006,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
+                    bandeau.tourJ(IA);
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         System.out.println("IA a perdu et prend une carte en 2nd");
@@ -1004,6 +1055,7 @@ public class Bridge extends Application {
                 }
 
                 if (m.config.mode == 2 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
+                    bandeau.tourJ(m.config.gagnant);
                     J1_carte_jouee.face.setVisible(false);
                     J2_carte_jouee.face.setVisible(false);
                     if (J1_carte_jouee != null && J2_carte_jouee != null) {
@@ -1053,6 +1105,7 @@ public class Bridge extends Application {
                     System.out.println("Le joueur " + m.config.gagnant + " gagne le pli");
                     m.config.donneur = m.config.gagnant;
                     m.config.receveur = m.config.perdant;
+                    bandeau.tourJ(m.config.gagnant);
                     System.out.println();
                     m.rangerPli();
                     if (m.finManche()) {
@@ -1513,8 +1566,8 @@ public class Bridge extends Application {
             m.redo();
         });
         
-        //System.out.println(screenSize.getWidth());
-        //System.out.println(screenSize.getHeight());
+        System.out.println(screenSize.getWidth());
+        System.out.println(screenSize.getHeight());
         
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);  

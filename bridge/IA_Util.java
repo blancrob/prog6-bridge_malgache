@@ -574,12 +574,14 @@ public class IA_Util {
      * @param atout
      * @return 
      */
-    public static int heuristiqueExperte(PileCartes adverse, Carte c, int atout){
+    public static double heuristiqueExperte(PileCartes adverse, Carte c, int atout){
         Iterator<Carte> it = adverse.iterateur();
         Carte tmp;
-        int h = 0;
+        double h = 0;
+        double i = 0;
         while(it.hasNext()){
             tmp = it.next();
+            i++;
             if(c.couleur != atout){
                 if(adverse.contient(c.couleur)){
                     if(tmp.couleur == c.couleur && tmp.valeur > c.valeur){}
@@ -602,7 +604,7 @@ public class IA_Util {
                 }
             }
         }
-        return h;
+        return h/i;
     }
      
     /**
@@ -617,7 +619,7 @@ public class IA_Util {
     public static boolean gagnerCommence(PileCartes[] piocheEntiere,int[] nbCartes, PileCartes adverse, int atout){
         int i = 0;
         double nb = 0;
-        while(i < nbCartes.length){
+        while(i < nbCartes.length && piocheEntiere[i].taille()>1){
             if (nbCartes[i]>1 && bat(piocheEntiere[i].pile.get(1),piocheEntiere[i].pile.get(0),atout)){
                 nb=nb+1;
             }
@@ -663,16 +665,18 @@ public class IA_Util {
     Carte res = null;
     int i = positionMeilleurCartePioche(atout, pioche, lg);
     PileCartes temp = main.clone();
-    temp.ajouter(choisirMeilleureCartePioche(atout, pioche, lg));
-    if(temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si on peut battre la carte en dessous de celle testée 
-       res = choisirMeilleureCartePioche(atout, pioche, lg); // on prend le meilleur atout disponible.
+    if(choisirMeilleureCartePioche(atout, pioche, lg) != null){
+        temp.ajouter(choisirMeilleureCartePioche(atout, pioche, lg));
+        if(piocheEntiere[i].taille()>1 && temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si on peut battre la carte en dessous de celle testée 
+           res = choisirMeilleureCartePioche(atout, pioche, lg); // on prend le meilleur atout disponible.
+        }
     }
     else{ // Si la carte en dessous permet à l'adversaire de gagner, on regarde les autres tas de la pioche.
         for(int j=0; j<pioche.length; j++){ 
-            if(j != i){                          //Pour chaque autre tas.
+            if(j != i && pioche[j]!=null){                          //Pour chaque autre tas.
                 PileCartes test = main.clone();
                 test.ajouter(pioche[j]);
-                if(temp.minGagnant(piocheEntiere[j].pile.get(1).couleur, piocheEntiere[j].pile.get(1).valeur) != null){ //si on peut battre la carte en dessous.
+                if(piocheEntiere[j].taille()>1 && temp.minGagnant(piocheEntiere[j].pile.get(1).couleur, piocheEntiere[j].pile.get(1).valeur) != null){ //si on peut battre la carte en dessous.
                     if(res == null){ res = pioche[j]; }
                     if((pioche[j].couleur == atout && res.couleur != atout) || (pioche[j].valeur > res.valeur)){ // on prend la meilleure des cartes qui retourne une carte que l'on peut battre.
                         res = pioche[j];
@@ -690,15 +694,15 @@ public class IA_Util {
         int j = positionMeilleurCartePioche(pioche, lg); 
         temp.ajouter(choisirMeilleureCartePioche(pioche, lg));
         
-        if(temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si on peut battre la carte en dessous de celle testée 
+        if(piocheEntiere[i].taille()>1 && temp.minGagnant(piocheEntiere[i].pile.get(1).couleur, piocheEntiere[i].pile.get(1).valeur)!=null){ // Si on peut battre la carte en dessous de celle testée 
             res = choisirMeilleureCartePioche(pioche, lg); // on prend la meilleur carte disponible.
         }
         else{ // Si la carte en dessous permet à l'adversaire de gagner, on regarde les autres tas de la pioche.
             for(int k=0; k<pioche.length; k++){ 
-                if(k != j){                          //Pour chaque autre tas.
+                if(k != j && pioche[k] != null){                          //Pour chaque autre tas.
                     PileCartes test = main.clone();
                     test.ajouter(pioche[k]);
-                    if(temp.minGagnant(piocheEntiere[k].pile.get(1).couleur, piocheEntiere[k].pile.get(1).valeur) != null){ //si on peut battre la carte en dessous.
+                    if(piocheEntiere[k].taille()>1 &&temp.minGagnant(piocheEntiere[k].pile.get(1).couleur, piocheEntiere[k].pile.get(1).valeur) != null){ //si on peut battre la carte en dessous.
                         if(res == null){ res = pioche[k]; }
                         if(pioche[k].valeur > res.valeur){ // on prend la meilleure des cartes qui retourne une carte que l'on peut battre.
                             res = pioche[k];
@@ -711,7 +715,7 @@ public class IA_Util {
      
      if (res == null){ // Sinon trouver la plus grande carte 
         res = choisirMeilleureCartePioche(pioche, lg);
-        int h = heuristiqueExperte(adverse,res,atout);
+        double h = heuristiqueExperte(adverse,res,atout);
         if (h<0.4 && plusPetitePile(nbCartes,lg)==1){//Si la carte a pas une heuristique géniale et si il y a une pioche avec 1 seule carte piocher cette carte
             res = choixPileDUnecarte(piocheEntiere); 
         } 
@@ -738,6 +742,14 @@ public class IA_Util {
       return res;
   }
   
+  /**
+     * 
+     * @param main la main de l'ia
+     * @param adverse la main de l'adversaire
+     * @param pioche la carte à piocher
+     * @param atout la valeur de l'atout
+     * @return vrai ssi on est sur de gagner le prochain pli.
+     */
   public static boolean gagneProchain(PileCartes main, PileCartes adverse, Carte piochee, int atout){
         Iterator<Carte> it = adverse.iterateur();
         Carte tmp;
@@ -749,12 +761,135 @@ public class IA_Util {
         return res;
     }
     
-    
+    /**
+     * 
+     * @param piocheEntiere les differents tas de la pioche
+     * @param main la main de l'ia
+     * @param adverse la main de l'adversaire
+     * @param atout la valeur de l'atout
+     * @return le meilleur atout a piocher en sachant que l'on gagne le prochain pli
+     */
     public static Carte piocherMeilleurAtout(PileCartes[] piocheEntiere, PileCartes main, PileCartes adverse, int atout){
         Carte res = null;
         for(int i = 0; i<piocheEntiere.length; i++){
             if(!piocheEntiere[i].vide() && piocheEntiere[i].pile.get(0).couleur == atout && gagneProchain(main,adverse,piocheEntiere[i].pile.get(0),atout) && (res == null || res.valeur <piocheEntiere[i].pile.get(0).valeur)){
                 res = piocheEntiere[i].pile.get(0);
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * 
+     * @param piocheEntiere la pioche
+     * @param main la main de l'ia
+     * @param adverse la main de l'adversaire
+     * @param atout la valeur de l'atout
+     * @return une carte qui est soit la meilleur de la pioche soit que la meilleur est en dessous tout en étant certain de gagner le prochain pli
+     */
+    public static Carte piocherMeilleurCarte(PileCartes[] piocheEntiere, PileCartes main, PileCartes adverse, int atout){
+        Carte res = null;
+        Carte enDessousDeRes = null;
+        for (int i = 0 ; i<piocheEntiere.length ; i++){
+            if(!piocheEntiere[i].vide() && gagneProchain(main,adverse,piocheEntiere[i].pile.get(0),atout)){
+                if(piocheEntiere[i].taille()==1 && (res == null || 
+                        (piocheEntiere[i].pile.get(0).valeur > res.valeur) || 
+                        (enDessousDeRes != null && ((enDessousDeRes.valeur-piocheEntiere[i].pile.get(0).valeur)< 3)))){
+                    res = piocheEntiere[i].pile.get(0);
+                    enDessousDeRes = null;
+                }
+                else{
+                    if(res == null || res.valeur<piocheEntiere[i].pile.get(0).valeur || 
+                            (enDessousDeRes != null && (enDessousDeRes.valeur-piocheEntiere[i].pile.get(0).valeur) < 3) || 
+                            (piocheEntiere[i].taille()>1 && (piocheEntiere[i].pile.get(1).valeur - res.valeur) > 2) || 
+                            (piocheEntiere[i].taille()>1 && (enDessousDeRes != null && (piocheEntiere[i].pile.get(1).valeur > enDessousDeRes.valeur )))){
+                        res = piocheEntiere[i].pile.get(0);
+                        if(piocheEntiere[i].taille()>1){
+                            enDessousDeRes = piocheEntiere[i].pile.get(1);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * 
+     * @param piocheEntiere l'ensemble des tas de la pioche
+     * @param main la main de l'ia
+     * @param atout la valeur de l'atout
+     * @return le meilleur atout qui ne retourne pas de carte trop forte contre notre jeu si existe, le plus gros atout sinon.
+     */
+    public static Carte piocherAtoutPerdant(PileCartes[] piocheEntiere, PileCartes main,int atout){
+        Carte res = null;
+        Carte enDessousDeRes = null;
+        Carte plusGrandAtout = null;
+        for(int i = 0; i < piocheEntiere.length; i++){
+            if(!piocheEntiere[i].vide()){
+                if(piocheEntiere[i].taille() == 1 && piocheEntiere[i].pile.get(0).couleur == atout && (res == null || res.valeur < piocheEntiere[i].pile.get(0).valeur)){
+                    res = piocheEntiere[i].pile.get(0);
+                }
+                if(piocheEntiere[i].taille()>1 && piocheEntiere[i].pile.get(0).couleur == atout &&(res == null || res.valeur<piocheEntiere[i].pile.get(0).valeur)){
+                    plusGrandAtout = piocheEntiere[i].pile.get(0);
+                    PileCartes clone = main.clone();
+                    clone.ajouter(piocheEntiere[i].pile.get(0));
+                    if(heuristiqueExperte(clone,piocheEntiere[i].pile.get(1),atout)<0.4){
+                        res = plusGrandAtout;
+                    }
+                }
+            }
+        }
+        if (res!=null){
+            return res;
+        }else{
+            return plusGrandAtout;
+        }
+    }
+    /**
+     * 
+     * @param piocheEntiere l'ensemble des tas de la pioche
+     * @param main la main de l'ia
+     * @param atout la valeur de l'atout
+     * @return la meilleur carte a piocher, de plus haute valeur tout en permettant de ne pas offrir une bonne carte à l'adversaire si elle 
+     * existe sinon une bonne carte,si la pioche est trop mauvaise une carte devoilant la moins bonne contre notre jeu
+     */
+    public static Carte piocherCartePerdante(PileCartes[] piocheEntiere, PileCartes main,PileCartes adverse, int atout){
+        Carte res = null;
+        Carte enDessousDeRes = null;
+        Carte meilleurCarte = null;
+        for(int i = 0; i<piocheEntiere.length ; i++){
+            if(!piocheEntiere[i].vide()){
+                if(piocheEntiere[i].taille() == 1 && (res == null || res.valeur<piocheEntiere[i].pile.get(0).valeur)){
+                    res = piocheEntiere[i].pile.get(0);
+                }
+                else{
+                    if(res == null || res.valeur < piocheEntiere[i].pile.get(0).valeur){
+                        meilleurCarte = piocheEntiere[i].pile.get(0);
+                        if(heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout)<0.4){
+                            res = meilleurCarte;
+                        }
+                    }
+                }
+            }
+        }
+        if (res == null){
+            res = meilleurCarte;
+        }
+        if(heuristiqueExperte(adverse,res,atout)>0.4){
+            return res;
+        }else{
+            return plusFaibleHeuristique(piocheEntiere,main,atout);
+        }
+    }
+    
+    public static Carte plusFaibleHeuristique(PileCartes[] piocheEntiere, PileCartes main, int atout){
+        Carte res = null;
+        double h = 1;
+        for(int i = 0; i < piocheEntiere.length ; i++){
+            if(piocheEntiere[i].taille()>1 && (res == null || heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout) < h )){
+                h = heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout);
+                res = piocheEntiere[i].premiere();
             }
         }
         return res;
