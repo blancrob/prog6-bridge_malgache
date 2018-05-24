@@ -107,7 +107,7 @@ public class Configuration implements Serializable {
         Carte res = pile1.premiere();
         
         for(int i=1; i<6; i++){
-            if(res.valeur < pioche[i].premiere().valeur && pioche[i].premiere().valeur>10){   //si la carte courante a une plus grande valeur que la carte résultat, elle deviens la carte résultat
+            if(res.valeur < pioche[i].premiere().valeur && pioche[i].premiere().valeur>=10){   //si la carte courante a une plus grande valeur que la carte résultat, elle deviens la carte résultat
                 res = pioche[i].premiere();
             }
             else if(res.valeur == pioche[i].premiere().valeur){ //si les valeurs des cartes sont égales, si la couleur de la carte courante est plus forte, elle deviens la carte résultat
