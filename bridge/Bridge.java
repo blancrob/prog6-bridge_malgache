@@ -800,12 +800,11 @@ public class Bridge extends Application {
                     String carte = color + "_" + number + ".png";
                     ImagePattern img = new ImagePattern(new Image("images/" + carte));
                     pile[j][i].face.setFill(img);
-                    pile[j][i].face.toFront();
                 }
             }
         }
 
-        String card;
+        /*String card;
 
         for (int j = 0; j < dosPioche.length; j++) {
             for (int i = 0; i < dosPioche[j].length; i++) {
@@ -831,7 +830,7 @@ public class Bridge extends Application {
                 dosPioche[j][i].dos.setVisible(false);
                 dosPioche[j][i].face.setVisible(false);
             }
-        }
+        }*/
 
     }
 
@@ -901,6 +900,8 @@ public class Bridge extends Application {
     }
 
     public void affichage_face_pile(Carte[][] pile) {
+        
+        /*
         for (int j = 0; j < dosPioche.length; j++) {
             if (dosPioche[j][5-pile[j].length] != null) {
                 dosPioche[j][5-pile[j].length].dos.setTranslateX(largeur_scene / 2.70 + (dosPioche[j][5-pile[j].length].largeur_carte * 1.25 * j));
@@ -908,6 +909,7 @@ public class Bridge extends Application {
                 //dosPioche[j][5-pile[j].length].dos.setVisible(true);
             }
         }
+        */
 
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
@@ -1045,8 +1047,13 @@ public class Bridge extends Application {
             init_main(main, J1);
             affichage_face_main(j1main, J1);
             if (m.config.donneur == J1) {
-                pause = 10;
+                //pause = 10;
+
+                bandeau.tourJ(IA);
+                tour_joueur = IA;
+                pause = 0;
                 temps = System.currentTimeMillis();
+                
             } else {
                 tour_joueur = J1;
                 bandeau.tourJ(J1);
@@ -1338,7 +1345,15 @@ public class Bridge extends Application {
                             /*bandeau.tourJ(IA);
                              init_main(j1main,J1);
                              maj_handler_main();
-                             pause = 12;
+                            
+                            
+                            
+                            
+                             //pause = 12;
+                            
+                            
+                            
+                            
                              temps = System.currentTimeMillis();*/
 
                             bandeau.tourJ(IA);
@@ -1423,7 +1438,14 @@ public class Bridge extends Application {
                         J2_carte_jouee.face.toFront();
 
                         if (m.config.carteS == null) {
-                            pause = 11;
+                            //pause = 11;
+                            
+                            bandeau.tourJ(J1);
+                            tour_joueur = J1;
+                            carte_jouee = 0;
+                            pause = 0;
+                            temps = System.currentTimeMillis();
+                            
                             temps = System.currentTimeMillis();
                         } else {
                             m.config.taille--;
