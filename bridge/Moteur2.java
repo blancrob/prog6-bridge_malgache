@@ -119,6 +119,12 @@ public class Moteur2 extends Moteur {
             System.out.print("["+i+"]:");
             afficherCarte(main[i]);
         }
+        
+        if(config.carteP==null){
+            System.out.println("C'est vide dude");
+        }else{
+            System.out.println("Pas Vide");
+        }
        
         switch (config.carteP.couleur){
             case 1:
