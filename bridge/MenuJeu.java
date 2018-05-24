@@ -8,13 +8,14 @@ package bridge;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -44,6 +45,7 @@ public class MenuJeu extends Parent {
     Button hist;
     
     int tour_joueur;
+    int l;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -51,6 +53,14 @@ public class MenuJeu extends Parent {
     
     public void tourJ(int i){
         tour_joueur = i;
+    }
+    
+    public int lock(){
+        if(l == 1){
+            return 1;
+        }else{
+            return 0;
+        }
     }
     
     public MenuJeu(Moteur m) {
@@ -92,7 +102,7 @@ public class MenuJeu extends Parent {
         restart.setTranslateX(largeur_scene/48);
         restart.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(restart);
-        
+
         rules = new Button("Regles");
         rules.setPrefWidth(largeur_scene/13.715);
         rules.setPrefHeight(hauteur_scene/12);
@@ -220,5 +230,34 @@ public class MenuJeu extends Parent {
         };
         timer.start();
         
+        /*wRestart wres = new wRestart();
+        this.getChildren().add(wres);
+        wres.setVisible(false);
+        
+        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                wres.setVisible(true);
+                wres.toFront();
+                l = 1;
+            }
+        });
+        
+        wres.non.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                wres.setVisible(false);
+                l = 0;
+            }
+        });
+        
+        wres.oui.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                wres.setVisible(false);
+                l = 0;
+            }
+        });
+        */
     }
 }
