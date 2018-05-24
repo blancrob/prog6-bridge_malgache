@@ -620,7 +620,7 @@ public class Moteur {
                     ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.score, j2.score, config.conditionVictoire);
                     break;
                 case 6:
-                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.main, config.pioche);
+                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score, config.conditionVictoire, j2.main, config.pioche);
                     break;
             }
         }else{
@@ -642,7 +642,7 @@ public class Moteur {
                     ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score, config.conditionVictoire);
                     break;
                 case 6:
-                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j1.main, config.pioche);
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, config.carteP, nbCartes, false, j2.score, j1.score, config.conditionVictoire, j1.main, config.pioche);
                     break;
             }
         }
@@ -783,7 +783,7 @@ public class Moteur {
                     ia = new IaDifficile(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j1.score, j2.score, config.conditionVictoire);
                     break;
                 case 6:
-                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.main, config.pioche);
+                    ia = new IaExperte(j1.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire, j2.main, config.pioche);
                     break;
             }
         }else{
@@ -805,7 +805,7 @@ public class Moteur {
                     ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire);
                     break;
                 case 6:
-                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.main, config.pioche);
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire, j1.main, config.pioche);
                     break;
             }
         }
