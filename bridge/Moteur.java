@@ -805,7 +805,7 @@ public class Moteur {
                     ia = new IaDifficile(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire);
                     break;
                 case 6:
-                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire, j2.main, config.pioche);
+                    ia = new IaExperte(j2.main, cartesDejaJouees, config.piochees, piocheIA, lg, config.atout, null, nbCartes, config.gagnant==piocheur, j2.score, j1.score, config.conditionVictoire, j1.main, config.pioche);
                     break;
             }
         }
