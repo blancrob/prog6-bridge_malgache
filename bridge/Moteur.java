@@ -1217,6 +1217,8 @@ public class Moteur {
             
             //maj_score();
             
+            maj_score();
+            
             System.out.println("Manche: "+ config.manche);
             System.out.println("Score joueur 1: "+ (j1.score));
             System.out.println("Score joueur 2: "+ (j2.score));
