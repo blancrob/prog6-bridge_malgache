@@ -1228,8 +1228,14 @@ public class Bridge extends Application {
     }
     
     public boolean carte_jouable(Carte c, int j){
-        if (m.config.donneur == J1 &&  j == J2){
+        if((m.config.donneur == J1 && j == J1) || (m.config.donneur == J2 && j == J2)){
+            return true;
+        }
+        else if (m.config.donneur == J1 &&  j == J2){
             Carte[] same_color = m.j2.jouables(J1_carte_jouee.couleur);
+            if(same_color == null){
+                return true;
+            }
             for(int i = 0; i < same_color.length; i++){
                 if(same_color[i] == c){
                     return true;
@@ -1238,6 +1244,9 @@ public class Bridge extends Application {
         }
         else if(m.config.donneur == J2 &&  j == J1){
             Carte[] same_color = m.j1.jouables(J2_carte_jouee.couleur);
+            if(same_color == null){
+                return true;
+            }
             for(int i = 0; i < same_color.length; i++){
                 if(same_color[i] == c){
                     return true;
@@ -1251,7 +1260,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n],j))) {
                     main[n].face.setTranslateY(souris_carte);
                 }
             }
@@ -1260,7 +1269,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j))) {
                     main[n].face.setTranslateY(hauteur_scene - main[n].hauteur_carte * 0.75);
                 }
             }
@@ -1269,7 +1278,7 @@ public class Bridge extends Application {
         main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j) || J1_carte_jouee == null)) {
+                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0  && (carte_jouable(main[n],j))) {
                     if (m.config.donneur == j) {
                         carte_select_P(main, n);
                     } else {
