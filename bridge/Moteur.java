@@ -684,8 +684,6 @@ public class Moteur {
             config.carteP=null;
             config.carteS=null;
         }
-        
-        maj_score();
     }
     
     /**
