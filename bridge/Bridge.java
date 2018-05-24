@@ -812,7 +812,7 @@ public class Bridge extends Application {
             }
         }
         
-        String card;
+        /*String card;
         
         for(int j = 0; j < dosPioche.length; j++){
             for(int i = 0; i < dosPioche[j].length; i++) {
@@ -834,7 +834,7 @@ public class Bridge extends Application {
                 dosPioche[j][i].dos.setFill(img);
                 dosPioche[j][i].dos.setVisible(true);
             }
-        }       
+        }       */
     }
 
     public void maj_plis(Carte[] plis, int j) {
