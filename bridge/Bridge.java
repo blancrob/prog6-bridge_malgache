@@ -752,7 +752,7 @@ public class Bridge extends Application {
             temps = System.currentTimeMillis();
         }
 
-        affichage_dos_pile(pile);
+        //affichage_dos_pile(pile);
         affichage_face_pile(pile);
         maj_handler_main();
         maj_handler_pile();
@@ -1563,7 +1563,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.perdant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
-                        affichage_dos_pile(pile);
+                        //affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                     }
@@ -1610,7 +1610,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.gagnant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
-                        affichage_dos_pile(pile);
+                        //affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                         m.config.taille++;
@@ -1765,7 +1765,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
-                            affichage_dos_pile(pile);
+                            //affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
@@ -1796,7 +1796,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
-                            affichage_dos_pile(pile);
+                            //affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
