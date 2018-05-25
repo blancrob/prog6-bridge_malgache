@@ -87,7 +87,7 @@ public class IaExperte implements IA{
         }
         
         if(courante == null){ // 1ERE A JOUER
-            if (!(IA_Util.ImtheBest(plisIA,plisAdv) && pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)] != null && IA_Util.heuristiqueExperte(main,adverse,pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) &&((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
+            if (!(IA_Util.ImtheBest(plisIA,plisAdv,condVic) && pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)] != null && IA_Util.heuristiqueExperte(main,adverse,pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) &&((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
                ((hCartesSurPioche<0.4)&&(IA_Util.plusPetitePile(nbCartes, lg)==1)) || // ou pioche nulle et un des tas de la pioche a une seule carte
                     ((hCartesSurPioche>0.4)|| IA_Util.gagnerCommence(piocheEntiere, nbCartes, adverse, atout) || (IA_Util.plusPetitePile(nbCartes, lg) == 1)))){ // Si pioche cool || interessant de gagner (voir gagnerCommence) ||un tas de la pioche à une carte 
                     
@@ -99,7 +99,7 @@ public class IaExperte implements IA{
             }
         }    
         else{ // 2EME A JOUER
-            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere,plisIA,plisAdv);
+            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere,plisIA,plisAdv,condVic);
         }
         return res;
     }

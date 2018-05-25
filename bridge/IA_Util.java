@@ -417,7 +417,7 @@ public class IA_Util {
      *
      * @return la carte la plus interessante en fonction de la pioche quand on est le 2ème à jouer
      */
-    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere, int nbPlisIA, int nbPlisAdv){   
+    public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere, int nbPlisIA, int nbPlisAdv,int conditionVictoire){   
         Carte res;
          // On regarde à quoi ressemble la pioche
         int i = 0;
@@ -446,7 +446,7 @@ public class IA_Util {
             i++;
         }
         
-        if (!(ImtheBest(nbPlisIA,nbPlisAdv)) ||
+        if (!(ImtheBest(nbPlisIA,nbPlisAdv,conditionVictoire)) ||
                 ((hCartesSurPioche>0.4)||
                 ((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||
                 ((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
@@ -477,9 +477,21 @@ public class IA_Util {
         }
         return res;
     }
-    
-    public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv){
-        return((nbPlisIA > nbPlisAdv) || (nbPlisIA != 13));
+    /**
+     * 
+     * @param nbPlisIA
+     * @param nbPlisAdv
+     * @param conditionVictoire si 1 victoire en nombre de manche | si 2 victoire en nombre de plis.
+     * @return vrai ssi l'IA gagne pour l'instant.
+     */
+    public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv,int conditionVictoire){
+        if(conditionVictoire == 1){
+            return((nbPlisIA > nbPlisAdv) || (nbPlisIA != 13));
+        }
+        else{
+            return((nbPlisIA - nbPlisAdv) > 5);
+        }
+        
     }
     
     /**
