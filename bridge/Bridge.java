@@ -2,8 +2,16 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import static java.lang.System.exit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -13,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Bridge extends Application {
@@ -58,8 +68,8 @@ public class Bridge extends Application {
     public Label bridgechinois2 = new Label("Bridge Chinois");
     public Label configgame = new Label("Configuration de la partie");
     public Label choiceplayer = new Label("     Choix des joueurs");
-    public Label player1title = new Label("Joueur 1");
-    public Label player2title = new Label("Joueur 2");
+    public Label player1title = new Label("Vous");
+    public Label player2title = new Label("Votre adversaire");
     public Label victorysetup = new Label("   Condition de victoire");
     public Label p1human = new Label("Humain");
     //public Label p1computer = new Label("Ordinateur");
@@ -90,16 +100,21 @@ public class Bridge extends Application {
     public int combobox1set = 0;
     public int combobox2set = 0;
 
-    //Les CheckBox
-    public CheckBox cbhuman1 = new CheckBox();
-    public CheckBox cbhuman2 = new CheckBox();
-    public CheckBox cbcomputer1 = new CheckBox();
-    public CheckBox cbcomputer2 = new CheckBox();
-    public CheckBox cbpoints = new CheckBox();
-    public CheckBox cbrounds = new CheckBox();
+    //Les RadioButtons
+    public RadioButton cbhuman2 = new RadioButton("Humain");
+    public RadioButton cbcomputer2 = new RadioButton("Ordinateur");
+    public RadioButton cbpoints = new RadioButton("Points");
+    public RadioButton cbrounds = new RadioButton("Manches");
+    
+   
+            
+    
 
     public String computer1final = ("");
     public String computer2final = ("");
+    
+    public int messageActif = 0;
+    MessageTransition mt=null;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -126,6 +141,28 @@ public class Bridge extends Application {
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
         root.setStyle("-fx-background-color:#274e13;");
         root.getChildren().add(bandeau);
+        
+        bandeau.restart.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
+            nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
+        });
+        
+        bandeau.save.setOnAction((ActionEvent event) -> {
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+            fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
+            File f = fc.showSaveDialog(primaryStage);
+            try {
+                m.sauvegarder(f.getName());
+            } catch (IOException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         undo = new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
         undo.setGraphic(imgUndo);
@@ -185,7 +222,20 @@ public class Bridge extends Application {
         newgame.setOnAction((ActionEvent event) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
         });
-
+        
+        loadgame.setOnAction((ActionEvent event) -> {
+           FileChooser fc = new FileChooser();
+           fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+           File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
+            try {
+                m.charger(f.getName());
+            } catch (IOException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         quit.setOnAction((ActionEvent event) -> {
             exit(0);
         });
@@ -280,31 +330,10 @@ public class Bridge extends Application {
         pane.setVgap(80);
         
         //Espace Joueur 1
-        //Menu Deroulant
-        if (combobox1set == 0) {
-            iaLevel1.getItems().addAll(
-                    "Novice",
-                    "Facile",
-                    "Moyenne",
-                    "Avancée",
-                    "Difficile",
-                    "Experte"
-            );
-            iaLevel1.setValue("Novice");
-            combobox1set = 1;
-        }
-        //box human
-        HBox firsthuman = new HBox();
-        firsthuman.setSpacing(10);
-        firsthuman.getChildren().addAll(cbhuman1, p1human);
-        //box niveau de l'ordinateur
-        HBox computer1 = new HBox();
-        //computer1.setSpacing(10);
-        //computer1.getChildren().addAll(cbcomputer1, /*p1computer,*/ iaLevel1);
         //box globale
         VBox player1 = new VBox();
         player1.setSpacing(30);
-        player1.getChildren().addAll(player1title, player1name, firsthuman, computer1);
+        player1.getChildren().addAll(player1title, player1name/* firsthuman, computer1*/);
         pane.add(player1, 1, 2);
 
         //Espace Joueur 2
@@ -353,6 +382,11 @@ public class Bridge extends Application {
         pane.add(choiceplayer, 2, 2);
 
         //Espace victory setup
+         cbrounds.setStyle(name1final);
+         
+        
+        
+        
         VBox victorycond = new VBox();
         victorycond.setSpacing(30);
         //Espace points
@@ -386,29 +420,12 @@ public class Bridge extends Application {
                 
         player1name.setPrefColumnCount(25);
         player2name.setPrefColumnCount(25);
-        player1name.setPromptText("Entrer votre nom.");
-        player2name.setPromptText("Entrer votre nom.");
+        player1name.setPromptText("Entrez votre nom");
+        player2name.setPromptText("Entrez le nom de l'adversaire");
 
-        //checkbox humain 1
-        cbhuman1.setOnAction((ActionEvent event) -> {
-            cbcomputer1.setSelected(false);
-        });
         //checkbox humain 2
         cbhuman2.setOnAction((ActionEvent event) -> {
             cbcomputer2.setSelected(false);
-        });
-        //checkbox ordi 1
-        cbcomputer1.setOnAction((ActionEvent event) -> {
-            cbhuman1.setSelected(false);
-        });
-        iaLevel1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(iaLevel1.getSelectionModel().getSelectedItem() != ""){
-                    cbhuman1.setSelected(false);
-                    cbcomputer1.setSelected(true);
-                }
-            }
         });
         //checkbox ordi 2
         cbcomputer2.setOnAction((ActionEvent event) -> {
@@ -449,6 +466,12 @@ public class Bridge extends Application {
         });
         //bouton menu principal
         firstmenu.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
+            cbcomputer2.setSelected(false);
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
                 pane.setStyle("-fx-color : white; -fx-background-color: white;");
@@ -456,17 +479,21 @@ public class Bridge extends Application {
                 pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
             }
         });
+        //Config par defaut
+        cbcomputer2.setSelected(true);
+        iaLevel2.setValue("Facile");
+        cbrounds.setSelected(true);
+        nbrounds.setText("2");
+         player1name.setText("Joueur 1");
+         player2name.setText("Joueur 2");
+
         //bouton lancer partie
         launchgame.setOnAction((ActionEvent event) -> {
             //last vérif param si rien n'est choisi
-            if (!cbhuman1.isSelected() && !cbcomputer1.isSelected()) {
-                cbhuman1.setSelected(true);
-            }
             if (!cbhuman2.isSelected() && !cbcomputer2.isSelected()) {
                 cbcomputer2.setSelected(true);
                 iaLevel2.setValue("Facile");
             }
-            //si pas de nom de joueur choisi, mettre joueur 1 par defaut sinon prendre le nom choisi
             if ((player1name.getText().isEmpty())) {
                 player1name.setText("Joueur 1");
                 name1final = "Joueur 1";
@@ -501,12 +528,7 @@ public class Bridge extends Application {
             }
 
             //param final pour le niveau de l'ordi 1
-            if (cbcomputer1.isSelected()) {
-                computer1final = iaLevel1.getSelectionModel().getSelectedItem().toString();
-                System.out.println("niveau de l'IA 1: " + computer1final);
-            } else {
                 System.out.println("Joueur 1 : Humain");
-            }
             //param final pour le niveau de l'ordi 2
             if (cbcomputer2.isSelected()) {
                 computer2final = iaLevel2.getSelectionModel().getSelectedItem().toString();
@@ -539,21 +561,18 @@ public class Bridge extends Application {
                 typegame = 1;
             }
             System.out.println("");
-            System.out.println("level joueur 1: " + joueur1level);
             System.out.println("level joueur 2: " + joueur2level);
             System.out.println("Mode de la partie: " + typemode);
             System.out.println("Type de la partie: " + typegame);
             //validation des parametres
-            if ((cbhuman1.isSelected() || cbcomputer1.isSelected()) && (cbhuman2.isSelected() || cbcomputer2.isSelected()) && (cbpoints.isSelected() || cbrounds.isSelected())
-                    && (cbcomputer1.isSelected() || cbhuman1.isSelected())
-                    && (cbcomputer2.isSelected() || cbhuman2.isSelected())) {
+            if ((cbhuman2.isSelected() || cbcomputer2.isSelected()) && (cbpoints.isSelected() || cbrounds.isSelected())&& (cbcomputer2.isSelected() || cbhuman2.isSelected())) {
                 transitionMenuJeu(primaryStage);
             }
         });
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
     private final int J1 = 1;
     private final int J2 = 2;
     private final int IA = 2;
@@ -1231,8 +1250,9 @@ public class Bridge extends Application {
                 bandeau.tourJ(J1);
                 affichage_face_main(j1main, J1);
             }
+            carte_jouee = 0;
         }
-        carte_jouee = 0;
+        //carte_jouee = 0;      Enlevé pour le gérer dans les messages en joueur contre joueur
     }
 
     public void carte_select_S(Carte[] main, int k) {
@@ -1898,7 +1918,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                     }
 
-                    if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis()) {
+                    if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis() && carte_jouee == 0) {
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
@@ -2172,6 +2192,25 @@ public class Bridge extends Application {
                             affichage_face_main(j2main, J2);
                         }
                         pause = 0;
+                    }
+                    
+                    //Affichage Message transition CoupPremier CoupSecond Joueur Contre Joueur
+                    if(m.config.mode == 1 && m.config.carteP!=null && carte_jouee == 1){
+                        if(messageActif==0){
+                            if(m.config.receveur==1){
+                                mt = new MessageTransition(1, m.j1.nom,largeur_scene);
+                            }else{
+                                mt = new MessageTransition(1, m.j2.nom,largeur_scene);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            carte_jouee=0;
+                            messageActif=0;
+                        }
+                        
                     }
 
                     if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {

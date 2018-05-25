@@ -47,6 +47,9 @@ public class Moteur2 extends Moteur {
         ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
        
         oos.writeObject(copieEtat());
+        
+        oos.close();
+        
     }
     
     /**
@@ -67,6 +70,8 @@ public class Moteur2 extends Moteur {
        config = e.config;
        j1 = e.j1;
        j2 = e.j2;
+       
+       ois.close();
     }
     
     /**

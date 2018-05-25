@@ -576,6 +576,10 @@ public class Moteur {
      * @return la carte jouée par l'IA
      */
     public Carte jouerCoupIA(int joueur){
+        
+        j1.score=j1.tas.taille()/2;
+        j2.score=j2.tas.taille()/2;
+        
         Carte c = null;
         Carte[] piocheIA = new Carte[6];
         int[] nbCartes = new int[6];
