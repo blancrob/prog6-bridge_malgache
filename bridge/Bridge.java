@@ -2,8 +2,16 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import static java.lang.System.exit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -24,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Bridge extends Application {
@@ -126,6 +135,19 @@ public class Bridge extends Application {
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
         root.setStyle("-fx-background-color:#274e13;");
         root.getChildren().add(bandeau);
+        
+        bandeau.save.setOnAction((ActionEvent event) -> {
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+            fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
+            File f = fc.showSaveDialog(primaryStage);
+            try {
+                m.sauvegarder(f.getName());
+            } catch (IOException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         undo = new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
         undo.setGraphic(imgUndo);
@@ -185,7 +207,20 @@ public class Bridge extends Application {
         newgame.setOnAction((ActionEvent event) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
         });
-
+        
+        loadgame.setOnAction((ActionEvent event) -> {
+           FileChooser fc = new FileChooser();
+           fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+           File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
+            try {
+                m.charger(f.getName());
+            } catch (IOException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         quit.setOnAction((ActionEvent event) -> {
             exit(0);
         });
@@ -553,7 +588,7 @@ public class Bridge extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
     private final int J1 = 1;
     private final int J2 = 2;
     private final int IA = 2;

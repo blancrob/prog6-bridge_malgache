@@ -7,14 +7,14 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import static java.lang.System.exit;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -74,6 +74,9 @@ public class MenuJeu extends Parent {
         quit.setTranslateX(largeur_scene/48);
         quit.setTranslateY(hauteur_scene-hauteur_scene/10);
         this.getChildren().add(quit);
+        quit.setOnAction((ActionEvent event) -> {
+            exit(0);
+        });
         
         save = new Button("Sauvegarder");
         save.setPrefWidth(largeur_scene/6.4);
@@ -81,7 +84,7 @@ public class MenuJeu extends Parent {
         save.setTranslateX(largeur_scene/48);
         save.setTranslateY(hauteur_scene-hauteur_scene/5);
         this.getChildren().add(save);
-        
+
         option = new Button("Options");
         option.setPrefWidth(largeur_scene/13.715);
         option.setPrefHeight(hauteur_scene/12);

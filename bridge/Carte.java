@@ -7,11 +7,12 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.Serializable;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Carte extends Parent implements Cloneable{
+public class Carte extends Parent implements Cloneable, Serializable{
     
     int valeur;
     int couleur;
