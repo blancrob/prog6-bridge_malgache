@@ -586,7 +586,7 @@ public class Bridge extends Application {
     public Carte[][] pile;
     public Carte[] j1plis;
     public Carte[] j2plis;
-    public Carte[][] dosPioche;
+    public Carte[] dosPioche;
 
     long temps = 0;
     long temps2 = 0;
@@ -643,7 +643,7 @@ public class Bridge extends Application {
         pile = new Carte[6][5];
         j1plis = new Carte[52];
         j2plis = new Carte[52];
-        dosPioche = new Carte[6][4];
+        dosPioche = new Carte[6];
 
         switch (m.config.donneurInitial) {
             case 0:
@@ -1149,56 +1149,77 @@ public class Bridge extends Application {
         String card;
         ImagePattern img;
         for (int j = 0; j < pile.length; j++) {
-            if(m.config.pioche[j].pile.size() > 0){
+            if(m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null){
                 System.out.println("Taille de la pile numéro "+j+" : "+m.config.pioche[j].pile.size());
                 switch(m.config.pioche[j].pile.size()){
                     case 5:
-                        card = "pile_5.png";
+                        card = "pile_5_ROUGE.png";
                         break;
                     case 4:
-                        card = "pile_4.png";
+                        card = "pile_4_ROUGE.png";
                         break;
                     case 3:
-                        card = "pile_3.png";
+                        card = "pile_3_ROUGE.png";
                         break;
                     case 2:
-                        card = "pile_2.png";             
+                        card = "pile_2_ROUGE.png";             
                         break;
+                    case 1:
                     default:
                         card = "Vide.png";
                         break;                    
                 }
-                if(m.config.pioche[j].pile.size() > 1){
+                /*if(m.config.pioche[j].pile.size() > 1){
                     img = new ImagePattern(new Image("images/" + card));
                     pile[j][1].dos.setFill(img);
                     pile[j][1].dos.setVisible(true);
                     pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
                 }
-                else{
-                    /*for(int i=1;i<pile[j].length;i++){
-                        img = new ImagePattern(new Image("images/" + card));
-                        pile[j][i].dos.setVisible(false);
-                        pile[j][1].dos.setFill(img);
-                        root.getChildren().remove(pile[j][i]);
-                    }*/
+                else if(m.config.pioche[j].pile.size() == 1){
+                    System.out.println("il reste seulement la carte face recto");
+                    
                     pile[j][1].dos.setFill(Color.web("274e13"));
-                    pile[j][2].dos.setFill(Color.web("274e13"));
-                    pile[j][3].dos.setFill(Color.web("274e13"));
-                    pile[j][4].dos.setFill(Color.web("274e13"));
                     pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));
-                    pile[j][2].dos.setVisible(false);
-                    pile[j][3].dos.setVisible(false);
-                    pile[j][4].dos.setVisible(false);
-                    pile[j][1].face.setVisible(false);
-                    pile[j][2].face.setVisible(false);
-                    pile[j][3].face.setVisible(false);
-                    pile[j][4].face.setVisible(false);
-                    for(int i=1;i<pile[j].length;i++){
+                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));*/
+                    
+                    /*for(int i=2;i<pile[j].length;i++){
+                        pile[j][i].face.setVisible(false);
+                        pile[j][i].dos.setVisible(false);
+                        root.getChildren().remove(pile[j][i].dos);
+                        root.getChildren().remove(pile[j][i].face);
                         root.getChildren().remove(pile[j][i]);
-                    }
+                    }*/     
+                /*}*/
+                
+                dosPioche[j] = m.config.pioche[j].pile.get(0);
+                
+                if(m.config.pioche[j].pile.size() > 1){
+                    img = new ImagePattern(new Image("images/" + card));
+                    dosPioche[j].dos.setFill(img);
+                    dosPioche[j].dos.setVisible(true);
+                    dosPioche[j].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    dosPioche[j].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
                 }
+                else if(m.config.pioche[j].pile.size() == 1){
+                    System.out.println("il reste seulement la carte face recto");
+                    dosPioche[j].dos.setVisible(false);
+                    pile[j][1].dos.setVisible(false);
+                    dosPioche[j].dos.setFill(Color.web("274e13"));
+                    pile[j][1].dos.setFill(Color.web("274e13"));
+                    //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
+                }
+                else if(m.config.pioche[j] == null){
+                    System.out.println("On efface toute la pioche");
+                    dosPioche[j].dos.setVisible(false);
+                    //dosPioche[j][0].dos.setFill(Color.web("274e13"));
+                    //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
+                }
+                
+                
+                
             }
         }     
     }
