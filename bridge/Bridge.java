@@ -1392,7 +1392,7 @@ public class Bridge extends Application {
             @Override
             public void handle(MouseEvent me) {
                 
-                if (m.config.mode == 2 && cheat == 1) {
+                if (m.config.mode == 2 && cheat == 1 && main!=j1main) {
                     for(int i=0;i<j2main.length;i++){                        
                         j2main[i].face.setVisible(false);
                         j2main[i].dos.setVisible(true);
