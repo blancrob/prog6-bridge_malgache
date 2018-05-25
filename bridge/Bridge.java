@@ -1158,6 +1158,7 @@ public class Bridge extends Application {
         for (int j = 0; j < pile.length; j++) {
             if(m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null){
                 System.out.println("Taille de la pile numéro "+j+" : "+m.config.pioche[j].pile.size());
+                
                 switch(m.config.pioche[j].pile.size()){
                     case 5:
                         card = "pile_5_ROUGE.png";
@@ -1171,7 +1172,6 @@ public class Bridge extends Application {
                     case 2:
                         card = "pile_2_ROUGE.png";             
                         break;
-                    case 1:
                     default:
                         card = "Vide.png";
                         break;                    
@@ -1199,7 +1199,9 @@ public class Bridge extends Application {
                     }*/     
                 /*}*/
                 
-                dosPioche[j] = m.config.pioche[j].pile.get(1);
+                dosPioche[j] = m.config.pioche[j].pile.get(0);
+                dosPioche[j].dos.setVisible(false);
+                dosPioche[j].face.setVisible(false);
                 
                 if(m.config.pioche[j].pile.size() > 1){
                     img = new ImagePattern(new Image("images/" + card));
@@ -1208,7 +1210,7 @@ public class Bridge extends Application {
                     dosPioche[j].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     dosPioche[j].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
                 }
-                else if(m.config.pioche[j].pile.size() == 1){
+                /*else if(m.config.pioche[j].pile.size() == 1){
                     System.out.println("il reste seulement la carte face recto");
                     dosPioche[j].dos.setVisible(false);
                     pile[j][1].dos.setVisible(false);
@@ -1216,10 +1218,12 @@ public class Bridge extends Application {
                     pile[j][1].dos.setFill(Color.web("274e13"));
                     //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
-                }
+                }*/
                 else if(m.config.pioche[j] == null){
                     System.out.println("On efface toute la pioche");
-                    dosPioche[j].dos.setVisible(false);
+                    img = new ImagePattern(new Image("images/" + card));
+                    dosPioche[j].dos.setFill(img);
+                    //dosPioche[j].dos.setVisible(false);
                     //dosPioche[j][0].dos.setFill(Color.web("274e13"));
                     //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
