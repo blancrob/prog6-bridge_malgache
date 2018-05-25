@@ -95,7 +95,6 @@ public class Bridge extends Application {
     public static int joueur1level = 0;
     public static int joueur2level = 0;
     //Les ComboBox
-    public ComboBox iaLevel1 = new ComboBox();
     public ComboBox iaLevel2 = new ComboBox();
     public int combobox1set = 0;
     public int combobox2set = 0;
@@ -384,10 +383,7 @@ public class Bridge extends Application {
 
         //Espace victory setup
          cbrounds.setStyle(name1final);
-         
-        
-        
-        
+               
         VBox victorycond = new VBox();
         victorycond.setSpacing(30);
         //Espace points
@@ -431,45 +427,57 @@ public class Bridge extends Application {
         //checkbox humain 2
         cbhuman2.setOnAction((ActionEvent event) -> {
             cbcomputer2.setSelected(false);
+            cbhuman2.setSelected(true);
         });
         //checkbox ordi 2
         cbcomputer2.setOnAction((ActionEvent event) -> {
             cbhuman2.setSelected(false);
+            cbcomputer2.setSelected(true);
         });
+        
         iaLevel2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(iaLevel2.getSelectionModel().getSelectedItem() != ""){
                     cbhuman2.setSelected(false);
                     cbcomputer2.setSelected(true);
                 }
-            }
         });
         //checkbox points
-        /*cbpoints.setOnAction((ActionEvent event) -> {
+        /*cbrounds.setOnAction((ActionEvent event) -> {
+            cbpoints.setSelected(false);
+            nbrounds.getOnAction();
+        });
+        cbpoints.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
-            nbrounds.setText("");
+            
+        });*/
+        cbpoints.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+           // nbrounds.setText("");
+            cbpoints.setSelected(true);
         });
         nbpoints.setOnAction((ActionEvent event) -> {
-            if(!"".equals(nbpoints.getText())){
-                cbrounds.setSelected(false);
-                cbpoints.setSelected(true);
-                nbrounds.setText("");
-            }
+            cbrounds.setSelected(false);
+            cbpoints.setSelected(true);
         });
         //checkbox manches
         cbrounds.setOnAction((ActionEvent event) -> {
             cbpoints.setSelected(false);
-            nbpoints.setText("");
+         //   nbpoints.setText("");
+              cbrounds.setSelected(true);
         });
-        nbrounds.setOnAction((ActionEvent event) -> {
-            if(!"".equals(nbrounds.getText())){
-                cbpoints.setSelected(false);
-                cbrounds.setSelected(true);
-                nbpoints.setText("");
-            }
+        nbrounds.setOnMouseClicked((MouseEvent event) -> {
+            nbrounds.selectAll();
+            cbrounds.setSelected(true);
+            cbpoints.setSelected(false);
         });
-        */
+  
+        nbpoints.setOnMouseClicked((MouseEvent event) -> {
+            nbpoints.selectAll();
+            cbpoints.setSelected(true);
+            cbrounds.setSelected(false);
+        });
+        
         
         //bouton menu principal
         firstmenu.setOnAction((ActionEvent event) -> {
