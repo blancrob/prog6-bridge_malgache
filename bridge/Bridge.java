@@ -58,8 +58,8 @@ public class Bridge extends Application {
     public Button rules = new Button("Règles");
     public Button options = new Button("Options");
     public Button quit = new Button("<   Quitter");
-    public Button firstmenu = new Button("\t\t\tMenu Principal\t\t\t");
-    public Button launchgame = new Button("\t\t\t Lancer Partie \t\t\t");
+    public Button firstmenu = new Button("\t   Menu Principal    \t\t");
+    public Button launchgame = new Button("\t     Lancer Partie  \t\t");
     public Button advancedoptions = new Button("Options Avancées");
     public Button daynight = new Button("Jour/Nuit");
 
