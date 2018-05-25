@@ -27,17 +27,21 @@ public class MessageTransition extends Parent {
     int posX = 632;
     int posY = 455;
     
-    public MessageTransition(){
-        fond_message = new Rectangle(250,150,Color.YELLOW);
-        fond_message.setArcHeight(10);
-        fond_message.setArcWidth(10);
+    public MessageTransition(int choix, String nom){
+        fond_message = new Rectangle(500,500,Color.GREY);
+        fond_message.setArcHeight(15);
+        fond_message.setArcWidth(15);
         this.getChildren().add(fond_message);
         
-        message_joueur = new Text("Prêt?");
-        message_joueur.setFont(new Font(25));
-        message_joueur.setFill(Color.GREY);
-        message_joueur.setX(100);
-        message_joueur.setY(75);
+        switch(choix){
+            case 1:
+                message_joueur = new Text(nom+" Prêt?");
+        }
+        //message_joueur = new Text(nom+" Prêt?");
+        message_joueur.setFont(new Font(50));
+        message_joueur.setFill(Color.LIGHTGREY);
+        message_joueur.setX(250);
+        message_joueur.setY(250);
         this.getChildren().add(message_joueur);
         
         this.setTranslateX(posX);
@@ -46,12 +50,17 @@ public class MessageTransition extends Parent {
         this.setOnMouseEntered(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent me){
                 fond_message.setFill(Color.LIGHTGREY);
+                message_joueur.setFill(Color.GREY);
             }
         });
         this.setOnMouseExited(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent me){
-                fond_message.setFill(Color.YELLOW);
+                fond_message.setFill(Color.GREY);
+                message_joueur.setFill(Color.LIGHTGREY);
             }
+        });
+        this.setOnMouseClicked((MouseEvent me) -> {
+            this.setVisible(false);
         });
     }
 }
