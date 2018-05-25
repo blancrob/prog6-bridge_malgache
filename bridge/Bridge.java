@@ -1157,6 +1157,25 @@ public class Bridge extends Application {
                     pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
                 }
                 else{
+                    /*for(int i=1;i<pile[j].length;i++){
+                        img = new ImagePattern(new Image("images/" + card));
+                        pile[j][i].dos.setVisible(false);
+                        pile[j][1].dos.setFill(img);
+                        root.getChildren().remove(pile[j][i]);
+                    }*/
+                    pile[j][1].dos.setFill(Color.web("274e13"));
+                    pile[j][2].dos.setFill(Color.web("274e13"));
+                    pile[j][3].dos.setFill(Color.web("274e13"));
+                    pile[j][4].dos.setFill(Color.web("274e13"));
+                    pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));
+                    pile[j][2].dos.setVisible(false);
+                    pile[j][3].dos.setVisible(false);
+                    pile[j][4].dos.setVisible(false);
+                    pile[j][1].face.setVisible(false);
+                    pile[j][2].face.setVisible(false);
+                    pile[j][3].face.setVisible(false);
+                    pile[j][4].face.setVisible(false);
                     for(int i=1;i<pile[j].length;i++){
                         root.getChildren().remove(pile[j][i]);
                     }

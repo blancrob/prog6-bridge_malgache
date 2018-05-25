@@ -67,5 +67,9 @@ public class Carte extends Parent implements Cloneable{
         
         return res;
     }
+
+    void setFill(Color web) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
