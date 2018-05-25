@@ -446,7 +446,7 @@ public class Bridge extends Application {
             }
         });
         //checkbox points
-        cbpoints.setOnAction((ActionEvent event) -> {
+        /*cbpoints.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
             nbrounds.setText("");
         });
@@ -469,6 +469,8 @@ public class Bridge extends Application {
                 nbpoints.setText("");
             }
         });
+        */
+        
         //bouton menu principal
         firstmenu.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
