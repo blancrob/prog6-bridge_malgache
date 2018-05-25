@@ -502,7 +502,7 @@ public class IA_Util {
      */
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv,int conditionVictoire){
         if(conditionVictoire == 1){
-            return((nbPlisIA > nbPlisAdv) || (nbPlisIA != 13));
+            return((nbPlisIA - nbPlisAdv)>2 || (nbPlisIA != 13));
         }
         else{
             return((nbPlisIA - nbPlisAdv) > 5);
@@ -1051,6 +1051,6 @@ public class IA_Util {
     }
     
     public static boolean carteMaitre(Carte c,  PileCartes cartesDejaJouees){
-        return (14-c.valeur-nbCartePlusForte(c,cartesDejaJouees) == 0);
+        return ((14-c.valeur-nbCartePlusForte(c,cartesDejaJouees)) == 0);
     }
 }
