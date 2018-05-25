@@ -22,7 +22,9 @@ public class MessageTransition extends Parent {
     public String message;
     
     Rectangle fond_message;
+    Rectangle fond_victoire;
     Text message_joueur;
+    Text message_victoire;
     
     int posX = 0;
     int posY = 700;
@@ -36,6 +38,10 @@ public class MessageTransition extends Parent {
         switch(choix){
             case 1:
                 message_joueur = new Text(nom+", prêt à jouer ?");
+                break;
+            case 2:
+                message_joueur = new Text(nom+", c'est à toi de piocher !");
+                break;
         }
         //message_joueur = new Text(nom+" Prêt?");
         message_joueur.setFont(new Font(50));
@@ -63,4 +69,46 @@ public class MessageTransition extends Parent {
             this.setVisible(false);
         });
     }
+    
+     public MessageTransition(String nom, int score, int conditionVictoire){
+        fond_victoire = new Rectangle(300,300,Color.GREY);
+        fond_victoire.setArcHeight(15);
+        fond_victoire.setArcWidth(25);
+        this.getChildren().add(fond_message);
+        
+        switch(conditionVictoire){
+            case 1:
+                message_joueur = new Text(nom+", Victoire avec" + score + "manches gagnées");
+                break;
+            case 2:
+                message_joueur = new Text(nom+", Victoire avec" + score + "points");
+                break;
+        }
+
+        //message_joueur = new Text(nom+" Prêt?");
+        message_victoire.setFont(new Font(50));
+        message_victoire.setFill(Color.LIGHTGREY);
+        message_victoire.setX(300/2.5);
+        message_victoire.setY(fond_victoire.getHeight()-135);
+        this.getChildren().add(message_joueur);
+        
+        this.setTranslateX(posX);
+        this.setTranslateY(posY);
+        
+        this.setOnMouseEntered(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent me){
+                fond_message.setFill(Color.LIGHTGREY);
+                message_joueur.setFill(Color.GREY);
+            }
+        });
+        this.setOnMouseExited(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent me){
+                fond_message.setFill(Color.GREY);
+                message_joueur.setFill(Color.LIGHTGREY);
+            }
+        });
+        this.setOnMouseClicked((MouseEvent me) -> {
+            this.setVisible(false);
+        });
+     }
 }

@@ -55,6 +55,12 @@ public class IA_Util {
         return res;
     }
     
+    /**
+     * 
+     * @param pioche
+     * @param lg le nombre de pioche encore présente.
+     * @return la carte de la pioche dont la valeur est la plus grande.
+     */
     public static Carte choisirMeilleureCartePioche(Carte[] pioche, int lg){
         Carte res = pioche[0];
         for(int i = 0; i < lg; i++){
@@ -70,7 +76,7 @@ public class IA_Util {
      * @param couleur
      * @param pioche
      * @param lg
-     * @return 
+     * @return retourne la carte de plus grande valeur dans la couleur "couleur".
      */
     public static int positionMeilleurCartePioche(int couleur, Carte[] pioche, int lg){
         Carte res = null;
@@ -96,7 +102,7 @@ public class IA_Util {
      * 
      * @param pioche
      * @param lg
-     * @return 
+     * @return retourne la position dans la pioche de la carte de plus grande valeur.
      */
     public static int positionMeilleurCartePioche(Carte[] pioche, int lg){
         Carte res = pioche[0];
@@ -207,7 +213,7 @@ public class IA_Util {
      * Retourne la taille de la pile la plus grande
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
      * @param lg nombre de piles de la pioche
-     * @return 
+     * @return la taille de la pille contenant le plus grand nobre de carte.
      */
     public static int plusGrossePile(int[] nbCartes, int lg){
         int i = 0;
@@ -225,7 +231,7 @@ public class IA_Util {
      * Retourne la taille de la pile la plus petite
      * @param nbCartes tableau avec le nombre de cartes dans chaque pile de la pioche
      * @param lg nombre de piles de la pioche
-     * @return 
+     * @return la taille de la plus petite pioche.
      */
     public static int plusPetitePile(int[] nbCartes, int lg){
         int i = 0;
@@ -603,7 +609,7 @@ public class IA_Util {
      * @param adverse
      * @param c
      * @param atout
-     * @return 
+     * @return l'heuristique de la carte c pour main contre adverse.
      */
     public static double heuristiqueExperte(PileCartes main,PileCartes adverse, Carte c, int atout){
         Iterator<Carte> it = adverse.iterateur();
@@ -649,7 +655,7 @@ public class IA_Util {
      * @param nbCartes
      * @param adverse
      * @param atout
-     * @return 
+     * @return vrai ssi il est interessant de gagner en jouant en premier dans la configuration actuelle.
      */
     public static boolean gagnerCommence(PileCartes[] piocheEntiere,int[] nbCartes, PileCartes adverse, int atout){
         int i = 0;
@@ -757,12 +763,14 @@ public class IA_Util {
      }
     return res; 
   }
+  
   /**
    * choixPile1carte.
    * Parmis les piles qui n'ont plus qu'une carte choisir la plus grande
      * @param piocheEntiere
    * @return Parmis les piles qui n'ont plus qu'une carte choisir la plus grande , null sinon 
    */
+  
   public static Carte choixPileDUnecarte(PileCartes[] piocheEntiere){
       Carte res = null;
       for(int i = 0; i<piocheEntiere.length; i++){
@@ -918,6 +926,14 @@ public class IA_Util {
         }
     }
     
+    /**
+     * 
+     * @param piocheEntiere
+     * @param main
+     * @param adverse
+     * @param atout
+     * @return la carte de plus faible heuristique contre la main.
+     */
     public static Carte plusFaibleHeuristique(PileCartes[] piocheEntiere, PileCartes main,PileCartes adverse, int atout){
         Carte res = null;
         double h = 1;
@@ -930,6 +946,12 @@ public class IA_Util {
         return res;
     }
     
+    /**
+     * 
+     * @param p
+     * @param couleur
+     * @return le nombre de carte de couleur "couleur" dans la pile p
+     */
     public static int nbCouleur(PileCartes p, int couleur){
         Iterator<Carte> it = p.iterateur();
         Carte tmp;
@@ -943,10 +965,24 @@ public class IA_Util {
         return res;
     }
     
+    /**
+     * 
+     * @param main
+     * @param adverse
+     * @param atout
+     * @return vrai ssi la main contient plus d'atout que la main adverse
+     */
     public static boolean avantageAtout(PileCartes main,PileCartes adverse,int atout){
         return (nbCouleur(main,atout)>nbCouleur(adverse,atout));
     }
     
+    /**
+     * 
+     * @param main
+     * @param adverse
+     * @param atout
+     * @return la carte de plus faible heuristique face au jeu adverse
+     */
     public static Carte plusPetitePerdante(PileCartes main,PileCartes adverse,int atout){
         Carte res = null;
         Iterator<Carte> it = main.iterateur();
@@ -958,6 +994,23 @@ public class IA_Util {
                 res = tmp;
                 h = heuristiqueExperte(main,adverse,tmp,atout);
             }
+        }
+        return res;
+    }
+    /**
+     * 
+     * @param main
+     * @param adverse
+     * @param c
+     * @return renvoie vrai si en piochant la carte c on est sur à 100% que l'on gagne le prochain pli.
+     */
+    public static boolean gagneProchainPli(PileCartes main, PileCartes adverse, Carte c, int atout){
+        boolean res = true;
+        Iterator<Carte> it = adverse.iterateur();
+        Carte tmp;
+        while(it.hasNext() && res){
+            tmp = it.next();
+            res = ((main.contient(tmp.couleur) && (main.minGagnant(tmp.couleur, tmp.valeur))!=null) || (!main.contient(tmp.couleur) && main.contient(atout)));
         }
         return res;
     }
