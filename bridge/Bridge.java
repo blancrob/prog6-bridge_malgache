@@ -1325,6 +1325,8 @@ public class Bridge extends Application {
             }
 
             if (!m.config.piochable()) {
+                carte_jouee = 0;
+                tour_pioche = 0;
                 init_main(j1main, J1);
                 if (m.config.mode == 2) {
                     for (int i = 0; i < 11; i++) {
@@ -1344,8 +1346,6 @@ public class Bridge extends Application {
                     temps = System.currentTimeMillis();
                     pause = 5;
                 } else {
-                    carte_jouee = 0;
-                    tour_pioche = 0;
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
@@ -2199,7 +2199,7 @@ public class Bridge extends Application {
                     }
                     
                     //Affichage Message transition CoupSecond Pioche Joueur Contre Joueur
-                    if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1){
+                    if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1 && m.config.piochable()){
                         if(messageActif==0){
                             if(m.config.gagnant==1){
                                 mt = new MessageTransition(2, m.j1.nom,largeur_scene);
@@ -2213,11 +2213,7 @@ public class Bridge extends Application {
                         if(!mt.isVisible()){
                             messagePioche=false;
                             carte_jouee = 0;
-                            if(m.config.piochable()){
-                                tour_pioche = 1;
-                            }else{
-                                tour_pioche = 0;
-                            }
+                            tour_pioche = 1;
                             messageActif=0;
                         }
                         
