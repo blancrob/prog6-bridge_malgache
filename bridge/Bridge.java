@@ -73,10 +73,10 @@ public class Bridge extends Application {
     public Label victorysetup = new Label("   Condition de victoire");
     public Label p1human = new Label("Humain");
     //public Label p1computer = new Label("Ordinateur");
-    public Label p2human = new Label("Humain");
-    public Label p2computer = new Label("Ordinateur");
-    public Label points = new Label("Points    ");
-    public Label rounds = new Label("Manches");
+    //public Label p2human = new Label("Humain");
+    //public Label p2computer = new Label("Ordinateur");
+    //public Label points = new Label("Points    ");
+    //public Label rounds = new Label("Manches");
     
     
 
@@ -303,10 +303,10 @@ public class Bridge extends Application {
             victorysetup.setStyle("-fx-text-fill: black");
             p1human.setStyle("-fx-text-fill: black");
             //p1computer.setStyle("-fx-text-fill: black");
-            p2human.setStyle("-fx-text-fill: black");
-            p2computer.setStyle("-fx-text-fill: black");
-            points.setStyle("-fx-text-fill: black");
-            rounds.setStyle("-fx-text-fill: black");
+            //p2human.setStyle("-fx-text-fill: black");
+            //p2computer.setStyle("-fx-text-fill: black");
+            //points.setStyle("-fx-text-fill: black");
+            //rounds.setStyle("-fx-text-fill: black");
             firstmenu.setTextFill(Color.BLACK);
             launchgame.setTextFill(Color.BLACK);
         } else {
@@ -319,10 +319,10 @@ public class Bridge extends Application {
             victorysetup.setStyle("-fx-text-fill: white");
             p1human.setStyle("-fx-text-fill: white");
             //p1computer.setStyle("-fx-text-fill: white");
-            p2human.setStyle("-fx-text-fill: white");
-            p2computer.setStyle("-fx-text-fill: white");
-            points.setStyle("-fx-text-fill: white");
-            rounds.setStyle("-fx-text-fill: white");
+            //p2human.setStyle("-fx-text-fill: white");
+            //p2computer.setStyle("-fx-text-fill: white");
+            //points.setStyle("-fx-text-fill: white");
+            //rounds.setStyle("-fx-text-fill: white");
             firstmenu.setTextFill(Color.WHITE);
             launchgame.setTextFill(Color.WHITE);
         }
@@ -354,11 +354,11 @@ public class Bridge extends Application {
         //box human
         HBox secondhuman = new HBox();
         secondhuman.setSpacing(10);
-        secondhuman.getChildren().addAll(cbhuman2, p2human);
+        secondhuman.getChildren().addAll(cbhuman2/*, p2human*/);
         //box niveau de l'ordinateur
         HBox computer2 = new HBox();
         computer2.setSpacing(10);
-        computer2.getChildren().addAll(cbcomputer2, p2computer, iaLevel2);
+        computer2.getChildren().addAll(cbcomputer2, /*p2computer,*/ iaLevel2);
         //box globale
         VBox player2 = new VBox();
         player2.setSpacing(30);
@@ -394,12 +394,12 @@ public class Bridge extends Application {
         HBox pointscond = new HBox();
         pointscond.setSpacing(20);
         nbpoints.setPromptText("nombre de points");
-        pointscond.getChildren().addAll(cbpoints, points, nbpoints);
+        pointscond.getChildren().addAll(cbpoints, /*points,*/ nbpoints);
         //Espace manches
         HBox roundscond = new HBox();
         roundscond.setSpacing(20);
         nbrounds.setPromptText("nombre de manches");
-        roundscond.getChildren().addAll(cbrounds, rounds, nbrounds);
+        roundscond.getChildren().addAll(cbrounds,/* rounds,*/ nbrounds);
 
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
@@ -412,10 +412,14 @@ public class Bridge extends Application {
         victorysetup.setFont(new Font(40));
         p1human.setFont(new Font(20));
         //p1computer.setFont(new Font(20));
-        p2human.setFont(new Font(20));
-        p2computer.setFont(new Font(20));
-        points.setFont(new Font(20));
-        rounds.setFont(new Font(20));
+        //p2human.setFont(new Font(20));
+        //p2computer.setFont(new Font(20));
+        //points.setFont(new Font(20));
+        //rounds.setFont(new Font(20));
+        cbhuman2.setFont(new Font(20));
+        cbcomputer2.setFont(new Font(20));
+        cbpoints.setFont(new Font(20));
+        cbrounds.setFont(new Font(20));
         
         advancedoptions.setMaxWidth(400);
                 
@@ -1325,6 +1329,8 @@ public class Bridge extends Application {
             }
 
             if (!m.config.piochable()) {
+                carte_jouee = 0;
+                tour_pioche = 0;
                 init_main(j1main, J1);
                 if (m.config.mode == 2) {
                     for (int i = 0; i < 11; i++) {
@@ -1344,8 +1350,6 @@ public class Bridge extends Application {
                     temps = System.currentTimeMillis();
                     pause = 5;
                 } else {
-                    carte_jouee = 0;
-                    tour_pioche = 0;
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
@@ -2199,7 +2203,7 @@ public class Bridge extends Application {
                     }
                     
                     //Affichage Message transition CoupSecond Pioche Joueur Contre Joueur
-                    if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1){
+                    if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1 && m.config.piochable()){
                         if(messageActif==0){
                             if(m.config.gagnant==1){
                                 mt = new MessageTransition(2, m.j1.nom,largeur_scene);
@@ -2213,11 +2217,7 @@ public class Bridge extends Application {
                         if(!mt.isVisible()){
                             messagePioche=false;
                             carte_jouee = 0;
-                            if(m.config.piochable()){
-                                tour_pioche = 1;
-                            }else{
-                                tour_pioche = 0;
-                            }
+                            tour_pioche = 1;
                             messageActif=0;
                         }
                         
