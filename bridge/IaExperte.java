@@ -95,7 +95,7 @@ public class IaExperte implements IA{
         
             }
             else{
-                res = IA_Util.plusPetitePerdante(main, adverse, atout);
+                res = IA_Util.plusPetitePerdante(main, adverse, atout); //jouer la carte de plus faible heuristique contre son jeu.
             }
         }    
         else{ // 2EME A JOUER
@@ -122,105 +122,56 @@ public class IaExperte implements IA{
             }
         }
         if(res == null){ //si pas d'atout 
+            Carte[] piocheDessus = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
+            for (int j=0; j<6; j++){
+                if(!piocheEntiere[j].vide()){
+                    piocheDessus[j]= piocheEntiere[j].pile.get(0); 
+                }
+            }
             int i = 0;
             double h = 0;
-            while (i<lg){ // pour chaque pile de la pioche 
-                /*if(gagnant){ // si on est gagnant donc 1er à piocher
-                    if(IA_Util.heuristiqueExperte(adverse,pioche[i], atout) >= h){ // Trouver la carte avec la meilleure heuristique 
-                        res = pioche[i];
-                        h = IA_Util.heuristiqueExperte(adverse,pioche[i], atout);
-                    }
-                }
-                else{ // Si on est le 2ème à piocher 
-                    if(IA_Util.heuristiqueExperte(adverse,pioche[i], atout) >= h){ // prendre la carte avec la meilleure heuristique 
-                        res = pioche[i];
-                        h = IA_Util.heuristiqueExperte(adverse,pioche[i], atout);
-                    }
-                }*/
-                if(IA_Util.heuristiqueExperte(main,adverse,pioche[i], atout) >= h){ // prendre la carte avec la meilleure heuristique 
-                    res = pioche[i];
-                    h = IA_Util.heuristiqueExperte(main,adverse,pioche[i], atout);
+            while (i<6){ 
+                if(piocheDessus[i]!= null && IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout) >= h){ // prendre la carte avec la meilleure heuristique 
+                    res = piocheDessus[i];
+                    h = IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout);
                     pos = i;
                 }
                 i++;
             }
-           /*if(gagnant){ //Si on est gagnant  */
-                if (h<0.4 || 
-                        (piocheDessous[pos] != null && (
-                        (main.minGagnant(piocheDessous[pos].couleur, piocheDessous[pos].valeur)==null) ||
-                        (!IA_Util.avantageAtout(main,adverse,atout) && piocheDessous[pos].couleur == atout)
-                        ))){ //mais que la pioche est pas très cool                             
-                    //Choisir une carte
-                    int j = 0;
-                    double heur = 1000000;
-                    Carte temp = null;
-                    while(j<piocheEntiere.length){
-                        if(piocheDessous[j]==null && pioche[j]!= null && (temp == null || (temp.valeur<pioche[j].valeur))){
-                           temp = pioche[j];
+            if (h<0.4 || 
+                (piocheDessous[pos] != null && (gagnant || !IA_Util.gagneProchainPli(main, adverse, piocheDessus[pos], atout)) && (
+                (main.minGagnant(piocheDessous[pos].couleur, piocheDessous[pos].valeur)==null) ||
+                (!IA_Util.avantageAtout(main,adverse,atout) && piocheDessous[pos].couleur == atout)
+                ))){ //si la carte n est pas interessante ou que la carte en dessous nous est trop defavorable et qu'on est dans une situation ou l'on doit faire attention à la carte en dessous
+                int j = 0;
+                double heur = 1000000;
+                Carte temp = null;
+                while(j<piocheEntiere.length){
+                    if(piocheDessous[j]==null && piocheDessus[j]!= null && (temp == null || (temp.valeur<piocheDessus[j].valeur))){
+                        //Si il y a une pioche avec une seule carte on la prend.
+                       temp = piocheDessus[j];
+                    }
+                    j++;
+                }
+                j=0;
+                if (temp == null){
+                    while(j<piocheEntiere.length){      
+                        if(piocheDessous[j] != null && IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout)<heur && piocheDessous[j].couleur != atout){
+                            //sinon on pioche la carte retournant la moins mauvaise contre nous.
+                            temp = piocheDessus[j];
+                            heur = IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout);
                         }
                         j++;
                     }
-                    j=0;
-                    if (temp == null){
-                        while(j<piocheEntiere.length){      
-                            if(piocheDessous[j] != null && IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout)<heur && piocheDessous[j].couleur != atout){
-                                temp = pioche[j];
-                                heur = IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout);
-                            }
-                            j++;
-                        }
-                    }
-                    if(temp != null){
-                        res = temp;
-                    }
+                }
+                if(temp != null){
+                    res = temp;
                 }
             }
+        }
         
         //}
         return res;            
     }
   
-    /**
-     * Pioche Experte. Connait la pioche
-     * 1ERE A PIOCHER
-     *  1)Choisir le plus grand atout : a. qui retourne une carte que l'on peut battre
-     *                                   b. qui retourne une carte que l'on peut pas battre
-     *  2)Trouver la plus grande carte : a. qui retourne une carte que l'on peut battre et la choisir 
-     *                                   b. qui retourne une carte que l'on ne peut pas battre (la garder en mémoire)
-     *  3)Si la carte gardée en mémoire a pas une heuristique géniale et si il y a une pioche avec 1 seule carte piocher cette carte,
-     *                                                                   sinon choisir carte gardée en mémoire 
-     *  
-     * 2EME A PIOCHER
-     * Si on est sûr de gagner le coup suivant quelque soit la couleur demandée par l'adversaire
-     *   1) Choisir le plus grand atout
-     *   2) trouver la carte de plus grosse heuristique
-     *             si elle est pas cool regarder en dessous et si une carte géniale en dessous piocher la carte qui va la découvrir 
-     * 
-     * Si on est pas sûr de gagner le coup suivant 
-     *   1) Choisir le plus grand atout : a. qui retourne une carte à faible heuristique 
-     *                                    b. qui retourne une carte à grande heuristique
-     *   2)Trouver la plus grande carte : a. qui retourne une carte à faible heuristique et la choisir 
-     *                                    b. qui retourne une carte à grande heuristique et la garder en mémoire 
-     *   3) si il y a une pioche avec 1 seule carte piocher cette carte,
-     *      sinon choisir carte gardée en mémoire 
-     * 
-     * @return la carte à piocher
-     */
-    public Carte piocherv2(){
-       Carte res = null;
-       if(gagnant){ //1ERE A PIOCHER
-           res = IA_Util.piocheCommenceExperte(atout,piocheEntiere,pioche,lg,main,adverse,nbCartes);
-       }
-       else{ //2EME A PIOCHER
-           res = IA_Util.piocherMeilleurAtout(piocheEntiere,main,adverse,atout);
-           if (res == null){
-               res = IA_Util.piocherMeilleurCarte(piocheEntiere,main,adverse,atout);
-           }if(res == null){
-               res = IA_Util.piocherAtoutPerdant(piocheEntiere,main,adverse,atout);
-           }if(res == null){
-               res = IA_Util.piocherCartePerdante(piocheEntiere,main,adverse,atout);
-           }
-       }
-       return res;
-    }
-}
+}    
