@@ -79,8 +79,8 @@ public class IaExperte implements IA{
         
         i=0;
         //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
-        while (i<piocheDessous.length && piocheDessous[i] != null){
-            if(IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+        while (i<piocheDessous.length){
+            if(piocheDessous[i] != null && IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
                 hCartesSousPioche = IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout);
             }
             i++;

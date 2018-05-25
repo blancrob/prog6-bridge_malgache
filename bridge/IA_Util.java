@@ -65,6 +65,13 @@ public class IA_Util {
         return res;
     }
     
+    /**
+     * 
+     * @param couleur
+     * @param pioche
+     * @param lg
+     * @return 
+     */
     public static int positionMeilleurCartePioche(int couleur, Carte[] pioche, int lg){
         Carte res = null;
         int j = 0;
@@ -85,6 +92,12 @@ public class IA_Util {
         return j;
     }
    
+    /**
+     * 
+     * @param pioche
+     * @param lg
+     * @return 
+     */
     public static int positionMeilleurCartePioche(Carte[] pioche, int lg){
         Carte res = pioche[0];
         int i;
@@ -407,7 +420,7 @@ public class IA_Util {
     public static Carte meilleurCoupTermineExperte(PileCartes main,PileCartes adverse, int atout, Carte courante,Carte[] pioche,int lg, int[] nbCartes, PileCartes[] piocheEntiere, int nbPlisIA, int nbPlisAdv){   
         Carte res;
          // On regarde à quoi ressemble la pioche
-         int i = 0;
+        int i = 0;
         double hCartesSurPioche = 0;
         while (i<lg){
             if(IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
@@ -426,14 +439,17 @@ public class IA_Util {
         
         i=0;
         //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
-        while (i<piocheDessous.length && piocheDessous[i] != null){
-            if(IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+        while (i<piocheDessous.length){
+            if(piocheDessous[i] != null && IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
                 hCartesSousPioche = IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout);
             }
             i++;
         }
         
-        if (!(ImtheBest(nbPlisIA,nbPlisAdv) && pioche[positionMeilleurCartePioche(pioche,lg)] != null && heuristiqueExperte(main,adverse,pioche[positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) && ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
+        if (!(ImtheBest(nbPlisIA,nbPlisAdv)) ||
+                ((hCartesSurPioche>0.4)||
+                ((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||
+                ((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
             if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
@@ -452,7 +468,10 @@ public class IA_Util {
             if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
                 res = main.min(courante.couleur); // jouer la plus petite carte de la couleur
             }else { //SI ON A PAS LA COULEUR DEMANDEE
-               res = main.min(); // jouer la plus petite carte de la main 
+                res = plusPetitePerdante(main,adverse,atout);
+                if (res == null){
+                    res = main.min(); // jouer la plus petite carte de la main 
+                }
             }
 
         }
@@ -583,7 +602,7 @@ public class IA_Util {
             h=h+10;
         }
         if(c.couleur == atout){
-            h=h+20;
+            h=h+200;
         }
         while(it.hasNext()){
             tmp = it.next();
