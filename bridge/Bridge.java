@@ -954,7 +954,7 @@ public class Bridge extends Application {
             main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
             main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
 
-            ImagePattern img = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+            ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
             main[i].dos.setFill(img);
             main[i].dos.setVisible(true);
             main[i].dos.toFront();
@@ -993,7 +993,7 @@ public class Bridge extends Application {
                 main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
                 main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
 
-                ImagePattern img = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
                 main[i].dos.setFill(img);
                 main[i].dos.setVisible(true);
                 main[i].dos.toFront();
@@ -1024,7 +1024,7 @@ public class Bridge extends Application {
                 ImagePattern img = new ImagePattern(new Image("images/" + carte));
                 main[i].face.setFill(img);
 
-                ImagePattern img2 = new ImagePattern(new Image("images/DOS_BLEU.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                ImagePattern img2 = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
                 main[i].dos.setFill(img2);
 
                 main[i].face.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
