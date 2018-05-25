@@ -140,6 +140,11 @@ public class Bridge extends Application {
         root.getChildren().add(bandeau);
         
         bandeau.restart.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
             nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
         });
         
