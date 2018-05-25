@@ -115,6 +115,7 @@ public class Bridge extends Application {
     
     public int messageActif = 0;
     MessageTransition mt=null;
+    public boolean messagePioche=false;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -1305,7 +1306,7 @@ public class Bridge extends Application {
             m.rangerPli();
 
             if (m.config.mode == 1) {
-
+                messagePioche=true;
                 pause = 2;
                 affichage_face_main(main, m.config.receveur);
                 temps = System.currentTimeMillis();
@@ -1337,14 +1338,14 @@ public class Bridge extends Application {
                     clean = 1;
                     affichage_dos_main(j2main, IA);
                 }
-                carte_jouee = 0;
-                tour_pioche = 0;
                 if (m.config.mode == 1) {
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
                     pause = 5;
                 } else {
+                    carte_jouee = 0;
+                    tour_pioche = 0;
                     J1_carte_jouee.face.setVisible(true);
                     J2_carte_jouee.face.setVisible(true);
                     temps = System.currentTimeMillis();
@@ -1968,7 +1969,7 @@ public class Bridge extends Application {
                         pause = 0;
                     }
 
-                    if (m.config.mode == 1 && pause == 2 && temps + 1000 < System.currentTimeMillis()) {
+                    if (m.config.mode == 1 && pause == 2 && temps + 1000 < System.currentTimeMillis() && carte_jouee == 0) {
                         bandeau.tourJ(m.config.gagnant);
                         if (m.config.receveur == J1) {
                             for (int i = 0; i < j1main.length; i++) {
@@ -2192,6 +2193,31 @@ public class Bridge extends Application {
                         
                         if(!mt.isVisible()){
                             carte_jouee=0;
+                            messageActif=0;
+                        }
+                        
+                    }
+                    
+                    //Affichage Message transition CoupSecond Pioche Joueur Contre Joueur
+                    if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1){
+                        if(messageActif==0){
+                            if(m.config.gagnant==1){
+                                mt = new MessageTransition(2, m.j1.nom,largeur_scene);
+                            }else{
+                                mt = new MessageTransition(2, m.j2.nom,largeur_scene);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            messagePioche=false;
+                            carte_jouee = 0;
+                            if(m.config.piochable()){
+                                tour_pioche = 1;
+                            }else{
+                                tour_pioche = 0;
+                            }
                             messageActif=0;
                         }
                         
