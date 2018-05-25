@@ -6,6 +6,12 @@
 package bridge;
 
 import static bridge.Carte.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -28,6 +34,39 @@ public class Moteur2 extends Moteur {
         config.mancheMax=mancheMax;
         config.scoreMax=scoreMax;
         config.mode=mode;
+    }
+    
+    /**
+     * Sauvegarder la configuration courante dans un fichier dont le nom est passé en paramètre
+     * @param nom nom du fichier de sauvegarde
+     * @throws IOException 
+     */
+    public void sauvegarder(String nom) throws IOException{
+        File fichier =  new File(nom) ;
+
+        ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
+       
+        oos.writeObject(copieEtat());
+    }
+    
+    /**
+     * Charger la configuration contenue dans un fichier dont le nom est passé en paramètre
+     * @param nom nom du fichier à charger
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    public void charger(String nom) throws IOException, ClassNotFoundException{
+        File fichier =  new File(nom) ;
+
+        // ouverture d'un flux sur un fichier
+       ObjectInputStream ois =  new ObjectInputStream(new FileInputStream(fichier)) ;
+
+        // désérialization de l'objet
+        EtatGlobal e = (EtatGlobal)ois.readObject();
+        
+       config = e.config;
+       j1 = e.j1;
+       j2 = e.j2;
     }
     
     /**
