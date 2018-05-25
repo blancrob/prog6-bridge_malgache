@@ -36,6 +36,10 @@ public class MessageTransition extends Parent {
         switch(choix){
             case 1:
                 message_joueur = new Text(nom+", prêt à jouer ?");
+                break;
+            case 2:
+                message_joueur = new Text(nom+", c'est à toi de piocher !");
+                break;
         }
         //message_joueur = new Text(nom+" Prêt?");
         message_joueur.setFont(new Font(50));
