@@ -1199,7 +1199,7 @@ public class Bridge extends Application {
                     }*/     
                 /*}*/
                 
-                dosPioche[j] = m.config.pioche[j].pile.get(0);
+                dosPioche[j] = m.config.pioche[j].pile.get(1);
                 
                 if(m.config.pioche[j].pile.size() > 1){
                     img = new ImagePattern(new Image("images/" + card));
@@ -1224,9 +1224,6 @@ public class Bridge extends Application {
                     //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
                 }
-                
-                
-                
             }
         }     
     }
@@ -1709,7 +1706,8 @@ public class Bridge extends Application {
                             }
                         }
                     }
-
+                    
+                    //Au tour de l'IA de jouer sa carte
                     if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && m.config.taille > 0 && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
                         bandeau.tourJ(IA);
                         carte_jouee = 1;
@@ -1750,7 +1748,8 @@ public class Bridge extends Application {
                         pause = 0;
                         temps = System.currentTimeMillis();
                     }
-
+                    
+                    //Si l'IA est le gagnant, il pioche une carte en 1er
                     if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(J1);
                         if (m.config.piochable()) {
@@ -1781,7 +1780,8 @@ public class Bridge extends Application {
                             tour_pioche = 2;
                         }
                     }
-
+                    
+                    //Si l'IA est le perdant, il pioche une carte en 1nd
                     if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && temps + 500 < System.currentTimeMillis()) { //Cas où c'est à l'ia de piocher A VOIR POUR IA CONTRE IA
                         bandeau.tourJ(IA);
                         if (m.config.piochable()) {
@@ -1829,7 +1829,8 @@ public class Bridge extends Application {
                             System.out.println();
                         }
                     }
-
+                    
+                    //On met à jour les plis et retire les cartes jouées en JcIA
                     if (m.config.mode == 2 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
                         bandeau.tourJ(m.config.gagnant);
                         J1_carte_jouee.face.setVisible(false);
@@ -1852,7 +1853,8 @@ public class Bridge extends Application {
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
-
+                    
+                    //On met à jour les plis et retire les cartes jouées en JcJ
                     if (m.config.mode == 1 && clean == 1 && temps2 + 1000 < System.currentTimeMillis()) {
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
@@ -1881,7 +1883,8 @@ public class Bridge extends Application {
                         pause = 0;
                         temps = System.currentTimeMillis();
                     }
-
+                    
+                    //On y rentre lorsque que c'est l'IA qui est receveur et qui a joué sa carte juste avant
                     if (m.config.mode == 2 && m.config.receveur == IA && m.config.carteP != null && m.config.carteS != null && temps + 1000 < System.currentTimeMillis()) {
                         System.out.println("Fin tour  - resultat !");
                         m.config.gagnantPli();
@@ -1946,6 +1949,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                     }
 
+                    //On rentre ici une fois que le donneur a joué sa carte et on tourne le plateau pour que le jeu du receveur soit en bas
                     if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis() && carte_jouee == 0) {
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
@@ -2011,7 +2015,8 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                     }
-
+                    
+                    //On rentre ici une fois que le receveur a joué sa carte et on tourne le plateau pour que le jeu du gagnant soit en bas
                     if (m.config.mode == 1 && pause == 2 && temps + 1000 < System.currentTimeMillis() && carte_jouee == 0) {
                         bandeau.tourJ(m.config.gagnant);
                         if (m.config.receveur == J1) {
@@ -2088,6 +2093,8 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                     }
+                    
+                    //On rentre ici une fois que le gagnant a pioché une carte dans l'une des pioches et on tourne le plateau pour que le jeu du perdant soit en bas
                     if (m.config.mode == 1 && pause == 3 && temps + 1000 < System.currentTimeMillis()) {
                         bandeau.tourJ(m.config.perdant);
                         if (m.config.gagnant == J1) {
@@ -2148,7 +2155,8 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                     }
-
+                    
+                    //On rentre ici une fois que le perdant a pioché une carte dans l'une des pioches et on tourne le plateau pour que le jeu du nouveau donneur soit en bas
                     if (m.config.mode == 1 && pause == 4 && temps + 1000 < System.currentTimeMillis()) {
                         if (m.config.donneur == J1) {
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
@@ -2261,7 +2269,8 @@ public class Bridge extends Application {
                         }
                         
                     }
-
+                    
+                    //On rentre ici quand les 2 joueurs ont joué une carte et que la pioche est vide, et on retourne le plateau pour que le gagnant soit en bas
                     if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
 
                         System.out.println("Entree");
