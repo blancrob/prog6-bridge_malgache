@@ -139,6 +139,10 @@ public class Bridge extends Application {
         root.setStyle("-fx-background-color:#274e13;");
         root.getChildren().add(bandeau);
         
+        bandeau.restart.setOnAction((ActionEvent event) -> {
+            nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
+        });
+        
         bandeau.save.setOnAction((ActionEvent event) -> {
             FileChooser fc = new FileChooser();
             fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
@@ -454,6 +458,12 @@ public class Bridge extends Application {
         });
         //bouton menu principal
         firstmenu.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
+            cbcomputer2.setSelected(false);
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
                 pane.setStyle("-fx-color : white; -fx-background-color: white;");

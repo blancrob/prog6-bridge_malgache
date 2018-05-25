@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import static java.lang.System.exit;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  *
@@ -105,7 +107,7 @@ public class MenuJeu extends Parent {
         restart.setTranslateX(largeur_scene/48);
         restart.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(restart);
-
+        
         rules = new Button("Regles");
         rules.setPrefWidth(largeur_scene/13.715);
         rules.setPrefHeight(hauteur_scene/12);
