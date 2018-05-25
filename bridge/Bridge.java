@@ -48,24 +48,24 @@ public class Bridge extends Application {
     public Button rules = new Button("Règles");
     public Button options = new Button("Options");
     public Button quit = new Button("<   Quitter");
-    public Button firstmenu = new Button("Menu Principal");
-    public Button launchgame = new Button("Lancer Partie");
+    public Button firstmenu = new Button("             Menu Principal             ");
+    public Button launchgame = new Button("               Lancer Partie               ");
     public Button advancedoptions = new Button("Options Avancées");
     public Button daynight = new Button("Jour/Nuit");
 
     //Les Textes
     public Label bridgechinois = new Label("Bridge Chinois");
     public Label bridgechinois2 = new Label("Bridge Chinois");
-    public Label configgame = new Label("  Configuration de la partie");
+    public Label configgame = new Label("Configuration de la partie");
     public Label choiceplayer = new Label("     Choix des joueurs");
     public Label player1title = new Label("Joueur 1");
     public Label player2title = new Label("Joueur 2");
-    public Label victorysetup = new Label("    Condition de victoire");
+    public Label victorysetup = new Label("   Condition de victoire");
     public Label p1human = new Label("Humain");
-    public Label p1computer = new Label("Ordinateur");
+    //public Label p1computer = new Label("Ordinateur");
     public Label p2human = new Label("Humain");
     public Label p2computer = new Label("Ordinateur");
-    public Label points = new Label("Points");
+    public Label points = new Label("Points    ");
     public Label rounds = new Label("Manches");
 
     //Les TextFields
@@ -99,7 +99,7 @@ public class Bridge extends Application {
     public String computer1final = ("");
     public String computer2final = ("");
 
-    public void fonctionmagique(Stage primaryStage) {
+    public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
         m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
         init_manche();
@@ -162,20 +162,20 @@ public class Bridge extends Application {
         scene = new Scene(pane, l_scene, h_scene);
 
         //Espace entre les cases du GridPane
-        pane.setHgap(75);
-        pane.setVgap(45);
+        pane.setHgap(125);
+        pane.setVgap(60);
 
         //Espace boutons Menu principal
         VBox menu1buttons = new VBox();
-        menu1buttons.setSpacing(60);
-        newgame.setMaxWidth(320.0);
-        loadgame.setMaxWidth(320.0);
-        rules.setMaxWidth(320.0);
-        options.setMaxWidth(320.0);
+        menu1buttons.setSpacing(90);
+        newgame.setMaxWidth(480.0);
+        loadgame.setMaxWidth(480.0);
+        rules.setMaxWidth(480.0);
+        options.setMaxWidth(480.0);
         menu1buttons.getChildren().addAll(newgame, loadgame, rules, options, daynight);
         pane.add(menu1buttons, 5, 3);
 
-        bridgechinois.setFont(new Font(50));
+        bridgechinois.setFont(new Font(75));
 
         pane.add(quit, 0, 0);
         pane.add(bridgechinois, 5, 1);
@@ -190,14 +190,14 @@ public class Bridge extends Application {
 
         daynight.setOnAction((ActionEvent event) -> {
             if (jour == 1) {
-                pane.setStyle("-fx-color : darkgrey; -fx-background-color: darkgrey;");
-                bridgechinois.setTextFill(Color.DARKGREEN);
-                quit.setStyle("-fx-text-fill: darkgreen");
-                newgame.setStyle("-fx-text-fill: darkgreen");
-                loadgame.setStyle("-fx-text-fill: darkgreen");
-                rules.setStyle("-fx-text-fill: darkgreen");
-                options.setStyle("-fx-text-fill: darkgreen");
-                daynight.setTextFill(Color.DARKGREEN);
+                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+                bridgechinois.setTextFill(Color.WHITE);
+                quit.setStyle("-fx-text-fill: white");
+                newgame.setStyle("-fx-text-fill: white");
+                loadgame.setStyle("-fx-text-fill: white");
+                rules.setStyle("-fx-text-fill: white");
+                options.setStyle("-fx-text-fill: white");
+                daynight.setTextFill(Color.WHITE);
                 jour = 0;
             } else {
                 pane.setStyle("-fx-color : white; -fx-background-color: white;");
@@ -249,7 +249,7 @@ public class Bridge extends Application {
             player2title.setStyle("-fx-text-fill: black");
             victorysetup.setStyle("-fx-text-fill: black");
             p1human.setStyle("-fx-text-fill: black");
-            p1computer.setStyle("-fx-text-fill: black");
+            //p1computer.setStyle("-fx-text-fill: black");
             p2human.setStyle("-fx-text-fill: black");
             p2computer.setStyle("-fx-text-fill: black");
             points.setStyle("-fx-text-fill: black");
@@ -257,26 +257,26 @@ public class Bridge extends Application {
             firstmenu.setTextFill(Color.BLACK);
             launchgame.setTextFill(Color.BLACK);
         } else {
-            pane.setStyle("-fx-background-color: darkgrey;");
-            bridgechinois2.setStyle("-fx-text-fill: darkgreen");
-            configgame.setStyle("-fx-text-fill: darkgreen");
-            choiceplayer.setStyle("-fx-text-fill: darkgreen");
-            player1title.setStyle("-fx-text-fill: darkgreen");
-            player2title.setStyle("-fx-text-fill: darkgreen");
-            victorysetup.setStyle("-fx-text-fill: darkgreen");
-            p1human.setStyle("-fx-text-fill: darkgreen");
-            p1computer.setStyle("-fx-text-fill: darkgreen");
-            p2human.setStyle("-fx-text-fill: darkgreen");
-            p2computer.setStyle("-fx-text-fill: darkgreen");
-            points.setStyle("-fx-text-fill: darkgreen");
-            rounds.setStyle("-fx-text-fill: darkgreen");
-            firstmenu.setTextFill(Color.DARKGREEN);
-            launchgame.setTextFill(Color.DARKGREEN);
+            pane.setStyle("-fx-color: black; -fx-background-color: #3b3f42;");
+            bridgechinois2.setStyle("-fx-text-fill: white");
+            configgame.setStyle("-fx-text-fill: white");
+            choiceplayer.setStyle("-fx-text-fill: white");
+            player1title.setStyle("-fx-text-fill: white");
+            player2title.setStyle("-fx-text-fill: white");
+            victorysetup.setStyle("-fx-text-fill: white");
+            p1human.setStyle("-fx-text-fill: white");
+            //p1computer.setStyle("-fx-text-fill: white");
+            p2human.setStyle("-fx-text-fill: white");
+            p2computer.setStyle("-fx-text-fill: white");
+            points.setStyle("-fx-text-fill: white");
+            rounds.setStyle("-fx-text-fill: white");
+            firstmenu.setTextFill(Color.WHITE);
+            launchgame.setTextFill(Color.WHITE);
         }
         //Espace entre les cases du GridPane
-        pane.setHgap(140);
-        pane.setVgap(70);
-
+        pane.setHgap(160);
+        pane.setVgap(80);
+        
         //Espace Joueur 1
         //Menu Deroulant
         if (combobox1set == 0) {
@@ -293,15 +293,15 @@ public class Bridge extends Application {
         }
         //box human
         HBox firsthuman = new HBox();
-        firsthuman.setSpacing(5);
+        firsthuman.setSpacing(10);
         firsthuman.getChildren().addAll(cbhuman1, p1human);
         //box niveau de l'ordinateur
         HBox computer1 = new HBox();
-        computer1.setSpacing(5);
-        computer1.getChildren().addAll(cbcomputer1, p1computer, iaLevel1);
+        //computer1.setSpacing(10);
+        //computer1.getChildren().addAll(cbcomputer1, /*p1computer,*/ iaLevel1);
         //box globale
         VBox player1 = new VBox();
-        player1.setSpacing(20);
+        player1.setSpacing(30);
         player1.getChildren().addAll(player1title, player1name, firsthuman, computer1);
         pane.add(player1, 1, 2);
 
@@ -321,20 +321,21 @@ public class Bridge extends Application {
         }
         //box human
         HBox secondhuman = new HBox();
-        secondhuman.setSpacing(5);
+        secondhuman.setSpacing(10);
         secondhuman.getChildren().addAll(cbhuman2, p2human);
         //box niveau de l'ordinateur
         HBox computer2 = new HBox();
-        computer2.setSpacing(5);
+        computer2.setSpacing(10);
         computer2.getChildren().addAll(cbcomputer2, p2computer, iaLevel2);
         //box globale
         VBox player2 = new VBox();
-        player2.setSpacing(20);
+        player2.setSpacing(30);
         player2.getChildren().addAll(player2title, player2name, secondhuman, computer2);
         pane.add(player2, 3, 2);
 
         //Espace Boutons du bas
         HBox botbutton = new HBox();
+        
         botbutton.getChildren().addAll(firstmenu, launchgame);
         pane.add(botbutton, 2, 4);
 
@@ -351,32 +352,38 @@ public class Bridge extends Application {
 
         //Espace victory setup
         VBox victorycond = new VBox();
-        victorycond.setSpacing(15);
+        victorycond.setSpacing(30);
         //Espace points
         HBox pointscond = new HBox();
-        pointscond.setSpacing(10);
+        pointscond.setSpacing(20);
         nbpoints.setPromptText("nombre de points");
         pointscond.getChildren().addAll(cbpoints, points, nbpoints);
         //Espace manches
         HBox roundscond = new HBox();
-        roundscond.setSpacing(10);
+        roundscond.setSpacing(20);
         nbrounds.setPromptText("nombre de manches");
         roundscond.getChildren().addAll(cbrounds, rounds, nbrounds);
 
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
 
-        bridgechinois2.setFont(new Font(38));
-        configgame.setFont(new Font(20));
-        choiceplayer.setFont(new Font(22));
-        player1title.setFont(new Font(20));
-        player2title.setFont(new Font(20));
-        victorysetup.setFont(new Font(20));
-        p1human.setFont(new Font(15));
-        p1computer.setFont(new Font(15));
-
-        player1name.setPrefColumnCount(15);
-        player2name.setPrefColumnCount(15);
+        bridgechinois2.setFont(new Font(70));
+        configgame.setFont(new Font(40));
+        choiceplayer.setFont(new Font(40));
+        player1title.setFont(new Font(40));
+        player2title.setFont(new Font(40));
+        victorysetup.setFont(new Font(40));
+        p1human.setFont(new Font(20));
+        //p1computer.setFont(new Font(20));
+        p2human.setFont(new Font(20));
+        p2computer.setFont(new Font(20));
+        points.setFont(new Font(20));
+        rounds.setFont(new Font(20));
+        
+        advancedoptions.setMaxWidth(400);
+                
+        player1name.setPrefColumnCount(25);
+        player2name.setPrefColumnCount(25);
         player1name.setPromptText("Entrer votre nom.");
         player2name.setPromptText("Entrer votre nom.");
 
@@ -392,19 +399,51 @@ public class Bridge extends Application {
         cbcomputer1.setOnAction((ActionEvent event) -> {
             cbhuman1.setSelected(false);
         });
+        iaLevel1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(iaLevel1.getSelectionModel().getSelectedItem() != ""){
+                    cbhuman1.setSelected(false);
+                    cbcomputer1.setSelected(true);
+                }
+            }
+        });
         //checkbox ordi 2
         cbcomputer2.setOnAction((ActionEvent event) -> {
             cbhuman2.setSelected(false);
+        });
+        iaLevel2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(iaLevel2.getSelectionModel().getSelectedItem() != ""){
+                    cbhuman2.setSelected(false);
+                    cbcomputer2.setSelected(true);
+                }
+            }
         });
         //checkbox points
         cbpoints.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
             nbrounds.setText("");
         });
+        nbpoints.setOnAction((ActionEvent event) -> {
+            if(!"".equals(nbpoints.getText())){
+                cbrounds.setSelected(false);
+                cbpoints.setSelected(true);
+                nbrounds.setText("");
+            }
+        });
         //checkbox manches
         cbrounds.setOnAction((ActionEvent event) -> {
             cbpoints.setSelected(false);
             nbpoints.setText("");
+        });
+        nbrounds.setOnAction((ActionEvent event) -> {
+            if(!"".equals(nbrounds.getText())){
+                cbpoints.setSelected(false);
+                cbrounds.setSelected(true);
+                nbpoints.setText("");
+            }
         });
         //bouton menu principal
         firstmenu.setOnAction((ActionEvent event) -> {
@@ -412,7 +451,7 @@ public class Bridge extends Application {
             if (jour == 1) {
                 pane.setStyle("-fx-color : white; -fx-background-color: white;");
             } else {
-                pane.setStyle("-fx-color : darkgrey; -fx-background-color: darkgrey;");
+                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
             }
         });
         //bouton lancer partie
@@ -506,7 +545,7 @@ public class Bridge extends Application {
             if ((cbhuman1.isSelected() || cbcomputer1.isSelected()) && (cbhuman2.isSelected() || cbcomputer2.isSelected()) && (cbpoints.isSelected() || cbrounds.isSelected())
                     && (cbcomputer1.isSelected() || cbhuman1.isSelected())
                     && (cbcomputer2.isSelected() || cbhuman2.isSelected())) {
-                fonctionmagique(primaryStage);
+                transitionMenuJeu(primaryStage);
             }
         });
         primaryStage.setScene(scene);
