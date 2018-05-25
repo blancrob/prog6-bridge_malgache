@@ -112,6 +112,9 @@ public class Bridge extends Application {
 
     public String computer1final = ("");
     public String computer2final = ("");
+    
+    public int messageActif = 0;
+    MessageTransition mt=null;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -1231,8 +1234,9 @@ public class Bridge extends Application {
                 bandeau.tourJ(J1);
                 affichage_face_main(j1main, J1);
             }
+            carte_jouee = 0;
         }
-        carte_jouee = 0;
+        //carte_jouee = 0;      Enlevé pour le gérer dans les messages en joueur contre joueur
     }
 
     public void carte_select_S(Carte[] main, int k) {
@@ -1898,7 +1902,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                     }
 
-                    if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis()) {
+                    if (m.config.mode == 1 && pause == 1 && temps + 1000 < System.currentTimeMillis() && carte_jouee == 0) {
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
@@ -2172,6 +2176,25 @@ public class Bridge extends Application {
                             affichage_face_main(j2main, J2);
                         }
                         pause = 0;
+                    }
+                    
+                    //Affichage Message transition CoupPremier CoupSecond Joueur Contre Joueur
+                    if(m.config.mode == 1 && m.config.carteP!=null && carte_jouee == 1){
+                        if(messageActif==0){
+                            if(m.config.receveur==1){
+                                mt = new MessageTransition(1, m.j1.nom,largeur_scene);
+                            }else{
+                                mt = new MessageTransition(1, m.j2.nom,largeur_scene);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            carte_jouee=0;
+                            messageActif=0;
+                        }
+                        
                     }
 
                     if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {

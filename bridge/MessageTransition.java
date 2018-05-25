@@ -24,24 +24,24 @@ public class MessageTransition extends Parent {
     Rectangle fond_message;
     Text message_joueur;
     
-    int posX = 632;
-    int posY = 455;
+    int posX = 0;
+    int posY = 700;
     
-    public MessageTransition(int choix, String nom){
-        fond_message = new Rectangle(500,500,Color.GREY);
+    public MessageTransition(int choix, String nom, double largeur){
+        fond_message = new Rectangle(largeur,300,Color.GREY);
         fond_message.setArcHeight(15);
-        fond_message.setArcWidth(15);
+        fond_message.setArcWidth(25);
         this.getChildren().add(fond_message);
         
         switch(choix){
             case 1:
-                message_joueur = new Text(nom+" Prêt?");
+                message_joueur = new Text(nom+", prêt à jouer ?");
         }
         //message_joueur = new Text(nom+" Prêt?");
         message_joueur.setFont(new Font(50));
         message_joueur.setFill(Color.LIGHTGREY);
-        message_joueur.setX(250);
-        message_joueur.setY(250);
+        message_joueur.setX(largeur/2.5);
+        message_joueur.setY(fond_message.getHeight()-135);
         this.getChildren().add(message_joueur);
         
         this.setTranslateX(posX);
