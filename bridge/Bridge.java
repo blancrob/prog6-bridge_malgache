@@ -116,6 +116,7 @@ public class Bridge extends Application {
     public int messageActif = 0;
     MessageTransition mt=null;
     public boolean messagePioche=false;
+    public boolean finTour=false;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -1581,10 +1582,14 @@ public class Bridge extends Application {
                         //maj_handler_pile();
                         temps = System.currentTimeMillis();
                         clean = 1;
+                        carte_jouee = 0;
+                        tour_pioche = 0;
                     } else if (m.config.mode == 1) {
                         bandeau.tourJ(m.config.receveur);
                         temps = System.currentTimeMillis();
-                        pause = 4;
+                        messagePioche = true;
+                        finTour=true;
+                        /*pause = 4;
 
                         if (m.config.perdant == J1) {
                             init_main(j1main, J1);
@@ -1592,13 +1597,13 @@ public class Bridge extends Application {
                         } else {
                             init_main(j2main, J2);
                             affichage_face_main(j2main, J2);
-                        }
+                        }*/
 
                         temps2 = System.currentTimeMillis();
                         clean = 1;
                     }
-                    carte_jouee = 0;
-                    tour_pioche = 0;
+                    //carte_jouee = 0;
+                    //tour_pioche = 0;
                     if (m.config.mode == 2 && m.config.gagnant == IA) {
                         temps = System.currentTimeMillis();
                     }
@@ -2272,6 +2277,35 @@ public class Bridge extends Application {
                             messageActif=0;
                         }
                         
+                    }
+                    
+                    //Affichage Message transition FinManche Début Autre Manche Joueur Contre Joueur
+                    if(m.config.mode == 1 && messagePioche==true && finTour==true){
+                        if(messageActif==0){
+                            if(m.config.donneur==1){
+                                mt = new MessageTransition(1, m.j1.nom,largeur_scene);
+                            }else{
+                                mt = new MessageTransition(1, m.j2.nom,largeur_scene);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            messagePioche=false;
+                            pause = 4;
+                            if (m.config.perdant == J1) {
+                                init_main(j1main, J1);
+                                affichage_face_main(j1main, J1);
+                            } else {
+                                init_main(j2main, J2);
+                                affichage_face_main(j2main, J2);
+                            }
+                            finTour=false;
+                            carte_jouee = 0;
+                            tour_pioche = 0;
+                            messageActif=0;
+                        }
                     }
                     
                     //On rentre ici quand les 2 joueurs ont joué une carte et que la pioche est vide, et on retourne le plateau pour que le gagnant soit en bas
