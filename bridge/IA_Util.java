@@ -410,8 +410,8 @@ public class IA_Util {
          int i = 0;
         double hCartesSurPioche = 0;
         while (i<lg){
-            if(IA_Util.heuristiqueExperte(adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
-                hCartesSurPioche = IA_Util.heuristiqueExperte(adverse,pioche[i],atout);
+            if(IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSurPioche = IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout);
             }
             i++;
         }
@@ -427,13 +427,13 @@ public class IA_Util {
         i=0;
         //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
         while (i<piocheDessous.length && piocheDessous[i] != null){
-            if(IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
-                hCartesSousPioche = IA_Util.heuristiqueExperte(adverse,piocheDessous[i],atout);
+            if(IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSousPioche = IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout);
             }
             i++;
         }
         
-        if (!(ImtheBest(nbPlisIA,nbPlisAdv) && pioche[positionMeilleurCartePioche(pioche,lg)] != null && heuristiqueExperte(adverse,pioche[positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) && ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
+        if (!(ImtheBest(nbPlisIA,nbPlisAdv) && pioche[positionMeilleurCartePioche(pioche,lg)] != null && heuristiqueExperte(main,adverse,pioche[positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) && ((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))||((hCartesSurPioche<0.4)&&(plusPetitePile(nbCartes, lg)==1)))){ //Si pioche cool || pioche nulle et que toutes les cartes juste en dessous sont aussi nulles || pioche nulle et un des tas de la pioche a une seule carte          
             if (IA_Util.fournir(courante.couleur, main)){ //SI ON A LA COULEUR DEMANDEE 
                 res = main.minGagnant(courante.couleur,courante.valeur); // si on peut gagner on prend la plus petite carte gagnante
                 if (res == null){ // si on ne peut pas gagner le pli 
@@ -574,7 +574,7 @@ public class IA_Util {
      * @param atout
      * @return 
      */
-    public static double heuristiqueExperte(PileCartes adverse, Carte c, int atout){
+    public static double heuristiqueExperte(PileCartes main,PileCartes adverse, Carte c, int atout){
         Iterator<Carte> it = adverse.iterateur();
         Carte tmp;
         double h = 0;
@@ -590,11 +590,10 @@ public class IA_Util {
             i++;
             if(c.couleur != atout){
                 if(adverse.contient(c.couleur)){
-                    if(tmp.couleur == c.couleur && tmp.valeur < c.valeur){}
-                         h++;
+                    if(tmp.couleur == c.couleur && tmp.valeur < c.valeur){h++;}
                 }
                 else{
-                    if(adverse.contient(atout)){
+                    if(adverse.contient(atout) && !avantageAtout(main,adverse,atout) && c.valeur<10){
                         h=0;
                     }
                     else{
@@ -720,7 +719,7 @@ public class IA_Util {
      
      if (res == null){ // Sinon trouver la plus grande carte 
         res = choisirMeilleureCartePioche(pioche, lg);
-        double h = heuristiqueExperte(adverse,res,atout);
+        double h = heuristiqueExperte(main,adverse,res,atout);
         if (h<0.4 && plusPetitePile(nbCartes,lg)==1){//Si la carte a pas une heuristique géniale et si il y a une pioche avec 1 seule carte piocher cette carte
             res = choixPileDUnecarte(piocheEntiere); 
         } 
@@ -826,7 +825,7 @@ public class IA_Util {
      * @param atout la valeur de l'atout
      * @return le meilleur atout qui ne retourne pas de carte trop forte contre notre jeu si existe, le plus gros atout sinon.
      */
-    public static Carte piocherAtoutPerdant(PileCartes[] piocheEntiere, PileCartes main,int atout){
+    public static Carte piocherAtoutPerdant(PileCartes[] piocheEntiere, PileCartes main,PileCartes adverse,int atout){
         Carte res = null;
         Carte enDessousDeRes = null;
         Carte plusGrandAtout = null;
@@ -839,7 +838,7 @@ public class IA_Util {
                     plusGrandAtout = piocheEntiere[i].pile.get(0);
                     PileCartes clone = main.clone();
                     clone.ajouter(piocheEntiere[i].pile.get(0));
-                    if(heuristiqueExperte(clone,piocheEntiere[i].pile.get(1),atout)<0.4){
+                    if(heuristiqueExperte(adverse,clone,piocheEntiere[i].pile.get(1),atout)<0.4){
                         res = plusGrandAtout;
                     }
                 }
@@ -871,7 +870,7 @@ public class IA_Util {
                 else{
                     if(res == null || res.valeur < piocheEntiere[i].pile.get(0).valeur){
                         meilleurCarte = piocheEntiere[i].pile.get(0);
-                        if(heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout)<0.4){
+                        if(heuristiqueExperte(adverse,main,piocheEntiere[i].pile.get(1),atout)<0.4){
                             res = meilleurCarte;
                         }
                     }
@@ -881,20 +880,52 @@ public class IA_Util {
         if (res == null){
             res = meilleurCarte;
         }
-        if(heuristiqueExperte(adverse,res,atout)>0.4){
+        if(heuristiqueExperte(main,adverse,res,atout)>0.4){
             return res;
         }else{
-            return plusFaibleHeuristique(piocheEntiere,main,atout);
+            return plusFaibleHeuristique(piocheEntiere,main,adverse,atout);
         }
     }
     
-    public static Carte plusFaibleHeuristique(PileCartes[] piocheEntiere, PileCartes main, int atout){
+    public static Carte plusFaibleHeuristique(PileCartes[] piocheEntiere, PileCartes main,PileCartes adverse, int atout){
         Carte res = null;
         double h = 1;
         for(int i = 0; i < piocheEntiere.length ; i++){
-            if(piocheEntiere[i].taille()>1 && (res == null || heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout) < h )){
-                h = heuristiqueExperte(main,piocheEntiere[i].pile.get(1),atout);
+            if(piocheEntiere[i].taille()>1 && (res == null || heuristiqueExperte(adverse,main,piocheEntiere[i].pile.get(1),atout) < h )){
+                h = heuristiqueExperte(adverse,main,piocheEntiere[i].pile.get(1),atout);
                 res = piocheEntiere[i].premiere();
+            }
+        }
+        return res;
+    }
+    
+    public static int nbCouleur(PileCartes p, int couleur){
+        Iterator<Carte> it = p.iterateur();
+        Carte tmp;
+        int res = 0;
+        while(it.hasNext()){
+            tmp=it.next();
+            if(tmp.couleur==couleur){
+                res++;
+            }
+        }
+        return res;
+    }
+    
+    public static boolean avantageAtout(PileCartes main,PileCartes adverse,int atout){
+        return (nbCouleur(main,atout)>nbCouleur(adverse,atout));
+    }
+    
+    public static Carte plusPetitePerdante(PileCartes main,PileCartes adverse,int atout){
+        Carte res = null;
+        Iterator<Carte> it = main.iterateur();
+        Carte tmp;
+        double h = 10000;
+        while(it.hasNext()){
+            tmp = it.next();
+            if(heuristiqueExperte(main,adverse,tmp,atout)<h && (res == null || (res.valeur<tmp.valeur))){
+                res = tmp;
+                h = heuristiqueExperte(main,adverse,tmp,atout);
             }
         }
         return res;
