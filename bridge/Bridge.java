@@ -1589,6 +1589,7 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                         messagePioche = true;
                         finTour=true;
+                        //Déplacé dans AnimationTimer
                         /*pause = 4;
 
                         if (m.config.perdant == J1) {
@@ -1623,7 +1624,8 @@ public class Bridge extends Application {
 
                     }
                     if (m.config.mode == 1) {
-                        if (m.config.gagnant == J1) {
+                        //Déplacé dans AnimationTimer
+                        /*if (m.config.gagnant == J1) {
                             bandeau.tourJ(J1);
                             init_main(j1main, J1);
                             affichage_face_main(j1main, J1);
@@ -1631,10 +1633,12 @@ public class Bridge extends Application {
                             bandeau.tourJ(J2);
                             init_main(j2main, J2);
                             affichage_face_main(j2main, J2);
-                        }
+                        }*/
+                        pause=-1;
+                        messagePioche=true;
                         temps = System.currentTimeMillis();
-                        pause = 3;
-                        tour_pioche = 2;
+                        //pause = 3;
+                        //tour_pioche = 2;
                     } else if (m.config.mode == 2) {
                         if (m.config.gagnant == J1) {
                             /*bandeau.tourJ(IA);
@@ -2277,6 +2281,36 @@ public class Bridge extends Application {
                             messageActif=0;
                         }
                         
+                    }
+                    
+                    //Affichage Message transition PremierePioche DeuxiemePioche Joueur Contre Joueur
+                    if(m.config.mode == 1 && messagePioche==true && tour_pioche==1){
+                        if(messageActif==0){
+                            if(m.config.perdant==1){
+                                mt = new MessageTransition(2, m.j1.nom,largeur_scene);
+                            }else{
+                                mt = new MessageTransition(2, m.j2.nom,largeur_scene);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            messagePioche=false;
+                            if (m.config.gagnant == J1) {
+                                bandeau.tourJ(J1);
+                                init_main(j1main, J1);
+                                affichage_face_main(j1main, J1);
+                            } else {
+                                bandeau.tourJ(J2);
+                                init_main(j2main, J2);
+                                affichage_face_main(j2main, J2);
+                            }
+                            pause = 3;
+                            tour_pioche = 2;
+                            finTour=false;
+                            messageActif=0;
+                        }
                     }
                     
                     //Affichage Message transition FinManche Début Autre Manche Joueur Contre Joueur
