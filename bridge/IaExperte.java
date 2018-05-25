@@ -64,8 +64,8 @@ public class IaExperte implements IA{
          int i = 0;
         double hCartesSurPioche = 0;
         while (i<lg){
-            if(IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
-                hCartesSurPioche = IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout);
+            if(IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout,cartesDejaJouees) > hCartesSurPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSurPioche = IA_Util.heuristiqueExperte(main,adverse,pioche[i],atout,cartesDejaJouees);
             }
             i++;
         }
@@ -80,14 +80,14 @@ public class IaExperte implements IA{
         i=0;
         //On regarde à quoi ressemble les cartes juste en dessous dans les tas de la pioche 
         while (i<piocheDessous.length){
-            if(piocheDessous[i] != null && IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
-                hCartesSousPioche = IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout);
+            if(piocheDessous[i] != null && IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout,cartesDejaJouees) > hCartesSousPioche){ // trouver la carte avec la meilleure heuristique 
+                hCartesSousPioche = IA_Util.heuristiqueExperte(main,adverse,piocheDessous[i],atout,cartesDejaJouees);
             }
             i++;
         }
         
         if(courante == null){ // 1ERE A JOUER
-            if (!(IA_Util.ImtheBest(plisIA,plisAdv,condVic) && pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)] != null && IA_Util.heuristiqueExperte(main,adverse,pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)],atout)>hCartesSurPioche) &&((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
+            if (!(IA_Util.ImtheBest(plisIA,plisAdv,condVic) && pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)] != null && IA_Util.heuristiqueExperte(main,adverse,pioche[IA_Util.positionMeilleurCartePioche(pioche,lg)],atout,cartesDejaJouees)>hCartesSurPioche) &&((hCartesSurPioche>0.4)||((hCartesSurPioche<0.4)&& (hCartesSousPioche<0.4))|| //Si pioche cool ou pioche nulle et que toutes les cartes juste en dessous sont aussi nulles 
                ((hCartesSurPioche<0.4)&&(IA_Util.plusPetitePile(nbCartes, lg)==1)) || // ou pioche nulle et un des tas de la pioche a une seule carte
                     ((hCartesSurPioche>0.4)|| IA_Util.gagnerCommence(piocheEntiere, nbCartes, adverse, atout) || (IA_Util.plusPetitePile(nbCartes, lg) == 1)))){ // Si pioche cool || interessant de gagner (voir gagnerCommence) ||un tas de la pioche à une carte 
                     
@@ -95,11 +95,11 @@ public class IaExperte implements IA{
         
             }
             else{
-                res = IA_Util.plusPetitePerdante(main, adverse, atout); //jouer la carte de plus faible heuristique contre son jeu.
+                res = IA_Util.plusPetitePerdante(main, adverse, atout,cartesDejaJouees); //jouer la carte de plus faible heuristique contre son jeu.
             }
         }    
         else{ // 2EME A JOUER
-            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere,plisIA,plisAdv,condVic);
+            res = IA_Util.meilleurCoupTermineExperte(main,adverse, atout, courante,pioche,lg, nbCartes, piocheEntiere,plisIA,plisAdv,condVic,cartesDejaJouees);
         }
         return res;
     }
@@ -131,18 +131,26 @@ public class IaExperte implements IA{
             int i = 0;
             double h = 0;
             while (i<6){ 
-                if(piocheDessus[i]!= null && IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout) >= h){ // prendre la carte avec la meilleure heuristique 
+                if(piocheDessus[i]!= null && IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout, cartesDejaJouees) >= h){ // prendre la carte avec la meilleure heuristique 
                     res = piocheDessus[i];
-                    h = IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout);
+                    h = IA_Util.heuristiqueExperte(main,adverse,piocheDessus[i], atout,cartesDejaJouees);
                     pos = i;
                 }
                 i++;
             }
-            if (h<0.4 || 
-                (piocheDessous[pos] != null && (gagnant || !IA_Util.gagneProchainPli(main, adverse, piocheDessus[pos], atout)) && (
+            if (h<0.4 ||    
+                (piocheDessous[pos] != null && 
+                (gagnant || !IA_Util.gagneProchainPli(main, adverse, piocheDessus[pos], atout)) && 
+                ((IA_Util.carteMaitre(piocheDessous[pos], cartesDejaJouees) && !IA_Util.carteMaitre(piocheDessus[pos], cartesDejaJouees)) ||
                 (main.minGagnant(piocheDessous[pos].couleur, piocheDessous[pos].valeur)==null) ||
                 (!IA_Util.avantageAtout(main,adverse,atout) && piocheDessous[pos].couleur == atout)
-                ))){ //si la carte n est pas interessante ou que la carte en dessous nous est trop defavorable et qu'on est dans une situation ou l'on doit faire attention à la carte en dessous
+                ))){ 
+                /*si la carte n'est pas interessant || on est dans une situation ou l'on doit faire attention à la carte qu'on retourne et que
+                             *on retourne une carte que l'on ne peut pas gagner.
+                             *ou on retourne un atout alors qu'on a pas plus d'atout que lui
+                             *ou on retourne une carte maitre dans une couleur sans en prendre une maitre nous même.
+                on cherche s'il n'y a pas une meilleur situation de pioche
+                        */
                 int j = 0;
                 double heur = 1000000;
                 Carte temp = null;
@@ -156,10 +164,10 @@ public class IaExperte implements IA{
                 j=0;
                 if (temp == null){
                     while(j<piocheEntiere.length){      
-                        if(piocheDessous[j] != null && IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout)<heur && piocheDessous[j].couleur != atout){
+                        if(piocheDessous[j] != null && IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout,cartesDejaJouees)<heur && piocheDessous[j].couleur != atout){
                             //sinon on pioche la carte retournant la moins mauvaise contre nous.
                             temp = piocheDessus[j];
-                            heur = IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout);
+                            heur = IA_Util.heuristiqueExperte(adverse,main, piocheDessous[j], atout,cartesDejaJouees);
                         }
                         j++;
                     }
