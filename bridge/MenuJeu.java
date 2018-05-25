@@ -65,7 +65,7 @@ public class MenuJeu extends Parent {
     
     public MenuJeu(Moteur m) {
              
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("270404"));//gris foncé : 4b4c4e Violet : 343638 bleu fonce :040447
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));//gris foncé : 4b4c4e autre gris : 343638 bleu fonce :040447 violet : 4c1130
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
@@ -129,7 +129,7 @@ public class MenuJeu extends Parent {
         mancheAtout.setStrokeWidth(2);
         this.getChildren().add(mancheAtout);
         
-        manche = new Label("Manche 1");
+        manche = new Label("Manche "+m.config.manche);
         manche.setFont(new Font("Arial",25));
         manche.setTextFill(Color.WHITE);
         manche.setTranslateX(largeur_scene/35);
@@ -188,7 +188,11 @@ public class MenuJeu extends Parent {
         condition_victoire.setStyle("-fx-alignment: center;");
         this.getChildren().add(condition_victoire);
         
-        joueur2 = new Label("Joueur 2              0");
+        if(m.config.conditionVictoire==1)
+            joueur2 = new Label(m.j2.nom+"\t\t\t"+m.j2.manchesGagnees);
+        else
+            joueur2 = new Label(m.j2.nom+"\t\t\t"+m.j2.scoreTotal);
+
         joueur2.setFont(new Font("Arial",22));
         joueur2.setTextFill(Color.WHITE);
         joueur2.setPrefWidth(largeur_scene/6.4);
@@ -198,7 +202,11 @@ public class MenuJeu extends Parent {
         joueur2.setStyle("-fx-alignment: center;");
         this.getChildren().add(joueur2);
         
-        joueur1 = new Label("Joueur 1              0");
+        if(m.config.conditionVictoire==1)
+            joueur1 = new Label(m.j1.nom+"\t\t\t"+m.j1.manchesGagnees);
+        else
+            joueur1 = new Label(m.j1.nom+"\t\t\t"+m.j1.scoreTotal);
+        
         joueur1.setFont(new Font("Arial",22));
         joueur1.setTextFill(Color.WHITE);
         joueur1.setPrefWidth(largeur_scene/6.4);

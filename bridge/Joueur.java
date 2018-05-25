@@ -47,20 +47,20 @@ public class Joueur implements Serializable{
         it = main.iterateur();
         lg = 0;
         
-        while(it.hasNext()){
-            c = it.next();
-            if(fournir){
-                if(c.couleur==couleur){
-                    res[lg]=c;
-                    lg++;
+        if(fournir){
+            while(it.hasNext()){
+                c = it.next();
+                if(fournir){
+                    if(c.couleur==couleur){
+                        res[lg]=c;
+                        lg++;
+                    }
                 }
-            }else{
-                res[lg]=c;
-                lg++;
             }
+            return res;
+        }else{
+            return null;
         }
-        
-        return res;
     }
     
     public void ajouterScore(){

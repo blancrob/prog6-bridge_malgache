@@ -114,42 +114,66 @@ public class IaExperte implements IA{
     @Override
      public Carte piocher(){
         Carte res = IA_Util.choisirMeilleureCartePioche(atout, pioche, lg); // Choisir le meilleur atout de la pioche 
+        int pos = 0;
+        Carte[] piocheDessous = new Carte[6]; // tableau des cartes placées en 2eme dans chaque tas de la pioche
+        for (int j=0; j<6; j++){
+            if(piocheEntiere[j].taille() > 1){
+                piocheDessous[j]= piocheEntiere[j].pile.get(1); 
+            }
+        }
         if(res == null){ //si pas d'atout 
             int i = 0;
             double h = 0;
             while (i<lg){ // pour chaque pile de la pioche 
-                if(gagnant){ // si on est gagnant donc 1er à piocher
-                    if(IA_Util.heuristiqueCommence(pioche[i], atout, main, cartesDejaJouees, pioche, lg) >= h){ // Trouver la carte avec la meilleure heuristique 
+                /*if(gagnant){ // si on est gagnant donc 1er à piocher
+                    if(IA_Util.heuristiqueExperte(adverse,pioche[i], atout) >= h){ // Trouver la carte avec la meilleure heuristique 
                         res = pioche[i];
-                        h = IA_Util.heuristiqueCommence(pioche[i], atout, main, cartesDejaJouees, pioche, lg);
+                        h = IA_Util.heuristiqueExperte(adverse,pioche[i], atout);
                     }
                 }
                 else{ // Si on est le 2ème à piocher 
-                    if(IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg) >= h){ // prendre la carte avec la meilleure heuristique 
+                    if(IA_Util.heuristiqueExperte(adverse,pioche[i], atout) >= h){ // prendre la carte avec la meilleure heuristique 
                         res = pioche[i];
-                        h = IA_Util.heuristiqueTermine(pioche[i], atout, main, cartesDejaJouees, pioche, lg);
+                        h = IA_Util.heuristiqueExperte(adverse,pioche[i], atout);
                     }
+                }*/
+                if(IA_Util.heuristiqueExperte(adverse,pioche[i], atout) > h){ // prendre la carte avec la meilleure heuristique 
+                    res = pioche[i];
+                    h = IA_Util.heuristiqueExperte(adverse,pioche[i], atout);
+                    pos = i;
                 }
                 i++;
             }
-            if(gagnant){ //Si on est gagnant  
-                if (h<0.4){ //mais que la pioche est pas très cool                             
+           /*if(gagnant){ //Si on est gagnant  */
+                if (h<0.4 || (piocheDessous[pos] != null && main.minGagnant(piocheDessous[pos].couleur, piocheDessous[pos].valeur)==null)){ //mais que la pioche est pas très cool                             
                     //Choisir une carte
                     int j = 0;
                     double heur = 1;
-                    int k = 0;
-                    while(j<piocheEntiere.length){      
-                        if(IA_Util.heuristiqueTermine(piocheEntiere[j].pile.get(1), atout, main, cartesDejaJouees, pioche, lg)<heur){
-                            heur = IA_Util.heuristiqueTermine(piocheEntiere[j].pile.get(1), atout, main, cartesDejaJouees, pioche, lg);
-                            k = j;
+                    Carte temp = null;
+                    while(j<piocheEntiere.length){
+                        if(piocheDessous[j]==null && temp == null || temp.valeur<pioche[j].valeur){
+                           temp = pioche[j];
                         }
                         j++;
                     }
-                    res = piocheEntiere[k].premiere();
+                    j=0;
+                    if (temp == null){
+                        while(j<piocheEntiere.length){      
+                            if(piocheDessous[j] != null && IA_Util.heuristiqueExperte(main, piocheDessous[j], atout)<heur && piocheDessous[j].couleur != atout){
+                                temp = pioche[j];
+                                heur = IA_Util.heuristiqueExperte(main, piocheDessous[j], atout);
+                                System.err.println("COUCOU C'EST MON TEST : " + heur);
+                            }
+                            j++;
+                        }
+                    }
+                    if(temp != null){
+                        res = temp;
+                    }
                 }
             }
         
-        }
+        //}
         return res;            
     }
   
