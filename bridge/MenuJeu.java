@@ -65,7 +65,7 @@ public class MenuJeu extends Parent {
     
     public MenuJeu(Moteur m) {
              
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("270404"));//gris foncé : 4b4c4e Violet : 343638 bleu fonce :040447
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("040447"));//gris foncé : 4b4c4e Violet : 343638 bleu fonce :040447
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");

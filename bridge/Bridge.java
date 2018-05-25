@@ -67,6 +67,8 @@ public class Bridge extends Application {
     public Label p2computer = new Label("Ordinateur");
     public Label points = new Label("Points");
     public Label rounds = new Label("Manches");
+    
+    
 
     //Les TextFields
     public TextField player1name = new TextField();
@@ -121,8 +123,8 @@ public class Bridge extends Application {
             }
         }
         primaryStage.setFullScreen(true);
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("480c19"));//bleu : 042955 vert :274e13 rouge : 480c19
-        root.setStyle("-fx-background-color:#480c19;");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
+        root.setStyle("-fx-background-color:#274e13;");
         root.getChildren().add(bandeau);
         undo = new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
@@ -545,10 +547,13 @@ public class Bridge extends Application {
     public int j2_lock = 0;
 
     public int select = 0;
-
+    
+   // public Label nomJ1 = new Label(m.j1.nom);
+   // public Label nomJ2 = new Label(m.j2.nom);
+    
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private final double largeur_scene = screenSize.getWidth();
+    private final double largeur_scene = screenSize.getWidth();    
     private final double hauteur_scene = screenSize.getHeight();
     private final double souris_carte = hauteur_scene - (hauteur_scene / 5.45) + 1;
 
