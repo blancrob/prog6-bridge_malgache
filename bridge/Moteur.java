@@ -93,6 +93,8 @@ public class Moteur {
         j2.main = new PileCartes();
         j1.tas = new PileCartes();
         j2.tas = new PileCartes();
+        j1.score=0;
+        j2.score=0;
         distribuer();
         config.taille=11;
         config.set_atout();
