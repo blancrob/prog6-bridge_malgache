@@ -688,6 +688,8 @@ public class Moteur {
             config.carteP=null;
             config.carteS=null;
         }
+        j1.score = j1.tas.taille()/2;
+        j2.score = j2.tas.taille()/2;
     }
     
     /**
