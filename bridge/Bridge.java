@@ -761,8 +761,7 @@ public class Bridge extends Application {
             affichage_dos_main(j2main, IA);
             temps = System.currentTimeMillis();
         }
-
-        //affichage_dos_pile(pile);
+        affichage_dos_pile(pile);
         affichage_face_pile(pile);
         maj_handler_main();
         maj_handler_pile();
@@ -881,37 +880,7 @@ public class Bridge extends Application {
                     pile[j][i].face.setFill(img);
                 }
             }
-        }
-
-        /*String card;
-
-         for (int j = 0; j < dosPioche.length; j++) {
-         for (int i = 0; i < dosPioche[j].length; i++) {
-         if (pile[j][i+1] != null) {
-         dosPioche[j][i] = pile[j][i+1];
-         }
-         switch (i) {
-         case 0:
-         card = "pile_5.png";
-         break;
-         case 1:
-         card = "pile_4.png";
-         break;
-         case 2:
-         card = "pile_3.png";
-         break;
-         default:
-         card = "pile_2.png";
-         break;
-         }
-         ImagePattern img = new ImagePattern(new Image("images/" + card));
-         dosPioche[j][i].dos.setFill(img);
-         dosPioche[j][i].dos.setVisible(false);
-         dosPioche[j][i].face.setVisible(false);
-         }
-         }
-        
-         */
+        }        
     }
 
     public void maj_plis(Carte[] plis, int j) {
@@ -980,16 +949,6 @@ public class Bridge extends Application {
     }
 
     public void affichage_face_pile(Carte[][] pile) {
-
-        /*
-         for (int j = 0; j < dosPioche.length; j++) {
-         if (dosPioche[j][5-pile[j].length] != null) {
-         dosPioche[j][5-pile[j].length].dos.setTranslateX(largeur_scene / 2.70 + (dosPioche[j][5-pile[j].length].largeur_carte * 1.25 * j));
-         dosPioche[j][5-pile[j].length].dos.setTranslateY((hauteur_scene / 2) - (dosPioche[j][5-pile[j].length].hauteur_carte / 2));
-         //dosPioche[j][5-pile[j].length].dos.setVisible(true);
-         }
-         }
-         */
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
                 //pile[j][0].face.setTranslateX(largeur_scene / 2.75 + (pile[j][0].largeur_carte * 1.35 * j));
@@ -1000,42 +959,6 @@ public class Bridge extends Application {
             }
         }
     }
-    
-    /*
-    public void affichage_dos_main(Carte[] main, int j) {
-        int t;
-
-        for (int i = main.length; i < 11; i++) {
-            main[i].dos.setVisible(false);
-        }
-
-        if (j == J1) {
-            //t = j1main.length;
-            t = m.j1.main.pile.size();
-            init_main(j1main, J1);
-        } else {
-            //t = j2main.length;
-            t = m.j2.main.pile.size();
-            if (m.config.mode == 1) {
-                init_main(j2main, J2);
-            } else {
-                init_main(j2main, IA);
-            }
-        }
-
-        for (int i = 0; i < t; i++) {
-            main[i].face.setVisible(false);
-
-            main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
-            main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
-
-            ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
-            main[i].dos.setFill(img);
-            main[i].dos.setVisible(true);
-            main[i].dos.toFront();
-        }
-    }
-    */
     
     public void affichage_dos_main(Carte[] main, int j) {
         int t;
@@ -1119,48 +1042,7 @@ public class Bridge extends Application {
                 }
             }
         }
-    }  
-    
-    /*public void affichage_dos_pile(Carte[][] pile) {
-        String card;
-        for (int j = 0; j < pile.length; j++) {
-            //for (int i = pile[j].length-1; i!=0; i--) {
-            for (int i = 0; i<pile[j].length; i++) {
-                switch(i){
-                    case 1:
-                        card = "DOS_BLEU.png";
-                        break;
-                    case 2:
-                        card = "DOS_BLEU.png";
-                        break;
-                    case 3:
-                        card = "DOS_BLEU.png";
-                        break;
-                    case 4:
-                        card = "DOS_BLEU.png";
-                        break;
-                    default:
-                        card = "DOS_BLEU.png";
-                        break;
-                }
-                ImagePattern img = new ImagePattern(new Image("images/" + card));
-                pile[j][i].dos.setFill(img);
-                pile[j][i].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j) - 10*i);
-                pile[j][i].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));
-                pile[j][i].dos.setVisible(false);
-                //pile[j][i].dos.toFront();      
-
-                //pile[j][i].dos.toFront();
-                //pile[j][i].dos.setTranslateX(435 + (110 * j - 1 * i));
-                //pile[j][i].dos.setTranslateY(315);           
-            }
-            
-            pile[j][0].dos.setVisible(false);
-            pile[j][0].face.setVisible(true);
-            pile[j][0].face.toFront();   
-        }     
-    }*/
-    
+    }     
     
     public void affichage_dos_pile(Carte[][] pile) {
         String card;
@@ -1183,60 +1065,19 @@ public class Bridge extends Application {
                         card = "pile_2_ROUGE.png";             
                         break;
                     default:
-                        card = "Vide.png";
+                        card = "ICONE_PIQUE.png";
                         break;                    
                 }
-                /*if(m.config.pioche[j].pile.size() > 1){
-                    img = new ImagePattern(new Image("images/" + card));
-                    pile[j][1].dos.setFill(img);
-                    pile[j][1].dos.setVisible(true);
-                    pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
-                }
-                else if(m.config.pioche[j].pile.size() == 1){
-                    System.out.println("il reste seulement la carte face recto");
-                    
-                    pile[j][1].dos.setFill(Color.web("274e13"));
-                    pile[j][1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    pile[j][1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));*/
-                    
-                    /*for(int i=2;i<pile[j].length;i++){
-                        pile[j][i].face.setVisible(false);
-                        pile[j][i].dos.setVisible(false);
-                        root.getChildren().remove(pile[j][i].dos);
-                        root.getChildren().remove(pile[j][i].face);
-                        root.getChildren().remove(pile[j][i]);
-                    }*/     
-                /*}*/
-                
-                dosPioche[j] = m.config.pioche[j].pile.get(0);
-                dosPioche[j].dos.setVisible(false);
-                dosPioche[j].face.setVisible(false);
-                
                 if(m.config.pioche[j].pile.size() > 1){
+                    System.out.println("RAS");
                     img = new ImagePattern(new Image("images/" + card));
-                    dosPioche[j].dos.setFill(img);
-                    dosPioche[j].dos.setVisible(true);
-                    dosPioche[j].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    dosPioche[j].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
-                }
-                /*else if(m.config.pioche[j].pile.size() == 1){
-                    System.out.println("il reste seulement la carte face recto");
-                    dosPioche[j].dos.setVisible(false);
-                    pile[j][1].dos.setVisible(false);
-                    dosPioche[j].dos.setFill(Color.web("274e13"));
-                    pile[j][1].dos.setFill(Color.web("274e13"));
-                    //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
-                }*/
-                else if(m.config.pioche[j] == null){
-                    System.out.println("On efface toute la pioche");
-                    img = new ImagePattern(new Image("images/" + card));
-                    dosPioche[j].dos.setFill(img);
-                    //dosPioche[j].dos.setVisible(false);
-                    //dosPioche[j][0].dos.setFill(Color.web("274e13"));
-                    //dosPioche[j][0].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    //dosPioche[j][0].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));    
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setFill(img);
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setVisible(true);
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
+                }                
+                else if(m.config.pioche[j].pile.size() == 1){
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setFill(Color.web("274e13"));
                 }
             }
         }     
@@ -1574,7 +1415,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.perdant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
-                        //affichage_dos_pile(pile);
+                        affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                     }
@@ -1625,7 +1466,7 @@ public class Bridge extends Application {
                         m.pioche(m.config.gagnant, pile[n][0], n);
                         System.out.println();
                         init_pile(pile);
-                        //affichage_dos_pile(pile);
+                        affichage_dos_pile(pile);
                         affichage_face_pile(pile);
                         maj_handler_pile();
                         m.config.taille++;
@@ -1806,7 +1647,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
-                            //affichage_dos_pile(pile);
+                            affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
@@ -1838,7 +1679,7 @@ public class Bridge extends Application {
                             init_main(j2main, IA);
                             affichage_dos_main(j2main, IA);
                             init_pile(pile);
-                            //affichage_dos_pile(pile);
+                            affichage_dos_pile(pile);
                             affichage_face_pile(pile);
                             maj_handler_pile();
                             System.out.println("Main J2");
