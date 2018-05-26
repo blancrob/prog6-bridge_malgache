@@ -29,8 +29,9 @@ public class MessageTransition extends Parent {
     int posX = 0;
     int posY = 700;
     
-    public MessageTransition(int choix, String nom, double largeur){
-        fond_message = new Rectangle(largeur,300,Color.GREY);
+    public MessageTransition(int choix, String nom, double largeur, double hauteur){
+        System.err.println("hauteur_scene " + hauteur);
+        fond_message = new Rectangle(largeur,hauteur/3.6,Color.GREY);
         fond_message.setArcHeight(15);
         fond_message.setArcWidth(25);
         this.getChildren().add(fond_message);
@@ -70,8 +71,8 @@ public class MessageTransition extends Parent {
         });
     }
     
-     public MessageTransition(String nom, int score, int conditionVictoire, boolean egalite){
-        fond_victoire = new Rectangle(300,300,Color.GREY);
+     public MessageTransition(String nom, int score, int conditionVictoire, boolean egalite, double largeur, double hauteur){
+        fond_victoire = new Rectangle(largeur,hauteur/3.6,Color.GREY);
         fond_victoire.setArcHeight(15);
         fond_victoire.setArcWidth(25);
         this.getChildren().add(fond_message);

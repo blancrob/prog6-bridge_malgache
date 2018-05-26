@@ -2117,9 +2117,9 @@ public class Bridge extends Application {
                     if(m.config.mode == 1 && m.config.carteP!=null && carte_jouee == 1){
                         if(messageActif==0){
                             if(m.config.receveur==1){
-                                mt = new MessageTransition(1, m.j1.nom,largeur_scene);
+                                mt = new MessageTransition(1, m.j1.nom,largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(1, m.j2.nom,largeur_scene);
+                                mt = new MessageTransition(1, m.j2.nom,largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
@@ -2135,9 +2135,9 @@ public class Bridge extends Application {
                     if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1 && m.config.piochable()){
                         if(messageActif==0){
                             if(m.config.gagnant==1){
-                                mt = new MessageTransition(2, m.j1.nom,largeur_scene);
+                                mt = new MessageTransition(2, m.j1.nom,largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(2, m.j2.nom,largeur_scene);
+                                mt = new MessageTransition(2, m.j2.nom,largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
@@ -2156,9 +2156,9 @@ public class Bridge extends Application {
                     if(m.config.mode == 1 && messagePioche==true && tour_pioche==1){
                         if(messageActif==0){
                             if(m.config.perdant==1){
-                                mt = new MessageTransition(2, m.j1.nom,largeur_scene);
+                                mt = new MessageTransition(2, m.j1.nom,largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(2, m.j2.nom,largeur_scene);
+                                mt = new MessageTransition(2, m.j2.nom,largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
@@ -2186,9 +2186,9 @@ public class Bridge extends Application {
                     if(m.config.mode == 1 && messagePioche==true && finTour==true){
                         if(messageActif==0){
                             if(m.config.donneur==1){
-                                mt = new MessageTransition(1, m.j1.nom,largeur_scene);
+                                mt = new MessageTransition(1, m.j1.nom,largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(1, m.j2.nom,largeur_scene);
+                                mt = new MessageTransition(1, m.j2.nom,largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
