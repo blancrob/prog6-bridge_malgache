@@ -154,7 +154,7 @@ public class Bridge extends Application {
         
         bandeau.save.setOnAction((ActionEvent event) -> {
             FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+            fc.setInitialDirectory(new File(System.getProperty("user.dir")));
             fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
             File f = fc.showSaveDialog(primaryStage);
             try {
@@ -226,9 +226,10 @@ public class Bridge extends Application {
         
         loadgame.setOnAction((ActionEvent event) -> {
            FileChooser fc = new FileChooser();
-           fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+           fc.setInitialDirectory(new File(System.getProperty("user.dir")));
            File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
             try {
+                m = new Moteur2();
                 m.charger(f.getName());
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
