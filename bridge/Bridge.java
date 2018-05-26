@@ -1740,7 +1740,8 @@ public class Bridge extends Application {
                             maj_plis(j2plis, IA);
                             affichage_dos_plis(j2plis, IA);
                         }
-
+                        bandeau.plisJ1.setText("maj de plisJ1");
+                        bandeau.plisJ2.setText("maj de plisJ2");
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
@@ -1849,6 +1850,8 @@ public class Bridge extends Application {
 
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
+                            //bandeau.plisJ1.setTranslate
+                            
                             for (int i = 0; i < j1main.length; i++) {
                                 if (j1main[i] != J1_carte_jouee) {
                                     j1main[i].face.setVisible(false);
