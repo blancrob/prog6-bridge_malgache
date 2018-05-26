@@ -154,7 +154,7 @@ public class Bridge extends Application {
         
         bandeau.save.setOnAction((ActionEvent event) -> {
             FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+            fc.setInitialDirectory(new File(System.getProperty("user.dir")));
             fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
             File f = fc.showSaveDialog(primaryStage);
             try {
@@ -226,9 +226,10 @@ public class Bridge extends Application {
         
         loadgame.setOnAction((ActionEvent event) -> {
            FileChooser fc = new FileChooser();
-           fc.setInitialDirectory(new File("D:\\User\\Documents\\NetBeansProjects\\Bridge\\save"));
+           fc.setInitialDirectory(new File(System.getProperty("user.dir")));
            File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
             try {
+                m = new Moteur2();
                 m.charger(f.getName());
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
@@ -1273,8 +1274,8 @@ public class Bridge extends Application {
     }
 
     public void score() {
-        m.j1.score = m.j1.tas.taille() / 2;
-        m.j2.score = m.j2.tas.taille() / 2;
+        //m.j1.score = m.j1.tas.taille() / 2;
+        //m.j2.score = m.j2.tas.taille() / 2;
         System.out.println("Manche: " + m.config.manche);
         System.out.println("Score joueur 1: " + (m.j1.score));
         System.out.println("Score joueur 2: " + (m.j2.score));
@@ -1292,8 +1293,8 @@ public class Bridge extends Application {
             m.afficherCarte(it.next());
         }
 
-        m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
-        m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
+        //m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
+        //m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
 
     public boolean carte_jouable(Carte c, int j) {
