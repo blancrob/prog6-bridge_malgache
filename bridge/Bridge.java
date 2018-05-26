@@ -1433,8 +1433,8 @@ public class Bridge extends Application {
     }
 
     public void score() {
-        m.j1.score = m.j1.tas.taille() / 2;
-        m.j2.score = m.j2.tas.taille() / 2;
+        //m.j1.score = m.j1.tas.taille() / 2;
+        //m.j2.score = m.j2.tas.taille() / 2;
         System.out.println("Manche: " + m.config.manche);
         System.out.println("Score joueur 1: " + (m.j1.score));
         System.out.println("Score joueur 2: " + (m.j2.score));
@@ -1452,8 +1452,8 @@ public class Bridge extends Application {
             m.afficherCarte(it.next());
         }
 
-        m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
-        m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
+        //m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
+        //m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
 
     public boolean carte_jouable(Carte c, int j) {
