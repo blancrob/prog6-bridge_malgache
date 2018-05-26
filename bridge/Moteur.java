@@ -688,6 +688,8 @@ public class Moteur {
             config.carteP=null;
             config.carteS=null;
         }
+        j1.score = j1.tas.taille()/2;
+        j2.score = j2.tas.taille()/2;
     }
     
     /**
@@ -974,12 +976,19 @@ public class Moteur {
     }
     
     /**
-     * Lis les valeurs des cartes à utiliser pour la partie dans un fichier texte, si il y a des cartes non assignées alors elles sont placées aléatoirement
+     * Lis les valeurs des cartes à utiliser pour la partie dans un fichier texte, chaque pileCartes séparée par un tiret -, dans cet ordre:
+     * mainj1, mainj2, pile1, pile2, pile3, pile4, pile5, pile6, tasj1, tasj2
+     * Puis trois ints, un par ligne: taille, atout, completer
+     * Taille est la taille courante de la main
+     * Atout est la couleur d'atout de la manche
+     * Si completer vaut 1: les cartes manquantes sont ditribuées dans les mains des joueurs et dans la pioche
+     * Si completer vaut 2: les cartes manquantes sont ditribuées dans les tas des joueurs
      * @throws IOException 
      */
     public void forcer() throws IOException{
         Scanner sc = new Scanner(System.in);
         String[] c;
+        int completer=0;
         
         System.out.println("Entrez le nom du fichier à charger:");
         String str = sc.nextLine();
@@ -1047,6 +1056,21 @@ public class Moteur {
             config.pile6.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
             line = br.readLine();
         }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            j1.tas.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            j2.tas.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
+        config.taille =Integer.parseInt(br.readLine());
+        config.atout = Integer.parseInt(br.readLine());
+        completer = Integer.parseInt(br.readLine());
         
         config.pioche = new PileCartes[6];
         config.pioche[0] = config.pile1;
@@ -1063,6 +1087,8 @@ public class Moteur {
         PileCartes distribuees = new PileCartes();
         distribuees.pile.addAll(j1.main.pile);
         distribuees.pile.addAll(j2.main.pile);
+        distribuees.pile.addAll(j1.tas.pile);
+        distribuees.pile.addAll(j2.tas.pile);
         for(int i=0; i<6; i++){
             distribuees.pile.addAll(config.pioche[i].pile);
         }
@@ -1078,38 +1104,51 @@ public class Moteur {
                 paquet.retirer(it.next());
             }
             
-            while(j1.main.taille()<11){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                j1.main.ajouter(carte);
-            }while(j2.main.taille()<11){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                j2.main.ajouter(carte);
-            }while(config.pile1.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile1.ajouter(carte);
-            }while(config.pile2.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile2.ajouter(carte);
-            }while(config.pile3.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile3.ajouter(carte);
-            }while(config.pile4.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile4.ajouter(carte);
-            }while(config.pile5.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile5.ajouter(carte);
-            }while(config.pile6.taille()<5){
-                carte = paquet.aleatoire(true);
-                paquet.retirer(carte);
-                config.pile6.ajouter(carte);
+            
+            if(completer==1){
+                while(j1.main.taille()<11 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    j1.main.ajouter(carte);
+                }while(j2.main.taille()<11 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    j2.main.ajouter(carte);
+                }while(config.pile1.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile1.ajouter(carte);
+                }while(config.pile2.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile2.ajouter(carte);
+                }while(config.pile3.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile3.ajouter(carte);
+                }while(config.pile4.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile4.ajouter(carte);
+                }while(config.pile5.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile5.ajouter(carte);
+                }while(config.pile6.taille()<5 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    config.pile6.ajouter(carte);
+                }
+            }else{
+                while(j1.tas.taille()<26 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    j1.tas.ajouter(carte);
+                }while(j2.tas.taille()<26 && !paquet.vide()){
+                    carte = paquet.aleatoire(true);
+                    paquet.retirer(carte);
+                    j2.tas.ajouter(carte);
+                }
             }
         }
 }
@@ -1140,8 +1179,6 @@ public class Moteur {
             
             config.manche++;
             initialiserManche();
-            /*config.taille=11;
-            config.set_atout();*/
                     
             
             System.out.println("MANCHE "+ config.manche);

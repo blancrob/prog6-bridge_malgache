@@ -1559,8 +1559,8 @@ public class Bridge extends Application {
                             fin_manche();
                             score();
                             if (V1 || V2) {
-                                System.out.println("Manche SUIVANTE !");
-                                init_manche();
+                                /*System.out.println("Manche SUIVANTE !");
+                                init_manche();*/
                             } else {
                                 System.out.println();
                                 System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
@@ -1578,14 +1578,14 @@ public class Bridge extends Application {
                     }
                     
                     //Affichage Bandeau en Fin Manche mais pas en fin de partie
-                    /*if(m.finManche() && !m.finPartie()){
+                    if(m.finManche() && !m.finPartie()){
                         if(messageActif==0){
                             if(m.j1.score>m.j2.score){
-                                mt = new MessageTransition(m.j1.nom, m.j1.score,m.config.conditionVictoire,false);
+                                mt = new MessageTransition(m.j1.nom, m.j1.score,2,false, largeur_scene, hauteur_scene);
                             }else if(m.j2.score>m.j1.score){
-                                mt = new MessageTransition(m.j2.nom, m.j2.score,m.config.conditionVictoire,false);
+                                mt = new MessageTransition(m.j2.nom, m.j2.score,2,false, largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(null, 0,0,false);
+                                mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
@@ -1595,6 +1595,36 @@ public class Bridge extends Application {
                             System.out.println("Manche SUIVANTE !");
                             init_manche();
                             messageActif=0;
+                        }
+                    }
+                    
+                    //Affichage Bandeau en Fin Partie
+                    /*if(m.finPartie()){
+                        if(messageActif==0){
+                            if(m.config.conditionVictoire==1){
+                                if(m.j1.score>m.j2.score){
+                                    mt = new MessageTransition(m.j1.nom, m.j1.score,2,false, largeur_scene, hauteur_scene);
+                                }else if(m.j2.score>m.j1.score){
+                                    mt = new MessageTransition(m.j2.nom, m.j2.score,2,false, largeur_scene, hauteur_scene);
+                                }else{
+                                    mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
+                                }
+                        }else{
+                            if(m.j1.score>m.j2.score){
+                                    mt = new MessageTransition(m.j1.nom, m.j1.manchesGagnees,2,false, largeur_scene, hauteur_scene);
+                                }else if(m.j2.score>m.j1.score){
+                                    mt = new MessageTransition(m.j2.nom, m.j2.manchesGagnees,2,false, largeur_scene, hauteur_scene);
+                              }else{
+                                    mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
+                                }
+                        }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            messageActif=0;
+                            System.exit(0);
                         }
                     }*/
                     
