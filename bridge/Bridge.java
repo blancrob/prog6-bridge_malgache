@@ -705,6 +705,9 @@ public class Bridge extends Application {
         }
 
         System.out.println();
+        
+        m.j1.main.trier();
+        m.j2.main.trier();
 
         init_mainJ1J2();
         init_pile(pile);
@@ -775,6 +778,7 @@ public class Bridge extends Application {
         
         bandeau = new MenuJeu(m);
         bandeau.tourJ(tour_joueur);
+        bandeau.mode(m.config.mode);
         
         if (m.config.manche > 1) {
             root.getChildren().clear();
@@ -1419,6 +1423,8 @@ public class Bridge extends Application {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         m.pioche(m.config.perdant, pile[n][0], n);
+                        m.j1.main.trier();
+                        m.j2.main.trier();
                         System.out.println();
                         init_pile(pile);
                         affichage_dos_pile(pile);
@@ -1430,7 +1436,7 @@ public class Bridge extends Application {
                     m.config.receveur = m.config.perdant;
 
                     if (m.config.mode == 2) {
-                        tour_joueur = m.config.gagnant;
+                        //tour_joueur = m.config.gagnant;
                         bandeau.tourJ(m.config.receveur);
                         init_main(j1main, J1);
                         affichage_face_main(j1main, J1);
@@ -1470,6 +1476,8 @@ public class Bridge extends Application {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
                         m.pioche(m.config.gagnant, pile[n][0], n);
+                        m.j1.main.trier();
+                        m.j2.main.trier();
                         System.out.println();
                         init_pile(pile);
                         affichage_dos_pile(pile);
@@ -1680,6 +1688,8 @@ public class Bridge extends Application {
                             m.config.afficherPioche();
                             System.out.println("IA a gagné et prend une carte en 1er");
                             Carte c = m.piocheIA(IA);
+                            m.j1.main.trier();
+                            m.j2.main.trier();
                             m.config.afficherPioche();
                             System.out.println();
                             for (int i = 0; i < 11; i++) {
@@ -1712,6 +1722,8 @@ public class Bridge extends Application {
                             m.config.afficherPioche();
                             System.out.println("IA a perdu et prend une carte en 2nd");
                             Carte c = m.piocheIA(IA);
+                            m.j1.main.trier();
+                            m.j2.main.trier();
                             m.config.afficherPioche();
                             System.out.println();
                             for (int i = 0; i < 11; i++) {
@@ -1756,7 +1768,9 @@ public class Bridge extends Application {
                     
                     //On met à jour les plis et retire les cartes jouées en JcIA
                     if (m.config.mode == 2 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
+                        tour_joueur = m.config.gagnant;
                         bandeau.tourJ(m.config.gagnant);
+                        
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
                         

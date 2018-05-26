@@ -49,9 +49,12 @@ public class MenuJeu extends Parent {
     Label plisJ2;
     Label nom_plisJ1;
     Label nom_plisJ2;
-    
+    Label image_tour;
+    Label image_tourMenu;
     int tour_joueur;
+    int mode;
     int l;
+    String name;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -59,6 +62,10 @@ public class MenuJeu extends Parent {
     
     public void tourJ(int i){
         tour_joueur = i;
+    }
+    
+    public void mode(int i){
+        mode = i;
     }
     
     public int lock(){
@@ -119,7 +126,7 @@ public class MenuJeu extends Parent {
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
         
-        tour = new Label("Tour : Joueur "+tour_joueur);
+        tour = new Label("Tour : "+name);
         tour.setFont(new Font("Arial",25));
         tour.setTextFill(Color.WHITE);
         tour.setPrefWidth(largeur_scene/6.4);
@@ -283,12 +290,37 @@ public class MenuJeu extends Parent {
         plisJ2.setStyle("-fx-alignment: center;");
         this.getChildren().add(plisJ2);
         
+        image_tour = new Label();
+        image_tour.setFont(new Font("Arial",18));
+        image_tour.setTranslateX(largeur_scene/1.115);
+        //image_tour.setTranslateY(hauteur_scene/13);  // en haut
+        image_tour.setTranslateY(hauteur_scene/1.175); // en bas
+        image_tour.setGraphic(new ImageView("images/Vide.png"));       
+        this.getChildren().add(image_tour);
         
+        image_tourMenu = new Label();
+        image_tourMenu.setFont(new Font("Arial",18));
+        image_tourMenu.setTranslateX(largeur_scene/45);
+        image_tourMenu.setTranslateY(hauteur_scene-hauteur_scene/2);
+        image_tourMenu.setGraphic(new ImageView("images/Vide.png"));       
+        this.getChildren().add(image_tourMenu);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tour.setText("Tour : Joueur "+tour_joueur);               
+                tour.setText("Tour : "+name);
+                if(tour_joueur == 1){
+                    name = m.j1.nom;
+                }
+                else if(tour_joueur == 2){
+                    name = m.j2.nom;
+                }
+                if(mode == 2 && tour_joueur == 1){
+                    image_tour.setTranslateY(hauteur_scene/1.175);
+                }
+                else if (mode == 2 && tour_joueur == 2){
+                    image_tour.setTranslateY(hauteur_scene/13);
+                }
             }
         };
         timer.start();
