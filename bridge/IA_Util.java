@@ -203,7 +203,7 @@ public class IA_Util {
             }
         }
         if(h==0){
-            return main.min();
+            return minHorsAtout(atout, main);
         }else{
             return res;
         }

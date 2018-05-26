@@ -78,7 +78,7 @@ public class IaAvancee implements IA {
                     i++;
                 }
                 if ((h<0.4) && (IA_Util.plusGrossePile(nbCartes, lg)>1) && ((conditionVictoire == 1) && IA_Util.ImtheBest(nbPlisIA,nbPlisAdv,conditionVictoire))){ //Si la pioche est pas cool et qu'il reste au moins 1 pile avec plus d'1 carte et qu'on est pas "obligé" de gagner ce plis en mode nb de manches
-                    res = main.min(); // on donne la plus petite carte de la main pour perdre le pli
+                    res = IA_Util.minHorsAtout(atout, main); // on donne la plus petite carte de la main (hors atout) pour perdre le pli
                 }
                 
                 else{ // Si la pioche est cool on essaye de gagner le pli
