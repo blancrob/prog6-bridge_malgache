@@ -629,6 +629,8 @@ public class Bridge extends Application {
     private final double largeur_scene = screenSize.getWidth();    
     private final double hauteur_scene = screenSize.getHeight();
     private final double souris_carte = hauteur_scene - (hauteur_scene / 5.45) + 1;
+    
+    private int affichage_initial_pioche = 0;
 
     //MessageTransition MessageT;
     MenuJeu bandeau;
@@ -649,6 +651,7 @@ public class Bridge extends Application {
         j2_lock = 0;
         select = 0;
         cheat = 0;
+        affichage_initial_pioche = 0;
 
         m.config.carteP = null;
         m.config.carteS = null;
@@ -761,14 +764,15 @@ public class Bridge extends Application {
             affichage_dos_main(j2main, IA);
             temps = System.currentTimeMillis();
         }
+        
         affichage_dos_pile(pile);
         affichage_face_pile(pile);
         maj_handler_main();
         maj_handler_pile();
-
+        
         bandeau = new MenuJeu(m);
         bandeau.tourJ(tour_joueur);
-
+        
         if (m.config.manche > 1) {
             root.getChildren().clear();
             for (int i = 0; i < j1main.length; i++) {
@@ -951,7 +955,6 @@ public class Bridge extends Application {
     public void affichage_face_pile(Carte[][] pile) {
         for (int j = 0; j < pile.length; j++) {
             if (pile[j][0] != null) {
-                //pile[j][0].face.setTranslateX(largeur_scene / 2.75 + (pile[j][0].largeur_carte * 1.35 * j));
                 pile[j][0].face.setTranslateX(largeur_scene/3 + (pile[j][0].largeur_carte * 1.4 * j));
                 pile[j][0].face.setTranslateY((hauteur_scene / 2) - (pile[j][0].hauteur_carte / 2));
                 pile[j][0].face.setVisible(true);
@@ -1074,7 +1077,7 @@ public class Bridge extends Application {
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setFill(img);
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setVisible(true);
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setTranslateX(largeur_scene/2.9 + (pile[j][0].largeur_carte * 1.4 * j));
-                    pile[j][m.config.pioche[j].pile.size()-1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));     
+                    pile[j][m.config.pioche[j].pile.size()-1].dos.setTranslateY((hauteur_scene/2) - (pile[j][0].hauteur_carte/2));
                 }                
                 else if(m.config.pioche[j].pile.size() == 1){
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setFill(Color.web("274e13"));
@@ -1537,13 +1540,18 @@ public class Bridge extends Application {
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
-            public void handle(long now) {
-
+            public void handle(long now) {               
                 if (launchedmenu == false) {
                     firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
                     launchedmenu = true;
                 } else if (launchedjeu == true) {
-
+                    
+                    if(affichage_initial_pioche == 0){
+                        affichage_dos_pile(pile);
+                        affichage_face_pile(pile);
+                        affichage_initial_pioche = 1;
+                    }
+                    
                     if (m.finManche() && temps + 2000 < System.currentTimeMillis()) {    //Si la manche est finie
                         if (m.config.taille == 0) {
                             Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
