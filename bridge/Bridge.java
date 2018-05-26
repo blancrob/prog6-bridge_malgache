@@ -770,6 +770,9 @@ public class Bridge extends Application {
         maj_handler_main();
         maj_handler_pile();
         
+        m.j1.score = 0;
+        m.j2.score = 0;
+        
         bandeau = new MenuJeu(m);
         bandeau.tourJ(tour_joueur);
         
