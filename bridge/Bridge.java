@@ -1756,6 +1756,10 @@ public class Bridge extends Application {
                         bandeau.tourJ(m.config.gagnant);
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
+                        
+                        bandeau.plisJ1.setText(String.valueOf("Plis : "+m.j1.score));
+                        bandeau.plisJ2.setText(String.valueOf("Plis : "+m.j2.score));
+                        
                         if (J1_carte_jouee != null && J2_carte_jouee != null) {
                             root.getChildren().remove(J1_carte_jouee);
                             root.getChildren().remove(J2_carte_jouee);
@@ -1770,8 +1774,8 @@ public class Bridge extends Application {
                             maj_plis(j2plis, IA);
                             affichage_dos_plis(j2plis, IA);
                         }
-                        bandeau.plisJ1.setText("maj de plisJ1");
-                        bandeau.plisJ2.setText("maj de plisJ2");
+                        bandeau.plisJ1.setText(String.valueOf("Plis : "+m.j1.score));
+                        bandeau.plisJ2.setText(String.valueOf("Plis : "+m.j2.score));
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
@@ -1780,6 +1784,10 @@ public class Bridge extends Application {
                     if (m.config.mode == 1 && clean == 1 && temps2 + 1000 < System.currentTimeMillis()) {
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
+                        
+                        bandeau.plisJ1.setText(String.valueOf("Plis : "+m.j1.score));
+                        bandeau.plisJ2.setText(String.valueOf("Plis : "+m.j2.score));
+                        
                         if (J1_carte_jouee != null && J2_carte_jouee != null) {
                             root.getChildren().remove(J1_carte_jouee);
                             root.getChildren().remove(J2_carte_jouee);
@@ -1880,7 +1888,11 @@ public class Bridge extends Application {
 
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
-                            //bandeau.plisJ1.setTranslate
+                            
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/10.5);
                             
                             for (int i = 0; i < j1main.length; i++) {
                                 if (j1main[i] != J1_carte_jouee) {
@@ -1912,6 +1924,12 @@ public class Bridge extends Application {
                             J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+                            
                             for (int i = 0; i < j2main.length; i++) {
                                 if (j2main[i] != J2_carte_jouee) {
                                     j2main[i].face.setVisible(false);
@@ -1973,6 +1991,12 @@ public class Bridge extends Application {
                             J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+                            
                             affichage_face_main(j1main, J1);
                             init_main(j1main, J1);
                             init_main(j2main, J2);
@@ -1997,6 +2021,12 @@ public class Bridge extends Application {
                             J2_carte_jouee.face.setTranslateY((hauteur_scene / 1.5));
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
+                            
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/10.5);
+                            
                             affichage_face_main(j2main, J2);
                             init_main(j1main, J1);
                             init_main(j2main, J2);
@@ -2026,6 +2056,12 @@ public class Bridge extends Application {
                             J1_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte/1.3);
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
+                            
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/10.5);
+                            
                             init_main(j1main, J1);
                             init_main(j2main, J2);
                             for (int i = 0; i < j1main.length; i++) {
@@ -2053,6 +2089,12 @@ public class Bridge extends Application {
                             J1_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+                            
                             init_main(j1main, J1);
                             init_main(j2main, J2);
                             for (int i = 0; i < j2main.length; i++) {
@@ -2085,6 +2127,12 @@ public class Bridge extends Application {
                         if (m.config.donneur == J1) {
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+                            
                             tour_joueur = J1;
                             bandeau.tourJ(J1);
                             m.config.receveur = J2;
@@ -2119,6 +2167,12 @@ public class Bridge extends Application {
                         } else {
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
+                            
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/10.5);
+                            
                             tour_joueur = J2;
                             bandeau.tourJ(J2);
                             m.config.receveur = J1;
@@ -2262,6 +2316,9 @@ public class Bridge extends Application {
 
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
+                        
+                        bandeau.plisJ1.setText(String.valueOf("Plis : "+m.j1.score));
+                        bandeau.plisJ2.setText(String.valueOf("Plis : "+m.j2.score));
 
                         for (int i = 0; i < m.j1.main.pile.size(); i++) {
                             j1main[i].face.setVisible(false);
@@ -2276,6 +2333,12 @@ public class Bridge extends Application {
                         if (m.config.donneur == J1) {
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+                            
                             tour_joueur = J1;
                             bandeau.tourJ(J1);
                             //Cacher dos J1main
@@ -2296,6 +2359,12 @@ public class Bridge extends Application {
                         } else {
                             affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
+                            
+                            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+                            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+                            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+                            bandeau.plisJ1.setTranslateY(hauteur_scene/10.5);
+                            
                             tour_joueur = J2;
                             bandeau.tourJ(J2);
                             //Cacher dos J1main

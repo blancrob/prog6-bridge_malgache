@@ -45,6 +45,10 @@ public class MenuJeu extends Parent {
     Label joueur2;
     Label titre;
     Button hist;
+    Label plisJ1;
+    Label plisJ2;
+    Label nom_plisJ1;
+    Label nom_plisJ2;
     
     int tour_joueur;
     int l;
@@ -239,11 +243,52 @@ public class MenuJeu extends Parent {
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         
+        nom_plisJ1 = new Label(m.j1.nom);
+        nom_plisJ1.setFont(new Font("Arial",18));
+        nom_plisJ1.setTextFill(Color.WHITE);
+        nom_plisJ1.setPrefWidth(largeur_scene/10);
+        nom_plisJ1.setPrefHeight(hauteur_scene/20);
+        nom_plisJ1.setTranslateX(largeur_scene/1.115);
+        nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+        nom_plisJ1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(nom_plisJ1);
+        
+        nom_plisJ2 = new Label(m.j2.nom);
+        nom_plisJ2.setFont(new Font("Arial",18));
+        nom_plisJ2.setTextFill(Color.WHITE);
+        nom_plisJ2.setPrefWidth(largeur_scene/10);
+        nom_plisJ2.setPrefHeight(hauteur_scene/20);
+        nom_plisJ2.setTranslateX(largeur_scene/1.115);
+        nom_plisJ2.setTranslateY(hauteur_scene/14);
+        nom_plisJ2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(nom_plisJ2);
+        
+        plisJ1 = new Label(String.valueOf("Plis : "+m.j1.score));
+        plisJ1.setFont(new Font("Arial",18));
+        plisJ1.setTextFill(Color.WHITE);
+        plisJ1.setPrefWidth(largeur_scene/10);
+        plisJ1.setPrefHeight(hauteur_scene/20);
+        plisJ1.setTranslateX(largeur_scene/1.115);
+        plisJ1.setTranslateY(hauteur_scene/1.15);
+        plisJ1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(plisJ1);
+        
+        plisJ2 = new Label(String.valueOf("Plis : "+m.j2.score));
+        plisJ2.setFont(new Font("Arial",18));
+        plisJ2.setTextFill(Color.WHITE);
+        plisJ2.setPrefWidth(largeur_scene/10);
+        plisJ2.setPrefHeight(hauteur_scene/20);
+        plisJ2.setTranslateX(largeur_scene/1.115);
+        plisJ2.setTranslateY(hauteur_scene/10.5);
+        plisJ2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(plisJ2);
+        
+        
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tour.setText("Tour : Joueur "+tour_joueur);
+                tour.setText("Tour : Joueur "+tour_joueur);               
             }
         };
         timer.start();
