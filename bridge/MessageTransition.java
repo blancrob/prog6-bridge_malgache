@@ -70,19 +70,23 @@ public class MessageTransition extends Parent {
         });
     }
     
-     public MessageTransition(String nom, int score, int conditionVictoire){
+     public MessageTransition(String nom, int score, int conditionVictoire, boolean egalite){
         fond_victoire = new Rectangle(300,300,Color.GREY);
         fond_victoire.setArcHeight(15);
         fond_victoire.setArcWidth(25);
         this.getChildren().add(fond_message);
         
-        switch(conditionVictoire){
-            case 1:
-                message_joueur = new Text(nom+", Victoire avec" + score + "manches gagnées");
-                break;
-            case 2:
-                message_joueur = new Text(nom+", Victoire avec" + score + "points");
-                break;
+        if(egalite){
+            message_joueur = new Text("Egalité");
+        }else{
+            switch(conditionVictoire){
+                case 1:
+                    message_joueur = new Text(nom+", Victoire avec" + score + "manches gagnées");
+                    break;
+                case 2:
+                    message_joueur = new Text(nom+", Victoire avec" + score + "points");
+                    break;
+            }
         }
 
         //message_joueur = new Text(nom+" Prêt?");

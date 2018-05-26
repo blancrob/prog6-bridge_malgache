@@ -1592,7 +1592,6 @@ public class Bridge extends Application {
                         temps = System.currentTimeMillis();
                         clean = 1;
                         carte_jouee = 0;
-                        tour_pioche = 0;
                     } else if (m.config.mode == 1) {
                         bandeau.tourJ(m.config.receveur);
                         temps = System.currentTimeMillis();
@@ -1613,7 +1612,7 @@ public class Bridge extends Application {
                         clean = 1;
                     }
                     //carte_jouee = 0;
-                    //tour_pioche = 0;
+                    tour_pioche = 0;
                     if (m.config.mode == 2 && m.config.gagnant == IA) {
                         temps = System.currentTimeMillis();
                     }
@@ -1728,6 +1727,27 @@ public class Bridge extends Application {
                             }
                         }
                     }
+                    
+                    //Affichage Bandeau en Fin Manche mais pas en fin de partie
+                    /*if(m.finManche() && !m.finPartie()){
+                        if(messageActif==0){
+                            if(m.j1.score>m.j2.score){
+                                mt = new MessageTransition(m.j1.nom, m.j1.score,m.config.conditionVictoire,false);
+                            }else if(m.j2.score>m.j1.score){
+                                mt = new MessageTransition(m.j2.nom, m.j2.score,m.config.conditionVictoire,false);
+                            }else{
+                                mt = new MessageTransition(null, 0,0,false);
+                            }
+                            root.getChildren().add(mt);
+                            messageActif=1;
+                        }
+                        
+                        if(!mt.isVisible()){
+                            System.out.println("Manche SUIVANTE !");
+                            init_manche();
+                            messageActif=0;
+                        }
+                    }*/
                     
                     //Au tour de l'IA de jouer sa carte
                     if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && m.config.taille > 0 && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
@@ -2268,7 +2288,6 @@ public class Bridge extends Application {
                             carte_jouee=0;
                             messageActif=0;
                         }
-                        
                     }
                     
                     //Affichage Message transition CoupSecond Pioche Joueur Contre Joueur
