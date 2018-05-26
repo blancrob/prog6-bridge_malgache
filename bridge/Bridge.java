@@ -1585,7 +1585,7 @@ public class Bridge extends Application {
                             }else if(m.j2.score>m.j1.score){
                                 mt = new MessageTransition(m.j2.nom, m.j2.score,2,false, largeur_scene, hauteur_scene);
                             }else{
-                                mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
+                                mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
                             }
                             root.getChildren().add(mt);
                             messageActif=1;
