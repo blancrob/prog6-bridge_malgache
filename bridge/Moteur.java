@@ -695,20 +695,29 @@ public class Moteur {
     }
     
     /**
-     * Mets à our les scores des deux joueurs, à utiliser à la fin d'une manche
+     * Mets à jour les scores des deux joueurs, à utiliser à la fin d'une manche
      */
     public void maj_score(){
         j1.score=j1.tas.taille()/2;
         j2.score=j2.tas.taille()/2;
         
-        if(j1.score>j2.score){
-            j1.manchesGagnees++;
-        }else if(j1.score<j2.score){
-            j2.manchesGagnees++;
+        if(finManche()){
+            if(j1.score>j2.score){
+                j1.manchesGagnees++;
+            }else if(j1.score<j2.score){
+                j2.manchesGagnees++;
+            }
         }
         
         j1.scoreTotal=j1.scoreTotal+j1.score;
         j2.scoreTotal=j2.scoreTotal+j2.score;
+        
+        System.out.println("manches j1:"+j1.manchesGagnees);
+        System.out.println("manches j2:"+j2.manchesGagnees);
+        System.out.println("score j1:"+j1.score);
+        System.out.println("score j2:"+j2.score);
+        System.out.println("scoreTotal j1:"+j1.scoreTotal);
+        System.out.println("scoreTotal j2:"+j2.scoreTotal);
     }
     
     /**
