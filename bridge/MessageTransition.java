@@ -46,7 +46,7 @@ public class MessageTransition extends Parent {
                 message_joueur = new Text(nom+", à toi de jouer !");
                 break;
             case 2:
-                message_joueur = new Text(nom+", piochez 1 carte");
+                message_joueur = new Text(nom+", pioche une carte");
                 break;
         }
         message_joueur.setFont(new Font(50));
