@@ -1859,7 +1859,7 @@ public class Bridge extends Application {
                     if (m.config.mode == 1 && clean == 1 && temps2 + 1000 < System.currentTimeMillis()) {
                         J1_carte_jouee.face.setVisible(false);
                         J2_carte_jouee.face.setVisible(false);
-                        
+
                         bandeau.plisJ1.setText(String.valueOf("Plis : "+m.j1.score));
                         bandeau.plisJ2.setText(String.valueOf("Plis : "+m.j2.score));
                         
