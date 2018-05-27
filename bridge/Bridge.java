@@ -116,6 +116,7 @@ public class Bridge extends Application {
     MessageTransition mt=null;
     public boolean messagePioche=false;
     public boolean finTour=false;
+    public boolean messageFinManche = false;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -1619,12 +1620,15 @@ public class Bridge extends Application {
                         if (m.config.taille == 0) {
                             Boolean V1 = m.config.conditionVictoire == 1 && m.config.manche < m.config.mancheMax;
                             Boolean V2 = m.config.conditionVictoire == 2 && (m.j1.scoreTotal < m.config.scoreMax && m.j2.scoreTotal < m.config.scoreMax);
-                            fin_manche();
-                            score();
+                            //fin_manche();
+                            //score();
                             if (V1 || V2) {
+                                messageFinManche=true;
                                 /*System.out.println("Manche SUIVANTE !");
                                 init_manche();*/
                             } else {
+                                score();
+                                fin_manche();
                                 System.out.println();
                                 System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
                                 System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
@@ -1641,8 +1645,10 @@ public class Bridge extends Application {
                     }
                     
                     //Affichage Bandeau en Fin Manche mais pas en fin de partie
-                    if(m.finManche() && !m.finPartie()){
+                    if(m.finManche() && !m.finPartie() && messageFinManche){
                         if(messageActif==0){
+                            fin_manche();
+                            score();
                             if(m.j1.score>m.j2.score){
                                 mt = new MessageTransition(m.j1.nom, m.j1.score,2,false, largeur_scene, hauteur_scene);
                             }else if(m.j2.score>m.j1.score){
@@ -1657,6 +1663,7 @@ public class Bridge extends Application {
                         if(!mt.isVisible()){
                             System.out.println("Manche SUIVANTE !");
                             init_manche();
+                            messageFinManche=false;
                             messageActif=0;
                         }
                     }
