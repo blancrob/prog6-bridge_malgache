@@ -624,8 +624,11 @@ public class Bridge extends Application {
     public int select = 0;
     
     public int cheat = 0;
-    
+   
     public int message_t = 0;
+    
+    public Carte J1_lastCard;
+    public Carte J2_lastCard;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -654,11 +657,14 @@ public class Bridge extends Application {
         select = 0;
         cheat = 0;
         affichage_initial_pioche = 0;
+        message_t = 0;
 
         m.config.carteP = null;
         m.config.carteS = null;
         J1_carte_jouee = null;
         J2_carte_jouee = null;
+        J1_lastCard = null;
+        J2_lastCard = null;
 
         j1main = new Carte[11];
         j2main = new Carte[11];
