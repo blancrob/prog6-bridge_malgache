@@ -1638,13 +1638,7 @@ public class Bridge extends Application {
                         if(messageActif==0){
                             fin_manche();
                             score();
-                            if(m.j1.score>m.j2.score){
-                                mt = new MessageTransition(m.j1.nom, m.j1.score,2,false, largeur_scene, hauteur_scene);
-                            }else if(m.j2.score>m.j1.score){
-                                mt = new MessageTransition(m.j2.nom, m.j2.score,2,false, largeur_scene, hauteur_scene);
-                            }else{
-                                mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
-                            }
+                            mt = new MessageTransition(m, largeur_scene, hauteur_scene);
                             root.getChildren().add(mt);
                             messageActif=1;
                         }
@@ -1660,29 +1654,7 @@ public class Bridge extends Application {
                     //Affichage Bandeau en Fin Partie
                     if(m.finManche() && m.finPartie() && messageFinPartie){
                         if(messageActif==0){
-                            if(m.config.conditionVictoire==1){  //Afficher un message concernant le nombre de manches
-                                if(m.j1.manchesGagnees>m.j2.manchesGagnees){
-                                    mt = new MessageTransition(m.j1.nom, m.j1.manchesGagnees,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
-                                }else if(m.j2.manchesGagnees>m.j1.manchesGagnees){
-                                    mt = new MessageTransition(m.j2.nom, m.j2.manchesGagnees,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
-                                }else{  //En cas d'égalité, on regarde le score Total   A AMELIORER DANS LE TEXTE
-                                    if(m.j1.scoreTotal>m.j2.scoreTotal){
-                                        mt = new MessageTransition(m.j1.nom, m.j1.scoreTotal,2,false, largeur_scene, hauteur_scene);
-                                    }else if(m.j2.score>m.j1.score){
-                                        mt = new MessageTransition(m.j2.nom, m.j2.scoreTotal,2,false, largeur_scene, hauteur_scene);
-                                    }else{
-                                        mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
-                                    }
-                                }
-                            }else{  //Afficher un message concernant le score Total
-                                if(m.j1.scoreTotal>m.j2.scoreTotal){
-                                    mt = new MessageTransition(m.j1.nom, m.j1.scoreTotal,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
-                                }else if(m.j2.score>m.j1.score){
-                                    mt = new MessageTransition(m.j2.nom, m.j2.scoreTotal,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
-                                }else{
-                                    mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
-                                }
-                            }
+                            mt = new MessageTransition(m, largeur_scene, hauteur_scene);
                             root.getChildren().add(mt);
                             messageActif=1;
                         }
