@@ -117,6 +117,7 @@ public class Bridge extends Application {
     public boolean messagePioche=false;
     public boolean finTour=false;
     public boolean messageFinManche = false;
+    public boolean messageFinPartie = false;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -1614,9 +1615,10 @@ public class Bridge extends Application {
                                 /*System.out.println("Manche SUIVANTE !");
                                 init_manche();*/
                             } else {
+                                messageFinPartie=true;
                                 score();
                                 fin_manche();
-                                System.out.println();
+                                /*System.out.println();
                                 System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
                                 System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
                                 if (m.j1.scoreTotal > m.j2.scoreTotal) {
@@ -1626,7 +1628,7 @@ public class Bridge extends Application {
                                 } else {
                                     System.out.println("EGALITE");
                                 }
-                                System.exit(0);
+                                System.exit(0);*/
                             }
                         }
                     }
@@ -1656,25 +1658,31 @@ public class Bridge extends Application {
                     }
                     
                     //Affichage Bandeau en Fin Partie
-                    /*if(m.finPartie()){
+                    if(m.finManche() && m.finPartie() && messageFinPartie){
                         if(messageActif==0){
-                            if(m.config.conditionVictoire==1){
-                                if(m.j1.score>m.j2.score){
-                                    mt = new MessageTransition(m.j1.nom, m.j1.score,2,false, largeur_scene, hauteur_scene);
+                            if(m.config.conditionVictoire==1){  //Afficher un message concernant le nombre de manches
+                                if(m.j1.manchesGagnees>m.j2.manchesGagnees){
+                                    mt = new MessageTransition(m.j1.nom, m.j1.manchesGagnees,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
+                                }else if(m.j2.manchesGagnees>m.j1.manchesGagnees){
+                                    mt = new MessageTransition(m.j2.nom, m.j2.manchesGagnees,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
+                                }else{  //En cas d'égalité, on regarde le score Total   A AMELIORER DANS LE TEXTE
+                                    if(m.j1.scoreTotal>m.j2.scoreTotal){
+                                        mt = new MessageTransition(m.j1.nom, m.j1.scoreTotal,2,false, largeur_scene, hauteur_scene);
+                                    }else if(m.j2.score>m.j1.score){
+                                        mt = new MessageTransition(m.j2.nom, m.j2.scoreTotal,2,false, largeur_scene, hauteur_scene);
+                                    }else{
+                                        mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
+                                    }
+                                }
+                            }else{  //Afficher un message concernant le score Total
+                                if(m.j1.scoreTotal>m.j2.scoreTotal){
+                                    mt = new MessageTransition(m.j1.nom, m.j1.scoreTotal,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
                                 }else if(m.j2.score>m.j1.score){
-                                    mt = new MessageTransition(m.j2.nom, m.j2.score,2,false, largeur_scene, hauteur_scene);
+                                    mt = new MessageTransition(m.j2.nom, m.j2.scoreTotal,m.config.conditionVictoire,false, largeur_scene, hauteur_scene);
                                 }else{
-                                    mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
+                                    mt = new MessageTransition(null, 0,0,true, largeur_scene, hauteur_scene);
                                 }
-                        }else{
-                            if(m.j1.score>m.j2.score){
-                                    mt = new MessageTransition(m.j1.nom, m.j1.manchesGagnees,2,false, largeur_scene, hauteur_scene);
-                                }else if(m.j2.score>m.j1.score){
-                                    mt = new MessageTransition(m.j2.nom, m.j2.manchesGagnees,2,false, largeur_scene, hauteur_scene);
-                              }else{
-                                    mt = new MessageTransition(null, 0,0,false, largeur_scene, hauteur_scene);
-                                }
-                        }
+                            }
                             root.getChildren().add(mt);
                             messageActif=1;
                         }
@@ -1683,7 +1691,7 @@ public class Bridge extends Application {
                             messageActif=0;
                             System.exit(0);
                         }
-                    }*/
+                    }
                     
                     //Au tour de l'IA de jouer sa carte
                     if ((((m.config.mode == 2 && tour_joueur == IA) || m.config.mode == 3) && carte_jouee == 0) && clean == 0 && m.config.taille > 0 && temps + 1000 < System.currentTimeMillis()) { //Cas où c'est au tour d'une IA de jouer
