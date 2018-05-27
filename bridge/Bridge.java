@@ -1117,7 +1117,6 @@ public class Bridge extends Application {
                         break;                    
                 }
                 if(m.config.pioche[j].pile.size() > 1){
-                    System.out.println("RAS");
                     img = new ImagePattern(new Image("images/" + card));
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setFill(img);
                     pile[j][m.config.pioche[j].pile.size()-1].dos.setVisible(true);
@@ -1454,9 +1453,33 @@ public class Bridge extends Application {
     }
 
     public void maj_handler_unitPile(int n) {
+        
+        pile[n][0].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if ((tour_pioche == 2 && (m.config.mode == 1 || m.config.perdant != IA) && pause == 0 && message_t == 0)||(tour_pioche == 1 && (m.config.mode == 1 || m.config.gagnant != IA) && pause == 0 && message_t == 0)) {
+                   pile[n][0].face.setScaleX(1.2);
+                   pile[n][0].face.setScaleY(1.2);
+                }
+            }           
+        });
+        
+        pile[n][0].face.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if ((tour_pioche == 2 && (m.config.mode == 1 || m.config.perdant != IA) && pause == 0 && message_t == 0)||(tour_pioche == 1 && (m.config.mode == 1 || m.config.gagnant != IA) && pause == 0 && message_t == 0)) {
+                    pile[n][0].face.setTranslateY((hauteur_scene / 2) - (pile[n][0].hauteur_carte / 2));
+                    pile[n][0].face.setScaleX(1);
+                    pile[n][0].face.setScaleY(1);
+                }
+            }        
+        });
+        
         pile[n][0].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
+                pile[n][0].face.setScaleX(1);
+                pile[n][0].face.setScaleY(1);
                 if (tour_pioche == 2 && (m.config.mode == 1 || m.config.perdant != IA) && pause == 0 && message_t == 0) {
                     if (m.config.piochable()) {
                         m.config.afficherPioche();
