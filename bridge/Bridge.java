@@ -311,6 +311,11 @@ public class Bridge extends Application {
             //rounds.setStyle("-fx-text-fill: black");
             firstmenu.setTextFill(Color.BLACK);
             launchgame.setTextFill(Color.BLACK);
+            
+            //Temporaire !
+            launchgame.setTranslateX(0);
+            launchgame.setTranslateY(-500);
+            
         } else {
             pane.setStyle("-fx-color: black; -fx-background-color: #3b3f42;");
             bridgechinois2.setStyle("-fx-text-fill: white");
