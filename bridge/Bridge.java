@@ -2269,7 +2269,7 @@ public class Bridge extends Application {
                     //Début du 1er tour de la partie
                     if(m.config.mode == 1 && (message_t == -2 ||message_t == -1)){
                         if(messageActif==0 && (message_t != -1)){
-                            if(tour_joueur == 1){
+                            if(m.config.donneur == J1){
                                 affichage_dos_main_bas(j1main,J1,1);
                                 affichage_dos_main(j2main,J2);
                             }else{
@@ -2299,7 +2299,7 @@ public class Bridge extends Application {
                                 init_main(j2main, J2);
                                 affichage_face_main(j2main, J2);
                             }
-                            if(tour_joueur == 1){
+                            if(m.config.donneur == J1){
                                 affichage_dos_main_bas(j1main,J1,0);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,0);
@@ -2313,7 +2313,7 @@ public class Bridge extends Application {
                     //Début de chaque tour sauf le tout premier
                     if(m.config.mode == 1 && messagePioche==true && (message_t == 7 || message_t == 8)){                        
                         if(messageActif==0 && (message_t != 8)){
-                            if(tour_joueur == 1){
+                            if(m.config.donneur == J1){
                                 affichage_dos_main_bas(j1main,J1,1);
                                 affichage_dos_main(j2main,J2);
                             }else{
@@ -2342,7 +2342,7 @@ public class Bridge extends Application {
                                 init_main(j2main, J2);
                                 affichage_face_main(j2main, J2);
                             }
-                            if(tour_joueur == 1){
+                            if(m.config.donneur == J1){
                                 affichage_dos_main_bas(j1main,J1,0);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,0);
@@ -2357,7 +2357,7 @@ public class Bridge extends Application {
                     //Affichage Message transition CoupPremier CoupSecond Joueur Contre Joueur
                     if(m.config.mode == 1 && m.config.carteP != null && carte_jouee == 1 && pause == 0 && (message_t == 1 || message_t == 2)){                       
                         if(messageActif==0 && message_t != 2){
-                            if(tour_joueur == 1){
+                            if(m.config.receveur == J1){
                                 affichage_dos_main_bas(j1main,J1,1);
                                 affichage_dos_main(j2main,J2);
                             }else{
@@ -2375,7 +2375,7 @@ public class Bridge extends Application {
                         }
                         
                         if(!mt.isVisible()){
-                            if(tour_joueur == 1){
+                            if(m.config.receveur == J1){
                                 affichage_dos_main_bas(j1main,J1,0);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,0);
@@ -2389,7 +2389,7 @@ public class Bridge extends Application {
                     //Affichage Message transition CoupSecond Pioche Joueur Contre Joueur
                     if(m.config.mode == 1 && messagePioche==true && carte_jouee == 1 && m.config.piochable() && pause == 0 && (message_t == 3 || message_t == 4)){
                         if(messageActif==0 && (message_t != 4)){
-                            if(tour_joueur == 1){
+                            if(m.config.gagnant == J1){
                                 affichage_dos_main_bas(j1main,J1,1);
                                 affichage_dos_main(j2main,J2);
                             }else{
@@ -2408,7 +2408,7 @@ public class Bridge extends Application {
                         }
                         
                         if(!mt.isVisible()){
-                            if(tour_joueur == 1){
+                            if(m.config.gagnant == J1){
                                 affichage_dos_main_bas(j1main,J1,0);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,0);
@@ -2424,12 +2424,14 @@ public class Bridge extends Application {
                     //Affichage Message transition PremierePioche DeuxiemePioche Joueur Contre Joueur
                     if(m.config.mode == 1 && messagePioche==true && tour_pioche==2 && (message_t == 5 || message_t == 6)){
                         if(messageActif==0 && (message_t != 6)){
-                            if(tour_joueur == 1){
+                            if(m.config.perdant == J1){
                                 affichage_dos_main_bas(j1main,J1,1);
                                 affichage_dos_main(j2main,J2);
+                                cacher_face_main(j2main,J2);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,1);
                                 affichage_dos_main(j1main,J1);
+                                cacher_face_main(j1main,J1);
                             }
                             if(m.config.perdant==1){
                                 mt = new MessageTransition(2, m.j1.nom,largeur_scene, hauteur_scene);
@@ -2443,7 +2445,7 @@ public class Bridge extends Application {
                         }
                         
                         if(!mt.isVisible()){
-                            if(tour_joueur == 1){
+                            if(m.config.perdant == J1){
                                 affichage_dos_main_bas(j1main,J1,0);
                             }else{
                                 affichage_dos_main_bas(j2main,J2,0);
