@@ -110,7 +110,7 @@ public class Bridge extends Application {
     final String Bleu = ("042955");
     final String Vert=("274e13");
     final String Rouge=("480c19");
-    public String couleurPlateau=(Rouge);
+    public String couleurPlateau=(Vert);
     
     public int messageActif = 0;
 
