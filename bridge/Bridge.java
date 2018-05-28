@@ -2431,9 +2431,9 @@ public class Bridge extends Application {
                                 /*System.out.println("Manche SUIVANTE !");
                                  init_manche();*/
                             } else {
-                                messageFinPartie = true;
                                 score();
                                 fin_manche();
+                                messageFinPartie = true;
                                 /*System.out.println();
                                  System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
                                  System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));

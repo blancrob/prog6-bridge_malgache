@@ -86,31 +86,35 @@ public class MessageTransition extends Parent {
             if(m.config.conditionVictoire==1 && m.j1.manchesGagnees != m.j2.manchesGagnees){  //Partie en Nombre de Manches
                 if(m.config.mode == 1){  //En Joueur Contre Joueur
                     if(m.j1.manchesGagnees>m.j2.manchesGagnees){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manche(s) gagnée(s) ");
                     }else if(m.j2.manchesGagnees>m.j1.manchesGagnees){  //Si le joueur 2 gagne
-                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.manchesGagnees + " manche(s) gagnée(s) ");
                     }
                 }else if(m.config.mode == 2){
                     if(m.j1.manchesGagnees>m.j2.manchesGagnees){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manche(s) gagnée(s) ");
                     }else{  //Si le joueur 2 gagne
-                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.manchesGagnees + " manches gagnées");
+                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.manchesGagnees + " manche(s) gagnée(s)");
                         victoire = false;
                     }
                 }
             }else{  //Partie au score
-                if(m.config.mode == 1){  //En Joueur Contre Joueur
-                    if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
-                    }else if(m.j2.scoreTotal>m.j1.scoreTotal){  //Si le joueur 2 gagne
-                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.scoreTotal + " plis ");
-                    }
-                }else if(m.config.mode == 2){
-                    if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
-                    }else{  //Si le joueur 2 gagne
-                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.scoreTotal + " plis");
-                        victoire = false;
+                if(m.j1.scoreTotal==m.j2.scoreTotal){   //En cas d'égalité
+                    message_victoire = new Text("Egalité");
+                }else{
+                    if(m.config.mode == 1){  //En Joueur Contre Joueur
+                        if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
+                            message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
+                        }else if(m.j2.scoreTotal>m.j1.scoreTotal){  //Si le joueur 2 gagne
+                            message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.scoreTotal + " plis ");
+                        }
+                    }else if(m.config.mode == 2){
+                        if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
+                            message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
+                        }else{  //Si le joueur 2 gagne
+                            message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.scoreTotal + " plis");
+                            victoire = false;
+                        }
                     }
                 }
             }
