@@ -208,8 +208,8 @@ public class Bridge extends Application {
     }
 
     public void transitionMenuJeu(Stage primaryStage) {
-        //m = new Moteur2();
-        //m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
+        m = new Moteur2();
+        m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
         init_manche();
         root = new AnchorPane();
         for (int i = 0; i < j1main.length; i++) {
@@ -940,6 +940,8 @@ public class Bridge extends Application {
 
     public Carte J1_lastCard;
     public Carte J2_lastCard;
+    
+    Timeline timeline2;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -1571,12 +1573,6 @@ public class Bridge extends Application {
                 if (m.config.gagnant == J1) {
                     bandeau.tourJ(J1);
                     m.config.perdant = IA;
-                    for(int i = 0; i< pile.length; i++){
-                        if(pile[i][0] != null){
-                            System.out.println("éfresgte");
-                            animationTimeline2(pile[i][0]);
-                        }
-                    }
                 } else {
                     bandeau.tourJ(IA);
                     m.config.perdant = J1;
@@ -1921,19 +1917,6 @@ public class Bridge extends Application {
                 new KeyFrame(seconds(.6), new KeyValue(c.face.translateYProperty(), 0)),
                 new KeyFrame(seconds(.6), new KeyValue(c.face.translateXProperty(), largeur_scene / 1.4 + c.largeur_carte / 2))
         );
-        timeline.play();
-        temps = System.currentTimeMillis();
-        animation_t = 1;
-    }
-    
-    private void animationTimeline2(Carte c) {
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(seconds(.4), new KeyValue(c.face.scaleXProperty(), 1.3), new KeyValue(c.face.scaleYProperty(), 1.5), new KeyValue(c.face.rotateProperty(), 45)),
-                new KeyFrame(seconds(.4), new KeyValue(c.face.scaleXProperty(), 1), new KeyValue(c.face.scaleYProperty(), 1), new KeyValue(c.face.rotateProperty(), -45))
-        );
-        timeline.setAutoReverse(true);
-        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         temps = System.currentTimeMillis();
         animation_t = 1;
