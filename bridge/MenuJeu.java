@@ -10,16 +10,17 @@ import java.awt.Toolkit;
 import static java.lang.System.exit;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -77,7 +78,146 @@ public class MenuJeu extends Parent {
             return 0;
         }
     }
-    
+    void quitter(){
+        Rectangle quitno = new Rectangle(largeur_scene/3,hauteur_scene/3.6,Color.GREY);
+        Rectangle quityes = new Rectangle(largeur_scene/6,hauteur_scene/3.6,Color.GREY);
+        Text quitmessage = new Text("Voulez vous vraiment quitter ?");
+        //Text yesmessage = new Text("OUI");
+        //Text nomessage = new Text("NON");
+        quitmessage.setFont(new Font(45));
+        //yesmessage.setFont(new Font(45));
+        //nomessage.setFont(new Font(45));
+        quitmessage.setFill(Color.LIGHTGREY);
+        //yesmessage.setFill(Color.LIGHTGREY);
+        //nomessage.setFill(Color.LIGHTGREY);
+        quitmessage.setX(largeur_scene/70);
+        //yesmessage.setX(largeur_scene/4.5);
+        //nomessage.setX(largeur_scene/1.38);
+        quitmessage.setY(quityes.getHeight()-(hauteur_scene/8));
+        //yesmessage.setY(quityes.getHeight()-135);
+        //nomessage.setY(quityes.getHeight()-135);
+        //quitno.toFront();
+        //quityes.toFront();
+        //quitmessage.toFront();
+        MenuJeu.this.getChildren().addAll(quitno,quityes,quitmessage);
+        quitno.setOnMouseEntered((MouseEvent me) -> {
+            quitno.setFill(Color.RED);
+            //MenuJeu.this.getChildren().remove(quitmessage);
+            //MenuJeu.this.getChildren().add(nomessage);
+        });
+        quitno.setOnMouseExited((MouseEvent me) -> {
+            quitno.setFill(Color.GREY);
+            //MenuJeu.this.getChildren().remove(nomessage);
+            //MenuJeu.this.getChildren().add(quitmessage);
+        });
+        quitno.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(quitno,quityes,quitmessage);
+        });
+        quityes.setOnMouseEntered((MouseEvent me) -> {
+            quityes.setFill(Color.GREEN);
+            //MenuJeu.this.getChildren().remove(quitmessage);
+            //MenuJeu.this.getChildren().add(yesmessage);
+        });
+        quityes.setOnMouseExited((MouseEvent me) -> {
+            quityes.setFill(Color.GREY);
+            //MenuJeu.this.getChildren().remove(yesmessage);
+            //MenuJeu.this.getChildren().add(quitmessage);
+        });
+        quityes.setOnMouseClicked((MouseEvent me) -> {
+            exit(0);
+        });
+    }
+    void aides(){
+        Rectangle helpspace = new Rectangle(largeur_scene/4,hauteur_scene/3.6,Color.GREY);
+        Text raccourcis = new Text("RACCOURCIS CLAVIER");
+        Text recommencer = new Text("T : Recommencer");
+        Text help = new Text("H : Aide");
+        Text regles = new Text("R : Regles");
+        Text save = new Text("S : Sauvegarder");
+        Text quit = new Text("Q : Quitter"); 
+        helpspace.setY((hauteur_scene/1.35));
+        raccourcis.setFont(new Font(30));
+        raccourcis.setFill(Color.LIGHTGREY);
+        raccourcis.setX(largeur_scene/70);
+        raccourcis.setY(hauteur_scene-(hauteur_scene/4.7));
+        recommencer.setFont(new Font(25));
+        recommencer.setFill(Color.LIGHTGREY);
+        recommencer.setX(largeur_scene/70);
+        recommencer.setY(hauteur_scene-(hauteur_scene/5.4));
+        help.setFont(new Font(25));
+        help.setFill(Color.LIGHTGREY);
+        help.setX(largeur_scene/70);
+        help.setY(hauteur_scene-(hauteur_scene/6.35));
+        regles.setFont(new Font(25));
+        regles.setFill(Color.LIGHTGREY);
+        regles.setX(largeur_scene/70);
+        regles.setY(hauteur_scene-(hauteur_scene/7.7));
+        save.setFont(new Font(25));
+        save.setFill(Color.LIGHTGREY);
+        save.setX(largeur_scene/70);
+        save.setY(hauteur_scene-(hauteur_scene/9.8));
+        quit.setFont(new Font(25));
+        quit.setFill(Color.LIGHTGREY);
+        quit.setX(largeur_scene/70);
+        quit.setY(hauteur_scene-(hauteur_scene/13.5));
+        this.getChildren().addAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        helpspace.setOnMouseEntered((MouseEvent me) -> {
+            helpspace.setFill(Color.LIGHTGREY);
+            raccourcis.setFill(Color.GREY);
+            recommencer.setFill(Color.GREY);
+            help.setFill(Color.GREY);
+            regles.setFill(Color.GREY);
+            save.setFill(Color.GREY);
+            quit.setFill(Color.GREY);
+        });
+        helpspace.setOnMouseExited((MouseEvent me) -> {
+            helpspace.setFill(Color.GREY);
+            raccourcis.setFill(Color.LIGHTGREY);
+            recommencer.setFill(Color.LIGHTGREY);
+            help.setFill(Color.LIGHTGREY);
+            regles.setFill(Color.LIGHTGREY);
+            save.setFill(Color.LIGHTGREY);
+            quit.setFill(Color.LIGHTGREY);
+        });
+        helpspace.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        });
+    }
+    void regles(){
+        Rectangle rulesspace = new Rectangle(largeur_scene/3,hauteur_scene/2.16,Color.GREY);
+        rulesspace.setY((hauteur_scene/3.6));
+        Text rulesmessage1 = new Text("olala c'est bien les regles, on adore les regles,");
+        Text rulesmessage2 = new Text("les regles c'est notre dada, sauf que d'apres ");
+        Text rulesmessage3 = new Text("laurence faut pas les lires");
+        rulesmessage1.setFont(new Font(30));
+        rulesmessage1.setFill(Color.LIGHTGREY);
+        rulesmessage1.setX(largeur_scene/70);
+        rulesmessage1.setY(rulesspace.getHeight()-(hauteur_scene/6.75));
+        rulesmessage2.setFont(new Font(30));
+        rulesmessage2.setFill(Color.LIGHTGREY);
+        rulesmessage2.setX(largeur_scene/70);
+        rulesmessage2.setY(rulesspace.getHeight()-(hauteur_scene/9));
+        rulesmessage3.setFont(new Font(30));
+        rulesmessage3.setFill(Color.LIGHTGREY);
+        rulesmessage3.setX(largeur_scene/70);
+        rulesmessage3.setY(rulesspace.getHeight()-(hauteur_scene/13.5));
+        this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3);
+        rulesspace.setOnMouseEntered((MouseEvent me) -> {
+            rulesspace.setFill(Color.LIGHTGREY);
+            rulesmessage1.setFill(Color.GREY);
+            rulesmessage2.setFill(Color.GREY);
+            rulesmessage3.setFill(Color.GREY);
+        });
+        rulesspace.setOnMouseExited((MouseEvent me) -> {
+            rulesspace.setFill(Color.GREY);
+            rulesmessage1.setFill(Color.LIGHTGREY);
+            rulesmessage2.setFill(Color.LIGHTGREY);
+            rulesmessage3.setFill(Color.LIGHTGREY);
+        });
+        rulesspace.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3);
+        });
+    }
     public MenuJeu(Moteur m) {
              
         menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));//gris foncé : 4b4c4e autre gris : 343638 bleu fonce :040447 violet : 4c1130
@@ -89,8 +229,14 @@ public class MenuJeu extends Parent {
         quit.setTranslateX(largeur_scene/48);
         quit.setTranslateY(hauteur_scene-hauteur_scene/10);
         this.getChildren().add(quit);
+        quit.setOnKeyPressed(keyEvent ->{
+            KeyCode q = keyEvent.getCode();
+            if (q.equals(KeyCode.Q)){
+                quitter();
+            }
+        });
         quit.setOnAction((ActionEvent event) -> {
-            exit(0);
+            quitter();
         });
         
         save = new Button("Sauvegarder");
@@ -113,6 +259,15 @@ public class MenuJeu extends Parent {
         help.setTranslateX(largeur_scene/9.6);
         help.setTranslateY(hauteur_scene-hauteur_scene/3.3);
         this.getChildren().add(help);
+        help.setOnKeyPressed(keyEvent ->{
+            KeyCode h = keyEvent.getCode();
+            if (h.equals(KeyCode.H)){
+                aides();
+            }
+        });
+        help.setOnAction((ActionEvent event) -> {
+            aides();
+        });
         
         restart = new Button("Recommencer");
         restart.setPrefWidth(largeur_scene/13.715);
@@ -127,6 +282,15 @@ public class MenuJeu extends Parent {
         rules.setTranslateX(largeur_scene/9.6);
         rules.setTranslateY(hauteur_scene-hauteur_scene/2.465);
         this.getChildren().add(rules);
+        rules.setOnKeyPressed(keyEvent ->{
+            KeyCode r = keyEvent.getCode();
+            if (r.equals(KeyCode.R)){
+                regles();
+            }
+        });
+        rules.setOnAction((ActionEvent event) -> {
+            regles();
+        });
         
         tour = new Label("Tour : "+name);
         tour.setFont(new Font("Arial",25));
