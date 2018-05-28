@@ -212,6 +212,43 @@ public class Bridge extends Application {
         }
     }
 
+    void charger(Stage primaryStage){
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
+        try {
+            m = new Moteur2();
+            m.charger(f.getName());
+            temps = m.config.temps;
+            temps2 = m.config.temps2;
+            carte_jouee = m.config.carte_jouee;
+            tour_joueur = m.config.tour_joueur;
+            tour_pioche = m.config.tour_pioche;
+            k = m.config.k = k;
+            J1_carte_jouee = m.config.J1_carte_jouee;
+            J2_carte_jouee = m.config.J2_carte_jouee;
+            clean = m.config.clean;
+            pause = m.config.pause;
+            j1_lock = m.config.j1_lock;
+            j2_lock = m.config.j2_lock;
+            select = m.config.select;
+            cheat = m.config.cheat;
+            message_t = m.config.message_t;
+            animation_cartePiochee = m.config.animation_cartePiochee;
+            animation_t = m.config.animation_t;
+            J1_lastCard = m.config.J1_lastCard;
+            J2_lastCard = m.config.J2_lastCard;
+            affichage_initial_pioche = m.config.affichage_initial_pioche;
+            messagePioche = m.config.messagePioche;
+            finTour = m.config.finTour;
+            messageFinManche = m.config.messageFinManche;
+            messageFinPartie = m.config.messageFinPartie;
+        } catch (IOException ex) {
+            Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
         m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
@@ -237,7 +274,11 @@ public class Bridge extends Application {
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));
         root.setStyle("-fx-background-color:#"+couleurPlateau+";");
         root.getChildren().add(bandeau);
-
+        
+        bandeau.load.setOnAction((ActionEvent event) -> {
+            charger(primaryStage);
+        });
+        
         bandeau.restart.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
             nbrounds.setText("");
@@ -561,6 +602,7 @@ public class Bridge extends Application {
                 finTour = m.config.finTour;
                 messageFinManche = m.config.messageFinManche;
                 messageFinPartie = m.config.messageFinPartie;
+                transitionMenuJeu(primaryStage);
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -950,6 +992,8 @@ public class Bridge extends Application {
 
     public Carte J1_lastCard;
     public Carte J2_lastCard;
+    
+    Timeline timeline2;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
