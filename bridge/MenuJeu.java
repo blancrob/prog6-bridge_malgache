@@ -43,6 +43,8 @@ public class MenuJeu extends Parent {
     Label condition_victoire;
     Label joueur1;
     Label joueur2;
+    Label scorej1;
+    Label scorej2;
     Label titre;
     Button hist;
     Label plisJ1;
@@ -204,33 +206,58 @@ public class MenuJeu extends Parent {
         condition_victoire.setStyle("-fx-alignment: center;");
         this.getChildren().add(condition_victoire);
         
-        if(m.config.conditionVictoire==1)
-            joueur2 = new Label(m.j2.nom+"\t\t\t"+m.j2.manchesGagnees);
-        else
-            joueur2 = new Label(m.j2.nom+"\t\t\t"+m.j2.scoreTotal);
-
+        if(m.config.conditionVictoire==2){
+            joueur2 = new Label(m.j2.nom);
+            scorej2=new Label(""+m.j2.scoreTotal);
+        }
+        else{
+            joueur2 = new Label(m.j2.nom);
+            scorej2=new Label(""+m.j2.manchesGagnees);
+        }
         joueur2.setFont(new Font("Arial",22));
         joueur2.setTextFill(Color.WHITE);
-        joueur2.setPrefWidth(largeur_scene/6.4);
+        joueur2.setPrefWidth(largeur_scene/16);
         joueur2.setPrefHeight(hauteur_scene/12);
         joueur2.setTranslateX(largeur_scene/48);
         joueur2.setTranslateY(hauteur_scene-hauteur_scene/1.2);
         joueur2.setStyle("-fx-alignment: center;");
         this.getChildren().add(joueur2);
         
-        if(m.config.conditionVictoire==1)
-            joueur1 = new Label(m.j1.nom+"\t\t\t"+m.j1.manchesGagnees);
-        else
-            joueur1 = new Label(m.j1.nom+"\t\t\t"+m.j1.scoreTotal);
+        scorej2.setFont(new Font("Arial",22));
+        scorej2.setTextFill(Color.WHITE);
+        scorej2.setPrefWidth(largeur_scene/3.9);
+        scorej2.setPrefHeight(hauteur_scene/12);
+        scorej2.setTranslateX(largeur_scene/38);
+        scorej2.setTranslateY(hauteur_scene-hauteur_scene/1.2);
+        scorej2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(scorej2);
         
+        if(m.config.conditionVictoire==2){
+            joueur1 = new Label(m.j1.nom);
+            scorej1=new Label(  m.j1.scoreTotal+"");
+        }
+        else{
+            joueur1 = new Label(m.j1.nom);
+            scorej1=new Label(m.j1.manchesGagnees+"");
+        }
         joueur1.setFont(new Font("Arial",22));
         joueur1.setTextFill(Color.WHITE);
-        joueur1.setPrefWidth(largeur_scene/6.4);
+        joueur1.setPrefWidth(largeur_scene/16);
         joueur1.setPrefHeight(hauteur_scene/12);
         joueur1.setTranslateX(largeur_scene/48);
         joueur1.setTranslateY(hauteur_scene-hauteur_scene/1.12);
         joueur1.setStyle("-fx-alignment: center;");
         this.getChildren().add(joueur1);
+        
+                
+        scorej1.setFont(new Font("Arial",22));
+        scorej1.setTextFill(Color.WHITE);
+        scorej1.setPrefWidth(largeur_scene/3.9);
+        scorej1.setPrefHeight(hauteur_scene/12);
+        scorej1.setTranslateX(largeur_scene/38);
+        scorej1.setTranslateY(hauteur_scene-hauteur_scene/1.12);
+        scorej1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(scorej1);
         
         titre = new Label("Bridge Chinois");
         titre.setFont(new Font("Arial",30));
