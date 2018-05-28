@@ -61,6 +61,7 @@ public class Bridge extends Application {
     public Button launchgame = new Button("\t     Lancer Partie  \t\t");
     public Button advancedoptions = new Button("Options Avancées");
     public Button daynight = new Button("Jour/Nuit");
+    public Button back = new Button("<  Retour");
 
     //Les Textes
     public Label bridgechinois = new Label("Bridge Chinois");
@@ -287,7 +288,18 @@ public class Bridge extends Application {
         primaryStage.show();
         launchedjeu = true;
     }
-
+    
+    public void regles(Stage primaryStage, Button back){
+        primaryStage.setTitle("Regles");
+        pane = new GridPane();
+        scene = new Scene(pane, l_scene, h_scene);
+        back.setOnAction((ActionEvent event) -> {
+            firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
+        });
+        pane.add(back, 0,0);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     public void firstMenu(Stage primaryStage, Button newgame, Button loadgame, Button rules, Button options, Button quit) {
         primaryStage.setTitle("Menu Principal");
         pane = new GridPane();
@@ -314,7 +326,9 @@ public class Bridge extends Application {
         newgame.setOnAction((ActionEvent event) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
         });
-        
+        rules.setOnAction((ActionEvent event) -> {
+            regles(primaryStage, back);
+        });
         loadgame.setOnAction((ActionEvent event) -> {
            FileChooser fc = new FileChooser();
            fc.setInitialDirectory(new File(System.getProperty("user.dir")));

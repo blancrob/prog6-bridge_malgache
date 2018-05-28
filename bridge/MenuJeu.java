@@ -146,10 +146,10 @@ public class MenuJeu extends Parent {
         Text rulesmessage1 = new Text("Jouez une carte plus forte que votre adversaire !");
         Text rulesmessage2 = new Text("Elle doit être de la même couleur. Si vous");
         Text rulesmessage3 = new Text("ne pouvez pas fournir une carte de la même");
-        Text rulesmessage4 = new Text("couleur, utilisez un atout, ou defaussez vous. Une");
-        Text rulesmessage5 = new Text("fois le pli terminé, le vaiqueur le ramasse et ");
-        Text rulesmessage6 = new Text("pioche une carte parmi les tas centraux. Le perdant");
-        Text rulesmessage7 = new Text("du pli pioche après le vainqueur.");
+        Text rulesmessage4 = new Text("couleur, utilisez un atout, ou defaussez vous.");
+        Text rulesmessage5 = new Text("Une fois le pli terminé, le vaiqueur le ramasse et");
+        Text rulesmessage6 = new Text("pioche une carte parmi les tas centraux.");
+        Text rulesmessage7 = new Text(" Le perdant du pli pioche après le vainqueur.");
         rulesmessage1.setFont(new Font(25));
         rulesmessage1.setFill(Color.LIGHTGREY);
         rulesmessage1.setX(largeur_scene/1000);
@@ -179,12 +179,6 @@ public class MenuJeu extends Parent {
         rulesmessage7.setX(largeur_scene/1000);
         rulesmessage7.setY(hauteur_scene/1.65);
         this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
-        rulesspace.setOnMouseEntered((MouseEvent me) -> {
-            rulesspace.setOpacity(0.75);
-        });
-        rulesspace.setOnMouseExited((MouseEvent me) -> {
-            rulesspace.setOpacity(1);
-        });
         rulesmessage1.setOnMouseClicked((MouseEvent me) -> {
             MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
