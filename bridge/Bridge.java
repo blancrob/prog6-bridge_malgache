@@ -104,8 +104,13 @@ public class Bridge extends Application {
 
     public String computer1final = ("");
     public String computer2final = ("");
+    //Les Couleurs
+    public String couleurDos=("ROUGE");
     
-    public String couleurDos=("VERT");
+    final String Bleu = ("042955");
+    final String Vert=("274e13");
+    final String Rouge=("480c19");
+    public String couleurPlateau=(Rouge);
     
     public int messageActif = 0;
 
@@ -659,8 +664,8 @@ public class Bridge extends Application {
             }
         }
         primaryStage.setFullScreen(true);
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
-        root.setStyle("-fx-background-color:#274e13;");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));
+        root.setStyle("-fx-background-color:#"+couleurPlateau+";");
         root.getChildren().add(bandeau);
         
         bandeau.load.setOnAction((ActionEvent event) -> {
@@ -1053,6 +1058,12 @@ public class Bridge extends Application {
     }
 
     public void nouvellePartie(Stage primaryStage, Button firstmenu, Button launchgame, Button advancedoptions) {
+        nbpointsfinal = 0;
+        nbroundsfinal = 0;
+        joueur1level = 0;
+        joueur2level = 0;
+        
+        
         primaryStage.setTitle("Nouvelle Partie");
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
@@ -1188,7 +1199,7 @@ public class Bridge extends Application {
             cbhuman2.setSelected(false);
             cbcomputer2.setSelected(true);
         });
-
+        //selection des radio buttons quand on active la combo box
         iaLevel2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -1196,7 +1207,7 @@ public class Bridge extends Application {
                 cbcomputer2.setSelected(true);
             }
         });
-
+        //selection des radiobuttons quand on selectionne les conditions de victoire + selection des textfields
         cbpoints.setOnAction((ActionEvent event) -> {
             cbrounds.setSelected(false);
             nbrounds.setText("");
@@ -1322,8 +1333,8 @@ public class Bridge extends Application {
             }
             System.out.println("");
             System.out.println("level joueur 2: " + joueur2level);
-            System.out.println("Mode de la partie: " + typemode);
-            System.out.println("Type de la partie: " + typegame);
+            System.out.println("Mode de la partie : " + typemode);
+            System.out.println("Type de la partie : " + typegame);
             //validation des parametres
             if ((cbhuman2.isSelected() || cbcomputer2.isSelected()) && (cbpoints.isSelected() || cbrounds.isSelected()) && (cbcomputer2.isSelected() || cbhuman2.isSelected())) {
                 transitionMenuJeu(primaryStage);

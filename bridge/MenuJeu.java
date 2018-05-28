@@ -58,6 +58,12 @@ public class MenuJeu extends Parent {
     int mode;
     int l;
     String name;
+    //Les couleurs
+    final String Gris = ("343638");
+    final String Rouge=("330000");
+    final String Violet=("040447");
+    public String couleurbandeau=(Rouge);
+   
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -212,7 +218,7 @@ public class MenuJeu extends Parent {
     }
     public MenuJeu(Moteur m) {
              
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));//gris foncé : 4b4c4e autre gris : 343638 bleu fonce :040447 violet : 4c1130
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(couleurbandeau));
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
