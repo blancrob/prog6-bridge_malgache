@@ -103,13 +103,9 @@ public class Bridge extends Application {
 
     public String computer1final = ("");
     public String computer2final = ("");
-<<<<<<< HEAD
     
     public String couleurDos=("VERT");
     
-=======
-
->>>>>>> baa85666c1ec22673a66ca02a79eee765f945160
     public int messageActif = 0;
 
     MessageTransition mt=null;
@@ -1216,11 +1212,7 @@ public class Bridge extends Application {
                         card = "pile_3_"+couleurDos+".png";
                         break;
                     case 2:
-<<<<<<< HEAD
                         card = "pile_2_"+couleurDos+".png";             
-=======
-                        card = "pile_2_ROUGE.png";
->>>>>>> baa85666c1ec22673a66ca02a79eee765f945160
                         break;
                     default:
                         card = "ICONE_PIQUE.png";
