@@ -10,6 +10,7 @@ import static java.lang.System.exit;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -682,9 +683,15 @@ public class Bridge extends Application {
 
         switch (m.config.donneurInitial) {
             case 0:
-                m.config.donneurInitial = 1;
-                m.config.donneur = 1;
-                m.config.receveur = 2;
+                Random r = new Random();
+                m.config.donneurInitial = r.nextInt(2)+1;
+                if (m.config.donneurInitial == 1){
+                    m.config.donneur = 1;
+                    m.config.receveur = 2;
+                } else {
+                    m.config.donneur = 2;
+                    m.config.receveur = 1;
+                }
                 break;
             case 1:
                 m.config.donneurInitial = 2;
