@@ -31,6 +31,7 @@ public class MenuJeu extends Parent {
     
     Button quit;
     Button save;
+    Button load;
     Button option;
     Button restart;
     Button rules;
@@ -223,11 +224,18 @@ public class MenuJeu extends Parent {
         this.getChildren().add(quit);
 
         save = new Button("Sauvegarder");
-        save.setPrefWidth(largeur_scene/6.4);
+        save.setPrefWidth(largeur_scene/13.715);
         save.setPrefHeight(hauteur_scene/12);
-        save.setTranslateX(largeur_scene/48);
+        save.setTranslateX(largeur_scene/9.6);
         save.setTranslateY(hauteur_scene-hauteur_scene/5);
         this.getChildren().add(save);
+        
+        load = new Button("Charger");
+        load.setPrefWidth(largeur_scene/13.715);
+        load.setPrefHeight(hauteur_scene/12);
+        load.setTranslateX(largeur_scene/48);
+        load.setTranslateY(hauteur_scene-hauteur_scene/5);
+        this.getChildren().add(load);
 
         option = new Button("Options");
         option.setPrefWidth(largeur_scene/13.715);
