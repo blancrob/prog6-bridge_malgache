@@ -98,6 +98,8 @@ public class Bridge extends Application {
     public String computer1final = ("");
     public String computer2final = ("");
     
+    public String couleurDos=("VERT");
+    
     public int messageActif = 0;
     MessageTransition mt=null;
     public boolean messagePioche=false;
@@ -924,7 +926,7 @@ public class Bridge extends Application {
             t = m.j2.tas.pile.size();
             posY = hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte;
         }
-        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png"));  //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_"+couleurDos+".png"));  
        
         for (int i = 0; i < t; i++) {
              plis[i].dos.setFill(imgPli);
@@ -942,7 +944,7 @@ public class Bridge extends Application {
         } else {
             t = m.j2.tas.pile.size();
         }
-        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_"+couleurDos+".png"));
         for (int i = 0; i < t; i++) {
              plis[i].dos.setFill(imgPli);
             if (plis[i] != null) {
@@ -976,7 +978,7 @@ public class Bridge extends Application {
             t = m.j2.main.pile.size();
         }
         for (int i = 0; i < t; i++) {
-            ImagePattern img2 = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+            ImagePattern img2 = new ImagePattern(new Image("images/DOS_"+couleurDos+".png")); 
             main[i].dos.setFill(img2);
             main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
             main[i].dos.setTranslateY(hauteur_scene - main[i].hauteur_carte * 0.75);
@@ -1044,7 +1046,7 @@ public class Bridge extends Application {
                 main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
                 main[i].dos.setTranslateY(-(main[i].hauteur_carte * 0.25));
 
-                ImagePattern img = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                ImagePattern img = new ImagePattern(new Image("images/DOS_"+couleurDos+".png"));
                 main[i].dos.setFill(img);
                 main[i].dos.setVisible(true);
                 main[i].dos.toFront();
@@ -1075,7 +1077,7 @@ public class Bridge extends Application {
                 ImagePattern img = new ImagePattern(new Image("images/" + carte));
                 main[i].face.setFill(img);
 
-                ImagePattern img2 = new ImagePattern(new Image("images/DOS_ROUGE.png")); //DOS_BLEU, DOS_ROUGE, DOS_OR, DOS_NOIR, DOS_VERT
+                ImagePattern img2 = new ImagePattern(new Image("images/DOS_"+couleurDos+".png"));
                 main[i].dos.setFill(img2);
 
                 main[i].face.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
@@ -1106,16 +1108,16 @@ public class Bridge extends Application {
                 
                 switch(m.config.pioche[j].pile.size()){
                     case 5:
-                        card = "pile_5_ROUGE.png";
+                        card = "pile_5_"+couleurDos+".png";
                         break;
                     case 4:
-                        card = "pile_4_ROUGE.png";
+                        card = "pile_4_"+couleurDos+".png";
                         break;
                     case 3:
-                        card = "pile_3_ROUGE.png";
+                        card = "pile_3_"+couleurDos+".png";
                         break;
                     case 2:
-                        card = "pile_2_ROUGE.png";             
+                        card = "pile_2_"+couleurDos+".png";             
                         break;
                     default:
                         card = "ICONE_PIQUE.png";
