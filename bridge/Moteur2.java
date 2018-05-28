@@ -101,12 +101,17 @@ public class Moteur2 extends Moteur {
 
         // désérialization de l'objet
         EtatGlobal e = (EtatGlobal) ois.readObject();
+        
+        config = new Configuration();
+        j1 = new Joueur();
+        j2 = new Joueur();
 
         config = e.config;
         j1 = e.j1;
         j2 = e.j2;
 
         ois.close();
+        System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
     }
 
     /**
