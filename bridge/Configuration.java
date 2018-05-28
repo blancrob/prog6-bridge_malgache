@@ -12,6 +12,43 @@ public class Configuration implements Serializable {
     int mode;   // 1:Joueur vs Joueur | 2: Joueur vs IA | 3: IA vs IA
     int mancheMax, scoreMax, atout, joueur, donneur, donneurInitial, receveur, manche, gagnant, perdant, taille;
     
+    
+    long temps = 0;
+    long temps2 = 0;
+    int carte_jouee = 0;
+    int tour_joueur;
+    int tour_pioche = 0;
+    int k = 0;
+    
+    public boolean messagePioche=false;
+    public boolean finTour=false;
+    public boolean messageFinManche = false;
+    public boolean messageFinPartie = false;
+
+    Carte J1_carte_jouee;
+    Carte J2_carte_jouee;
+
+    public int clean = 0;
+    public int pause = 0;
+
+    public int j1_lock = 0;
+    public int j2_lock = 0;
+
+    public int select = 0;
+
+    public int cheat = 0;
+
+    public int message_t = 0;
+
+    int animation_cartePiochee = 0;
+
+    int animation_t = 0;
+
+    public Carte J1_lastCard;
+    public Carte J2_lastCard;
+    
+    int affichage_initial_pioche = 0;
+    
     Stack<EtatGlobal> undo, redo;
     
     public Configuration(){

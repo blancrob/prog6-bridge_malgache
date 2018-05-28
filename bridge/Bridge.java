@@ -109,6 +109,8 @@ public class Bridge extends Application {
     MessageTransition mt=null;
     public boolean messagePioche=false;
     public boolean finTour=false;
+    public boolean messageFinManche = false;
+    public boolean messageFinPartie = false;
     
     void sauver(Stage primaryStage){
         Rectangle sauvno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
@@ -192,14 +194,15 @@ public class Bridge extends Application {
         fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
         File f = fc.showSaveDialog(primaryStage);
         try {
+            m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+            finTour, messageFinManche, messageFinPartie);
             m.sauvegarder(f.getName());
         } catch (IOException ex) {
             Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public boolean messageFinManche = false;
-    public boolean messageFinPartie = false;
 
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
@@ -328,6 +331,30 @@ public class Bridge extends Application {
             try {
                 m = new Moteur2();
                 m.charger(f.getName());
+                temps = m.config.temps;
+                temps2 = m.config.temps2;
+                carte_jouee = m.config.carte_jouee;
+                tour_joueur = m.config.tour_joueur;
+                tour_pioche = m.config.tour_pioche;
+                k = m.config.k = k;
+                J1_carte_jouee = m.config.J1_carte_jouee;
+                J2_carte_jouee = m.config.J2_carte_jouee;
+                clean = m.config.clean;
+                pause = m.config.pause;
+                j1_lock = m.config.j1_lock;
+                j2_lock = m.config.j2_lock;
+                select = m.config.select;
+                cheat = m.config.cheat;
+                message_t = m.config.message_t;
+                animation_cartePiochee = m.config.animation_cartePiochee;
+                animation_t = m.config.animation_t;
+                J1_lastCard = m.config.J1_lastCard;
+                J2_lastCard = m.config.J2_lastCard;
+                affichage_initial_pioche = m.config.affichage_initial_pioche;
+                messagePioche = m.config.messagePioche;
+                finTour = m.config.finTour;
+                messageFinManche = m.config.messageFinManche;
+                messageFinPartie = m.config.messageFinPartie;
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
