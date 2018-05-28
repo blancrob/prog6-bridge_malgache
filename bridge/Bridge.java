@@ -369,13 +369,13 @@ public class Bridge extends Application {
                 return 1;
             case "Facile":
                 return 2;
-            case "Moyenne":
+            case "Moyen":
                 return 3;
-            case "Avancée":
+            case "Avancé":
                 return 4;
             case "Difficile":
                 return 5;
-            case "Experte":
+            case "Expert":
                 return 6;
         }
         return -1;
@@ -430,10 +430,10 @@ public class Bridge extends Application {
             iaLevel2.getItems().addAll(
                     "Novice",
                     "Facile",
-                    "Moyenne",
-                    "Avancée",
+                    "Moyen",
+                    "Avancé",
                     "Difficile",
-                    "Experte"
+                    "Expert"
             );
             iaLevel2.setValue("Novice");
             combobox2set = 1;
@@ -476,14 +476,15 @@ public class Bridge extends Application {
         victorycond.setSpacing(h_scene/36);
         //Espace points
         HBox pointscond = new HBox();
-        pointscond.setSpacing(l_scene/96);
-        nbpoints.setPromptText("nombre de points");
-        pointscond.getChildren().addAll(cbpoints, nbpoints);
+        pointscond.setSpacing(20);
+        nbpoints.setPromptText("Nombre de points");
+        pointscond.getChildren().addAll(cbpoints, /*points,*/ nbpoints);
         //Espace manches
         HBox roundscond = new HBox();
-        roundscond.setSpacing(l_scene/96);
-        nbrounds.setPromptText("nombre de manches");
-        roundscond.getChildren().addAll(cbrounds, nbrounds);
+        roundscond.setSpacing(20);
+        nbrounds.setPromptText("Nombre de manches");
+        roundscond.getChildren().addAll(cbrounds,/* rounds,*/ nbrounds);
+
 
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
@@ -1009,7 +1010,10 @@ public class Bridge extends Application {
             t = m.j2.tas.pile.size();
             posY = hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte;
         }
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png"));  //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+       
         for (int i = 0; i < t; i++) {
+             plis[i].dos.setFill(imgPli);
             plis[i].face.setVisible(false);
             plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
             plis[i].dos.setTranslateY(posY);
@@ -1024,7 +1028,9 @@ public class Bridge extends Application {
         } else {
             t = m.j2.tas.pile.size();
         }
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
         for (int i = 0; i < t; i++) {
+             plis[i].dos.setFill(imgPli);
             if (plis[i] != null) {
                 plis[i].face.setVisible(false);
                 plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
