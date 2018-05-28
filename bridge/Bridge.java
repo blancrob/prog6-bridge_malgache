@@ -271,10 +271,10 @@ public class Bridge extends Application {
         undo = new Button();
         ImageView imgUndo = new ImageView(new Image("images/undo.png"));
         undo.setGraphic(imgUndo);
-        undo.setPrefWidth(85);
-        undo.setPrefHeight(25);
-        undo.setTranslateX(largeur_scene / 3.9);
-        undo.setTranslateY(hauteur_scene - hauteur_scene / 11);
+        undo.setPrefWidth(55);
+        undo.setPrefHeight(5);
+        undo.setTranslateX(largeur_scene / 1.165);
+        undo.setTranslateY(hauteur_scene - hauteur_scene / 14);
         root.getChildren().add(undo);
         undo.setOnMouseClicked((MouseEvent me) -> {
             m.undo();
@@ -282,10 +282,10 @@ public class Bridge extends Application {
         redo = new Button();
         ImageView imgRedo = new ImageView(new Image("images/redo.png"));
         redo.setGraphic(imgRedo);
-        redo.setPrefWidth(85);
-        redo.setPrefHeight(25);
-        redo.setTranslateX(largeur_scene / 3.3);
-        redo.setTranslateY(hauteur_scene - hauteur_scene / 11);
+        redo.setPrefWidth(55);
+        redo.setPrefHeight(5);
+        redo.setTranslateX(largeur_scene / 1.12);
+        redo.setTranslateY(hauteur_scene - hauteur_scene / 14);
         root.getChildren().add(redo);
         redo.setOnMouseClicked((MouseEvent me) -> {
             m.redo();
@@ -337,13 +337,7 @@ public class Bridge extends Application {
         newgame.setOnAction((ActionEvent event) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
         });
-<<<<<<< HEAD
-        rules.setOnAction((ActionEvent event) -> {
-            regles(primaryStage, back);
-        });
-=======
 
->>>>>>> 78f19c62196bfcd1759613bb960f4a9cc1176a55
         loadgame.setOnAction((ActionEvent event) -> {
             FileChooser fc = new FileChooser();
             fc.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -1088,8 +1082,9 @@ public class Bridge extends Application {
         }
         ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_"+couleurDos+".png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
         for (int i = 0; i < t; i++) {
-             plis[i].dos.setFill(imgPli);
+             
             if (plis[i] != null) {
+                plis[i].dos.setFill(imgPli);
                 plis[i].face.setVisible(false);
                 plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
                 plis[i].dos.setTranslateY(posY);
