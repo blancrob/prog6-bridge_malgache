@@ -312,8 +312,8 @@ public class Bridge extends Application {
             launchgame.setTextFill(Color.BLACK);
             
             //Temporaire !
-            launchgame.setTranslateX(0);
-            launchgame.setTranslateY(-500);
+            //launchgame.setTranslateX(0);
+            //launchgame.setTranslateY(-500);
             
         } else {
             pane.setStyle("-fx-color: black; -fx-background-color: #3b3f42;");
