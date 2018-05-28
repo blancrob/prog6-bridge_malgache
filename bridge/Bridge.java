@@ -34,7 +34,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import static javafx.util.Duration.seconds;
@@ -103,14 +105,91 @@ public class Bridge extends Application {
     public String computer2final = ("");
 
     public int messageActif = 0;
-    MessageTransition mt = null;
-    public boolean messagePioche = false;
-    public boolean finTour = false;
 
-    void sauvegarder(Stage primaryStage) {
+    MessageTransition mt=null;
+    public boolean messagePioche=false;
+    public boolean finTour=false;
+    
+    void sauver(Stage primaryStage){
+        Rectangle sauvno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        sauvno.setTranslateX(((largeur_scene - largeur_scene / 1.85) / 2.3)+largeur_scene/5.7);
+        sauvno.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        sauvno.setOpacity(0.75);
+        sauvno.toFront();
+        Rectangle sauvyes = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        sauvyes.setTranslateX((largeur_scene - largeur_scene / 1.85) / 2.3);
+        sauvyes.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        sauvyes.setOpacity(0.75);
+        sauvyes.toFront();
+        Text sauvmessage = new Text("Sauvegarder avant de quitter ?");
+        sauvmessage.setFont(new Font(45));
+        sauvmessage.setFill(Color.LIGHTGREY);
+        sauvmessage.setX(largeur_scene / 4.6);
+        sauvmessage.setY(hauteur_scene/1.325);
+        root.getChildren().addAll(sauvno,sauvyes,sauvmessage);
+        sauvno.setOnMouseEntered((MouseEvent me) -> {
+            sauvno.setFill(Color.RED);
+        });
+        sauvno.setOnMouseExited((MouseEvent me) -> {
+            sauvno.setFill(Color.GREY);
+        });
+        sauvno.setOnMouseClicked((MouseEvent me) -> {
+            exit(0);
+        });
+        sauvyes.setOnMouseEntered((MouseEvent me) -> {
+            sauvyes.setFill(Color.GREEN);
+        });
+        sauvyes.setOnMouseExited((MouseEvent me) -> {
+            sauvyes.setFill(Color.GREY);
+        });
+        sauvyes.setOnMouseClicked((MouseEvent me) -> {
+            sauvegarder(primaryStage);
+            exit(0);
+        });
+    }
+    void quitter(Stage primaryStage){
+        Rectangle quitno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        quitno.setTranslateX(((largeur_scene - largeur_scene / 1.85) / 2.3)+largeur_scene/5.7);
+        quitno.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        quitno.setOpacity(0.75);
+        quitno.toFront();
+        Rectangle quityes = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        quityes.setTranslateX((largeur_scene - largeur_scene / 1.85) / 2.3);
+        quityes.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        quityes.setOpacity(0.75);
+        quityes.toFront();
+        Text quitmessage = new Text("Voulez vous vraiment quitter ?");
+        quitmessage.setFont(new Font(45));
+        quitmessage.setFill(Color.LIGHTGREY);
+        quitmessage.setX(largeur_scene / 4.6);
+        quitmessage.setY(hauteur_scene/1.325);
+        root.getChildren().addAll(quitno,quityes,quitmessage);
+        quitno.setOnMouseEntered((MouseEvent me) -> {
+            quitno.setFill(Color.RED);
+        });
+        quitno.setOnMouseExited((MouseEvent me) -> {
+            quitno.setFill(Color.GREY);
+        });
+        quitno.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(quitno,quityes,quitmessage);
+        });
+        quityes.setOnMouseEntered((MouseEvent me) -> {
+            quityes.setFill(Color.GREEN);
+        });
+        quityes.setOnMouseExited((MouseEvent me) -> {
+            quityes.setFill(Color.GREY);
+        });
+        quityes.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(quitno,quityes,quitmessage);
+            sauver(primaryStage);
+        });
+    }
+    
+
+    void sauvegarder(Stage primaryStage){
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File(System.getProperty("user.dir")));
-        fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date()) + ".save");
+        fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
         File f = fc.showSaveDialog(primaryStage);
         try {
             m.sauvegarder(f.getName());
@@ -161,6 +240,16 @@ public class Bridge extends Application {
             if (t.equals(KeyCode.T)) {
                 sauvegarder(primaryStage);
             }
+        });
+
+        bandeau.quit.setOnKeyPressed(keyEvent ->{
+            KeyCode q = keyEvent.getCode();
+            if (q.equals(KeyCode.Q)){
+                quitter(primaryStage);
+            }
+        });
+        bandeau.quit.setOnAction((ActionEvent event) -> {
+            quitter(primaryStage);
         });
 
         bandeau.save.setOnAction((ActionEvent event) -> {
@@ -286,13 +375,13 @@ public class Bridge extends Application {
                 return 1;
             case "Facile":
                 return 2;
-            case "Moyenne":
+            case "Moyen":
                 return 3;
-            case "Avancée":
+            case "Avancé":
                 return 4;
             case "Difficile":
                 return 5;
-            case "Experte":
+            case "Expert":
                 return 6;
         }
         return -1;
@@ -346,10 +435,10 @@ public class Bridge extends Application {
             iaLevel2.getItems().addAll(
                     "Novice",
                     "Facile",
-                    "Moyenne",
-                    "Avancée",
+                    "Moyen",
+                    "Avancé",
                     "Difficile",
-                    "Experte"
+                    "Expert"
             );
             iaLevel2.setValue("Novice");
             combobox2set = 1;
@@ -392,14 +481,15 @@ public class Bridge extends Application {
         victorycond.setSpacing(h_scene / 36);
         //Espace points
         HBox pointscond = new HBox();
-        pointscond.setSpacing(l_scene / 96);
-        nbpoints.setPromptText("nombre de points");
-        pointscond.getChildren().addAll(cbpoints, nbpoints);
+
+        pointscond.setSpacing(20);
+        nbpoints.setPromptText("Nombre de points");
+        pointscond.getChildren().addAll(cbpoints, /*points,*/ nbpoints);
         //Espace manches
         HBox roundscond = new HBox();
-        roundscond.setSpacing(l_scene / 96);
-        nbrounds.setPromptText("nombre de manches");
-        roundscond.getChildren().addAll(cbrounds, nbrounds);
+        roundscond.setSpacing(20);
+        nbrounds.setPromptText("Nombre de manches");
+        roundscond.getChildren().addAll(cbrounds,/* rounds,*/ nbrounds);
 
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
@@ -931,7 +1021,10 @@ public class Bridge extends Application {
             t = m.j2.tas.pile.size();
             posY = hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte;
         }
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png"));  //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+       
         for (int i = 0; i < t; i++) {
+             plis[i].dos.setFill(imgPli);
             plis[i].face.setVisible(false);
             plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
             plis[i].dos.setTranslateY(posY);
@@ -946,7 +1039,9 @@ public class Bridge extends Application {
         } else {
             t = m.j2.tas.pile.size();
         }
+        //ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
         for (int i = 0; i < t; i++) {
+             //plis[i].dos.setFill(imgPli);
             if (plis[i] != null) {
                 plis[i].face.setVisible(false);
                 plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
