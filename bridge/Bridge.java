@@ -1028,9 +1028,9 @@ public class Bridge extends Application {
         } else {
             t = m.j2.tas.pile.size();
         }
-        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+        //ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
         for (int i = 0; i < t; i++) {
-             plis[i].dos.setFill(imgPli);
+             //plis[i].dos.setFill(imgPli);
             if (plis[i] != null) {
                 plis[i].face.setVisible(false);
                 plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
@@ -2584,7 +2584,7 @@ public class Bridge extends Application {
                     }
                     
                     //On rentre ici quand les 2 joueurs ont joué une carte et que la pioche est vide, et on retourne le plateau pour que le gagnant soit en bas
-                    if (m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
+                    if (!m.finManche() && m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
                         
                         System.out.println("PAUSE 5 !");
 
