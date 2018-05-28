@@ -352,7 +352,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(image_atout);
         
         if(m.config.conditionVictoire==1){
-            condition_victoire = new Label("Partie en "+m.config.mancheMax+" manches");
+            condition_victoire = new Label("Partie en "+m.config.mancheMax+" manche(s)");
         }
         else{
             condition_victoire = new Label("Partie en "+m.config.scoreMax+" points");
