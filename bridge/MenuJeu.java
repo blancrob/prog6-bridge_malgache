@@ -46,9 +46,16 @@ public class MenuJeu extends Parent {
     Label joueur2;
     Label titre;
     Button hist;
-    
+    Label plisJ1;
+    Label plisJ2;
+    Label nom_plisJ1;
+    Label nom_plisJ2;
+    Label image_tour;
+    Label image_tourMenu;
     int tour_joueur;
+    int mode;
     int l;
+    String name;
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -56,6 +63,10 @@ public class MenuJeu extends Parent {
     
     public void tourJ(int i){
         tour_joueur = i;
+    }
+    
+    public void mode(int i){
+        mode = i;
     }
     
     public int lock(){
@@ -279,7 +290,7 @@ public class MenuJeu extends Parent {
             regles();
         });
         
-        tour = new Label("Tour : Joueur "+tour_joueur);
+        tour = new Label("Tour : "+name);
         tour.setFont(new Font("Arial",25));
         tour.setTextFill(Color.WHITE);
         tour.setPrefWidth(largeur_scene/6.4);
@@ -403,11 +414,77 @@ public class MenuJeu extends Parent {
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
         
+        nom_plisJ1 = new Label(m.j1.nom);
+        nom_plisJ1.setFont(new Font("Arial",18));
+        nom_plisJ1.setTextFill(Color.WHITE);
+        nom_plisJ1.setPrefWidth(largeur_scene/10);
+        nom_plisJ1.setPrefHeight(hauteur_scene/20);
+        nom_plisJ1.setTranslateX(largeur_scene/1.115);
+        nom_plisJ1.setTranslateY(hauteur_scene/1.18);
+        nom_plisJ1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(nom_plisJ1);
+        
+        nom_plisJ2 = new Label(m.j2.nom);
+        nom_plisJ2.setFont(new Font("Arial",18));
+        nom_plisJ2.setTextFill(Color.WHITE);
+        nom_plisJ2.setPrefWidth(largeur_scene/10);
+        nom_plisJ2.setPrefHeight(hauteur_scene/20);
+        nom_plisJ2.setTranslateX(largeur_scene/1.115);
+        nom_plisJ2.setTranslateY(hauteur_scene/14);
+        nom_plisJ2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(nom_plisJ2);
+        
+        plisJ1 = new Label(String.valueOf("Plis : "+m.j1.score));
+        plisJ1.setFont(new Font("Arial",18));
+        plisJ1.setTextFill(Color.WHITE);
+        plisJ1.setPrefWidth(largeur_scene/10);
+        plisJ1.setPrefHeight(hauteur_scene/20);
+        plisJ1.setTranslateX(largeur_scene/1.115);
+        plisJ1.setTranslateY(hauteur_scene/1.15);
+        plisJ1.setStyle("-fx-alignment: center;");
+        this.getChildren().add(plisJ1);
+        
+        plisJ2 = new Label(String.valueOf("Plis : "+m.j2.score));
+        plisJ2.setFont(new Font("Arial",18));
+        plisJ2.setTextFill(Color.WHITE);
+        plisJ2.setPrefWidth(largeur_scene/10);
+        plisJ2.setPrefHeight(hauteur_scene/20);
+        plisJ2.setTranslateX(largeur_scene/1.115);
+        plisJ2.setTranslateY(hauteur_scene/10.5);
+        plisJ2.setStyle("-fx-alignment: center;");
+        this.getChildren().add(plisJ2);
+        
+        image_tour = new Label();
+        image_tour.setFont(new Font("Arial",18));
+        image_tour.setTranslateX(largeur_scene/1.115);
+        //image_tour.setTranslateY(hauteur_scene/13);  // en haut
+        image_tour.setTranslateY(hauteur_scene/1.175); // en bas
+        image_tour.setGraphic(new ImageView("images/hand-right.png"));       
+        this.getChildren().add(image_tour);
+        
+        image_tourMenu = new Label();
+        image_tourMenu.setFont(new Font("Arial",18));
+        image_tourMenu.setTranslateX(largeur_scene/45);
+        image_tourMenu.setTranslateY(hauteur_scene-hauteur_scene/2);
+        image_tourMenu.setGraphic(new ImageView("images/hand-right.png"));       
+        this.getChildren().add(image_tourMenu);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tour.setText("Tour : Joueur "+tour_joueur);
+                tour.setText("Tour : "+name);
+                if(tour_joueur == 1){
+                    name = m.j1.nom;
+                }
+                else if(tour_joueur == 2){
+                    name = m.j2.nom;
+                }
+                if(mode == 2 && tour_joueur == 1){
+                    image_tour.setTranslateY(hauteur_scene/1.175);
+                }
+                else if (mode == 2 && tour_joueur == 2){
+                    image_tour.setTranslateY(hauteur_scene/13);
+                }
             }
         };
         timer.start();
