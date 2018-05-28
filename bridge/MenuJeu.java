@@ -473,7 +473,7 @@ public class MenuJeu extends Parent {
         
         image_tour = new Label();
         image_tour.setFont(new Font("Arial",18));
-        image_tour.setTranslateX(largeur_scene/1.115);
+        image_tour.setTranslateX(largeur_scene/3.9);
         //image_tour.setTranslateY(hauteur_scene/13);  // en haut
         image_tour.setTranslateY(hauteur_scene/1.175); // en bas
         image_tour.setGraphic(new ImageView("images/hand-right.png"));       
@@ -483,7 +483,7 @@ public class MenuJeu extends Parent {
         image_tourMenu.setFont(new Font("Arial",18));
         image_tourMenu.setTranslateX(largeur_scene/45);
         image_tourMenu.setTranslateY(hauteur_scene-hauteur_scene/2);
-        image_tourMenu.setGraphic(new ImageView("images/hand-right.png"));       
+        image_tourMenu.setGraphic(new ImageView("images/hand-right_mini.png"));       
         this.getChildren().add(image_tourMenu);
         
         AnimationTimer timer = new AnimationTimer() {
