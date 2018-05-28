@@ -459,6 +459,10 @@ public class Bridge extends Application {
             
             init_mainJ1J2();
             init_pile(pile);
+            
+            bandeau = new MenuJeu(m);
+            bandeau.tourJ(tour_joueur);
+            bandeau.mode(m.config.mode);
 
             System.out.println();
             System.out.println("Pile ");
@@ -564,6 +568,10 @@ public class Bridge extends Application {
             
             init_mainJ1J2();
             init_pile(pile);
+            
+            bandeau = new MenuJeu(m);
+            bandeau.tourJ(tour_joueur);
+            bandeau.mode(m.config.mode);
 
             System.out.println();
             System.out.println("Pile ");
