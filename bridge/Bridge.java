@@ -31,7 +31,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -103,16 +105,92 @@ public class Bridge extends Application {
     public boolean messagePioche=false;
     public boolean finTour=false;
     
+    void sauver(Stage primaryStage){
+        Rectangle sauvno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        sauvno.setTranslateX(((largeur_scene - largeur_scene / 1.85) / 2.3)+largeur_scene/5.7);
+        sauvno.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        sauvno.setOpacity(0.75);
+        sauvno.toFront();
+        Rectangle sauvyes = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        sauvyes.setTranslateX((largeur_scene - largeur_scene / 1.85) / 2.3);
+        sauvyes.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        sauvyes.setOpacity(0.75);
+        sauvyes.toFront();
+        Text sauvmessage = new Text("Sauvegarder avant de quitter ?");
+        sauvmessage.setFont(new Font(45));
+        sauvmessage.setFill(Color.LIGHTGREY);
+        sauvmessage.setX(largeur_scene / 4.6);
+        sauvmessage.setY(hauteur_scene/1.325);
+        root.getChildren().addAll(sauvno,sauvyes,sauvmessage);
+        sauvno.setOnMouseEntered((MouseEvent me) -> {
+            sauvno.setFill(Color.RED);
+        });
+        sauvno.setOnMouseExited((MouseEvent me) -> {
+            sauvno.setFill(Color.GREY);
+        });
+        sauvno.setOnMouseClicked((MouseEvent me) -> {
+            exit(0);
+        });
+        sauvyes.setOnMouseEntered((MouseEvent me) -> {
+            sauvyes.setFill(Color.GREEN);
+        });
+        sauvyes.setOnMouseExited((MouseEvent me) -> {
+            sauvyes.setFill(Color.GREY);
+        });
+        sauvyes.setOnMouseClicked((MouseEvent me) -> {
+            sauvegarder(primaryStage);
+            exit(0);
+        });
+    }
+    void quitter(Stage primaryStage){
+        Rectangle quitno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        quitno.setTranslateX(((largeur_scene - largeur_scene / 1.85) / 2.3)+largeur_scene/5.7);
+        quitno.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        quitno.setOpacity(0.75);
+        quitno.toFront();
+        Rectangle quityes = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
+        quityes.setTranslateX((largeur_scene - largeur_scene / 1.85) / 2.3);
+        quityes.setTranslateY(hauteur_scene - hauteur_scene / 2.8);
+        quityes.setOpacity(0.75);
+        quityes.toFront();
+        Text quitmessage = new Text("Voulez vous vraiment quitter ?");
+        quitmessage.setFont(new Font(45));
+        quitmessage.setFill(Color.LIGHTGREY);
+        quitmessage.setX(largeur_scene / 4.6);
+        quitmessage.setY(hauteur_scene/1.325);
+        root.getChildren().addAll(quitno,quityes,quitmessage);
+        quitno.setOnMouseEntered((MouseEvent me) -> {
+            quitno.setFill(Color.RED);
+        });
+        quitno.setOnMouseExited((MouseEvent me) -> {
+            quitno.setFill(Color.GREY);
+        });
+        quitno.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(quitno,quityes,quitmessage);
+        });
+        quityes.setOnMouseEntered((MouseEvent me) -> {
+            quityes.setFill(Color.GREEN);
+        });
+        quityes.setOnMouseExited((MouseEvent me) -> {
+            quityes.setFill(Color.GREY);
+        });
+        quityes.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(quitno,quityes,quitmessage);
+            sauver(primaryStage);
+        });
+    }
+    
+
     void sauvegarder(Stage primaryStage){
         FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File(System.getProperty("user.dir")));
-            fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
-            File f = fc.showSaveDialog(primaryStage);
-            try {
-                m.sauvegarder(f.getName());
-            } catch (IOException ex) {
-                Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fc.setInitialFileName(new SimpleDateFormat("hh_mm_ss_dd_mm_yyyy").format(new Date())+".save");
+        File f = fc.showSaveDialog(primaryStage);
+        try {
+            m.sauvegarder(f.getName());
+        } catch (IOException ex) {
+            Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean messageFinManche = false;
@@ -159,7 +237,15 @@ public class Bridge extends Application {
                 sauvegarder(primaryStage);
             }
         });
-        
+        bandeau.quit.setOnKeyPressed(keyEvent ->{
+            KeyCode q = keyEvent.getCode();
+            if (q.equals(KeyCode.Q)){
+                quitter(primaryStage);
+            }
+        });
+        bandeau.quit.setOnAction((ActionEvent event) -> {
+            quitter(primaryStage);
+        });
         bandeau.save.setOnAction((ActionEvent event) -> {
             sauvegarder(primaryStage);
         });

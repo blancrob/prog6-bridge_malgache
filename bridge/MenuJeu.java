@@ -7,7 +7,6 @@ package bridge;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static java.lang.System.exit;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -76,144 +75,137 @@ public class MenuJeu extends Parent {
             return 0;
         }
     }
-    void quitter(){
-        Rectangle quitno = new Rectangle(largeur_scene/3,hauteur_scene/3.6,Color.GREY);
-        Rectangle quityes = new Rectangle(largeur_scene/6,hauteur_scene/3.6,Color.GREY);
-        Text quitmessage = new Text("Voulez vous vraiment quitter ?");
-        //Text yesmessage = new Text("OUI");
-        //Text nomessage = new Text("NON");
-        quitmessage.setFont(new Font(45));
-        //yesmessage.setFont(new Font(45));
-        //nomessage.setFont(new Font(45));
-        quitmessage.setFill(Color.LIGHTGREY);
-        //yesmessage.setFill(Color.LIGHTGREY);
-        //nomessage.setFill(Color.LIGHTGREY);
-        quitmessage.setX(largeur_scene/70);
-        //yesmessage.setX(largeur_scene/4.5);
-        //nomessage.setX(largeur_scene/1.38);
-        quitmessage.setY(quityes.getHeight()-(hauteur_scene/8));
-        //yesmessage.setY(quityes.getHeight()-135);
-        //nomessage.setY(quityes.getHeight()-135);
-        //quitno.toFront();
-        //quityes.toFront();
-        //quitmessage.toFront();
-        MenuJeu.this.getChildren().addAll(quitno,quityes,quitmessage);
-        quitno.setOnMouseEntered((MouseEvent me) -> {
-            quitno.setFill(Color.RED);
-            //MenuJeu.this.getChildren().remove(quitmessage);
-            //MenuJeu.this.getChildren().add(nomessage);
-        });
-        quitno.setOnMouseExited((MouseEvent me) -> {
-            quitno.setFill(Color.GREY);
-            //MenuJeu.this.getChildren().remove(nomessage);
-            //MenuJeu.this.getChildren().add(quitmessage);
-        });
-        quitno.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(quitno,quityes,quitmessage);
-        });
-        quityes.setOnMouseEntered((MouseEvent me) -> {
-            quityes.setFill(Color.GREEN);
-            //MenuJeu.this.getChildren().remove(quitmessage);
-            //MenuJeu.this.getChildren().add(yesmessage);
-        });
-        quityes.setOnMouseExited((MouseEvent me) -> {
-            quityes.setFill(Color.GREY);
-            //MenuJeu.this.getChildren().remove(yesmessage);
-            //MenuJeu.this.getChildren().add(quitmessage);
-        });
-        quityes.setOnMouseClicked((MouseEvent me) -> {
-            exit(0);
-        });
-    }
+    
     void aides(){
-        Rectangle helpspace = new Rectangle(largeur_scene/4,hauteur_scene/3.6,Color.GREY);
+        Rectangle helpspace = new Rectangle(largeur_scene / 5.2, hauteur_scene / 5, Color.GREY);
+        helpspace.setArcHeight(15);
+        helpspace.setArcWidth(25);
+        helpspace.setOpacity(0.75);
+        helpspace.setTranslateX((largeur_scene - largeur_scene / 1.85) / 2.3);
+        helpspace.setTranslateY((hauteur_scene - hauteur_scene / 1.2));
         Text raccourcis = new Text("RACCOURCIS CLAVIER");
         Text recommencer = new Text("T : Recommencer");
         Text help = new Text("H : Aide");
         Text regles = new Text("R : Regles");
         Text save = new Text("S : Sauvegarder");
-        Text quit = new Text("Q : Quitter"); 
-        helpspace.setY((hauteur_scene/1.35));
+        Text quit = new Text("Q : Quitter");
         raccourcis.setFont(new Font(30));
         raccourcis.setFill(Color.LIGHTGREY);
-        raccourcis.setX(largeur_scene/70);
-        raccourcis.setY(hauteur_scene-(hauteur_scene/4.7));
+        raccourcis.setX(largeur_scene / 4.6);
+        raccourcis.setY(hauteur_scene-(hauteur_scene/1.25));
         recommencer.setFont(new Font(25));
         recommencer.setFill(Color.LIGHTGREY);
-        recommencer.setX(largeur_scene/70);
-        recommencer.setY(hauteur_scene-(hauteur_scene/5.4));
+        recommencer.setX(largeur_scene / 4.6);
+        recommencer.setY(hauteur_scene-(hauteur_scene/1.31));
         help.setFont(new Font(25));
         help.setFill(Color.LIGHTGREY);
-        help.setX(largeur_scene/70);
-        help.setY(hauteur_scene-(hauteur_scene/6.35));
+        help.setX(largeur_scene / 4.6);
+        help.setY(hauteur_scene-(hauteur_scene/1.355));
         regles.setFont(new Font(25));
         regles.setFill(Color.LIGHTGREY);
-        regles.setX(largeur_scene/70);
-        regles.setY(hauteur_scene-(hauteur_scene/7.7));
+        regles.setX(largeur_scene / 4.6);
+        regles.setY(hauteur_scene-(hauteur_scene/1.4));
         save.setFont(new Font(25));
         save.setFill(Color.LIGHTGREY);
-        save.setX(largeur_scene/70);
-        save.setY(hauteur_scene-(hauteur_scene/9.8));
+        save.setX(largeur_scene / 4.6);
+        save.setY(hauteur_scene-(hauteur_scene/1.45));
         quit.setFont(new Font(25));
         quit.setFill(Color.LIGHTGREY);
-        quit.setX(largeur_scene/70);
-        quit.setY(hauteur_scene-(hauteur_scene/13.5));
+        quit.setX(largeur_scene / 4.6);
+        quit.setY(hauteur_scene-(hauteur_scene/1.505));
         this.getChildren().addAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
-        helpspace.setOnMouseEntered((MouseEvent me) -> {
-            helpspace.setFill(Color.LIGHTGREY);
-            raccourcis.setFill(Color.GREY);
-            recommencer.setFill(Color.GREY);
-            help.setFill(Color.GREY);
-            regles.setFill(Color.GREY);
-            save.setFill(Color.GREY);
-            quit.setFill(Color.GREY);
+        raccourcis.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
         });
-        helpspace.setOnMouseExited((MouseEvent me) -> {
-            helpspace.setFill(Color.GREY);
-            raccourcis.setFill(Color.LIGHTGREY);
-            recommencer.setFill(Color.LIGHTGREY);
-            help.setFill(Color.LIGHTGREY);
-            regles.setFill(Color.LIGHTGREY);
-            save.setFill(Color.LIGHTGREY);
-            quit.setFill(Color.LIGHTGREY);
+        recommencer.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        });
+        help.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        });
+        regles.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        });
+        save.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        });
+        quit.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
         });
         helpspace.setOnMouseClicked((MouseEvent me) -> {
             this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
         });
     }
     void regles(){
-        Rectangle rulesspace = new Rectangle(largeur_scene/3,hauteur_scene/2.16,Color.GREY);
-        rulesspace.setY((hauteur_scene/3.6));
-        Text rulesmessage1 = new Text("olala c'est bien les regles, on adore les regles,");
-        Text rulesmessage2 = new Text("les regles c'est notre dada, sauf que d'apres ");
-        Text rulesmessage3 = new Text("laurence faut pas les lires");
-        rulesmessage1.setFont(new Font(30));
+        Rectangle rulesspace = new Rectangle(largeur_scene/3,hauteur_scene/3.55,Color.GREY);
+        rulesspace.setArcHeight(15);
+        rulesspace.setArcWidth(25);
+        rulesspace.setY((hauteur_scene/2.75));
+        Text rulesmessage1 = new Text("Jouez une carte plus forte que votre adversaire !");
+        Text rulesmessage2 = new Text("Elle doit être de la même couleur. Si vous");
+        Text rulesmessage3 = new Text("ne pouvez pas fournir une carte de la même");
+        Text rulesmessage4 = new Text("couleur, utilisez un atout, ou defaussez vous. Une");
+        Text rulesmessage5 = new Text("fois le pli terminé, le vaiqueur le ramasse et ");
+        Text rulesmessage6 = new Text("pioche une carte parmi les tas centraux. Le perdant");
+        Text rulesmessage7 = new Text("du pli pioche après le vainqueur.");
+        rulesmessage1.setFont(new Font(25));
         rulesmessage1.setFill(Color.LIGHTGREY);
-        rulesmessage1.setX(largeur_scene/70);
-        rulesmessage1.setY(rulesspace.getHeight()-(hauteur_scene/6.75));
-        rulesmessage2.setFont(new Font(30));
+        rulesmessage1.setX(largeur_scene/1000);
+        rulesmessage1.setY(hauteur_scene/2.5);
+        rulesmessage2.setFont(new Font(25));
         rulesmessage2.setFill(Color.LIGHTGREY);
-        rulesmessage2.setX(largeur_scene/70);
-        rulesmessage2.setY(rulesspace.getHeight()-(hauteur_scene/9));
-        rulesmessage3.setFont(new Font(30));
+        rulesmessage2.setX(largeur_scene/1000);
+        rulesmessage2.setY(hauteur_scene/2.3);
+        rulesmessage3.setFont(new Font(25));
         rulesmessage3.setFill(Color.LIGHTGREY);
-        rulesmessage3.setX(largeur_scene/70);
-        rulesmessage3.setY(rulesspace.getHeight()-(hauteur_scene/13.5));
-        this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3);
+        rulesmessage3.setX(largeur_scene/1000);
+        rulesmessage3.setY(hauteur_scene/2.15);
+        rulesmessage4.setFont(new Font(25));
+        rulesmessage4.setFill(Color.LIGHTGREY);
+        rulesmessage4.setX(largeur_scene/1000);
+        rulesmessage4.setY(hauteur_scene/2);
+        rulesmessage5.setFont(new Font(25));
+        rulesmessage5.setFill(Color.LIGHTGREY);
+        rulesmessage5.setX(largeur_scene/1000);
+        rulesmessage5.setY(hauteur_scene/1.85);
+        rulesmessage6.setFont(new Font(25));
+        rulesmessage6.setFill(Color.LIGHTGREY);
+        rulesmessage6.setX(largeur_scene/1000);
+        rulesmessage6.setY(hauteur_scene/1.75);
+        rulesmessage7.setFont(new Font(25));
+        rulesmessage7.setFill(Color.LIGHTGREY);
+        rulesmessage7.setX(largeur_scene/1000);
+        rulesmessage7.setY(hauteur_scene/1.65);
+        this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         rulesspace.setOnMouseEntered((MouseEvent me) -> {
-            rulesspace.setFill(Color.LIGHTGREY);
-            rulesmessage1.setFill(Color.GREY);
-            rulesmessage2.setFill(Color.GREY);
-            rulesmessage3.setFill(Color.GREY);
+            rulesspace.setOpacity(0.75);
         });
         rulesspace.setOnMouseExited((MouseEvent me) -> {
-            rulesspace.setFill(Color.GREY);
-            rulesmessage1.setFill(Color.LIGHTGREY);
-            rulesmessage2.setFill(Color.LIGHTGREY);
-            rulesmessage3.setFill(Color.LIGHTGREY);
+            rulesspace.setOpacity(1);
+        });
+        rulesmessage1.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage2.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage3.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage4.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage5.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage6.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+        });
+        rulesmessage7.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
         rulesspace.setOnMouseClicked((MouseEvent me) -> {
-            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3);
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
     }
     public MenuJeu(Moteur m) {
@@ -227,16 +219,7 @@ public class MenuJeu extends Parent {
         quit.setTranslateX(largeur_scene/48);
         quit.setTranslateY(hauteur_scene-hauteur_scene/10);
         this.getChildren().add(quit);
-        quit.setOnKeyPressed(keyEvent ->{
-            KeyCode q = keyEvent.getCode();
-            if (q.equals(KeyCode.Q)){
-                quitter();
-            }
-        });
-        quit.setOnAction((ActionEvent event) -> {
-            quitter();
-        });
-        
+
         save = new Button("Sauvegarder");
         save.setPrefWidth(largeur_scene/6.4);
         save.setPrefHeight(hauteur_scene/12);
