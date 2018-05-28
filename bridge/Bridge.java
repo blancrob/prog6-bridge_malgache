@@ -1041,9 +1041,9 @@ public class Bridge extends Application {
         } else {
             t = m.j2.tas.pile.size();
         }
-        //ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_ROUGE.png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
+        ImagePattern imgPli = new ImagePattern(new Image("images/DEFAUSSE_"+couleurDos+".png")); //DEFAUSEE_BLEU, DEFAUSEE_ROUGE, DEFAUSEE_OR, DEFAUSEE_NOIR, DEFAUSEE_VERT
         for (int i = 0; i < t; i++) {
-             //plis[i].dos.setFill(imgPli);
+             plis[i].dos.setFill(imgPli);
             if (plis[i] != null) {
                 plis[i].face.setVisible(false);
                 plis[i].dos.setTranslateX(largeur_scene - plis[i].largeur_carte * 1.25);
