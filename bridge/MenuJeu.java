@@ -90,6 +90,7 @@ public class MenuJeu extends Parent {
         Text recommencer = new Text("T : Recommencer");
         Text help = new Text("H : Aide");
         Text regles = new Text("R : Regles");
+        Text charger = new Text("C : Charger");
         Text save = new Text("S : Sauvegarder");
         Text quit = new Text("Q : Quitter");
         raccourcis.setFont(new Font(30));
@@ -108,35 +109,39 @@ public class MenuJeu extends Parent {
         regles.setFill(Color.LIGHTGREY);
         regles.setX(largeur_scene / 4.6);
         regles.setY(hauteur_scene-(hauteur_scene/1.4));
+        help.setFont(new Font(25));
+        help.setFill(Color.LIGHTGREY);
+        help.setX(largeur_scene / 4.6);
+        help.setY(hauteur_scene-(hauteur_scene/1.45));
         save.setFont(new Font(25));
         save.setFill(Color.LIGHTGREY);
         save.setX(largeur_scene / 4.6);
-        save.setY(hauteur_scene-(hauteur_scene/1.45));
+        save.setY(hauteur_scene-(hauteur_scene/1.505));
         quit.setFont(new Font(25));
         quit.setFill(Color.LIGHTGREY);
         quit.setX(largeur_scene / 4.6);
-        quit.setY(hauteur_scene-(hauteur_scene/1.505));
+        quit.setY(hauteur_scene-(hauteur_scene/1.52));
         this.getChildren().addAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
         raccourcis.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         recommencer.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         help.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         regles.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         save.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         quit.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
         helpspace.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
         });
     }
     void regles(){
