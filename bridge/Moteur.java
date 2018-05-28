@@ -937,6 +937,7 @@ public class Moteur {
     }
     
     public EtatGlobal copieEtat(){
+        System.out.println("TEST");
         EtatGlobal e = new EtatGlobal();
         //Copie Joueur 1
         e.j1.main = j1.main.clone();
