@@ -212,8 +212,9 @@ public class Bridge extends Application {
         fc.setInitialDirectory(new File(System.getProperty("user.dir")));
         File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
         try {
-            m = new Moteur2();
+            //m = new Moteur2();
             m.charger(f.getName());
+            
             temps = m.config.temps;
             temps2 = m.config.temps2;
             carte_jouee = m.config.carte_jouee;
@@ -238,12 +239,404 @@ public class Bridge extends Application {
             finTour = m.config.finTour;
             messageFinManche = m.config.messageFinManche;
             messageFinPartie = m.config.messageFinPartie;
+            
+            initialiserCharger(primaryStage);
         } catch (IOException ex) {
             Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void initialiserCharger(Stage primaryStage){
+        j1main = new Carte[11];
+        j2main = new Carte[11];
+        pile = new Carte[6][5];
+        j1plis = new Carte[52];
+        j2plis = new Carte[52];
+        dosPioche = new Carte[6];
+        
+        init_mainJ1J2();
+        init_pile(pile);
+
+        System.out.println();
+        System.out.println("Pile ");
+
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 0; i < pile[j].length; i++) {
+                if (pile[j][i] != null) {
+                    m.afficherCarte(pile[j][i]);
+                    pile[j][i].dos.setVisible(false);
+                    pile[j][i].face.setVisible(true);
+                }
+            }
+            System.out.println();
+        }
+
+        System.out.println("Main J1");
+
+        for (int i = 0; i < j1main.length; i++) {
+            if (j1main[i] != null) {
+                m.afficherCarte(j1main[i]);
+                j1main[i].dos.setVisible(false);
+                j1main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+        System.out.println("Main J2");
+
+        for (int i = 0; i < j2main.length; i++) {
+            if (j2main[i] != null) {
+                m.afficherCarte(j2main[i]);
+                j2main[i].dos.setVisible(false);
+                j2main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+
+        if (m.config.mode == 1 && m.config.donneur == J1) {
+            tour_joueur = J1;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, J2);
+        } else if (m.config.mode == 1 && m.config.donneur == J2) {
+            tour_joueur = J2;
+            affichage_face_main(j2main, J2);
+            affichage_dos_main(j1main, J1);
+        } else if (m.config.mode == 2 && m.config.donneur == J1) {
+            tour_joueur = J1;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, IA);
+        } else if (m.config.mode == 2 && m.config.donneur == IA) {
+            tour_joueur = IA;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, IA);
+            temps = System.currentTimeMillis();
+        }
+
+        affichage_dos_pile(pile);
+        affichage_face_pile(pile);
+        maj_handler_main();
+        maj_handler_pile();
+
+        bandeau = new MenuJeu(m);
+        bandeau.tourJ(tour_joueur);
+        bandeau.mode(m.config.mode);
+
+        if (m.config.manche > 1) {
+            root.getChildren().clear();
+            for (int i = 0; i < j1main.length; i++) {
+                if (j1main[i] != null) {
+                    root.getChildren().add(j1main[i].face);
+                    root.getChildren().add(j1main[i].dos);
+                }
+            }
+
+            for (int i = 0; i < j2main.length; i++) {
+                if (j2main[i] != null) {
+                    root.getChildren().add(j2main[i].face);
+                    root.getChildren().add(j2main[i].dos);
+                }
+            }
+
+            for (int j = 0; j < pile.length; j++) {
+                for (int i = 0; i < pile[j].length; i++) {
+                    if (pile[j][i] != null) {
+                        root.getChildren().add(pile[j][i].face);
+                        root.getChildren().add(pile[j][i].dos);
+                    }
+                }
+            }
+            root.getChildren().add(bandeau);
+        }
+        
+        root = new AnchorPane();
+        for (int i = 0; i < j1main.length; i++) {
+            root.getChildren().add(j1main[i].face);
+            root.getChildren().add(j1main[i].dos);
+        }
+        for (int i = 0; i < m.j2.main.taille(); i++) {
+            root.getChildren().add(j2main[i].face);
+            root.getChildren().add(j2main[i].dos);
+        }
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 0; i < pile[j].length; i++) {
+                if (pile[j][i] != null) {
+                    root.getChildren().add(pile[j][i].face);
+                    root.getChildren().add(pile[j][i].dos);
+                }
+            }
+        }
+        primaryStage.setFullScreen(true);
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
+        root.setStyle("-fx-background-color:#274e13;");
+        root.getChildren().add(bandeau);
+        
+        bandeau.load.setOnAction((ActionEvent event) -> {
+            charger(primaryStage);
+        });
+        
+        bandeau.restart.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
+            nouvellePartie(primaryStage, firstmenu, launchgame, advancedoptions);
+        });
+        bandeau.restart.setOnKeyPressed(keyEvent -> {
+            KeyCode t = keyEvent.getCode();
+            if (t.equals(KeyCode.T)) {
+                sauvegarder(primaryStage);
+            }
+        });
+
+        bandeau.quit.setOnKeyPressed(keyEvent ->{
+            KeyCode q = keyEvent.getCode();
+            if (q.equals(KeyCode.Q)){
+                quitter(primaryStage);
+            }
+        });
+        bandeau.quit.setOnAction((ActionEvent event) -> {
+            quitter(primaryStage);
+        });
+
+        bandeau.save.setOnAction((ActionEvent event) -> {
+            sauvegarder(primaryStage);
+        });
+        bandeau.save.setOnKeyPressed(keyEvent -> {
+            KeyCode s = keyEvent.getCode();
+            if (s.equals(KeyCode.S)) {
+                sauvegarder(primaryStage);
+            }
+        });
+
+        undo = new Button();
+        ImageView imgUndo = new ImageView(new Image("images/undo.png"));
+        undo.setGraphic(imgUndo);
+        undo.setPrefWidth(55);
+        undo.setPrefHeight(5);
+        undo.setTranslateX(largeur_scene / 1.165);
+        undo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+        root.getChildren().add(undo);
+        undo.setOnMouseClicked((MouseEvent me) -> {
+            m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+            finTour, messageFinManche, messageFinPartie);
+            m.undo();
+            
+            temps = m.config.temps;
+            temps2 = m.config.temps2;
+            carte_jouee = m.config.carte_jouee;
+            tour_joueur = m.config.tour_joueur;
+            tour_pioche = m.config.tour_pioche;
+            k = m.config.k = k;
+            J1_carte_jouee = m.config.J1_carte_jouee;
+            J2_carte_jouee = m.config.J2_carte_jouee;
+            clean = m.config.clean;
+            pause = m.config.pause;
+            j1_lock = m.config.j1_lock;
+            j2_lock = m.config.j2_lock;
+            select = m.config.select;
+            cheat = m.config.cheat;
+            message_t = m.config.message_t;
+            animation_cartePiochee = m.config.animation_cartePiochee;
+            animation_t = m.config.animation_t;
+            J1_lastCard = m.config.J1_lastCard;
+            J2_lastCard = m.config.J2_lastCard;
+            affichage_initial_pioche = m.config.affichage_initial_pioche;
+            messagePioche = m.config.messagePioche;
+            finTour = m.config.finTour;
+            messageFinManche = m.config.messageFinManche;
+            messageFinPartie = m.config.messageFinPartie;
+            
+            init_mainJ1J2();
+            init_pile(pile);
+
+            System.out.println();
+            System.out.println("Pile ");
+
+            for (int j = 0; j < pile.length; j++) {
+                for (int i = 0; i < pile[j].length; i++) {
+                    if (pile[j][i] != null) {
+                        m.afficherCarte(pile[j][i]);
+                        pile[j][i].dos.setVisible(false);
+                        pile[j][i].face.setVisible(true);
+                    }
+                }
+                System.out.println();
+            }
+
+            System.out.println("Main J1");
+
+            for (int i = 0; i < j1main.length; i++) {
+                if (j1main[i] != null) {
+                    m.afficherCarte(j1main[i]);
+                    j1main[i].dos.setVisible(false);
+                    j1main[i].face.setVisible(true);
+                }
+            }
+
+            System.out.println();
+            System.out.println("Main J2");
+
+            for (int i = 0; i < j2main.length; i++) {
+                if (j2main[i] != null) {
+                    m.afficherCarte(j2main[i]);
+                    j2main[i].dos.setVisible(false);
+                    j2main[i].face.setVisible(true);
+                }
+            }
+
+            System.out.println();
+
+            if (m.config.mode == 1 && m.config.donneur == J1) {
+                tour_joueur = J1;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, J2);
+            } else if (m.config.mode == 1 && m.config.donneur == J2) {
+                tour_joueur = J2;
+                affichage_face_main(j2main, J2);
+                affichage_dos_main(j1main, J1);
+            } else if (m.config.mode == 2 && m.config.donneur == J1) {
+                tour_joueur = J1;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, IA);
+            } else if (m.config.mode == 2 && m.config.donneur == IA) {
+                tour_joueur = IA;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, IA);
+                temps = System.currentTimeMillis();
+            }
+
+            affichage_dos_pile(pile);
+            affichage_face_pile(pile);
+            maj_handler_main();
+            maj_handler_pile();
+           
+        });
+        redo = new Button();
+        ImageView imgRedo = new ImageView(new Image("images/redo.png"));
+        redo.setGraphic(imgRedo);
+        redo.setPrefWidth(55);
+        redo.setPrefHeight(5);
+        redo.setTranslateX(largeur_scene / 1.12);
+        redo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+        root.getChildren().add(redo);
+        redo.setOnMouseClicked((MouseEvent me) -> {
+            m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+            finTour, messageFinManche, messageFinPartie);
+            m.redo();
+            
+            temps = m.config.temps;
+            temps2 = m.config.temps2;
+            carte_jouee = m.config.carte_jouee;
+            tour_joueur = m.config.tour_joueur;
+            tour_pioche = m.config.tour_pioche;
+            k = m.config.k = k;
+            J1_carte_jouee = m.config.J1_carte_jouee;
+            J2_carte_jouee = m.config.J2_carte_jouee;
+            clean = m.config.clean;
+            pause = m.config.pause;
+            j1_lock = m.config.j1_lock;
+            j2_lock = m.config.j2_lock;
+            select = m.config.select;
+            cheat = m.config.cheat;
+            message_t = m.config.message_t;
+            animation_cartePiochee = m.config.animation_cartePiochee;
+            animation_t = m.config.animation_t;
+            J1_lastCard = m.config.J1_lastCard;
+            J2_lastCard = m.config.J2_lastCard;
+            affichage_initial_pioche = m.config.affichage_initial_pioche;
+            messagePioche = m.config.messagePioche;
+            finTour = m.config.finTour;
+            messageFinManche = m.config.messageFinManche;
+            messageFinPartie = m.config.messageFinPartie;
+            
+            init_mainJ1J2();
+            init_pile(pile);
+
+            System.out.println();
+            System.out.println("Pile ");
+
+            for (int j = 0; j < pile.length; j++) {
+                for (int i = 0; i < pile[j].length; i++) {
+                    if (pile[j][i] != null) {
+                        m.afficherCarte(pile[j][i]);
+                        pile[j][i].dos.setVisible(false);
+                        pile[j][i].face.setVisible(true);
+                    }
+                }
+                System.out.println();
+            }
+
+            System.out.println("Main J1");
+
+            for (int i = 0; i < j1main.length; i++) {
+                if (j1main[i] != null) {
+                    m.afficherCarte(j1main[i]);
+                    j1main[i].dos.setVisible(false);
+                    j1main[i].face.setVisible(true);
+                }
+            }
+
+            System.out.println();
+            System.out.println("Main J2");
+
+            for (int i = 0; i < j2main.length; i++) {
+                if (j2main[i] != null) {
+                    m.afficherCarte(j2main[i]);
+                    j2main[i].dos.setVisible(false);
+                    j2main[i].face.setVisible(true);
+                }
+            }
+
+            System.out.println();
+
+            if (m.config.mode == 1 && m.config.donneur == J1) {
+                tour_joueur = J1;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, J2);
+            } else if (m.config.mode == 1 && m.config.donneur == J2) {
+                tour_joueur = J2;
+                affichage_face_main(j2main, J2);
+                affichage_dos_main(j1main, J1);
+            } else if (m.config.mode == 2 && m.config.donneur == J1) {
+                tour_joueur = J1;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, IA);
+            } else if (m.config.mode == 2 && m.config.donneur == IA) {
+                tour_joueur = IA;
+                affichage_face_main(j1main, J1);
+                affichage_dos_main(j2main, IA);
+                temps = System.currentTimeMillis();
+            }
+
+            affichage_dos_pile(pile);
+            affichage_face_pile(pile);
+            maj_handler_main();
+            maj_handler_pile();
+        });
+        System.out.println(screenSize.getWidth());
+        System.out.println(screenSize.getHeight());
+        primaryStage.setTitle("Bridge Chinois");
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreenExitHint("");
+        primaryStage.setFullScreen(true);
+        primaryStage.show();
+        
+        affichage_face_main(j1main,J1);
+        
+        launchedjeu = true;
+        
+        affichage_dos_pile(pile);
+        affichage_face_pile(pile);
+    }
+    
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
         m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
@@ -571,33 +964,35 @@ public class Bridge extends Application {
             fc.setInitialDirectory(new File(System.getProperty("user.dir")));
             File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
             try {
-                m = new Moteur2();
-                m.charger(f.getName());
-                temps = m.config.temps;
-                temps2 = m.config.temps2;
-                carte_jouee = m.config.carte_jouee;
-                tour_joueur = m.config.tour_joueur;
-                tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
-                J1_carte_jouee = m.config.J1_carte_jouee;
-                J2_carte_jouee = m.config.J2_carte_jouee;
-                clean = m.config.clean;
-                pause = m.config.pause;
-                j1_lock = m.config.j1_lock;
-                j2_lock = m.config.j2_lock;
-                select = m.config.select;
-                cheat = m.config.cheat;
-                message_t = m.config.message_t;
-                animation_cartePiochee = m.config.animation_cartePiochee;
-                animation_t = m.config.animation_t;
-                J1_lastCard = m.config.J1_lastCard;
-                J2_lastCard = m.config.J2_lastCard;
-                affichage_initial_pioche = m.config.affichage_initial_pioche;
-                messagePioche = m.config.messagePioche;
-                finTour = m.config.finTour;
-                messageFinManche = m.config.messageFinManche;
-                messageFinPartie = m.config.messageFinPartie;
-                transitionMenuJeu(primaryStage);
+            m = new Moteur2();
+            m.charger(f.getName());
+            
+            temps = m.config.temps;
+            temps2 = m.config.temps2;
+            carte_jouee = m.config.carte_jouee;
+            tour_joueur = m.config.tour_joueur;
+            tour_pioche = m.config.tour_pioche;
+            k = m.config.k = k;
+            J1_carte_jouee = m.config.J1_carte_jouee;
+            J2_carte_jouee = m.config.J2_carte_jouee;
+            clean = m.config.clean;
+            pause = m.config.pause;
+            j1_lock = m.config.j1_lock;
+            j2_lock = m.config.j2_lock;
+            select = m.config.select;
+            cheat = m.config.cheat;
+            message_t = m.config.message_t;
+            animation_cartePiochee = m.config.animation_cartePiochee;
+            animation_t = m.config.animation_t;
+            J1_lastCard = m.config.J1_lastCard;
+            J2_lastCard = m.config.J2_lastCard;
+            affichage_initial_pioche = m.config.affichage_initial_pioche;
+            messagePioche = m.config.messagePioche;
+            finTour = m.config.finTour;
+            messageFinManche = m.config.messageFinManche;
+            messageFinPartie = m.config.messageFinPartie;
+            
+            initialiserCharger(primaryStage);
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -1195,7 +1590,14 @@ public class Bridge extends Application {
             }
         }
 
-        for (int i = 0; i < main.length; i++) {
+        int taille;
+        if(j==J1){
+            taille=m.j1.main.taille();
+        }else{
+            taille=m.j2.main.taille();
+        }
+        
+        for (int i = 0; i < taille; i++) {
             switch (main[i].couleur) {
                 case 1:
                     color = "TREFLE";
@@ -1232,6 +1634,8 @@ public class Bridge extends Application {
         String color;
         String number;
 
+        Moteur test = new Moteur();
+        
         for (int j = 0; j < m.config.pioche.length; j++) {
             for (int i = 0; i < m.config.pioche[j].pile.size(); i++) {
                 pile[j][i] = m.config.pioche[j].pile.get(i);
@@ -1242,7 +1646,28 @@ public class Bridge extends Application {
         }
 
         for (int j = 0; j < pile.length; j++) {
-            for (int i = 0; i < pile[j].length; i++) {
+            int taille;
+            switch(j){
+                case 1:
+                    taille=m.config.pile1.taille();
+                    break;
+                case 2:
+                    taille=m.config.pile2.taille();
+                    break;
+                case 3:
+                    taille=m.config.pile3.taille();
+                    break;
+                case 4:
+                    taille=m.config.pile4.taille();
+                    break;
+                case 5:
+                    taille=m.config.pile5.taille();
+                    break;
+                case 6:
+                    taille=m.config.pile6.taille();
+                    break;
+            }
+            for (int i = 0; i < m.config.pioche[j].taille(); i++) {
                 if (pile[j][0] != null) {
                     switch (pile[j][i].couleur) {
                         case 1:
@@ -1727,47 +2152,49 @@ public class Bridge extends Application {
     }
 
     public void maj_handler_unitMain(int n, Carte[] main, int j) {
-        main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
-                    main[n].face.setTranslateY(souris_carte);
-                }
-            }
-        });
-
-        main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
-                    main[n].face.setTranslateY(hauteur_scene - main[n].hauteur_carte * 0.75);
-                }
-            }
-        });
-
-        main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-
-                if (m.config.mode == 2 && cheat == 1 && main != j1main) {
-                    for (int i = 0; i < j2main.length; i++) {
-                        j2main[i].face.setVisible(false);
-                        j2main[i].dos.setVisible(true);
-                        j2main[i].dos.toFront();
-                        cheat = 0;
+        if(main[n]!=null){
+            main[n].face.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent me) {
+                    if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
+                        main[n].face.setTranslateY(souris_carte);
                     }
                 }
+            });
 
-                if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
-                    if (m.config.donneur == j) {
-                        carte_select_P(main, n);
-                    } else {
-                        carte_select_S(main, n);
+            main[n].face.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent me) {
+                    if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
+                        main[n].face.setTranslateY(hauteur_scene - main[n].hauteur_carte * 0.75);
                     }
                 }
+            });
 
-            }
-        });
+            main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent me) {
+
+                    if (m.config.mode == 2 && cheat == 1 && main != j1main) {
+                        for (int i = 0; i < j2main.length; i++) {
+                            j2main[i].face.setVisible(false);
+                            j2main[i].dos.setVisible(true);
+                            j2main[i].dos.toFront();
+                            cheat = 0;
+                        }
+                    }
+
+                    if (carte_jouee == 0 && tour_joueur == j && tour_pioche == 0 && clean == 0 && pause == 0 && (carte_jouable(main[n], j)) && message_t == 0) {
+                        if (m.config.donneur == j) {
+                            carte_select_P(main, n);
+                        } else {
+                            carte_select_S(main, n);
+                        }
+                    }
+
+                }
+            });
+        }
 
         /*j2main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
          @Override
@@ -1782,19 +2209,21 @@ public class Bridge extends Application {
          }
          }
          });*/
-        j2main[n].dos.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (m.config.mode == 2 && cheat == 0) {
-                    for (int i = 0; i < j2main.length; i++) {
-                        j2main[i].dos.setVisible(false);
-                        j2main[i].face.setVisible(true);
-                        j2main[i].face.toFront();
-                        cheat = 1;
+        if(j2main[n]!=null){
+            j2main[n].dos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent me) {
+                    if (m.config.mode == 2 && cheat == 0) {
+                        for (int i = 0; i < j2main.length; i++) {
+                            j2main[i].dos.setVisible(false);
+                            j2main[i].face.setVisible(true);
+                            j2main[i].face.toFront();
+                            cheat = 1;
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void maj_handler_main() {
@@ -2651,9 +3080,9 @@ public class Bridge extends Application {
                             affichage_dos_main(j1main, J1);
                             affichage_face_main(j2main, J2);
                         }
-                        pause = 0;
+                        pause = 0;                                
                         message_t = 7;
-                        System.out.println("FIN PAUSE 4");
+                        System.out.println("FIN PAUSE 4");                
                     }
 
                     //Début du 1er tour de la partie
