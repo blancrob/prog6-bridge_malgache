@@ -6,6 +6,7 @@
 package bridge;
 
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Contient toutes les méthodes utiles aux IA.
@@ -1052,5 +1053,50 @@ public class IA_Util {
     
     public static boolean carteMaitre(Carte c,  PileCartes cartesDejaJouees){
         return ((14-c.valeur-nbCartePlusForte(c,cartesDejaJouees)) == 0);
+    }
+    
+    public static Carte aleatoire(PileCartes main){
+        Random r = new Random();
+        int i = r.nextInt(main.taille());
+        return main.pile.get(i);
+    }
+    
+    public static Carte aleatoire(PileCartes main,Carte c){
+        Random r = new Random();
+        Carte res = null;
+        if(main.contient(c.couleur)){
+            while(res == null || res.couleur != c.couleur){
+                res = main.pile.get(r.nextInt(main.taille()));
+            }
+        }
+        return res;
+    }
+    
+     public static Carte aleatoire(PileCartes main,int atout){
+        Random r = new Random();
+        Carte res = null;
+        if(main.contient(atout)){
+            while(res == null || res.couleur != atout){
+                res = main.pile.get(r.nextInt(main.taille()));
+            }
+        }
+        return res;
+    }
+    
+    
+    public static Carte aleatoireGagnant(PileCartes main,Carte c){
+        Carte[] res = new Carte[main.taille()];
+        Random r = new Random();
+        Iterator<Carte> it = main.iterateur();
+        Carte tmp;
+        int i = 0;
+        while(it.hasNext()){
+            tmp = it.next();
+            if(tmp.couleur == c.couleur && tmp.valeur > c.valeur){
+                res[i] = tmp;
+                i++;
+            }
+        }
+        return res[r.nextInt(i+1)];
     }
 }
