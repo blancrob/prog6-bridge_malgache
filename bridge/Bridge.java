@@ -1724,7 +1724,7 @@ public class Bridge extends Application {
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
         bridgechinois.setTextFill(Color.BLACK);
-        pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
+        pane.setStyle("-fx-color : grey; -fx-background-color: #274e13;");
 
         //Espace entre les cases du GridPane
         pane.setHgap(l_scene / 15.36);
@@ -1860,7 +1860,43 @@ public class Bridge extends Application {
                 rules.setTextFill(Color.BLACK);
                 options.setTextFill(Color.BLACK);
                 daynight.setTextFill(Color.BLACK);
+                quit.setOnMouseEntered((MouseEvent me) -> {
+                    quit.setStyle("-fx-text-fill: white;");
+                });
+                quit.setOnMouseExited((MouseEvent me) -> {
+                    quit.setStyle("-fx-text-fill: black;");
+                });
+                newgame.setOnMouseEntered((MouseEvent me) -> {
+                    newgame.setStyle("-fx-text-fill: white;");
+                });
+                newgame.setOnMouseExited((MouseEvent me) -> {
+                    newgame.setStyle("-fx-text-fill: black;");
+                });
+                loadgame.setOnMouseEntered((MouseEvent me) -> {
+                    loadgame.setStyle("-fx-text-fill: white;");
+                });
+                loadgame.setOnMouseExited((MouseEvent me) -> {
+                    loadgame.setStyle("-fx-text-fill: black;");
+                });
+                rules.setOnMouseEntered((MouseEvent me) -> {
+                    rules.setStyle("-fx-text-fill: white;");
+                });
+                rules.setOnMouseExited((MouseEvent me) -> {
+                    rules.setStyle("-fx-text-fill: black;");
+                });
+                options.setOnMouseEntered((MouseEvent me) -> {
+                    options.setStyle("-fx-text-fill: white;");
+                });
+                options.setOnMouseExited((MouseEvent me) -> {
+                    options.setStyle("-fx-text-fill: black;");
+                });
+                daynight.setOnMouseEntered((MouseEvent me) -> {
+                    daynight.setTextFill(Color.BLACK);
+                });
+                daynight.setOnMouseExited((MouseEvent me) -> {
+                    daynight.setTextFill(Color.WHITE);
                 jour = 1;
+                });
             }
         });
         primaryStage.setScene(scene);
