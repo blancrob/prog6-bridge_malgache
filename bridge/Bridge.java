@@ -785,7 +785,7 @@ public class Bridge extends Application {
     public void transitionMenuJeu(Stage primaryStage) {
         m = new Moteur2();
         m.initialiser(name1final, name2final, joueur1level, joueur2level, typegame, nbroundsfinal, nbpointsfinal, typemode);
-        init_manche();
+        init_manche(primaryStage);
         root = new AnchorPane();
         for (int i = 0; i < j1main.length; i++) {
             root.getChildren().add(j1main[i].face);
@@ -2118,7 +2118,7 @@ public class Bridge extends Application {
     Button undo;
     Button redo;
 
-    public void init_manche() {
+    public void init_manche(Stage primaryStage) {
         carte_jouee = 0;
         tour_pioche = 0;
         tour_joueur = J1;
@@ -2267,9 +2267,7 @@ public class Bridge extends Application {
         m.j1.score = 0;
         m.j2.score = 0;
 
-        bandeau = new MenuJeu(m);
-        bandeau.tourJ(tour_joueur);
-        bandeau.mode(m.config.mode);
+        majBandeau(primaryStage);
 
         if (m.config.manche > 1) {
             root.getChildren().clear();
@@ -2302,6 +2300,71 @@ public class Bridge extends Application {
         }
     }
 
+    public void majBandeau(Stage primaryStage){
+        bandeau = new MenuJeu(m);
+        bandeau.tourJ(tour_joueur);
+        bandeau.mode(m.config.mode);
+        
+        if (root!=null){
+            root.getChildren().add(bandeau);
+        }
+        
+        bandeau.load.setOnAction((ActionEvent event) -> {
+            charger(primaryStage);
+        });
+        bandeau.load.setOnKeyPressed(keyEvent ->{
+            KeyCode l = keyEvent.getCode();
+            if (l.equals(KeyCode.L)){
+                charger(primaryStage);
+            }
+        });
+        
+        bandeau.option.setOnAction((ActionEvent event) -> {
+            option();
+        });
+        bandeau.option.setOnKeyPressed(keyEvent ->{
+            KeyCode o = keyEvent.getCode();
+            if (o.equals(KeyCode.O)){
+                option();
+            }
+        });
+        
+        bandeau.restart.setOnAction((ActionEvent event) -> {
+            cbrounds.setSelected(false);
+            nbrounds.setText("");
+            cbpoints.setSelected(false);
+            nbpoints.setText("");
+            cbhuman2.setSelected(false);
+            nouvellePartie(primaryStage, firstmenu, launchgame);
+        });
+        bandeau.restart.setOnKeyPressed(keyEvent -> {
+            KeyCode t = keyEvent.getCode();
+            if (t.equals(KeyCode.T)) {
+                sauvegarder(primaryStage);
+            }
+        });
+
+        bandeau.quit.setOnKeyPressed(keyEvent ->{
+            KeyCode q = keyEvent.getCode();
+            if (q.equals(KeyCode.Q)){
+                quitter(primaryStage);
+            }
+        });
+        bandeau.quit.setOnAction((ActionEvent event) -> {
+            quitter(primaryStage);
+        });
+
+        bandeau.save.setOnAction((ActionEvent event) -> {
+            sauvegarder(primaryStage);
+        });
+        bandeau.save.setOnKeyPressed(keyEvent -> {
+            KeyCode s = keyEvent.getCode();
+            if (s.equals(KeyCode.S)) {
+                sauvegarder(primaryStage);
+            }
+        });
+    }
+    
     public void init_main(Carte[] main, int j) {
         String color;
         String number;
@@ -3176,7 +3239,7 @@ public class Bridge extends Application {
 
                         if (!mt.isVisible()) {
                             System.out.println("Manche SUIVANTE !");
-                            init_manche();
+                            init_manche(primaryStage);
                             messageFinManche = false;
                             messageActif = 0;
                         }
