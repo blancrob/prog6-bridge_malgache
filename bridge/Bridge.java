@@ -482,7 +482,7 @@ public class Bridge extends Application {
          }*/
         root = new AnchorPane();
 
-        if (J1_carte_jouee != null) {
+        if (m.config.carteP != null && m.config.donneur == 1 || m.config.carteS != null && m.config.receveur == 1) {
             majCarte(J1_carte_jouee);
             J1_carte_jouee.face.toFront();
             J1_carte_jouee.face.setVisible(true);
@@ -492,7 +492,7 @@ public class Bridge extends Application {
             root.getChildren().add(J1_carte_jouee.face);
         }
 
-        if (J2_carte_jouee != null) {
+        if (m.config.carteP != null && m.config.donneur == 2 || m.config.carteS != null && m.config.receveur == 2) {
             majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
             J2_carte_jouee.face.setVisible(true);
