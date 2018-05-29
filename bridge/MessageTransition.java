@@ -77,7 +77,7 @@ public class MessageTransition extends Parent {
 
     public MessageTransition(Moteur m, double largeur, double hauteur) {
         StackPane stack = new StackPane();
-        fond_victoire = new Rectangle(largeur / 2.05, hauteur / 3.6, Color.BLACK);
+        fond_victoire = new Rectangle(largeur / 2, hauteur / 3.6, Color.BLACK);
         boolean victoire = true;
 
         message_victoire = new Text("TEST");
@@ -124,11 +124,11 @@ public class MessageTransition extends Parent {
             message_victoire.setFill(Color.LIGHTGREY);
             message_victoire.setTextAlignment(TextAlignment.CENTER);
             
-            stack.setTranslateX((largeur - largeur / 5) / 2.5);
+            stack.setTranslateX((largeur - largeur / 5) / 3);
             stack.setTranslateY(hauteur - hauteur/1.8);
             
             if(victoire){   //En cas de victoires, couleurs adaptées
-                fond_victoire = new Rectangle(largeur / 2.05, hauteur / 3.6, Color.CRIMSON);
+                fond_victoire = new Rectangle(largeur / 1.5, hauteur / 3.6, Color.web("cf2929"));
                 message_victoire.setFill(Color.WHITE);
                 
                 this.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -143,7 +143,7 @@ public class MessageTransition extends Parent {
                     }
                 });
             }else{  
-                fond_victoire = new Rectangle(largeur / 1.65, hauteur / 3.6, Color.BLACK);
+                fond_victoire = new Rectangle(largeur / 1.5, hauteur / 3.6, Color.BLACK);
                 message_victoire.setFill(Color.LIGHTGREY);
                 
                 this.setOnMouseEntered(new EventHandler<MouseEvent>() {
