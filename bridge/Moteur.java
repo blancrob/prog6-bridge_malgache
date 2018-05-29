@@ -1024,9 +1024,10 @@ public class Moteur {
     /**
      * Lis les valeurs des cartes à utiliser pour la partie dans un fichier texte, chaque pileCartes séparée par un tiret -, dans cet ordre:
      * mainj1, mainj2, pile1, pile2, pile3, pile4, pile5, pile6, tasj1, tasj2
-     * Puis trois ints, un par ligne: taille, atout, completer
+     * Puis trois ints, un par ligne: taille, atout, doneur, completer
      * Taille est la taille courante de la main
      * Atout est la couleur d'atout de la manche
+     * Donneur le donneur de la manche
      * Si completer vaut 1: les cartes manquantes sont ditribuées dans les mains des joueurs et dans la pioche
      * Si completer vaut 2: les cartes manquantes sont ditribuées dans les tas des joueurs
      * @throws IOException 
@@ -1116,6 +1117,14 @@ public class Moteur {
         }
         config.taille =Integer.parseInt(br.readLine());
         config.atout = Integer.parseInt(br.readLine());
+        config.donneur = Integer.parseInt(br.readLine());
+        if(config.donneur==1){
+            config.donneurInitial=1;
+            config.receveur=2;
+        }else{
+            config.donneurInitial=2;
+            config.receveur=1;
+        }
         completer = Integer.parseInt(br.readLine());
         
         config.pioche = new PileCartes[6];
