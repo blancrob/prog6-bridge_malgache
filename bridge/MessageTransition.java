@@ -77,7 +77,7 @@ public class MessageTransition extends Parent {
 
     public MessageTransition(Moteur m, double largeur, double hauteur) {
         StackPane stack = new StackPane();
-        fond_victoire = new Rectangle(largeur / 2.05, hauteur / 3.6, Color.BLACK);
+        fond_victoire = new Rectangle(largeur / 2, hauteur / 3.6, Color.BLACK);
         boolean victoire = true;
 
         message_victoire = new Text("TEST");
@@ -86,31 +86,35 @@ public class MessageTransition extends Parent {
             if(m.config.conditionVictoire==1 && m.j1.manchesGagnees != m.j2.manchesGagnees){  //Partie en Nombre de Manches
                 if(m.config.mode == 1){  //En Joueur Contre Joueur
                     if(m.j1.manchesGagnees>m.j2.manchesGagnees){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manche(s) gagnée(s) ");
                     }else if(m.j2.manchesGagnees>m.j1.manchesGagnees){  //Si le joueur 2 gagne
-                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.manchesGagnees + " manche(s) gagnée(s) ");
                     }
                 }else if(m.config.mode == 2){
                     if(m.j1.manchesGagnees>m.j2.manchesGagnees){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manches gagnées ");
+                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.manchesGagnees + " manche(s) gagnée(s) ");
                     }else{  //Si le joueur 2 gagne
-                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.manchesGagnees + " manches gagnées");
+                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.manchesGagnees + " manche(s) gagnée(s)");
                         victoire = false;
                     }
                 }
             }else{  //Partie au score
-                if(m.config.mode == 1){  //En Joueur Contre Joueur
-                    if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
-                    }else if(m.j2.scoreTotal>m.j1.scoreTotal){  //Si le joueur 2 gagne
-                        message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.scoreTotal + " plis ");
-                    }
-                }else if(m.config.mode == 2){
-                    if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
-                        message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
-                    }else{  //Si le joueur 2 gagne
-                        message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.scoreTotal + " plis");
-                        victoire = false;
+                if(m.j1.scoreTotal==m.j2.scoreTotal){   //En cas d'égalité
+                    message_victoire = new Text("Egalité");
+                }else{
+                    if(m.config.mode == 1){  //En Joueur Contre Joueur
+                        if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
+                            message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
+                        }else if(m.j2.scoreTotal>m.j1.scoreTotal){  //Si le joueur 2 gagne
+                            message_victoire = new Text("Bravo " + m.j2.nom + " !!!\n Victoire avec " + m.j2.scoreTotal + " plis ");
+                        }
+                    }else if(m.config.mode == 2){
+                        if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
+                            message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
+                        }else{  //Si le joueur 2 gagne
+                            message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.scoreTotal + " plis");
+                            victoire = false;
+                        }
                     }
                 }
             }
@@ -120,11 +124,11 @@ public class MessageTransition extends Parent {
             message_victoire.setFill(Color.LIGHTGREY);
             message_victoire.setTextAlignment(TextAlignment.CENTER);
             
-            stack.setTranslateX((largeur - largeur / 5) / 2.5);
+            stack.setTranslateX((largeur - largeur / 5) / 3);
             stack.setTranslateY(hauteur - hauteur/1.8);
             
             if(victoire){   //En cas de victoires, couleurs adaptées
-                fond_victoire = new Rectangle(largeur / 2.05, hauteur / 3.6, Color.CRIMSON);
+                fond_victoire = new Rectangle(largeur / 1.5, hauteur / 3.6, Color.web("cf2929"));
                 message_victoire.setFill(Color.WHITE);
                 
                 this.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -134,12 +138,12 @@ public class MessageTransition extends Parent {
                 });
                 this.setOnMouseExited(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        fond_victoire.setFill(Color.CRIMSON);
+                        fond_victoire.setFill(Color.web("cf2929"));
                         message_victoire.setFill(Color.LIGHTGREY);
                     }
                 });
             }else{  
-                fond_victoire = new Rectangle(largeur / 1.65, hauteur / 3.6, Color.BLACK);
+                fond_victoire = new Rectangle(largeur / 1.5, hauteur / 3.6, Color.BLACK);
                 message_victoire.setFill(Color.LIGHTGREY);
                 
                 this.setOnMouseEntered(new EventHandler<MouseEvent>() {

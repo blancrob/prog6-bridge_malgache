@@ -60,6 +60,12 @@ public class MenuJeu extends Parent {
     int gagnant;
     int l;
     String name;
+    //Les couleurs
+    final String Gris = ("343638");
+    final String Rouge=("330000");
+    final String Violet=("4c1130");
+    public String couleurbandeau=(Violet);
+   
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
@@ -95,6 +101,7 @@ public class MenuJeu extends Parent {
         helpspace.setTranslateY((hauteur_scene - hauteur_scene / 1.2));
         Text raccourcis = new Text("RACCOURCIS CLAVIER");
         Text recommencer = new Text("T : Recommencer");
+        Text option = new Text("O : Options");
         Text help = new Text("H : Aide");
         Text regles = new Text("R : Regles");
         Text charger = new Text("C : Charger");
@@ -104,53 +111,58 @@ public class MenuJeu extends Parent {
         raccourcis.setFill(Color.LIGHTGREY);
         raccourcis.setX(largeur_scene / 4.6);
         raccourcis.setY(hauteur_scene-(hauteur_scene/1.25));
-        recommencer.setFont(new Font(25));
+        recommencer.setFont(new Font(20));
         recommencer.setFill(Color.LIGHTGREY);
         recommencer.setX(largeur_scene / 4.6);
-        recommencer.setY(hauteur_scene-(hauteur_scene/1.31));
-        help.setFont(new Font(25));
+        recommencer.setY(hauteur_scene-(hauteur_scene/1.3));
+        option.setFont(new Font(20));
+        option.setFill(Color.LIGHTGREY);
+        option.setX(largeur_scene / 4.6);
+        option.setY(hauteur_scene-(hauteur_scene/1.33));
+        help.setFont(new Font(20));
         help.setFill(Color.LIGHTGREY);
         help.setX(largeur_scene / 4.6);
-        help.setY(hauteur_scene-(hauteur_scene/1.355));
-        regles.setFont(new Font(25));
+        help.setY(hauteur_scene-(hauteur_scene/1.365));
+        regles.setFont(new Font(20));
         regles.setFill(Color.LIGHTGREY);
         regles.setX(largeur_scene / 4.6);
         regles.setY(hauteur_scene-(hauteur_scene/1.4));
-        help.setFont(new Font(25));
-        help.setFill(Color.LIGHTGREY);
-        help.setX(largeur_scene / 4.6);
-        help.setY(hauteur_scene-(hauteur_scene/1.45));
-        save.setFont(new Font(25));
+        charger.setFont(new Font(20));
+        charger.setFill(Color.LIGHTGREY);
+        charger.setX(largeur_scene / 4.6);
+        charger.setY(hauteur_scene-(hauteur_scene/1.44));
+        save.setFont(new Font(20));
         save.setFill(Color.LIGHTGREY);
         save.setX(largeur_scene / 4.6);
-        save.setY(hauteur_scene-(hauteur_scene/1.505));
-        quit.setFont(new Font(25));
+        save.setY(hauteur_scene-(hauteur_scene/1.48));
+        quit.setFont(new Font(20));
         quit.setFill(Color.LIGHTGREY);
         quit.setX(largeur_scene / 4.6);
-        quit.setY(hauteur_scene-(hauteur_scene/1.52));
-        this.getChildren().addAll(helpspace,raccourcis,recommencer,help,regles,save,quit);
+        quit.setY(hauteur_scene-(hauteur_scene/1.53));
+        this.getChildren().addAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         raccourcis.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         recommencer.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         help.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         regles.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         save.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         quit.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
         helpspace.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
     }
+    
     void regles(){
         Rectangle rulesspace = new Rectangle(largeur_scene/3,hauteur_scene/3.55,Color.GREY);
         rulesspace.setArcHeight(15);
@@ -219,7 +231,7 @@ public class MenuJeu extends Parent {
     }
     public MenuJeu(Moteur m) {
              
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web("4c1130"));//gris foncé : 4b4c4e autre gris : 343638 bleu fonce :040447 violet : 4c1130
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(couleurbandeau));
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
@@ -353,7 +365,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(image_atout);
         
         if(m.config.conditionVictoire==1){
-            condition_victoire = new Label("Partie en "+m.config.mancheMax+" manches");
+            condition_victoire = new Label("Partie en "+m.config.mancheMax+" manche(s)");
         }
         else{
             condition_victoire = new Label("Partie en "+m.config.scoreMax+" points");

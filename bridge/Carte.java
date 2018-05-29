@@ -28,8 +28,8 @@ public class Carte extends Parent implements Cloneable, Serializable{
     //final int hauteur_carte = 165;
     //final int largeur_carte = 135;
     
-    final int hauteur_carte = (int)(hauteur_scene/5.45);
-    final int largeur_carte = (int)(largeur_scene/14.223);
+    int hauteur_carte = (int)(hauteur_scene/5.45);
+    int largeur_carte = (int)(largeur_scene/14.223);
     
     static final int V=11;
     static final int D=12;
@@ -76,6 +76,8 @@ public class Carte extends Parent implements Cloneable, Serializable{
       out.writeInt(this.valeur);
       out.writeInt(this.couleur);
       out.writeBoolean(this.visible);
+      out.writeInt(this.hauteur_carte);
+      out.writeInt(this.largeur_carte);
       out.writeDouble(face.getArcHeight());
       out.writeDouble(face.getArcWidth());
       out.writeDouble(face.getHeight());
@@ -104,6 +106,8 @@ public class Carte extends Parent implements Cloneable, Serializable{
       this.valeur = in.readInt();
       this.couleur = in.readInt();
       this.visible = in.readBoolean();
+      this.hauteur_carte = in.readInt();
+      this.largeur_carte = in.readInt();
       this.face.setArcHeight(in.readDouble()); 
       this.face.setArcWidth(in.readDouble()); 
       this.face.setHeight(in.readDouble()); 
