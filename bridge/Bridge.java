@@ -452,7 +452,7 @@ public class Bridge extends Application {
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
-        if (m.config.manche > 1) {
+        /*if ((m.config.manche > 1)  && root!=null){
             root.getChildren().clear();
             for (int i = 0; i < j1main.length; i++) {
                 if (j1main[i] != null) {
@@ -477,7 +477,7 @@ public class Bridge extends Application {
                 }
             }
             root.getChildren().add(bandeau);
-        }
+        }*/
 
         root = new AnchorPane();
         
