@@ -135,7 +135,7 @@ public class Bridge extends Application {
         sauvyes.setOpacity(0.75);
         sauvyes.toFront();
         Text sauvmessage = new Text("Sauvegarder avant de quitter ?");
-        sauvmessage.setFont(new Font(45));
+        sauvmessage.setFont(new Font(35));
         sauvmessage.setFill(Color.LIGHTGREY);
         sauvmessage.setX(largeur_scene / 4.6);
         sauvmessage.setY(hauteur_scene / 1.325);
@@ -183,7 +183,7 @@ public class Bridge extends Application {
         quityes.setOpacity(0.75);
         quityes.toFront();
         Text quitmessage = new Text("Voulez vous vraiment quitter ?");
-        quitmessage.setFont(new Font(45));
+        quitmessage.setFont(new Font(35));
         quitmessage.setFill(Color.LIGHTGREY);
         quitmessage.setX(largeur_scene / 4.6);
         quitmessage.setY(hauteur_scene / 1.325);
@@ -239,7 +239,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -424,19 +424,19 @@ public class Bridge extends Application {
         System.out.println();
 
         if (m.config.mode == 1 && m.config.donneur == J1) {
-            tour_joueur = J1;
+            //tour_joueur = J1;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, J2);
         } else if (m.config.mode == 1 && m.config.donneur == J2) {
-            tour_joueur = J2;
+            //tour_joueur = J2;
             affichage_face_main(j2main, J2);
             affichage_dos_main(j1main, J1);
         } else if (m.config.mode == 2 && m.config.donneur == J1) {
-            tour_joueur = J1;
+            //tour_joueur = J1;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
         } else if (m.config.mode == 2 && m.config.donneur == IA) {
-            tour_joueur = IA;
+            //tour_joueur = IA;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
             temps = System.currentTimeMillis();
@@ -448,6 +448,7 @@ public class Bridge extends Application {
         maj_handler_pile();
 
         bandeau = new MenuJeu(m);
+        System.err.println("TourJoueur deuxieme:"+tour_joueur);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
@@ -479,6 +480,27 @@ public class Bridge extends Application {
         }
 
         root = new AnchorPane();
+        
+        if(J1_carte_jouee!=null){
+            majCarte(J1_carte_jouee);
+            J1_carte_jouee.face.toFront();
+            J1_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J1_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J1_carte_jouee.face.setTranslateY(hauteur_scene/1.5);
+            root.getChildren().add(J1_carte_jouee.face);
+        }
+        
+        if(J2_carte_jouee!=null){
+            majCarte(J2_carte_jouee);
+            J2_carte_jouee.face.toFront();
+            J2_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
+            root.getChildren().add(J2_carte_jouee.face);
+        }
+        
         for (int i = 0; i < m.j1.main.taille(); i++) {
             root.getChildren().add(j1main[i].face);
             root.getChildren().add(j1main[i].dos);
@@ -569,7 +591,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k ;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -656,11 +678,57 @@ public class Bridge extends Application {
             affichage_face_pile(pile);
             maj_handler_main();
             maj_handler_pile();
-
+        });
+        redo = new Button();
+        ImageView imgRedo = new ImageView(new Image("images/redo.png"));
+        redo.setGraphic(imgRedo);
+        redo.setPrefWidth(55);
+        redo.setPrefHeight(5);
+        redo.setTranslateX(largeur_scene / 1.12);
+        redo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+        root.getChildren().add(redo);
+        redo.setOnMouseClicked((MouseEvent me) -> {
+            m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+            finTour, messageFinManche, messageFinPartie);
+            m.redo();
+            
+            temps = m.config.temps;
+            temps2 = m.config.temps2;
+            carte_jouee = m.config.carte_jouee;
+            tour_joueur = m.config.tour_joueur;
+            tour_pioche = m.config.tour_pioche;
+            k = m.config.k ;
+            J1_carte_jouee = m.config.J1_carte_jouee;
+            J2_carte_jouee = m.config.J2_carte_jouee;
+            clean = m.config.clean;
+            pause = m.config.pause;
+            j1_lock = m.config.j1_lock;
+            j2_lock = m.config.j2_lock;
+            select = m.config.select;
+            cheat = m.config.cheat;
+            message_t = m.config.message_t;
+            animation_cartePiochee = m.config.animation_cartePiochee;
+            animation_t = m.config.animation_t;
+            J1_lastCard = m.config.J1_lastCard;
+            J2_lastCard = m.config.J2_lastCard;
+            affichage_initial_pioche = m.config.affichage_initial_pioche;
+            messagePioche = m.config.messagePioche;
+            finTour = m.config.finTour;
+            messageFinManche = m.config.messageFinManche;
+            messageFinPartie = m.config.messageFinPartie;
+            
+            init_mainJ1J2();
+            init_pile(pile);
+            
+            bandeau = new MenuJeu(m);
+            bandeau.tourJ(tour_joueur);
+            bandeau.mode(m.config.mode);
         });
         if (m.config.mode == 2) {
             redo = new Button();
-            ImageView imgRedo = new ImageView(new Image("images/redo.png"));
+            imgRedo = new ImageView(new Image("images/redo.png"));
             redo.setGraphic(imgRedo);
             redo.setPrefWidth(55);
             redo.setPrefHeight(5);
@@ -679,7 +747,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -782,6 +850,34 @@ public class Bridge extends Application {
 
         affichage_dos_pile(pile);
         affichage_face_pile(pile);
+    }
+    
+    /**
+     * Applique son image à la carte c
+     * @param c 
+     */
+    public void majCarte(Carte c){
+        String color;
+        String number;
+        switch (c.couleur) {
+            case 1:
+                color = "TREFLE";
+                break;
+            case 2:
+                color = "CARREAU";
+                break;
+            case 3:
+                color = "COEUR";
+                break;
+            default:
+                color = "PIQUE";
+                break;
+        }
+
+        number = Integer.toString(c.valeur);
+        String carte = color + "_" + number + ".png";
+        ImagePattern img = new ImagePattern(new Image("images/" + carte));
+        c.face.setFill(img);
     }
 
     public void transitionMenuJeu(Stage primaryStage) {
@@ -898,7 +994,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -1006,7 +1102,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -1642,7 +1738,6 @@ public class Bridge extends Application {
             fc.setInitialDirectory(new File(System.getProperty("user.dir")));
             File f = fc.showOpenDialog(primaryStage); //sauver showSaveDialog
             try {
-
                 m = new Moteur2();
                 m.charger(f.getName());
 
@@ -1651,7 +1746,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -1672,7 +1767,7 @@ public class Bridge extends Application {
                 messageFinPartie = m.config.messageFinPartie;
 
                 initialiserCharger(primaryStage);
-
+            
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -2970,7 +3065,7 @@ public class Bridge extends Application {
                 public void handle(MouseEvent me) {
 
                     if (m.config.mode == 2 && cheat == 1 && main != j1main) {
-                        for (int i = 0; i < j2main.length; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].face.setVisible(false);
                             j2main[i].dos.setVisible(true);
                             j2main[i].dos.toFront();
@@ -3008,7 +3103,7 @@ public class Bridge extends Application {
                 @Override
                 public void handle(MouseEvent me) {
                     if (m.config.mode == 2 && cheat == 0) {
-                        for (int i = 0; i < j2main.length; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                             j2main[i].face.setVisible(true);
                             j2main[i].face.toFront();
@@ -3271,7 +3366,7 @@ public class Bridge extends Application {
                         carte_jouee = 1;
                         System.out.println("IA joue sa carte");
                         J2_carte_jouee = m.jouerCoupIA(tour_joueur);
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
@@ -3325,8 +3420,9 @@ public class Bridge extends Application {
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
+                        init_mainJ1J2();
                         System.out.println();
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
@@ -3367,8 +3463,9 @@ public class Bridge extends Application {
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
+                        init_mainJ1J2();
                         System.out.println();
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
