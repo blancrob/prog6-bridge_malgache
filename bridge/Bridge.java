@@ -2692,8 +2692,6 @@ public class Bridge extends Application {
         ImagePattern img;
         for (int j = 0; j < pile.length; j++) {
             if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
-                System.out.println("Taille de la pile numéro " + j + " : " + m.config.pioche[j].pile.size());
-
                 switch (m.config.pioche[j].pile.size()) {
                     case 5:
                         card = "pile_5_" + couleurDos + ".png";
@@ -3324,7 +3322,6 @@ public class Bridge extends Application {
                     }
 
                     if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && animation_t == 1 && temps + 1500 < System.currentTimeMillis()) {
-                        System.out.println("over here winner");
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
@@ -3367,7 +3364,6 @@ public class Bridge extends Application {
                     }
 
                     if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && animation_t == 1 && temps + 1500 < System.currentTimeMillis()) {
-                        System.out.println("over here looser");
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
