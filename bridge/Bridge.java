@@ -482,7 +482,7 @@ public class Bridge extends Application {
          }*/
         root = new AnchorPane();
 
-        if (m.config.carteP != null && m.config.donneur == 1 || m.config.carteS != null && m.config.receveur == 1) {
+        if (J1_carte_jouee!=null) {
             majCarte(J1_carte_jouee);
             J1_carte_jouee.face.toFront();
             J1_carte_jouee.face.setVisible(true);
@@ -492,7 +492,7 @@ public class Bridge extends Application {
             root.getChildren().add(J1_carte_jouee.face);
         }
 
-        if (m.config.carteP != null && m.config.donneur == 2 || m.config.carteS != null && m.config.receveur == 2) {
+        if (J2_carte_jouee!=null) {
             majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
             J2_carte_jouee.face.setVisible(true);
@@ -3620,6 +3620,8 @@ public class Bridge extends Application {
                         }
                         bandeau.plisJ1.setText(String.valueOf("Plis : " + m.j1.score));
                         bandeau.plisJ2.setText(String.valueOf("Plis : " + m.j2.score));
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
@@ -3648,6 +3650,8 @@ public class Bridge extends Application {
                             affichage_dos_plis(j2plis, J2);
                             j2_lock = 1;
                         }
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                     }
 
