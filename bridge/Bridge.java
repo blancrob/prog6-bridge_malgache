@@ -328,16 +328,19 @@ public class Bridge extends Application {
         
         
         bluebg.setOnMouseClicked((MouseEvent me) -> {
-            root.setStyle("-fx-background-color:#042955;"); 
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
+            root.setStyle("-fx-background-color:#042955;");
+            bandeau.couleurBandeau(Bleu);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
+            bandeau.couleurBandeau(Vert);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
+            bandeau.couleurBandeau(Rouge);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
         });
 
         bluedos.setOnMouseClicked((MouseEvent me) -> {

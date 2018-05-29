@@ -108,7 +108,7 @@ public class MenuJeu extends Parent {
         timeline.play();
     }*/
 
-    public static void couleurBandeau(String CouleurPlateau){
+    public void couleurBandeau(String CouleurPlateau){
         if (CouleurPlateau.equals(Bridge.Bleu))
             CouleurBandeau=Gris;
         else if (CouleurPlateau.equals(Bridge.Rouge))
@@ -536,6 +536,7 @@ public class MenuJeu extends Parent {
             public void handle(long now) {
                 tour.setText("Tour : "+name);
                 //AnimationTimeline(image_tour);
+                menu.setFill(Color.web(CouleurBandeau));
                 if(tour_joueur == 1){
                     name = m.j1.nom;
                 }
