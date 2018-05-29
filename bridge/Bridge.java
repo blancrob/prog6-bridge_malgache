@@ -328,6 +328,7 @@ public class Bridge extends Application {
             root.setStyle("-fx-background-color:#042955;");
             couleurPlateau= Bleu;
             bandeau.couleurBandeau(Bleu);
+            init_pile(pile);
             changerCouleurDos(couleurDos);
             //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
         });
@@ -335,6 +336,7 @@ public class Bridge extends Application {
             root.setStyle("-fx-background-color:#274e13;");
             couleurPlateau= Vert;
             bandeau.couleurBandeau(Vert);
+            init_pile(pile);
             changerCouleurDos(couleurDos);
             //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
         });
@@ -342,6 +344,7 @@ public class Bridge extends Application {
             root.setStyle("-fx-background-color:#480c19;");
             couleurPlateau= Rouge;
             bandeau.couleurBandeau(Rouge);
+            init_pile(pile);
             changerCouleurDos(couleurDos);
             //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
         });
@@ -2557,7 +2560,6 @@ public class Bridge extends Application {
         Moteur test = new Moteur();
 
         for (int j = 0; j < m.config.pioche.length; j++) {
-            System.out.println(m.config.pioche[j].taille());
             for (int i = 0; i < m.config.pioche[j].pile.size(); i++) {
                 pile[j][i] = m.config.pioche[j].pile.get(i);
             }
@@ -2734,8 +2736,6 @@ public class Bridge extends Application {
 
         String color;
         String number;
-
-        System.err.println(" Test : "+main.length);
         
         int i = 0;
         while(i < main.length && main[i] != null){
@@ -2826,8 +2826,9 @@ public class Bridge extends Application {
             j2main[i].dos.setFill(img);
         }
         for (int j = 0; j < pile.length; j++) {
+            System.err.println(" j = "+j+" | taille = "+m.config.pioche[j].pile.size());
             if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
-
+                System.err.println(" j = "+j+" et je suis rentré :D ");
                 switch (m.config.pioche[j].pile.size()) {
                     case 5:
                         card = "pile_5_" + color + ".png";
@@ -2849,9 +2850,11 @@ public class Bridge extends Application {
                     ImagePattern img2 = new ImagePattern(new Image("images/" + card));
                     pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(img2);
                 } else {
-                    //if(pile[j][0] != null){
+                    System.err.println("coucou");
+                    m.afficherCarte(pile[j][0]);
+                    if(pile[j][0] != null){
                         pile[j][0].dos.setFill(Color.web(couleurPlateau));
-                    //}
+                    }
                 }
 
             }
