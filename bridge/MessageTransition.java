@@ -138,7 +138,7 @@ public class MessageTransition extends Parent {
                 });
                 this.setOnMouseExited(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        fond_victoire.setFill(Color.CRIMSON);
+                        fond_victoire.setFill(Color.web("cf2929"));
                         message_victoire.setFill(Color.LIGHTGREY);
                     }
                 });
