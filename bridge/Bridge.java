@@ -420,23 +420,29 @@ public class Bridge extends Application {
                 j2main[i].face.setVisible(true);
             }
         }
+        
+        J2_carte_jouee.face.setVisible(true);
+        //Affichage de sa carte à l'IA
+        J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+        J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
+        J2_carte_jouee.face.toFront();
 
         System.out.println();
 
         if (m.config.mode == 1 && m.config.donneur == J1) {
-            tour_joueur = J1;
+            //tour_joueur = J1;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, J2);
         } else if (m.config.mode == 1 && m.config.donneur == J2) {
-            tour_joueur = J2;
+            //tour_joueur = J2;
             affichage_face_main(j2main, J2);
             affichage_dos_main(j1main, J1);
         } else if (m.config.mode == 2 && m.config.donneur == J1) {
-            tour_joueur = J1;
+            //tour_joueur = J1;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
         } else if (m.config.mode == 2 && m.config.donneur == IA) {
-            tour_joueur = IA;
+            //tour_joueur = IA;
             affichage_face_main(j1main, J1);
             affichage_dos_main(j2main, IA);
             temps = System.currentTimeMillis();
@@ -448,6 +454,7 @@ public class Bridge extends Application {
         maj_handler_pile();
 
         bandeau = new MenuJeu(m);
+        System.err.println("TourJoueur deuxieme:"+tour_joueur);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
@@ -569,7 +576,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k ;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -678,7 +685,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k ;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -1643,7 +1650,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -2965,7 +2972,7 @@ public class Bridge extends Application {
                 public void handle(MouseEvent me) {
 
                     if (m.config.mode == 2 && cheat == 1 && main != j1main) {
-                        for (int i = 0; i < j2main.length; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].face.setVisible(false);
                             j2main[i].dos.setVisible(true);
                             j2main[i].dos.toFront();
@@ -3003,7 +3010,7 @@ public class Bridge extends Application {
                 @Override
                 public void handle(MouseEvent me) {
                     if (m.config.mode == 2 && cheat == 0) {
-                        for (int i = 0; i < j2main.length; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                             j2main[i].face.setVisible(true);
                             j2main[i].face.toFront();
@@ -3266,7 +3273,7 @@ public class Bridge extends Application {
                         carte_jouee = 1;
                         System.out.println("IA joue sa carte");
                         J2_carte_jouee = m.jouerCoupIA(tour_joueur);
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
@@ -3321,8 +3328,9 @@ public class Bridge extends Application {
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
+                        init_mainJ1J2();
                         System.out.println();
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
@@ -3364,8 +3372,9 @@ public class Bridge extends Application {
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
+                        init_mainJ1J2();
                         System.out.println();
-                        for (int i = 0; i < 11; i++) {
+                        for (int i = 0; i < m.j2.main.taille(); i++) {
                             j2main[i].dos.setVisible(false);
                         }
                         init_main(j2main, IA);
