@@ -937,6 +937,7 @@ public class Moteur {
     }
     
     public EtatGlobal copieEtat(){
+        System.out.println("TEST");
         EtatGlobal e = new EtatGlobal();
         //Copie Joueur 1
         e.j1.main = j1.main.clone();
@@ -945,6 +946,9 @@ public class Moteur {
         e.j1.score = j1.score;
         e.j1.difficulte = j1.difficulte;
         e.j1.scoreTotal = j1.scoreTotal;
+        e.j1.manchesGagnees = j1.manchesGagnees;
+        e.j1.lg = j1.lg;
+        e.j1.nom = j1.nom;
         //Copie Joueur 2
         e.j2.main = j2.main.clone();
         e.j2.tas = j2.tas.clone();
@@ -952,6 +956,9 @@ public class Moteur {
         e.j2.score = j2.score;
         e.j2.difficulte = j2.difficulte;
         e.j2.scoreTotal = j2.scoreTotal;
+        e.j2.manchesGagnees = j2.manchesGagnees;
+        e.j2.lg = j2.lg;
+        e.j2.nom = j2.nom;
         //Copie Configuration
         e.config.pile1 = config.pile1.clone();
         e.config.pile2 = config.pile2.clone();
@@ -966,22 +973,50 @@ public class Moteur {
         e.config.pioche[3] = e.config.pile4;
         e.config.pioche[4] = e.config.pile5;
         e.config.pioche[5] = e.config.pile6;
+        e.config.carteP = config.carteP;
+        e.config.carteS = config.carteS;
         
         e.config.undo = (Stack<EtatGlobal>) config.undo.clone();
         e.config.redo = (Stack<EtatGlobal>) config.redo.clone();
         
         e.config.conditionVictoire=config.conditionVictoire;
+        e.config.mode = config.mode;
         e.config.mancheMax=config.mancheMax;
         e.config.scoreMax=config.scoreMax;
-        e.config.mode = config.mode;
-        e.config.manche = config.manche;
+        e.config.atout=config.atout;
         e.config.joueur=config.joueur;
         e.config.donneur=config.donneur;
         e.config.donneurInitial=config.donneurInitial;
         e.config.receveur=config.receveur;
+        e.config.manche = config.manche;
         e.config.gagnant=config.gagnant;
         e.config.perdant=config.perdant;
         e.config.taille=config.taille;
+        
+        e.config.temps = config.temps;
+        e.config.temps2 = config.temps2;
+        e.config.carte_jouee = config.carte_jouee;
+        e.config.tour_joueur = config.tour_joueur;
+        e.config.tour_pioche = config.tour_pioche;
+        e.config.k = config.k;
+        e.config.messagePioche = config.messagePioche;
+        e.config.finTour = config.finTour;
+        e.config.messageFinManche = config.messageFinManche;
+        e.config.messageFinPartie = config.messageFinPartie;
+        e.config.J1_carte_jouee = config.J1_carte_jouee;
+        e.config.J2_carte_jouee = config.J2_carte_jouee;
+        e.config.clean = config.clean;
+        e.config.pause = config.pause;
+        e.config.j1_lock = config.j1_lock;
+        e.config.j2_lock = config.j2_lock;
+        e.config.select = config.select;
+        e.config.cheat = config.cheat;
+        e.config.message_t = config.message_t;
+        e.config.animation_cartePiochee = config.animation_cartePiochee;
+        e.config.animation_t = config.animation_t;
+        e.config.J1_lastCard = config.J1_lastCard;
+        e.config.J2_lastCard = config.J2_lastCard;
+        e.config.affichage_initial_pioche = config.affichage_initial_pioche;
         
         return e;
     }

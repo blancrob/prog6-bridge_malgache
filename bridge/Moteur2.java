@@ -83,7 +83,6 @@ public class Moteur2 extends Moteur {
         oos.writeObject(copieEtat());
 
         oos.close();
-
     }
 
     /**

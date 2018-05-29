@@ -389,7 +389,6 @@ public class PileCartes implements Serializable, Cloneable{
     public PileCartes clone(){
         PileCartes p = new PileCartes();
         p.pile = (ArrayList<Carte>) pile.clone();
-        
         return p;
     }
     
