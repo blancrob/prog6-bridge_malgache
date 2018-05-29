@@ -1097,6 +1097,11 @@ public class IA_Util {
                 i++;
             }
         }
-        return res[r.nextInt(i+1)];
+        if(i>0){
+            return res[r.nextInt(i)];
+        }
+        else {
+            return null;
+        }
     }
 }
