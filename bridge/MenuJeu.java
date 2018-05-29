@@ -65,6 +65,7 @@ public class MenuJeu extends Parent {
     int gagnant;
     int l;
     String name;
+    Moteur m;
     
     //Les couleurs
     final static String Gris = ("343638");
@@ -186,6 +187,7 @@ public class MenuJeu extends Parent {
         helpspace.setOnMouseClicked((MouseEvent me) -> {
             this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
         });
+
     }
     
     void regles(){
@@ -254,7 +256,68 @@ public class MenuJeu extends Parent {
             MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
     }
+    
+    void historique(){
+        Rectangle rulesspace = new Rectangle(largeur_scene/3,hauteur_scene/3.55,Color.GREY);
+        rulesspace.setArcHeight(15);
+        rulesspace.setArcWidth(25);
+        rulesspace.setY((hauteur_scene/2.75));
+        Text rulesmessage1 = new Text("Scores Cumulés:");
+        Text rulesmessage2 = new Text("Manche 1 : "+ m.j1.nom+"   "+ m.j1.scores[1] + " - " + m.j2.scores[1]+"   "+ m.j2.nom);
+        Text rulesmessage3 = new Text("Manche 2 : "+ m.j1.nom+"   "+ m.j1.scores[2] + " - " + m.j2.scores[2]+"   "+ m.j2.nom);
+        Text rulesmessage4 = new Text("Manche 3 : "+ m.j1.nom+"   "+ m.j1.scores[3] + " - " + m.j2.scores[3]+"   "+ m.j2.nom);
+        Text rulesmessage5 = new Text("Manche 4 : "+ m.j1.nom+"   "+ m.j1.scores[4] + " - " + m.j2.scores[4]+"   "+ m.j2.nom);
+        Text rulesmessage6 = new Text("Manche 5 : "+ m.j1.nom+"   "+ m.j1.scores[5] + " - " + m.j2.scores[5]+"   "+ m.j2.nom);
+        rulesmessage1.setFont(new Font(25));
+        rulesmessage1.setFill(Color.LIGHTGREY);
+        rulesmessage1.setX(largeur_scene/1000);
+        rulesmessage1.setY(hauteur_scene/2.5);
+        rulesmessage2.setFont(new Font(25));
+        rulesmessage2.setFill(Color.LIGHTGREY);
+        rulesmessage2.setX(largeur_scene/1000);
+        rulesmessage2.setY(hauteur_scene/2.3);
+        rulesmessage3.setFont(new Font(25));
+        rulesmessage3.setFill(Color.LIGHTGREY);
+        rulesmessage3.setX(largeur_scene/1000);
+        rulesmessage3.setY(hauteur_scene/2.15);
+        rulesmessage4.setFont(new Font(25));
+        rulesmessage4.setFill(Color.LIGHTGREY);
+        rulesmessage4.setX(largeur_scene/1000);
+        rulesmessage4.setY(hauteur_scene/2);
+        rulesmessage5.setFont(new Font(25));
+        rulesmessage5.setFill(Color.LIGHTGREY);
+        rulesmessage5.setX(largeur_scene/1000);
+        rulesmessage5.setY(hauteur_scene/1.85);
+        rulesmessage6.setFont(new Font(25));
+        rulesmessage6.setFill(Color.LIGHTGREY);
+        rulesmessage6.setX(largeur_scene/1000);
+        rulesmessage6.setY(hauteur_scene/1.75);
+        this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        rulesmessage1.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesmessage2.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesmessage3.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesmessage4.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesmessage5.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesmessage6.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+        rulesspace.setOnMouseClicked((MouseEvent me) -> {
+            MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        });
+    }
+    
     public MenuJeu(Moteur m, String couleurPlateau) {
+        this.m = m;
         couleurBandeau(couleurPlateau);
         System.out.println("couleur : " +CouleurBandeau);
         menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(CouleurBandeau));
@@ -303,7 +366,7 @@ public class MenuJeu extends Parent {
         help.setOnAction((ActionEvent event) -> {
             aides();
         }); 
-
+       
         
         restart = new Button("Recommencer");
         restart.setPrefWidth(largeur_scene/13.715);
@@ -476,6 +539,9 @@ public class MenuJeu extends Parent {
         hist.setTranslateX(largeur_scene/8.25);
         hist.setTranslateY(hauteur_scene-hauteur_scene/1.315);
         this.getChildren().add(hist);
+        hist.setOnAction((ActionEvent event) -> {
+            historique();
+        });
         
         nom_plisJ1 = new Label(m.j1.nom);
         nom_plisJ1.setFont(new Font("Arial",18));

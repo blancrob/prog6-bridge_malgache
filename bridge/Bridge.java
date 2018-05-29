@@ -3428,6 +3428,8 @@ public class Bridge extends Application {
                         if (!mt.isVisible()) {
                             System.out.println("Manche SUIVANTE !");
                             init_manche(primaryStage);
+                            m.j1.ajouterScore();
+                            m.j2.ajouterScore();
                             messageFinManche = false;
                             messageActif = 0;
                         }
