@@ -482,7 +482,7 @@ public class Bridge extends Application {
          }*/
         root = new AnchorPane();
 
-        if (J1_carte_jouee != null) {
+        if (m.config.carteP != null && m.config.donneur == 1 || m.config.carteS != null && m.config.receveur == 1) {
             majCarte(J1_carte_jouee);
             J1_carte_jouee.face.toFront();
             J1_carte_jouee.face.setVisible(true);
@@ -492,7 +492,7 @@ public class Bridge extends Application {
             root.getChildren().add(J1_carte_jouee.face);
         }
 
-        if (J2_carte_jouee != null) {
+        if (m.config.carteP != null && m.config.donneur == 2 || m.config.carteS != null && m.config.receveur == 2) {
             majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
             J2_carte_jouee.face.setVisible(true);
@@ -2924,8 +2924,12 @@ public class Bridge extends Application {
         String color;
         String number;
 
-        for (int i = main.length; i < 11; i++) {
+        System.err.println(" Test : "+main.length);
+        
+        int i = 0;
+        while(i < main.length && main[i] != null){
             main[i].dos.setVisible(false);
+            i++;
         }
 
         if (j == J1) {
@@ -2943,7 +2947,7 @@ public class Bridge extends Application {
         }
 
         if (m.config.mode == 1) {
-            for (int i = 0; i < t; i++) {
+            for (i = 0; i < t; i++) {
                 main[i].face.setVisible(false);
 
                 main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
@@ -2955,7 +2959,7 @@ public class Bridge extends Application {
                 main[i].dos.toFront();
             }
         } else if (m.config.mode == 2) {
-            for (int i = 0; i < t; i++) {
+            for (i = 0; i < t; i++) {
                 switch (main[i].couleur) {
                     case 1:
                         color = "TREFLE";
