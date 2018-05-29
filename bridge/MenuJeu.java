@@ -56,6 +56,8 @@ public class MenuJeu extends Parent {
     Label image_tourMenu;
     int tour_joueur;
     int mode;
+    int tour_pioche;
+    int gagnant;
     int l;
     String name;
     
@@ -69,6 +71,11 @@ public class MenuJeu extends Parent {
     
     public void mode(int i){
         mode = i;
+    }
+    
+    public void tourP(int tour_p, int w){
+        tour_pioche = tour_p;  
+        gagnant = w;
     }
     
     public int lock(){
@@ -496,10 +503,13 @@ public class MenuJeu extends Parent {
                 else if(tour_joueur == 2){
                     name = m.j2.nom;
                 }
-                if(mode == 2 && tour_joueur == 1){
+                if(mode == 2 && tour_joueur == 1 && tour_pioche == 0){
                     image_tour.setTranslateY(hauteur_scene/1.175);
                 }
-                else if (mode == 2 && tour_joueur == 2){
+                if (mode == 2 && tour_joueur == 1 && (tour_pioche == 1 && gagnant == 1)||(tour_pioche == 2 && gagnant != 1)){
+                    image_tour.setTranslateY(hauteur_scene/2.2);
+                }
+                if (mode == 2 && tour_joueur == 2){
                     image_tour.setTranslateY(hauteur_scene/13);
                 }
             }
