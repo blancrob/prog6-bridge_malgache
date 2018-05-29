@@ -481,35 +481,23 @@ public class Bridge extends Application {
 
         root = new AnchorPane();
         
-        if(J2_carte_jouee!=null){   //A MODIFIER EN URGENCE
-            String color;
-            String number;
-            switch (J2_carte_jouee.couleur) {
-                case 1:
-                    color = "TREFLE";
-                    break;
-                case 2:
-                    color = "CARREAU";
-                    break;
-                case 3:
-                    color = "COEUR";
-                    break;
-                default:
-                    color = "PIQUE";
-                    break;
-            }
-
-            number = Integer.toString(J2_carte_jouee.valeur);
-            String carte = color + "_" + number + ".png";
-            ImagePattern img = new ImagePattern(new Image("images/" + carte));
-            J2_carte_jouee.face.setFill(img);
+        if(J1_carte_jouee!=null){
+            majCarte(J1_carte_jouee);
+            J1_carte_jouee.face.toFront();
+            J1_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J1_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J1_carte_jouee.face.setTranslateY(hauteur_scene/1.5);
+            root.getChildren().add(J1_carte_jouee.face);
+        }
+        
+        if(J2_carte_jouee!=null){
+            majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
-
             J2_carte_jouee.face.setVisible(true);
             //Affichage de sa carte à l'IA
             J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
             J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
-
             root.getChildren().add(J2_carte_jouee.face);
         }
         
@@ -862,6 +850,34 @@ public class Bridge extends Application {
 
         affichage_dos_pile(pile);
         affichage_face_pile(pile);
+    }
+    
+    /**
+     * Applique son image à la carte c
+     * @param c 
+     */
+    public void majCarte(Carte c){
+        String color;
+        String number;
+        switch (c.couleur) {
+            case 1:
+                color = "TREFLE";
+                break;
+            case 2:
+                color = "CARREAU";
+                break;
+            case 3:
+                color = "COEUR";
+                break;
+            default:
+                color = "PIQUE";
+                break;
+        }
+
+        number = Integer.toString(c.valeur);
+        String carte = color + "_" + number + ".png";
+        ImagePattern img = new ImagePattern(new Image("images/" + carte));
+        c.face.setFill(img);
     }
 
     public void transitionMenuJeu(Stage primaryStage) {
