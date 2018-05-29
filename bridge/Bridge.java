@@ -3191,8 +3191,9 @@ public class Bridge extends Application {
                         }
 
                         if (!mt.isVisible()) {
+                            messageFinPartie=false;
                             messageActif = 0;
-                            System.exit(0);
+                            firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
                         }
                     }
 
