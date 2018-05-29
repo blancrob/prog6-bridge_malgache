@@ -111,7 +111,7 @@ public class Moteur2 extends Moteur {
         j2 = e.j2;
 
         ois.close();
-        System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
+        //System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
     }
 
     /**
