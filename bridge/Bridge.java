@@ -2812,56 +2812,47 @@ public class Bridge extends Application {
     }
 
     public void changerCouleurDos(String color) {
-        String card;
-        ImagePattern img = new ImagePattern(new Image("images/DOS_" + color + ".png"));
+        String card=null;
+        ImagePattern imgDos = new ImagePattern(new Image("images/DOS_" + color + ".png"));
 
         for (int i = 0; i < m.j1.main.taille(); i++) {
-            j1main[i].dos.setFill(img);
+            j1main[i].dos.setFill(imgDos);
         }
         for (int i = 0; i < m.j2.main.taille(); i++) {
-            j2main[i].dos.setFill(img);
+            j2main[i].dos.setFill(imgDos);
         }
-        for (int j = 0; j < pile.length; j++) {
-            if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
-
-                switch (m.config.pioche[j].pile.size()) {
-                    case 5:
-                        card = "pile_5_" + color + ".png";
-                        break;
-                    case 4:
-                        card = "pile_4_" + color + ".png";
-                        break;
-                    case 3:
-                        card = "pile_3_" + color + ".png";
-                        break;
-                    case 2:
-                        card = "pile_2_" + color + ".png";
-                        break;
-                    default:
-                        card = couleurPlateau;
-                        break;
+        for (int j = 0; j < m.config.pioche.length; j++) {
+            if (m.config.pioche[j].vide()==false && m.config.pioche[j].taille() > 1 ) {
+                card = "pile_"+m.config.pioche[j].taille()+"_" + color + ".png";
+            }
+            /*if (m.config.pioche[j].vide()==false&&m.config.pioche[j].taille() == 1){
+                card="carte_transparente";
+            }
+            if (m.config.pioche[j].vide()==true){
+                card="carte_transparente.png";
+            }*/
+                
+            if (m.config.pioche[j].vide()==false && m.config.pioche[j].pile.size() > 1) {
+                ImagePattern imgPile = new ImagePattern(new Image("images/" + card));
+                pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(imgPile);
+            } else {
+                if(m.config.pioche[j].vide() == false || m.config.pioche[j].pile.size()== 1){
+                    pile[j][0].dos.setFill(Color.web(couleurPlateau));
                 }
-                if (m.config.pioche[j].pile.size() > 1) {
-                    ImagePattern img2 = new ImagePattern(new Image("images/" + card));
-                    pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(img2);
-                } else {
-                    //if(pile[j][0] != null){
-                        pile[j][0].dos.setFill(Color.web(couleurPlateau));
-                    //}
+                else if (m.config.pioche[j].vide()==true){
+                    
                 }
-
             }
         }
+        ImagePattern imgDef = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
         if (j1plis != null && j1plis.length != 0) {
-            for (int i = 0; i < m.j1.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
-                j1plis[i].dos.setFill(img2);
+            for (int i = 0; i < m.j1.tas.taille(); i++) {                
+                j1plis[i].dos.setFill(imgDef);
             }
         }
         if (j2plis != null && j2plis.length != 0) {
             for (int i = 0; i < m.j2.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
-                j2plis[i].dos.setFill(img2);
+                j2plis[i].dos.setFill(imgDef);
             }
         }
     }
