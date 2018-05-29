@@ -479,7 +479,7 @@ public class Bridge extends Application {
         }
         
         root = new AnchorPane();
-        for (int i = 0; i < j1main.length; i++) {
+        for (int i = 0; i < m.j1.main.taille(); i++) {
             root.getChildren().add(j1main[i].face);
             root.getChildren().add(j1main[i].dos);
         }
