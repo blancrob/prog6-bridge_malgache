@@ -39,15 +39,13 @@ public class IaNovice implements IA {
     @Override
     public Carte jouer(){
         if (courante == null){ //si c'est au tour de l'IA elle joue une carte aléatoire de sa main
-            return main.aleatoire(true);
+            return IA_Util.aleatoire(main);
         }
         else{ // si l'adversaire à joué 
-            int couleur = courante.couleur; // on récupère la couleur jouée par l'adversaire
-            Carte res = new Carte();
-            Iterator<Carte> it = main.iterateur();
-            do{
-                res = it.next();
-            }while(res.couleur!=couleur && it.hasNext()); // Recherche d'une carte de la bonne couleur 
+            Carte res = IA_Util.aleatoire(main,courante);
+            if (res == null){
+                res = IA_Util.aleatoire(main);
+            }
             return res;
         }
     }
@@ -59,7 +57,7 @@ public class IaNovice implements IA {
      */
     @Override
     public Carte piocher(){
-        Random r = new Random();
+        /*Random r = new Random();
         int tmp;
         if(lg>1){
             tmp = r.nextInt(lg-1);
@@ -69,7 +67,10 @@ public class IaNovice implements IA {
         }else{
             tmp=0;
         }
-        return pioche[tmp];
+        return pioche[tmp];*/
+        Random r = new Random();
+        return pioche[r.nextInt(lg)];
     }
+    
     
 }

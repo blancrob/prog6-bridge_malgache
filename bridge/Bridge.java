@@ -105,6 +105,7 @@ public class Bridge extends Application {
     public String computer2final = ("");
 
     //Les Couleurs
+
     public String couleurDos=("ROUGE");
     
 
@@ -325,8 +326,6 @@ public class Bridge extends Application {
         dos.setX(largeur_scene / 1.53);
         dos.setY((hauteur_scene - hauteur_scene / 1.45));
 
-        
-        
         bluebg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#042955;");
             bandeau.couleurBandeau(Bleu);
@@ -346,42 +345,34 @@ public class Bridge extends Application {
         bluedos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("BLEU");
             changerCouleurDos(couleurDos);
-    
-            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
         });
         reddos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("ROUGE");
             changerCouleurDos(couleurDos);
-   
-            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
         });
         greendos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("VERT");
             changerCouleurDos(couleurDos);
-
-            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-           // root.getChildren().add(alert);
         });
         golddos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("OR");
             changerCouleurDos(couleurDos);
-
-            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
         });
         blackdos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("NOIR");
             changerCouleurDos(couleurDos);
-   
-            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-           // root.getChildren().add(alert);
 
         });
         optionspace.setOnMouseClicked((MouseEvent me) -> {
             root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
+        fond.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
+        });
+        dos.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
+        });
+        
         root.getChildren().addAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
     }
 

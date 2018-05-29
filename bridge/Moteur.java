@@ -111,11 +111,11 @@ public class Moteur {
         String str = sc.nextLine();
         File fichier =  new File(str) ;
 
-        ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
-       
-        oos.writeObject(config);
-        oos.writeObject(j1);
-        oos.writeObject(j2);
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier));
+
+        oos.writeObject(copieEtat());
+
+        oos.close();
     }
     
     /**
@@ -131,12 +131,21 @@ public class Moteur {
         File fichier =  new File(str) ;
 
         // ouverture d'un flux sur un fichier
-       ObjectInputStream ois =  new ObjectInputStream(new FileInputStream(fichier)) ;
+       // ouverture d'un flux sur un fichier
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichier));
 
         // désérialization de l'objet
-       config = (Configuration)ois.readObject() ;
-       j1 = (Joueur)ois.readObject() ;
-       j2 = (Joueur)ois.readObject() ;
+        EtatGlobal e = (EtatGlobal) ois.readObject();
+        
+        config = new Configuration();
+        j1 = new Joueur();
+        j2 = new Joueur();
+
+        config = e.config;
+        j1 = e.j1;
+        j2 = e.j2;
+
+        ois.close();
     }
     
     /**
@@ -1115,6 +1124,12 @@ public class Moteur {
             j2.tas.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
             line = br.readLine();
         }
+        line = br.readLine();
+        while(!line.equals("-")){
+            c = line.split(" ");
+            config.piochees.ajouter(new Carte(Integer.parseInt(c[0]), Integer.parseInt(c[1]), false));
+            line = br.readLine();
+        }
         config.taille =Integer.parseInt(br.readLine());
         config.atout = Integer.parseInt(br.readLine());
         config.donneur = Integer.parseInt(br.readLine());
@@ -1212,16 +1227,16 @@ public class Moteur {
         
         initialiser();
         
-        /*try {
+        try {
             forcer();
         } catch (IOException ex) {
             Logger.getLogger(Moteur.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         
         while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
         
             
-            if(config.donneurInitial==0){
+            /*if(config.donneurInitial==0){
                 config.donneurInitial=1;
                 config.donneur=1;
             }else if(config.donneurInitial==1){
@@ -1230,10 +1245,10 @@ public class Moteur {
             }else{
                config.donneurInitial=1;
                config.donneur=1; 
-            }
+            }*/
             
             config.manche++;
-            initialiserManche();
+            //initialiserManche();
                     
             
             System.out.println("MANCHE "+ config.manche);

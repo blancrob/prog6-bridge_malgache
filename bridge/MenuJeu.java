@@ -66,11 +66,11 @@ public class MenuJeu extends Parent {
     int l;
     String name;
     //Les couleurs
+
     final static String Gris = ("343638");
     final static String Rouge=("330000");
     final static String Violet=("4c1130");
     public static String CouleurBandeau;
-   
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final double largeur_scene = screenSize.getWidth();
