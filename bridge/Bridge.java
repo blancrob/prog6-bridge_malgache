@@ -326,61 +326,63 @@ public class Bridge extends Application {
         dos.setX(largeur_scene / 1.53);
         dos.setY((hauteur_scene - hauteur_scene / 1.45));
 
-        
-        
         bluebg.setOnMouseClicked((MouseEvent me) -> {
-
             root.setStyle("-fx-background-color:#042955;"); 
             bandeau.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
             bandeau.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
             bandeau.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
 
         bluedos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("BLEU");
             changerCouleurDos(couleurDos);
-    
             root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         reddos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("ROUGE");
             changerCouleurDos(couleurDos);
-   
             root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         greendos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("VERT");
             changerCouleurDos(couleurDos);
-
             root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-           // root.getChildren().add(alert);
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         golddos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("OR");
             changerCouleurDos(couleurDos);
-
             root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-          //  root.getChildren().add(alert);
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
         blackdos.setOnMouseClicked((MouseEvent me) -> {
             couleurDos=("NOIR");
             changerCouleurDos(couleurDos);
-   
             root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
-           // root.getChildren().add(alert);
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
 
         });
         optionspace.setOnMouseClicked((MouseEvent me) -> {
             root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
+        fond.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
+        });
+        dos.setOnMouseClicked((MouseEvent me) -> {
+            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
+        });
+        
         root.getChildren().addAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
     }
 
