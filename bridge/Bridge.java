@@ -135,7 +135,7 @@ public class Bridge extends Application {
         sauvyes.setOpacity(0.75);
         sauvyes.toFront();
         Text sauvmessage = new Text("Sauvegarder avant de quitter ?");
-        sauvmessage.setFont(new Font(45));
+        sauvmessage.setFont(new Font(35));
         sauvmessage.setFill(Color.LIGHTGREY);
         sauvmessage.setX(largeur_scene / 4.6);
         sauvmessage.setY(hauteur_scene / 1.325);
@@ -183,7 +183,7 @@ public class Bridge extends Application {
         quityes.setOpacity(0.75);
         quityes.toFront();
         Text quitmessage = new Text("Voulez vous vraiment quitter ?");
-        quitmessage.setFont(new Font(45));
+        quitmessage.setFont(new Font(35));
         quitmessage.setFill(Color.LIGHTGREY);
         quitmessage.setX(largeur_scene / 4.6);
         quitmessage.setY(hauteur_scene / 1.325);
