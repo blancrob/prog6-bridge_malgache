@@ -60,8 +60,8 @@ public class MenuJeu extends Parent {
     int gagnant;
     int l;
     String name;
+    
     //Les couleurs
-
     final static String Gris = ("343638");
     final static String Rouge=("330000");
     final static String Violet=("4c1130");
@@ -283,10 +283,11 @@ public class MenuJeu extends Parent {
             if (h.equals(KeyCode.H)){
                 aides();
             }
-        });
+        });  
         help.setOnAction((ActionEvent event) -> {
             aides();
-        });
+        }); 
+
         
         restart = new Button("Recommencer");
         restart.setPrefWidth(largeur_scene/13.715);
