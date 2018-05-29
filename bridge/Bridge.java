@@ -485,7 +485,7 @@ public class Bridge extends Application {
          }*/
         root = new AnchorPane();
 
-        if (m.config.carteP != null && m.config.donneur == 1 || m.config.carteS != null && m.config.receveur == 1) {
+        if (J1_carte_jouee!=null) {
             majCarte(J1_carte_jouee);
             J1_carte_jouee.face.toFront();
             J1_carte_jouee.face.setVisible(true);
@@ -495,7 +495,7 @@ public class Bridge extends Application {
             root.getChildren().add(J1_carte_jouee.face);
         }
 
-        if (m.config.carteP != null && m.config.donneur == 2 || m.config.carteS != null && m.config.receveur == 2) {
+        if (J2_carte_jouee!=null) {
             majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
             J2_carte_jouee.face.setVisible(true);
@@ -2816,14 +2816,14 @@ public class Bridge extends Application {
     }
 
     public void changerCouleurDos(String color) {
-        String card;
-        ImagePattern img = new ImagePattern(new Image("images/DOS_" + color + ".png"));
+        String card=null;
+        ImagePattern imgDos = new ImagePattern(new Image("images/DOS_" + color + ".png"));
 
         for (int i = 0; i < m.j1.main.taille(); i++) {
-            j1main[i].dos.setFill(img);
+            j1main[i].dos.setFill(imgDos);
         }
         for (int i = 0; i < m.j2.main.taille(); i++) {
-            j2main[i].dos.setFill(img);
+            j2main[i].dos.setFill(imgDos);
         }
         for (int j = 0; j < pile.length; j++) {
             System.err.println(" j = "+j+" | taille = "+m.config.pioche[j].pile.size());
@@ -2855,20 +2855,19 @@ public class Bridge extends Application {
                     if(pile[j][0] != null){
                         pile[j][0].dos.setFill(Color.web(couleurPlateau));
                     }
-                }
 
+                }
             }
         }
+        ImagePattern imgDef = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
         if (j1plis != null && j1plis.length != 0) {
-            for (int i = 0; i < m.j1.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
-                j1plis[i].dos.setFill(img2);
+            for (int i = 0; i < m.j1.tas.taille(); i++) {                
+                j1plis[i].dos.setFill(imgDef);
             }
         }
         if (j2plis != null && j2plis.length != 0) {
             for (int i = 0; i < m.j2.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
-                j2plis[i].dos.setFill(img2);
+                j2plis[i].dos.setFill(imgDef);
             }
         }
     }
@@ -3544,7 +3543,6 @@ public class Bridge extends Application {
                             System.out.println("IA a perdu et prend une carte en 2nd");
                             Carte c = m.piocheIA(IA);
                             c.face.toFront();
-
                             animationTimeline(c);
 
                         }
@@ -3623,6 +3621,8 @@ public class Bridge extends Application {
                         }
                         bandeau.plisJ1.setText(String.valueOf("Plis : " + m.j1.score));
                         bandeau.plisJ2.setText(String.valueOf("Plis : " + m.j2.score));
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
@@ -3651,6 +3651,8 @@ public class Bridge extends Application {
                             affichage_dos_plis(j2plis, J2);
                             j2_lock = 1;
                         }
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                     }
 
