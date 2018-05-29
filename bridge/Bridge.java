@@ -109,11 +109,6 @@ public class Bridge extends Application {
 
     public int couleurbg = 1;
 
-    final String Bleu = ("042955");
-    final String Vert = ("274e13");
-    final String Rouge = ("480c19");
-    public String couleurPlateau = (Vert);
-
     public int messageActif = 0;
 
     MessageTransition mt = null;
@@ -333,12 +328,15 @@ public class Bridge extends Application {
 
         bluebg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#042955;");
+            bandeau.couleurbandeau = bandeau.Grisbandeau;
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
+            bandeau.couleurbandeau = bandeau.Violetbandeau;
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
+            bandeau.couleurbandeau = bandeau.Rougebandeau;
         });
 
         bluedos.setOnMouseClicked((MouseEvent me) -> {
@@ -912,8 +910,8 @@ public class Bridge extends Application {
             }
         }
 
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));
-        root.setStyle("-fx-background-color:#" + couleurPlateau + ";");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(bandeau.couleurPlateau));
+        root.setStyle("-fx-background-color:#" + bandeau.couleurPlateau + ";");
 
         root.getChildren().add(bandeau);
 
