@@ -111,7 +111,7 @@ public class Moteur2 extends Moteur {
         j2 = e.j2;
 
         ois.close();
-        System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
+        //System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
     }
 
     /**
@@ -263,10 +263,11 @@ public class Moteur2 extends Moteur {
      */
     public void pioche(int piocheur, Carte card, int nbPile) {
         config.viderRedo();
+        Carte tmp = config.pioche[nbPile].retirer();
         if (piocheur == 1) {
-            j1.main.ajouter(config.pioche[nbPile].retirer());
+            j1.main.ajouter(tmp);
         } else {
-            j2.main.ajouter(config.pioche[nbPile].retirer());
+            j2.main.ajouter(tmp);
         }
     }
 

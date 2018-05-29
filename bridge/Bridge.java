@@ -105,15 +105,13 @@ public class Bridge extends Application {
     public String computer2final = ("");
 
     //Les Couleurs
-
-    public String couleurDos=("ROUGE");
-    
+    public String couleurDos = ("ROUGE");
 
     final public static String Bleu = ("042955");
-    final public static String Vert=("274e13");
-    final public static String Rouge=("480c19");
-    public String couleurPlateau=Vert;
-    
+    final public static String Vert = ("274e13");
+    final public static String Rouge = ("480c19");
+    public String couleurPlateau = Vert;
+
     public int messageActif = 0;
 
     MessageTransition mt = null;
@@ -279,7 +277,7 @@ public class Bridge extends Application {
         Rectangle blackdos = new Rectangle(hauteur_scene / 24, hauteur_scene / 24, Color.BLACK);
         Text fond = new Text("Fond :");
         Text dos = new Text("Dos :");
-       // Text alert = new Text("La couleur s'actualisera au prochain pli");
+        // Text alert = new Text("La couleur s'actualisera au prochain pli");
         optionspace.setArcHeight(15);
         optionspace.setArcWidth(25);
         optionspace.setX(largeur_scene / 1.57);
@@ -327,36 +325,48 @@ public class Bridge extends Application {
         dos.setY((hauteur_scene - hauteur_scene / 1.45));
 
         bluebg.setOnMouseClicked((MouseEvent me) -> {
-            root.setStyle("-fx-background-color:#042955;"); 
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
+            root.setStyle("-fx-background-color:#042955;");
+            couleurPlateau= Bleu;
+            bandeau.couleurBandeau(Bleu);
+            init_pile(pile);
+            changerCouleurDos(couleurDos);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
+            couleurPlateau= Vert;
+            bandeau.couleurBandeau(Vert);
+            init_pile(pile);
+            changerCouleurDos(couleurDos);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
-            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
+            couleurPlateau= Rouge;
+            bandeau.couleurBandeau(Rouge);
+            init_pile(pile);
+            changerCouleurDos(couleurDos);
+            //bandeau.menu.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
         });
 
         bluedos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos=("BLEU");
+            couleurDos = ("BLEU");
             changerCouleurDos(couleurDos);
         });
         reddos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos=("ROUGE");
+            couleurDos = ("ROUGE");
             changerCouleurDos(couleurDos);
         });
         greendos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos=("VERT");
+            couleurDos = ("VERT");
             changerCouleurDos(couleurDos);
         });
         golddos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos=("OR");
+            couleurDos = ("OR");
             changerCouleurDos(couleurDos);
         });
         blackdos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos=("NOIR");
+            couleurDos = ("NOIR");
             changerCouleurDos(couleurDos);
 
         });
@@ -369,8 +379,8 @@ public class Bridge extends Application {
         dos.setOnMouseClicked((MouseEvent me) -> {
             root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
-        
-        root.getChildren().addAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+
+        root.getChildren().addAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
     }
 
     public void initialiserCharger(Stage primaryStage) {
@@ -443,50 +453,49 @@ public class Bridge extends Application {
         affichage_face_pile(pile);
         maj_handler_main();
         maj_handler_pile();
-        bandeau = new MenuJeu(m,couleurPlateau);
+        bandeau = new MenuJeu(m, couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
         /*if ((m.config.manche > 1)  && root!=null){
-            root.getChildren().clear();
-            for (int i = 0; i < j1main.length; i++) {
-                if (j1main[i] != null) {
-                    root.getChildren().add(j1main[i].face);
-                    root.getChildren().add(j1main[i].dos);
-                }
-            }
+         root.getChildren().clear();
+         for (int i = 0; i < j1main.length; i++) {
+         if (j1main[i] != null) {
+         root.getChildren().add(j1main[i].face);
+         root.getChildren().add(j1main[i].dos);
+         }
+         }
 
-            for (int i = 0; i < j2main.length; i++) {
-                if (j2main[i] != null) {
-                    root.getChildren().add(j2main[i].face);
-                    root.getChildren().add(j2main[i].dos);
-                }
-            }
+         for (int i = 0; i < j2main.length; i++) {
+         if (j2main[i] != null) {
+         root.getChildren().add(j2main[i].face);
+         root.getChildren().add(j2main[i].dos);
+         }
+         }
 
-            for (int j = 0; j < pile.length; j++) {
-                for (int i = 0; i < pile[j].length; i++) {
-                    if (pile[j][i] != null) {
-                        root.getChildren().add(pile[j][i].face);
-                        root.getChildren().add(pile[j][i].dos);
-                    }
-                }
-            }
-            root.getChildren().add(bandeau);
-        }*/
-
+         for (int j = 0; j < pile.length; j++) {
+         for (int i = 0; i < pile[j].length; i++) {
+         if (pile[j][i] != null) {
+         root.getChildren().add(pile[j][i].face);
+         root.getChildren().add(pile[j][i].dos);
+         }
+         }
+         }
+         root.getChildren().add(bandeau);
+         }*/
         root = new AnchorPane();
-        
-        if(J1_carte_jouee!=null){
+
+        if (J1_carte_jouee!=null) {
             majCarte(J1_carte_jouee);
             J1_carte_jouee.face.toFront();
             J1_carte_jouee.face.setVisible(true);
             //Affichage de sa carte à l'IA
             J1_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
-            J1_carte_jouee.face.setTranslateY(hauteur_scene/1.5);
+            J1_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
             root.getChildren().add(J1_carte_jouee.face);
         }
-        
-        if(J2_carte_jouee!=null){
+
+        if (J2_carte_jouee!=null) {
             majCarte(J2_carte_jouee);
             J2_carte_jouee.face.toFront();
             J2_carte_jouee.face.setVisible(true);
@@ -495,7 +504,7 @@ public class Bridge extends Application {
             J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
             root.getChildren().add(J2_carte_jouee.face);
         }
-        
+
         for (int i = 0; i < m.j1.main.taille(); i++) {
             root.getChildren().add(j1main[i].face);
             root.getChildren().add(j1main[i].dos);
@@ -586,7 +595,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k ;
+            k = m.config.k;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -608,8 +617,8 @@ public class Bridge extends Application {
 
             init_mainJ1J2();
             init_pile(pile);
-            
-            bandeau = new MenuJeu(m,couleurPlateau);
+
+            bandeau = new MenuJeu(m, couleurPlateau);
 
             bandeau.tourJ(tour_joueur);
             bandeau.mode(m.config.mode);
@@ -685,17 +694,17 @@ public class Bridge extends Application {
         root.getChildren().add(redo);
         redo.setOnMouseClicked((MouseEvent me) -> {
             m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
-            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
-            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
-            finTour, messageFinManche, messageFinPartie);
+                    J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+                    message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+                    finTour, messageFinManche, messageFinPartie);
             m.redo();
-            
+
             temps = m.config.temps;
             temps2 = m.config.temps2;
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k ;
+            k = m.config.k;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -714,11 +723,11 @@ public class Bridge extends Application {
             finTour = m.config.finTour;
             messageFinManche = m.config.messageFinManche;
             messageFinPartie = m.config.messageFinPartie;
-            
+
             init_mainJ1J2();
             init_pile(pile);
-            
-            bandeau = new MenuJeu(m,couleurPlateau);
+
+            bandeau = new MenuJeu(m, couleurPlateau);
             bandeau.tourJ(tour_joueur);
             bandeau.mode(m.config.mode);
         });
@@ -766,7 +775,7 @@ public class Bridge extends Application {
                 init_mainJ1J2();
                 init_pile(pile);
 
-                bandeau = new MenuJeu(m,couleurPlateau);
+                bandeau = new MenuJeu(m, couleurPlateau);
                 bandeau.tourJ(tour_joueur);
                 bandeau.mode(m.config.mode);
 
@@ -847,12 +856,13 @@ public class Bridge extends Application {
         affichage_dos_pile(pile);
         affichage_face_pile(pile);
     }
-    
+
     /**
      * Applique son image à la carte c
-     * @param c 
+     *
+     * @param c
      */
-    public void majCarte(Carte c){
+    public void majCarte(Carte c) {
         String color;
         String number;
         switch (c.couleur) {
@@ -898,7 +908,6 @@ public class Bridge extends Application {
             }
         }
         primaryStage.setFullScreen(true);
-
 
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));
         root.setStyle("-fx-background-color:#" + couleurPlateau + ";");
@@ -1228,7 +1237,7 @@ public class Bridge extends Application {
         Button prev5 = new Button("< Précédent");
         VBox rules5 = new VBox();
         rules5.getChildren().addAll(end, end2);
-        
+
         Button mp = new Button("Menu Principal ");
         Button np = new Button("Nouvelle Partie");
 
@@ -1550,8 +1559,8 @@ public class Bridge extends Application {
         pane.add(prev5, 1, 6);
         HBox sortie = new HBox();
         sortie.setStyle("-fx-alignment: center;");
-        sortie.getChildren().addAll(mp,np);
-        pane.add(sortie,3,7);       
+        sortie.getChildren().addAll(mp, np);
+        pane.add(sortie, 3, 7);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -1612,17 +1621,17 @@ public class Bridge extends Application {
         dos.setFont(new Font(25));
         bluec.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("BLEU");
-            
+
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
             bluecheck.setVisible(true);
             blackcheck.setVisible(false);
-            
+
         });
         redc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("ROUGE");
-         
+
             goldcheck.setVisible(false);
             redcheck.setVisible(true);
             greencheck.setVisible(false);
@@ -1631,7 +1640,7 @@ public class Bridge extends Application {
         });
         greenc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("VERT");
-       
+
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(true);
@@ -1640,7 +1649,7 @@ public class Bridge extends Application {
         });
         goldc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("OR");
-  
+
             goldcheck.setVisible(true);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
@@ -1649,7 +1658,7 @@ public class Bridge extends Application {
         });
         blackc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("NOIR");
-        
+
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
@@ -1660,21 +1669,21 @@ public class Bridge extends Application {
             bluebg.setStroke(Color.GOLD);
             redbg.setStroke(Color.BLACK);
             greenbg.setStroke(Color.BLACK);
-            couleurPlateau=(Bleu);
-          
+            couleurPlateau = (Bleu);
+
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             greenbg.setStroke(Color.GOLD);
             redbg.setStroke(Color.BLACK);
             bluebg.setStroke(Color.BLACK);
-            couleurPlateau=(Vert);
+            couleurPlateau = (Vert);
 
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             redbg.setStroke(Color.GOLD);
             bluebg.setStroke(Color.BLACK);
             greenbg.setStroke(Color.BLACK);
-            couleurPlateau=(Rouge);
+            couleurPlateau = (Rouge);
         });
         menu.setOnAction((ActionEvent) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
@@ -1787,7 +1796,7 @@ public class Bridge extends Application {
                 messageFinPartie = m.config.messageFinPartie;
 
                 initialiserCharger(primaryStage);
-            
+
             } catch (IOException ex) {
                 Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -2130,7 +2139,7 @@ public class Bridge extends Application {
         cbcomputer2.setSelected(true);
         iaLevel2.setValue("Facile");
         cbrounds.setSelected(true);
-        nbrounds.setText("2");
+        nbrounds.setText("1");
         player1name.setText("Joueur 1");
         player2name.setText("Joueur 2");
 
@@ -2426,10 +2435,9 @@ public class Bridge extends Application {
         m.j1.score = 0;
         m.j2.score = 0;
 
-        bandeau = new MenuJeu(m,couleurPlateau);
+        bandeau = new MenuJeu(m, couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
-
 
         if (m.config.manche > 1) {
             root.getChildren().clear();
@@ -2463,7 +2471,7 @@ public class Bridge extends Application {
     }
 
     public void majBandeau(Stage primaryStage) {
-        bandeau = new MenuJeu(m,couleurPlateau);
+        bandeau = new MenuJeu(m, couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
@@ -2588,7 +2596,6 @@ public class Bridge extends Application {
         Moteur test = new Moteur();
 
         for (int j = 0; j < m.config.pioche.length; j++) {
-            System.out.println(m.config.pioche[j].taille());
             for (int i = 0; i < m.config.pioche[j].pile.size(); i++) {
                 pile[j][i] = m.config.pioche[j].pile.get(i);
             }
@@ -2765,9 +2772,11 @@ public class Bridge extends Application {
 
         String color;
         String number;
-
-        for (int i = main.length; i < 11; i++) {
+        
+        int i = 0;
+        while(i < main.length && main[i] != null){
             main[i].dos.setVisible(false);
+            i++;
         }
 
         if (j == J1) {
@@ -2785,7 +2794,7 @@ public class Bridge extends Application {
         }
 
         if (m.config.mode == 1) {
-            for (int i = 0; i < t; i++) {
+            for (i = 0; i < t; i++) {
                 main[i].face.setVisible(false);
 
                 main[i].dos.setTranslateX(largeur_scene / 2.5 + ((main[i].largeur_carte / 2) * i));
@@ -2797,7 +2806,7 @@ public class Bridge extends Application {
                 main[i].dos.toFront();
             }
         } else if (m.config.mode == 2) {
-            for (int i = 0; i < t; i++) {
+            for (i = 0; i < t; i++) {
                 switch (main[i].couleur) {
                     case 1:
                         color = "TREFLE";
@@ -2841,31 +2850,33 @@ public class Bridge extends Application {
             }
         }
     }
-    public void changerCouleurDos(String color){
-        String card;
-        ImagePattern img = new ImagePattern(new Image("images/DOS_"+color+".png"));
-        
-        for(int i=0;i<m.j1.main.taille();i++){
-                j1main[i].dos.setFill(img);
+
+    public void changerCouleurDos(String color) {
+        String card=null;
+        ImagePattern imgDos = new ImagePattern(new Image("images/DOS_" + color + ".png"));
+
+        for (int i = 0; i < m.j1.main.taille(); i++) {
+            j1main[i].dos.setFill(imgDos);
         }
-        for(int i=0;i<m.j2.main.taille();i++){
-                j2main[i].dos.setFill(img);
+        for (int i = 0; i < m.j2.main.taille(); i++) {
+            j2main[i].dos.setFill(imgDos);
         }
         for (int j = 0; j < pile.length; j++) {
+            System.err.println(" j = "+j+" | taille = "+m.config.pioche[j].pile.size());
             if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
-
+                System.err.println(" j = "+j+" et je suis rentré :D ");
                 switch (m.config.pioche[j].pile.size()) {
                     case 5:
-                        card = "pile_5_"+color+".png";
+                        card = "pile_5_" + color + ".png";
                         break;
                     case 4:
-                        card = "pile_4_"+color+".png";
+                        card = "pile_4_" + color + ".png";
                         break;
                     case 3:
-                        card = "pile_3_"+color+".png";
+                        card = "pile_3_" + color + ".png";
                         break;
                     case 2:
-                        card = "pile_2_"+color+".png";             
+                        card = "pile_2_" + color + ".png";
                         break;
                     default:
                         card = couleurPlateau;
@@ -2874,32 +2885,34 @@ public class Bridge extends Application {
                 if (m.config.pioche[j].pile.size() > 1) {
                     ImagePattern img2 = new ImagePattern(new Image("images/" + card));
                     pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(img2);
-                }else {
-                    pile[j][0].dos.setFill(Color.web(couleurPlateau));
+                } else {
+                    System.err.println("coucou");
+                    m.afficherCarte(pile[j][0]);
+                    if(pile[j][0] != null){
+                        pile[j][0].dos.setFill(Color.web(couleurPlateau));
+                    }
+
                 }
-               
             }
         }
-        if(j1plis.length != 0){
-            for (int i = 0; i < m.j1.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_"+color+".png"));     
-                j1plis[i].dos.setFill(img2);
+        ImagePattern imgDef = new ImagePattern(new Image("images/DEFAUSSE_" + color + ".png"));
+        if (j1plis != null && j1plis.length != 0) {
+            for (int i = 0; i < m.j1.tas.taille(); i++) {                
+                j1plis[i].dos.setFill(imgDef);
             }
         }
-        if(j2plis.length != 0){
+        if (j2plis != null && j2plis.length != 0) {
             for (int i = 0; i < m.j2.tas.taille(); i++) {
-                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_"+color+".png"));     
-                j2plis[i].dos.setFill(img2);
+                j2plis[i].dos.setFill(imgDef);
             }
         }
     }
+
     public void affichage_dos_pile(Carte[][] pile) {
         String card;
         ImagePattern img;
         for (int j = 0; j < pile.length; j++) {
             if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
-                System.out.println("Taille de la pile numéro " + j + " : " + m.config.pioche[j].pile.size());
-
                 switch (m.config.pioche[j].pile.size()) {
                     case 5:
                         card = "pile_5_" + couleurDos + ".png";
@@ -2914,7 +2927,7 @@ public class Bridge extends Application {
                         card = "pile_2_" + couleurDos + ".png";
                         break;
                     default:
-                        card = "ICONE_PIQUE.png";
+                        card = couleurPlateau;
                         break;
                 }
                 if (m.config.pioche[j].pile.size() > 1) {
@@ -2924,7 +2937,7 @@ public class Bridge extends Application {
                     pile[j][m.config.pioche[j].pile.size() - 1].dos.setTranslateX(largeur_scene / 2.9 + (pile[j][0].largeur_carte * 1.4 * j));
                     pile[j][m.config.pioche[j].pile.size() - 1].dos.setTranslateY((hauteur_scene / 2) - (pile[j][0].hauteur_carte / 2));
                 } else if (m.config.pioche[j].pile.size() == 1) {
-                    pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(Color.web("274e13"));
+                    pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(Color.web(couleurPlateau));
                 }
             }
         }
@@ -3453,6 +3466,8 @@ public class Bridge extends Application {
                         if (!mt.isVisible()) {
                             System.out.println("Manche SUIVANTE !");
                             init_manche(primaryStage);
+                            m.j1.ajouterScore();
+                            m.j2.ajouterScore();
                             messageFinManche = false;
                             messageActif = 0;
                         }
@@ -3530,7 +3545,6 @@ public class Bridge extends Application {
                     }
 
                     if (m.config.mode == 2 && tour_pioche == 1 && m.config.gagnant == IA && animation_t == 1 && temps + 1500 < System.currentTimeMillis()) {
-                        System.out.println("over here winner");
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
@@ -3567,14 +3581,12 @@ public class Bridge extends Application {
                             System.out.println("IA a perdu et prend une carte en 2nd");
                             Carte c = m.piocheIA(IA);
                             c.face.toFront();
-
                             animationTimeline(c);
 
                         }
                     }
 
                     if (m.config.mode == 2 && tour_pioche == 2 && m.config.perdant == IA && animation_t == 1 && temps + 1500 < System.currentTimeMillis()) {
-                        System.out.println("over here looser");
                         m.j1.main.trier();
                         m.j2.main.trier();
                         m.config.afficherPioche();
@@ -3621,7 +3633,7 @@ public class Bridge extends Application {
                     }
 
                     //On met à jour les plis et retire les cartes jouées en JcIA
-                    if (m.config.mode == 2 && clean == 1 && temps + 1000 < System.currentTimeMillis()) {
+                    if (m.config.mode == 2 && clean == 1 && temps + 360 < System.currentTimeMillis()) {
                         tour_joueur = m.config.gagnant;
                         bandeau.tourJ(m.config.gagnant);
 
@@ -3647,6 +3659,8 @@ public class Bridge extends Application {
                         }
                         bandeau.plisJ1.setText(String.valueOf("Plis : " + m.j1.score));
                         bandeau.plisJ2.setText(String.valueOf("Plis : " + m.j2.score));
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                         temps = System.currentTimeMillis();
                     }
@@ -3675,6 +3689,8 @@ public class Bridge extends Application {
                             affichage_dos_plis(j2plis, J2);
                             j2_lock = 1;
                         }
+                        J1_carte_jouee = null;
+                        J2_carte_jouee = null;
                         clean = 0;
                     }
 
