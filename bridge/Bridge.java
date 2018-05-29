@@ -239,7 +239,7 @@ public class Bridge extends Application {
             carte_jouee = m.config.carte_jouee;
             tour_joueur = m.config.tour_joueur;
             tour_pioche = m.config.tour_pioche;
-            k = m.config.k = k;
+            k = m.config.k;
             J1_carte_jouee = m.config.J1_carte_jouee;
             J2_carte_jouee = m.config.J2_carte_jouee;
             clean = m.config.clean;
@@ -732,7 +732,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -951,7 +951,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
@@ -1059,7 +1059,7 @@ public class Bridge extends Application {
                 carte_jouee = m.config.carte_jouee;
                 tour_joueur = m.config.tour_joueur;
                 tour_pioche = m.config.tour_pioche;
-                k = m.config.k = k;
+                k = m.config.k;
                 J1_carte_jouee = m.config.J1_carte_jouee;
                 J2_carte_jouee = m.config.J2_carte_jouee;
                 clean = m.config.clean;
