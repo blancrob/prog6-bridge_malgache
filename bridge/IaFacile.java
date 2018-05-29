@@ -29,19 +29,19 @@ public class IaFacile extends IaNovice {
     @Override
     public Carte jouer(){
         if (courante == null){ //si c'est au tour de l'IA elle joue une carte aléatoire de sa main
-            return main.aleatoire(true);
+            return IA_Util.aleatoire(main);
         }
         else{ // si l'adversaire a joué 
             int couleur = courante.couleur; // on récupère la couleur jouée par l'adversaire
-            Carte res = main.aleatoireGagnant(couleur,courante.valeur);
+            Carte res = IA_Util.aleatoireGagnant(main,courante);
             if (res == null){
-                res = main.aleatoire(couleur);
+                res = IA_Util.aleatoire(main,courante);
             }
             if (res == null){
-                res = main.aleatoire(atout);
+                res = IA_Util.aleatoire(main,atout);
             }
             if (res == null){
-               res = main.aleatoire(true);
+               res = IA_Util.aleatoire(main);
             }
             return res;
         }
