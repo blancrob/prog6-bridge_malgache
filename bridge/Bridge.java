@@ -105,10 +105,15 @@ public class Bridge extends Application {
     public String computer2final = ("");
 
     //Les Couleurs
-    public String couleurDos = ("ROUGE");
 
-    public int couleurbg = 1;
+    public String couleurDos=("ROUGE");
+    
 
+    final public static String Bleu = ("042955");
+    final public static String Vert=("274e13");
+    final public static String Rouge=("480c19");
+    public String couleurPlateau=Vert;
+    
     public int messageActif = 0;
 
     MessageTransition mt = null;
@@ -274,7 +279,7 @@ public class Bridge extends Application {
         Rectangle blackdos = new Rectangle(hauteur_scene / 24, hauteur_scene / 24, Color.BLACK);
         Text fond = new Text("Fond :");
         Text dos = new Text("Dos :");
-        Text alert = new Text("La couleur s'actualisera au prochain pli");
+       // Text alert = new Text("La couleur s'actualisera au prochain pli");
         optionspace.setArcHeight(15);
         optionspace.setArcWidth(25);
         optionspace.setX(largeur_scene / 1.57);
@@ -321,56 +326,62 @@ public class Bridge extends Application {
         dos.setX(largeur_scene / 1.53);
         dos.setY((hauteur_scene - hauteur_scene / 1.45));
 
-        alert.setFont(new Font(40));
-        alert.setFill(Color.BLACK);
-        alert.setX(largeur_scene / 1.57);
-        alert.setY((hauteur_scene - hauteur_scene / 1.37));
-
+        
+        
         bluebg.setOnMouseClicked((MouseEvent me) -> {
-            root.setStyle("-fx-background-color:#042955;");
-            bandeau.couleurbandeau = bandeau.Grisbandeau;
+
+            root.setStyle("-fx-background-color:#042955;"); 
+            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Gris+";");
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
-            bandeau.couleurbandeau = bandeau.Violetbandeau;
+            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Violet+";");
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
-            bandeau.couleurbandeau = bandeau.Rougebandeau;
+            bandeau.setStyle("-fx-background-color:#"+MenuJeu.Rouge+";");
         });
 
         bluedos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos = ("BLEU");
-            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
-            root.getChildren().add(alert);
+            couleurDos=("BLEU");
+            changerCouleurDos(couleurDos);
+    
+            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+          //  root.getChildren().add(alert);
         });
         reddos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos = ("ROUGE");
-            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
-            root.getChildren().add(alert);
+            couleurDos=("ROUGE");
+            changerCouleurDos(couleurDos);
+   
+            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+          //  root.getChildren().add(alert);
         });
         greendos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos = ("VERT");
-            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
-            root.getChildren().add(alert);
+            couleurDos=("VERT");
+            changerCouleurDos(couleurDos);
+
+            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+           // root.getChildren().add(alert);
         });
         golddos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos = ("OR");
-            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
-            root.getChildren().add(alert);
+            couleurDos=("OR");
+            changerCouleurDos(couleurDos);
+
+            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+          //  root.getChildren().add(alert);
         });
         blackdos.setOnMouseClicked((MouseEvent me) -> {
-            couleurDos = ("NOIR");
-            root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
-            root.getChildren().add(alert);
+            couleurDos=("NOIR");
+            changerCouleurDos(couleurDos);
+   
+            root.getChildren().removeAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
+           // root.getChildren().add(alert);
+
         });
         optionspace.setOnMouseClicked((MouseEvent me) -> {
             root.getChildren().removeAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
         });
-        alert.setOnMouseClicked((MouseEvent me) -> {
-            root.getChildren().remove(alert);
-        });
-        root.getChildren().addAll(optionspace, bluebg, greenbg, redbg, fond, dos, bluedos, reddos, greendos, golddos, blackdos);
+        root.getChildren().addAll(optionspace,bluebg,greenbg,redbg,fond,dos,bluedos,reddos,greendos,golddos,blackdos);
     }
 
     public void initialiserCharger(Stage primaryStage) {
@@ -443,13 +454,11 @@ public class Bridge extends Application {
         affichage_face_pile(pile);
         maj_handler_main();
         maj_handler_pile();
-
-        bandeau = new MenuJeu(m);
-        System.err.println("TourJoueur deuxieme:"+tour_joueur);
+        bandeau = new MenuJeu(m,couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
-        if (m.config.manche > 1) {
+        /*if ((m.config.manche > 1)  && root!=null){
             root.getChildren().clear();
             for (int i = 0; i < j1main.length; i++) {
                 if (j1main[i] != null) {
@@ -474,7 +483,7 @@ public class Bridge extends Application {
                 }
             }
             root.getChildren().add(bandeau);
-        }
+        }*/
 
         root = new AnchorPane();
         
@@ -610,8 +619,9 @@ public class Bridge extends Application {
 
             init_mainJ1J2();
             init_pile(pile);
+            
+            bandeau = new MenuJeu(m,couleurPlateau);
 
-            bandeau = new MenuJeu(m);
             bandeau.tourJ(tour_joueur);
             bandeau.mode(m.config.mode);
 
@@ -719,7 +729,7 @@ public class Bridge extends Application {
             init_mainJ1J2();
             init_pile(pile);
             
-            bandeau = new MenuJeu(m);
+            bandeau = new MenuJeu(m,couleurPlateau);
             bandeau.tourJ(tour_joueur);
             bandeau.mode(m.config.mode);
         });
@@ -767,7 +777,7 @@ public class Bridge extends Application {
                 init_mainJ1J2();
                 init_pile(pile);
 
-                bandeau = new MenuJeu(m);
+                bandeau = new MenuJeu(m,couleurPlateau);
                 bandeau.tourJ(tour_joueur);
                 bandeau.mode(m.config.mode);
 
@@ -900,18 +910,9 @@ public class Bridge extends Application {
         }
         primaryStage.setFullScreen(true);
 
-        if (couleurbg == 1) {
-            root.setStyle("-fx-background-color:#274e13;");
-        } else {
-            if (couleurbg == 2) {
-                root.setStyle("-fx-background-color:#042955;");
-            } else {
-                root.setStyle("-fx-background-color:#480c19;");
-            }
-        }
 
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(bandeau.couleurPlateau));
-        root.setStyle("-fx-background-color:#" + bandeau.couleurPlateau + ";");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));
+        root.setStyle("-fx-background-color:#" + couleurPlateau + ";");
 
         root.getChildren().add(bandeau);
 
@@ -1622,14 +1623,17 @@ public class Bridge extends Application {
         dos.setFont(new Font(25));
         bluec.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("BLEU");
+            
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
             bluecheck.setVisible(true);
             blackcheck.setVisible(false);
+            
         });
         redc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("ROUGE");
+         
             goldcheck.setVisible(false);
             redcheck.setVisible(true);
             greencheck.setVisible(false);
@@ -1638,6 +1642,7 @@ public class Bridge extends Application {
         });
         greenc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("VERT");
+       
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(true);
@@ -1646,6 +1651,7 @@ public class Bridge extends Application {
         });
         goldc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("OR");
+  
             goldcheck.setVisible(true);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
@@ -1654,6 +1660,7 @@ public class Bridge extends Application {
         });
         blackc.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("NOIR");
+        
             goldcheck.setVisible(false);
             redcheck.setVisible(false);
             greencheck.setVisible(false);
@@ -1664,19 +1671,21 @@ public class Bridge extends Application {
             bluebg.setStroke(Color.GOLD);
             redbg.setStroke(Color.BLACK);
             greenbg.setStroke(Color.BLACK);
-            couleurbg = 2;
+            couleurPlateau=(Bleu);
+          
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             greenbg.setStroke(Color.GOLD);
             redbg.setStroke(Color.BLACK);
             bluebg.setStroke(Color.BLACK);
-            couleurbg = 1;
+            couleurPlateau=(Vert);
+
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             redbg.setStroke(Color.GOLD);
             bluebg.setStroke(Color.BLACK);
             greenbg.setStroke(Color.BLACK);
-            couleurbg = 3;
+            couleurPlateau=(Rouge);
         });
         menu.setOnAction((ActionEvent) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
@@ -2388,7 +2397,10 @@ public class Bridge extends Application {
         m.j1.score = 0;
         m.j2.score = 0;
 
-        majBandeau(primaryStage);
+        bandeau = new MenuJeu(m,couleurPlateau);
+        bandeau.tourJ(tour_joueur);
+        bandeau.mode(m.config.mode);
+
 
         if (m.config.manche > 1) {
             root.getChildren().clear();
@@ -2422,7 +2434,7 @@ public class Bridge extends Application {
     }
 
     public void majBandeau(Stage primaryStage) {
-        bandeau = new MenuJeu(m);
+        bandeau = new MenuJeu(m,couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
 
@@ -2800,7 +2812,58 @@ public class Bridge extends Application {
             }
         }
     }
+    public void changerCouleurDos(String color){
+        String card;
+        ImagePattern img = new ImagePattern(new Image("images/DOS_"+color+".png"));
+        
+        for(int i=0;i<m.j1.main.taille();i++){
+                j1main[i].dos.setFill(img);
+        }
+        for(int i=0;i<m.j2.main.taille();i++){
+                j2main[i].dos.setFill(img);
+        }
+        for (int j = 0; j < pile.length; j++) {
+            if (m.config.pioche[j].pile.size() > 0 && m.config.pioche[j] != null) {
 
+                switch (m.config.pioche[j].pile.size()) {
+                    case 5:
+                        card = "pile_5_"+color+".png";
+                        break;
+                    case 4:
+                        card = "pile_4_"+color+".png";
+                        break;
+                    case 3:
+                        card = "pile_3_"+color+".png";
+                        break;
+                    case 2:
+                        card = "pile_2_"+color+".png";             
+                        break;
+                    default:
+                        card = couleurPlateau;
+                        break;
+                }
+                if (m.config.pioche[j].pile.size() > 1) {
+                    ImagePattern img2 = new ImagePattern(new Image("images/" + card));
+                    pile[j][m.config.pioche[j].pile.size() - 1].dos.setFill(img2);
+                }else {
+                    pile[j][0].dos.setFill(Color.web(couleurPlateau));
+                }
+               
+            }
+        }
+        if(j1plis.length != 0){
+            for (int i = 0; i < m.j1.tas.taille(); i++) {
+                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_"+color+".png"));     
+                j1plis[i].dos.setFill(img2);
+            }
+        }
+        if(j2plis.length != 0){
+            for (int i = 0; i < m.j2.tas.taille(); i++) {
+                ImagePattern img2 = new ImagePattern(new Image("images/DEFAUSSE_"+color+".png"));     
+                j2plis[i].dos.setFill(img2);
+            }
+        }
+    }
     public void affichage_dos_pile(Carte[][] pile) {
         String card;
         ImagePattern img;
