@@ -420,12 +420,6 @@ public class Bridge extends Application {
                 j2main[i].face.setVisible(true);
             }
         }
-        
-        J2_carte_jouee.face.setVisible(true);
-        //Affichage de sa carte à l'IA
-        J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
-        J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
-        J2_carte_jouee.face.toFront();
 
         System.out.println();
 
@@ -486,6 +480,39 @@ public class Bridge extends Application {
         }
 
         root = new AnchorPane();
+        
+        if(J2_carte_jouee!=null){   //A MODIFIER EN URGENCE
+            String color;
+            String number;
+            switch (J2_carte_jouee.couleur) {
+                case 1:
+                    color = "TREFLE";
+                    break;
+                case 2:
+                    color = "CARREAU";
+                    break;
+                case 3:
+                    color = "COEUR";
+                    break;
+                default:
+                    color = "PIQUE";
+                    break;
+            }
+
+            number = Integer.toString(J2_carte_jouee.valeur);
+            String carte = color + "_" + number + ".png";
+            ImagePattern img = new ImagePattern(new Image("images/" + carte));
+            J2_carte_jouee.face.setFill(img);
+            J2_carte_jouee.face.toFront();
+
+            J2_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
+
+            root.getChildren().add(J2_carte_jouee.face);
+        }
+        
         for (int i = 0; i < m.j1.main.taille(); i++) {
             root.getChildren().add(j1main[i].face);
             root.getChildren().add(j1main[i].dos);
