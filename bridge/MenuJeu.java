@@ -8,6 +8,9 @@ package bridge;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -20,6 +23,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import static javafx.util.Duration.seconds;
 
 /**
  *
@@ -91,6 +96,17 @@ public class MenuJeu extends Parent {
             return 0;
         }
     }
+    
+    /*private void AnimationTimeline(Label image){       
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(
+            new KeyFrame(Duration.seconds(1), new KeyValue(image.opacityProperty(), 0))//,
+            new KeyFrame(Duration.seconds(1), new KeyValue(image.opacityProperty(), 1))
+        );
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }*/
     
     void aides(){
         Rectangle helpspace = new Rectangle(largeur_scene / 5.2, hauteur_scene / 5, Color.GREY);
@@ -509,6 +525,7 @@ public class MenuJeu extends Parent {
             @Override
             public void handle(long now) {
                 tour.setText("Tour : "+name);
+                //AnimationTimeline(image_tour);
                 if(tour_joueur == 1){
                     name = m.j1.nom;
                 }
