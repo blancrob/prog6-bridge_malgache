@@ -65,7 +65,6 @@ public class Bridge extends Application {
     public Button firstmenu = new Button("\t   Menu Principal    \t\t");
     public Button launchgame = new Button("\t     Lancer Partie  \t\t");
     public Button daynight = new Button("Jour/Nuit");
-    public Button back = new Button("<  Retour");
 
     //Les Textes
     public Label bridgechinois = new Label("Bridge Chinois");
@@ -1192,7 +1191,7 @@ public class Bridge extends Application {
         launchedjeu = true;
     }
 
-    public void regles(Stage primaryStage, Button back) {
+    public void regles(Stage primaryStage) {
         primaryStage.setTitle("Regles");
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
@@ -1238,6 +1237,9 @@ public class Bridge extends Application {
         Button prev5 = new Button("< Précédent");
         VBox rules5 = new VBox();
         rules5.getChildren().addAll(end, end2);
+        
+        Button mp = new Button("Menu Principal ");
+        Button np = new Button("Nouvelle Partie");
 
         if (jour == 1) {
             pane.setStyle("-fx-background-color: white;");
@@ -1255,7 +1257,6 @@ public class Bridge extends Application {
             manche222.setFill(Color.BLACK);
             end.setFill(Color.BLACK);
             end2.setFill(Color.BLACK);
-            back.setTextFill(Color.BLACK);
             suiv1.setTextFill(Color.BLACK);
             prev2.setTextFill(Color.BLACK);
             suiv2.setTextFill(Color.BLACK);
@@ -1264,6 +1265,7 @@ public class Bridge extends Application {
             prev4.setTextFill(Color.BLACK);
             suiv4.setTextFill(Color.BLACK);
             prev5.setTextFill(Color.BLACK);
+            mp.setTextFill(Color.BLACK);
 
         } else {
             pane.setStyle("-fx-color: black; -fx-background-color: #3b3f42;");
@@ -1281,7 +1283,6 @@ public class Bridge extends Application {
             manche222.setFill(Color.WHITE);
             end.setFill(Color.WHITE);
             end2.setFill(Color.WHITE);
-            back.setTextFill(Color.WHITE);
             suiv1.setTextFill(Color.WHITE);
             prev2.setTextFill(Color.WHITE);
             suiv2.setTextFill(Color.WHITE);
@@ -1290,12 +1291,7 @@ public class Bridge extends Application {
             prev4.setTextFill(Color.WHITE);
             suiv4.setTextFill(Color.WHITE);
             prev5.setTextFill(Color.WHITE);
-            back.setOnMouseEntered((MouseEvent me) -> {
-                back.setTextFill(Color.BLACK);
-            });
-            back.setOnMouseExited((MouseEvent me) -> {
-                back.setTextFill(Color.WHITE);
-            });
+            mp.setTextFill(Color.WHITE);
             suiv1.setOnMouseEntered((MouseEvent me) -> {
                 suiv1.setTextFill(Color.BLACK);
             });
@@ -1343,6 +1339,12 @@ public class Bridge extends Application {
             });
             prev5.setOnMouseExited((MouseEvent me) -> {
                 prev5.setTextFill(Color.WHITE);
+            });
+            mp.setOnMouseEntered((MouseEvent me) -> {
+                mp.setTextFill(Color.BLACK);
+            });
+            mp.setOnMouseExited((MouseEvent me) -> {
+                mp.setTextFill(Color.WHITE);
             });
 
         }
@@ -1482,7 +1484,7 @@ public class Bridge extends Application {
             suiv4.setVisible(true);
             prev5.setVisible(false);
         });
-        back.setOnAction((ActionEvent event) -> {
+        mp.setOnAction((ActionEvent event) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
                 pane.setStyle("-fx-color : white; -fx-background-color: white;");
@@ -1490,8 +1492,16 @@ public class Bridge extends Application {
                 pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
             }
         });
+        np.setOnAction((ActionEvent event) -> {
+            nouvellePartie(primaryStage, firstmenu, launchgame);
+            if (jour == 1) {
+                pane.setStyle("-fx-color : white; -fx-background-color: white;");
+            } else {
+                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+            }
+        });
 
-        pane.setHgap(largeur_scene / 22);
+        pane.setHgap(largeur_scene / 18);
         pane.setVgap(hauteur_scene / 50);
 
         principe.setFont(new Font(35));
@@ -1517,14 +1527,21 @@ public class Bridge extends Application {
         rules4.setVisible(false);
         rules5.setVisible(false);
         suiv1.setVisible(true);
+        suiv1.setStyle("-fx-alignment: center;");
         prev2.setVisible(false);
+        prev2.setStyle("-fx-alignment: center;");
         suiv2.setVisible(false);
+        suiv2.setStyle("-fx-alignment: center;");
         prev3.setVisible(false);
+        prev3.setStyle("-fx-alignment: center;");
         suiv3.setVisible(false);
+        suiv3.setStyle("-fx-alignment: center;");
         prev4.setVisible(false);
+        prev4.setStyle("-fx-alignment: center;");
         suiv4.setVisible(false);
+        suiv4.setStyle("-fx-alignment: center;");
         prev5.setVisible(false);
-        pane.add(back, 0, 0);
+        prev5.setStyle("-fx-alignment: center;");
         pane.add(rules11, 3, 2);
         pane.add(rules12, 3, 3);
         pane.add(rules21, 3, 2);
@@ -1540,6 +1557,10 @@ public class Bridge extends Application {
         pane.add(prev4, 1, 6);
         pane.add(suiv4, 4, 6);
         pane.add(prev5, 1, 6);
+        HBox sortie = new HBox();
+        sortie.setStyle("-fx-alignment: center;");
+        sortie.getChildren().addAll(mp,np);
+        pane.add(sortie,3,7);       
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -1735,7 +1756,7 @@ public class Bridge extends Application {
         });
 
         rules.setOnAction((ActionEvent event) -> {
-            regles(primaryStage, back);
+            regles(primaryStage);
         });
 
         loadgame.setOnAction((ActionEvent event) -> {
