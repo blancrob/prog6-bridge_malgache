@@ -3532,7 +3532,6 @@ public class Bridge extends Application {
                             System.out.println("IA a perdu et prend une carte en 2nd");
                             Carte c = m.piocheIA(IA);
                             c.face.toFront();
-
                             animationTimeline(c);
 
                         }
