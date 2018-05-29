@@ -2100,7 +2100,7 @@ public class Bridge extends Application {
         cbcomputer2.setSelected(true);
         iaLevel2.setValue("Facile");
         cbrounds.setSelected(true);
-        nbrounds.setText("2");
+        nbrounds.setText("1");
         player1name.setText("Joueur 1");
         player2name.setText("Joueur 2");
 
