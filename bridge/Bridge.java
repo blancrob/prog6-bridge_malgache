@@ -2587,18 +2587,22 @@ public class Bridge extends Application {
         if(j1plis[0] != null){
             if(j1_lock > 0){
                 j1plis[0].dos.setVisible(true);
+                j1plis[1].dos.setVisible(true);
             }
             else{
                 j1plis[0].dos.setVisible(false);
+                j1plis[1].dos.setVisible(false);
             }
         }
         
         if(j2plis[0] != null){
             if(j2_lock > 0){
                 j2plis[0].dos.setVisible(true);
+                j2plis[1].dos.setVisible(true);
             }
             else{
                 j2plis[0].dos.setVisible(false);
+                j2plis[1].dos.setVisible(false);
             }
         }
         
