@@ -519,6 +519,16 @@ public class Bridge extends Application {
             }
         });
 
+        bandeau.option.setOnAction((ActionEvent event) -> {
+            option();
+        });
+        bandeau.option.setOnKeyPressed(keyEvent ->{
+            KeyCode o = keyEvent.getCode();
+            if (o.equals(KeyCode.O)){
+                option();
+            }
+        });
+        
         bandeau.quit.setOnKeyPressed(keyEvent ->{
             KeyCode q = keyEvent.getCode();
             if (q.equals(KeyCode.Q)){
