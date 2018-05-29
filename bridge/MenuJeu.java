@@ -66,10 +66,10 @@ public class MenuJeu extends Parent {
     int l;
     String name;
     //Les couleurs
-    final String Gris = ("343638");
-    final String Rouge=("330000");
-    final String Violet=("4c1130");
-    public String couleurbandeau=(Violet);
+    final static String Gris = ("343638");
+    final static String Rouge=("330000");
+    final static String Violet=("4c1130");
+    public static String CouleurBandeau;
    
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -96,7 +96,7 @@ public class MenuJeu extends Parent {
             return 0;
         }
     }
-    
+
     /*private void AnimationTimeline(Label image){       
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().addAll(
@@ -107,6 +107,15 @@ public class MenuJeu extends Parent {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }*/
+
+    public static void couleurBandeau(String CouleurPlateau){
+        if (CouleurPlateau.equals(Bridge.Bleu))
+            CouleurBandeau=Gris;
+        else if (CouleurPlateau.equals(Bridge.Rouge))
+            CouleurBandeau=Rouge;
+        else if(CouleurPlateau.equals(Bridge.Vert))
+            CouleurBandeau=Violet;
+    }
     
     void aides(){
         Rectangle helpspace = new Rectangle(largeur_scene / 5.2, hauteur_scene / 5, Color.GREY);
@@ -245,9 +254,10 @@ public class MenuJeu extends Parent {
             MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
     }
-    public MenuJeu(Moteur m) {
-             
-        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(couleurbandeau));
+    public MenuJeu(Moteur m, String couleurPlateau) {
+        couleurBandeau(couleurPlateau);
+        System.out.println("couleur : " +CouleurBandeau);
+        menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(CouleurBandeau));
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
