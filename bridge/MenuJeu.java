@@ -8,6 +8,9 @@ package bridge;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -20,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  *
@@ -62,11 +66,11 @@ public class MenuJeu extends Parent {
     String name;
     Moteur m;
     
-    int histaff = 0;//
+    int histaff = 0;
     int rulesaff = 0;
-    int optaff = 0;//
+    int optaff = 0;
     int helpaff = 0;
-    int quitaff = 0;//
+    int quitaff = 0;
     
     //Les couleurs
     final static String Gris = ("343638");
@@ -98,17 +102,6 @@ public class MenuJeu extends Parent {
             return 0;
         }
     }
-
-    /*private void AnimationTimeline(Label image){       
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-            new KeyFrame(Duration.seconds(1), new KeyValue(image.opacityProperty(), 0))//,
-            new KeyFrame(Duration.seconds(1), new KeyValue(image.opacityProperty(), 1))
-        );
-        timeline.setAutoReverse(true);
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }*/
 
     public void couleurBandeau(String CouleurPlateau){
         if (CouleurPlateau.equals(Bridge.Bleu))
@@ -621,8 +614,7 @@ public class MenuJeu extends Parent {
         image_tour = new Label();
         image_tour.setFont(new Font("Arial",18));
         image_tour.setTranslateX(largeur_scene/3.9);
-        //image_tour.setTranslateY(hauteur_scene/13);  // en haut
-        image_tour.setTranslateY(hauteur_scene/1.175); // en bas
+        image_tour.setTranslateY(hauteur_scene/1.175);
         image_tour.setGraphic(new ImageView("images/hand-right.png"));       
         this.getChildren().add(image_tour);
         
@@ -637,7 +629,6 @@ public class MenuJeu extends Parent {
             @Override
             public void handle(long now) {
                 tour.setText("Tour : "+name);
-                //AnimationTimeline(image_tour);
                 menu.setFill(Color.web(CouleurBandeau));
                 if(tour_joueur == 1){
                     name = m.j1.nom;
@@ -656,36 +647,6 @@ public class MenuJeu extends Parent {
                 }
             }
         };
-        timer.start();
-        
-        /*wRestart wres = new wRestart();
-        this.getChildren().add(wres);
-        wres.setVisible(false);
-        
-        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                wres.setVisible(true);
-                wres.toFront();
-                l = 1;
-            }
-        });
-        
-        wres.non.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                wres.setVisible(false);
-                l = 0;
-            }
-        });
-        
-        wres.oui.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                wres.setVisible(false);
-                l = 0;
-            }
-        });
-        */
+        timer.start();        
     }
 }
