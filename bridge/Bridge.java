@@ -50,7 +50,7 @@ public class Bridge extends Application {
     private final int h_scene = (int) screenSizeMenu.getHeight();
     public int player1mode = 1;
     public int player2mode = 1;
-    public int jour = 0;
+    public int jour = 1;
 
     //La fenetre
     public GridPane pane = new GridPane();
