@@ -4360,7 +4360,7 @@ public class Bridge extends Application {
                  
                         if (m.config.donneur == J1) {
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
-                            affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
+                            affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - hauteur_scene/5.45);
 
                             bandeau.nom_plisJ1.setTranslateY(hauteur_scene / 1.18);
                             bandeau.nom_plisJ2.setTranslateY(hauteur_scene / 14);
@@ -4399,7 +4399,7 @@ public class Bridge extends Application {
                             affichage_dos_main(j2main, J2);
                             affichage_face_main(j1main, J1);
                         } else {
-                            affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - J1_carte_jouee.hauteur_carte);
+                            affichage_dos_plis(j1plis, J1, hauteur_scene - (hauteur_scene / 1.5) - hauteur_scene/5.45);
                             affichage_dos_plis(j2plis, J2, (hauteur_scene / 1.5));
 
                             bandeau.nom_plisJ2.setTranslateY(hauteur_scene / 1.18);
