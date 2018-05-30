@@ -2393,6 +2393,13 @@ public class Bridge extends Application {
         player1name.setPromptText("Entrez votre nom");
         player2name.setPromptText("Entrez le nom de l'adversaire");
         
+        player1name.setOnMouseClicked((MouseEvent me)->{
+            player1name.selectAll();
+        });
+        player2name.setOnMouseClicked((MouseEvent me)->{
+            player2name.selectAll();
+        });
+        
         option.setOnMouseClicked((MouseEvent me) -> {
             menuoptions(primaryStage);
         });
