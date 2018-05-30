@@ -1708,7 +1708,9 @@ public class Bridge extends Application {
         Rectangle greenbg = new Rectangle(hauteur_scene / 10, hauteur_scene / 10, Color.GREEN);
         Rectangle redbg = new Rectangle(hauteur_scene / 10, hauteur_scene / 10, Color.RED);
         Text fond = new Text("Couleur du plateau :");
+        fond.setFont(new Font("Impact",25));
         Text dos = new Text("Couleur des dos de cartes :");
+        dos.setFont(new Font("Impact",25));
         if (jour == 1) {
             pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
             fond.setFill(Color.BLACK);
@@ -1762,8 +1764,6 @@ public class Bridge extends Application {
         redbg.setStroke(Color.BLACK);
         redbg.setStrokeWidth(largeur_scene / 500);
 
-        fond.setFont(new Font(25));
-        dos.setFont(new Font(25));
         bluec.setOnMouseClicked((MouseEvent me) -> {
             couleurDos = ("BLEU");
 
