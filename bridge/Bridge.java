@@ -42,6 +42,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import static javafx.util.Duration.seconds;
 
+
 public class Bridge extends Application {
 
     //Les Variables
@@ -119,7 +120,9 @@ public class Bridge extends Application {
     public boolean finTour = false;
     public boolean messageFinManche = false;
     public boolean messageFinPartie = false;
-
+    
+    public String police=("Baekmuk Headline");
+    
     void sauver(Stage primaryStage) {
         Rectangle sauvno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
         sauvno.setTranslateX(((largeur_scene - largeur_scene / 1.85) / 2.3) + largeur_scene / 5.7);
@@ -1246,7 +1249,7 @@ public class Bridge extends Application {
         Text setup = new Text("\t\tMISE EN PLACE\n");
         Text setup2 = new Text("Le joueur désigné comme donneur distribue 11 cartes à chaque joueurs, puis dispose le reste des cartes en 6 piles de \n5 cartes faces cachées au centre du plateau, puis il retourne la carte au sommet de chaque pile.\n\nParmi les 6 cartes visibles, la cartes la plus forte donne la couleur de l'atout.\n\nNote: si toutes les cartes visibles ont une valeur inférieur à 10, la partie se joue sans atout.");
         Label suiv1 = new Label("  Suivant >");
-        suiv1.setFont(new Font("Impact",35));
+        suiv1.setFont(new Font(police,35));
         VBox rules11 = new VBox();
         rules11.getChildren().addAll(principe, principe2);
         VBox rules12 = new VBox();
@@ -1257,9 +1260,9 @@ public class Bridge extends Application {
         Text gagner = new Text("\t\tGAGNER UN PLI\n");
         Text gagner2 = new Text("*   Si les deux cartes sont de même couleur, alors le joueur qui a la carte la plus forte remporte le pli.\n\n*   Si l'un des joueurs n'a pas la couleur demandée, il peut au choix:\n\n\t\t\t\t\t-   jouer une carte de la couleur de l'atout pour couper et remporter le pli\n\n\t\t\t\t\t-   donner une carte de son choix, mais il perdra le pli.");
         Label prev2 = new Label("< Précédent");
-        prev2.setFont(new Font("Impact",35));
+        prev2.setFont(new Font(police,35));
         Label suiv2 = new Label("  Suivant >");
-        suiv2.setFont(new Font("Impact",35));
+        suiv2.setFont(new Font(police,35));
         VBox rules21 = new VBox();
         rules21.getChildren().addAll(but, but2);
         VBox rules22 = new VBox();
@@ -1268,9 +1271,9 @@ public class Bridge extends Application {
         Text manche12 = new Text("\t\tDEROULEMENT D'UNE MANCHE - 1/2\n");
         Text manche122 = new Text("Le joueur qui à donné les cartes a initialement la main, par la suite, elle est prise (ou gardée) par le joueur qui a remporté le pli.\n\n*   Le joueur qui à la main choisit une des cartes de sa main et la pose sur le\nplateau\n\n*   L'autre joueur pose à son tour une carte (il doit obligatoirement fournir la couleur\ndemandée par le premier joueur s'il le peut).\n\n*   Le joueur qui a gagné le pli le ramasse et le met de coté dans sa défausse.");
         Label prev3 = new Label("< Précédent");
-        prev3.setFont(new Font("Impact",35));
+        prev3.setFont(new Font(police,35));
         Label suiv3 = new Label("  Suivant >");
-        suiv3.setFont(new Font("Impact",35));
+        suiv3.setFont(new Font(police,35));
         VBox rules3 = new VBox();
         rules3.getChildren().addAll(manche12, manche122);
 
@@ -1278,23 +1281,23 @@ public class Bridge extends Application {
         Text manche22 = new Text("\t\tDEROULEMENT D'UNE MANCHE - 2/2\n");
         Text manche222 = new Text("Les joueurs vont maintenant piocher une carte parmi les cartes révélées sur le\nplateur:\n\n*   le joueur qui vient de gagner le pli choisi sa carte en premier et la place dans sa\nmain. Il retourne ensuite la carte qui se trouvait au dessous de la carte qu'il vient\nde piocher.\n\n*   l'autre joueur choisià son tour la carte de son choix de la même manière.\n\nNote: Lorsque toutes les piles sont épuisées, la manche continue selon les mêmes\nrègles, en supprimant la phase de choix/découverte des cartes sur le plateau.");
         Label prev4 = new Label("< Précédent");
-        prev4.setFont(new Font("Impact",35));
+        prev4.setFont(new Font(police,35));
         Label suiv4 = new Label("  Suivant >");
-        suiv4.setFont(new Font("Impact",35));
+        suiv4.setFont(new Font(police,35));
         VBox rules4 = new VBox();
         rules4.getChildren().addAll(manche22, manche222);
         //5TH
         Text end = new Text("\t\tFIN D'UNE MANCHE\n\n");
         Text end2 = new Text("La manche se termine lorsque les 2 joueurs n'ont plus de carte en main.\n\nOn compte alors les plis de chaque joueur et chacun se voit attribuer le\nnombre de points correspondants.\n\nOn peut alors démarrer une nouvelle manche.\n\nAu cours des manches successives, chaque joueur donne tour à tour.");
         Label prev5 = new Label("< Précédent");
-        prev5.setFont(new Font("Impact",35));
+        prev5.setFont(new Font(police,35));
         VBox rules5 = new VBox();
         rules5.getChildren().addAll(end, end2);
 
         Label mp = new Label("Menu Principal ");
-        mp.setFont(new Font("Impact",35));
+        mp.setFont(new Font(police,35));
         Label np = new Label("Nouvelle Partie");
-        np.setFont(new Font("Impact",35));
+        np.setFont(new Font(police,35));
 
         if (jour == 1) {
             pane.setStyle("-fx-background-color: #274e13;");
@@ -1624,23 +1627,23 @@ public class Bridge extends Application {
             }
         });
 
-        pane.setHgap(largeur_scene / 18);
+        pane.setHgap(largeur_scene / 45);
         pane.setVgap(hauteur_scene / 50);
 
-        principe.setFont(new Font("Impact",35));
-        principe2.setFont(new Font("Impact",20));
-        setup.setFont(new Font("Impact",35));
-        setup2.setFont(new Font("Impact",20));
-        but.setFont(new Font("Impact",35));
-        but2.setFont(new Font("Impact",20));
-        gagner.setFont(new Font("Impact",35));
-        gagner2.setFont(new Font("Impact",20));
-        manche12.setFont(new Font("Impact",35));
-        manche122.setFont(new Font("Impact",20));
-        manche22.setFont(new Font("Impact",35));
-        manche222.setFont(new Font("Impact",20));
-        end.setFont(new Font("Impact",35));
-        end2.setFont(new Font("Impact",20));
+        principe.setFont(new Font(police,35));
+        principe2.setFont(new Font(police,20));
+        setup.setFont(new Font(police,35));
+        setup2.setFont(new Font(police,20));
+        but.setFont(new Font(police,35));
+        but2.setFont(new Font(police,20));
+        gagner.setFont(new Font(police,35));
+        gagner2.setFont(new Font(police,20));
+        manche12.setFont(new Font(police,35));
+        manche122.setFont(new Font(police,20));
+        manche22.setFont(new Font(police,35));
+        manche222.setFont(new Font(police,20));
+        end.setFont(new Font(police,35));
+        end2.setFont(new Font(police,20));
 
         rules11.setVisible(true);
         rules12.setVisible(true);
@@ -1690,8 +1693,8 @@ public class Bridge extends Application {
         pane.setVgap(hauteur_scene / 18);
         Label menu = new Label("Menu Principal");
         Label nouvellegame = new Label("Nouvelle Partie");
-        menu.setFont(new Font("Impact",35));
-        nouvellegame.setFont(new Font("Impact",35));
+        menu.setFont(new Font(police,35));
+        nouvellegame.setFont(new Font(police,35));
         
         ImageView goldc = new ImageView(new Image("images/DEFAUSSE_OR.png"));
         ImageView greenc = new ImageView(new Image("images/DEFAUSSE_VERT.png"));
@@ -1708,9 +1711,9 @@ public class Bridge extends Application {
         Rectangle greenbg = new Rectangle(hauteur_scene / 10, hauteur_scene / 10, Color.GREEN);
         Rectangle redbg = new Rectangle(hauteur_scene / 10, hauteur_scene / 10, Color.RED);
         Text fond = new Text("Couleur du plateau :");
-        fond.setFont(new Font("Impact",25));
+        fond.setFont(new Font(police,25));
         Text dos = new Text("Couleur des dos de cartes :");
-        dos.setFont(new Font("Impact",25));
+        dos.setFont(new Font(police,25));
         if (jour == 1) {
             pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
             fond.setFill(Color.BLACK);
@@ -1909,13 +1912,13 @@ public class Bridge extends Application {
         pane.add(quit, 0, 0);
         pane.add(bridgechinois, 2, 1);
         
-        bridgechinois.setFont(new Font("Impact",75));
-        newgame.setFont(new Font("Impact",45));
-        loadgame.setFont(new Font("Impact",45));
-        rules.setFont(new Font("Impact",45));
-        options.setFont(new Font("Impact",45));
-        quit.setFont(new Font("Impact",30));
-        daynight.setFont(new Font("Impact",45));
+        bridgechinois.setFont(new Font(police,75));
+        newgame.setFont(new Font(police,45));
+        loadgame.setFont(new Font(police,45));
+        rules.setFont(new Font(police,45));
+        options.setFont(new Font(police,45));
+        quit.setFont(new Font(police,30));
+        daynight.setFont(new Font(police,45));
         
         if(jour==1){
             bridgechinois.setStyle("-fx-text-fill: black;");
@@ -2231,9 +2234,9 @@ public class Bridge extends Application {
         pane.add(imagend,3,3);
         pane.add(imageng,1,3);
         pane.add(optionB,3,4);
-        firstmenu.setFont(new Font("Impact",35));
-        launchgame.setFont(new Font("Impact",35));
-        option.setFont(new Font("Impact",35));
+        firstmenu.setFont(new Font(police,35));
+        launchgame.setFont(new Font(police,35));
+        option.setFont(new Font(police,35));
         firstmenu.setTextFill(Color.BLACK);
         launchgame.setTextFill(Color.BLACK);
         option.setTextFill(Color.BLACK);
@@ -2385,17 +2388,17 @@ public class Bridge extends Application {
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
 
-        bridgechinois2.setFont(new Font("Impact",70));
-        configgame.setFont(new Font("Impact",40));
-        choiceplayer.setFont(new Font("Impact",40));
-        player1title.setFont(new Font("Impact",40));
-        player2title.setFont(new Font("Impact",40));
-        victorysetup.setFont(new Font("Impact",40));
-        p1human.setFont(new Font("Impact",20));
-        cbhuman2.setFont(new Font("Impact",20));
-        cbcomputer2.setFont(new Font("Impact",20));
-        cbpoints.setFont(new Font("Impact",20));
-        cbrounds.setFont(new Font("Impact",20));
+        bridgechinois2.setFont(new Font(police,70));
+        configgame.setFont(new Font(police,40));
+        choiceplayer.setFont(new Font(police,40));
+        player1title.setFont(new Font(police,40));
+        player2title.setFont(new Font(police,40));
+        victorysetup.setFont(new Font(police,40));
+        p1human.setFont(new Font(police,20));
+        cbhuman2.setFont(new Font(police,20));
+        cbcomputer2.setFont(new Font(police,20));
+        cbpoints.setFont(new Font(police,20));
+        cbrounds.setFont(new Font(police,20));
 
         player1name.setPrefColumnCount(l_scene / 76);
         player2name.setPrefColumnCount(l_scene / 76);
