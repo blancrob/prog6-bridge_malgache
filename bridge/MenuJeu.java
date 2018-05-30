@@ -67,6 +67,12 @@ public class MenuJeu extends Parent {
     String name;
     Moteur m;
     
+    int histaff = 0;//
+    int rulesaff = 0;
+    int optaff = 0;//
+    int helpaff = 0;
+    int quitaff = 0;//
+    
     //Les couleurs
     final static String Gris = ("343638");
     final static String Rouge=("330000");
@@ -128,7 +134,7 @@ public class MenuJeu extends Parent {
         Text raccourcis = new Text("RACCOURCIS CLAVIER");
         Text recommencer = new Text("T : Recommencer");
         Text option = new Text("O : Options");
-        Text help = new Text("H : Aide");
+        Text helped = new Text("H : Aide");
         Text regles = new Text("R : Regles");
         Text charger = new Text("C : Charger");
         Text save = new Text("S : Sauvegarder");
@@ -145,10 +151,10 @@ public class MenuJeu extends Parent {
         option.setFill(Color.LIGHTGREY);
         option.setX(largeur_scene / 4.6);
         option.setY(hauteur_scene-(hauteur_scene/1.33));
-        help.setFont(new Font(20));
-        help.setFill(Color.LIGHTGREY);
-        help.setX(largeur_scene / 4.6);
-        help.setY(hauteur_scene-(hauteur_scene/1.365));
+        helped.setFont(new Font(20));
+        helped.setFill(Color.LIGHTGREY);
+        helped.setX(largeur_scene / 4.6);
+        helped.setY(hauteur_scene-(hauteur_scene/1.365));
         regles.setFont(new Font(20));
         regles.setFill(Color.LIGHTGREY);
         regles.setX(largeur_scene / 4.6);
@@ -165,29 +171,37 @@ public class MenuJeu extends Parent {
         quit.setFill(Color.LIGHTGREY);
         quit.setX(largeur_scene / 4.6);
         quit.setY(hauteur_scene-(hauteur_scene/1.53));
-        this.getChildren().addAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+        this.getChildren().addAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         raccourcis.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
         recommencer.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
-        help.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+        helped.setOnMouseClicked((MouseEvent me) -> {
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
         regles.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
         save.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
         quit.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
         helpspace.setOnMouseClicked((MouseEvent me) -> {
-            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,help,regles,charger,save,quit);
+            this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
         });
-
+        help.setOnAction((ActionEvent event) -> {
+            if(helpaff == 1){
+                this.getChildren().addAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
+                helpaff = 0;
+            }else{
+                this.getChildren().removeAll(helpspace,raccourcis,recommencer,option,helped,regles,charger,save,quit);
+                helpaff = 1;
+            }
+        });
     }
     
     void regles(){
@@ -255,6 +269,15 @@ public class MenuJeu extends Parent {
         rulesspace.setOnMouseClicked((MouseEvent me) -> {
             MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
         });
+        rules.setOnAction((ActionEvent event) -> {
+            if(rulesaff == 1){
+                this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+                rulesaff = 0;
+            }else{
+                this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6,rulesmessage7);
+                rulesaff = 1;
+            }
+        });
     }
     
     void historique(){
@@ -293,6 +316,15 @@ public class MenuJeu extends Parent {
         rulesmessage6.setX(largeur_scene/1000);
         rulesmessage6.setY(hauteur_scene/1.75);
         this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+        hist.setOnAction((ActionEvent event) -> {
+            if(histaff == 1){
+                this.getChildren().addAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+                histaff = 0;
+            }else{
+                this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
+                histaff = 1;
+            }
+        });
         rulesmessage1.setOnMouseClicked((MouseEvent me) -> {
             MenuJeu.this.getChildren().removeAll(rulesspace,rulesmessage1,rulesmessage2,rulesmessage3,rulesmessage4,rulesmessage5,rulesmessage6);
         });
@@ -329,7 +361,7 @@ public class MenuJeu extends Parent {
         quit.setTranslateX(largeur_scene/48);
         quit.setTranslateY(hauteur_scene-hauteur_scene/10);
         this.getChildren().add(quit);
-
+        
         save = new Button("Sauvegarder");
         save.setPrefWidth(largeur_scene/13.715);
         save.setPrefHeight(hauteur_scene/12);
