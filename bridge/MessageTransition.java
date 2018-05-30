@@ -30,7 +30,8 @@ public class MessageTransition extends Parent {
 
     int posX = 0;
     int posY = 700;
-
+    int test = 1;
+    
     public MessageTransition(int choix, String nom, double largeur, double hauteur) {
         fond_message = new Rectangle(largeur / 2.05, hauteur / 3.6, Color.GREY);
         fond_message.setHeight(hauteur / 5);
@@ -41,7 +42,7 @@ public class MessageTransition extends Parent {
         fond_message.setArcHeight(15);
         fond_message.setArcWidth(25);
         this.getChildren().add(fond_message);
-
+        
         switch (choix) {
             case 1:
                 message_joueur = new Text(nom+", à toi de jouer !");
@@ -112,6 +113,7 @@ public class MessageTransition extends Parent {
                         if(m.j1.scoreTotal>m.j2.scoreTotal){  //Si le joueur 1 gagne
                             message_victoire = new Text("Bravo " + m.j1.nom + " !!!\n Victoire avec " + m.j1.scoreTotal + " plis ");
                         }else{  //Si le joueur 2 gagne
+                            
                             message_victoire = new Text("Défaite ...\n"+ m.j2.nom +" l'emporte avec " + m.j2.scoreTotal + " plis");
                             victoire = false;
                         }
@@ -175,7 +177,7 @@ public class MessageTransition extends Parent {
                 message_victoire = new Text("Egalité");
             } else {
                 if(m.config.mode == 1){  //En Joueur Contre Joueur
-                    if(m.j1.score>m.j2.score){  //Si le joueur 1 gagne
+                    if(m.j1.score>m.j2.score){  //Si le joueur 1 gagne    
                         message_victoire = new Text(m.j1.nom + ", Victoire de la manche " + m.config.manche + "\n" + m.j1.score + " plis");
                     }else{  //Si le joueur 2 gagne
                         message_victoire = new Text(m.j2.nom + ", Victoire de la manche " + m.config.manche + "\n" + m.j2.score + " plis");
