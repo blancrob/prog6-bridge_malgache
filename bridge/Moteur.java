@@ -337,13 +337,6 @@ public class Moteur {
                 choix = Integer.parseInt(str);
             }
 
-            /*System.err.println("Attention:");
-            EtatGlobal e = copieEtat();
-            Iterator<Carte> it2 = e.j1.main.iterateur();
-            while(it2.hasNext()){
-                afficherCarte(it2.next());
-            }
-            System.out.println();*/
             config.addUndo(copieEtat());    //Copie de l'état courant dans la pile undo pour y revenir en cas d'annulation du coup courant
             
             //La carte est jouée
@@ -360,20 +353,12 @@ public class Moteur {
             }else{
                 config.joueur = 1;
             }
-            
-            /*it2 = e.j1.main.iterateur();
-            while(it2.hasNext()){
-                afficherCarte(it2.next());
-            }
-            System.out.println();*/
-            
+              
             System.out.println();
         }
         else{   //Cas où l'ordinateur joue c;
             jouerCoupIA(config.donneur); 
         }
-        //j1.main.trier();
-        //j2.main.trier();
     }
     
     /**
@@ -946,7 +931,6 @@ public class Moteur {
     }
     
     public EtatGlobal copieEtat(){
-        System.out.println("TEST");
         EtatGlobal e = new EtatGlobal();
         //Copie Joueur 1
         e.j1.main = j1.main.clone();
@@ -1234,23 +1218,9 @@ public class Moteur {
         }
         
         while((config.conditionVictoire==1 && config.manche<config.mancheMax) || (config.conditionVictoire==2 && (j1.scoreTotal<config.scoreMax && j2.scoreTotal<config.scoreMax))){
-        
-            
-            /*if(config.donneurInitial==0){
-                config.donneurInitial=1;
-                config.donneur=1;
-            }else if(config.donneurInitial==1){
-                config.donneurInitial=2;
-                config.donneur=2;
-            }else{
-               config.donneurInitial=1;
-               config.donneur=1; 
-            }*/
             
             config.manche++;
-            //initialiserManche();
-                    
-            
+                      
             System.out.println("MANCHE "+ config.manche);
             System.out.println();
 
@@ -1274,8 +1244,6 @@ public class Moteur {
             System.out.println();
 
             while(!finManche()){
-                //j1.main.trier();
-                //j2.main.trier();
                 if(config.piochable()){
                     config.afficherPioche();
                 }

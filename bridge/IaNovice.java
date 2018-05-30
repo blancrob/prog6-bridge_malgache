@@ -5,7 +5,6 @@
  */
 package bridge;
 
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -57,17 +56,6 @@ public class IaNovice implements IA {
      */
     @Override
     public Carte piocher(){
-        /*Random r = new Random();
-        int tmp;
-        if(lg>1){
-            tmp = r.nextInt(lg-1);
-            while(pioche[tmp]==null){
-                tmp = r.nextInt(lg-1);
-            }
-        }else{
-            tmp=0;
-        }
-        return pioche[tmp];*/
         Random r = new Random();
         return pioche[r.nextInt(lg)];
     }

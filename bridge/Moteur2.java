@@ -5,7 +5,7 @@
  */
 package bridge;
 
-import static bridge.Carte.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Moteur2 extends Moteur {
 
@@ -111,7 +110,6 @@ public class Moteur2 extends Moteur {
         j2 = e.j2;
 
         ois.close();
-        //System.out.println("pile1 taille APRES CHARGEMENT: " + config.pile1.taille());
     }
 
     /**
@@ -200,12 +198,6 @@ public class Moteur2 extends Moteur {
             afficherCarte(main[i]);
         }
 
-        if (config.carteP == null) {
-            System.out.println("C'est vide dude");
-        } else {
-            System.out.println("Pas Vide");
-        }
-
         switch (config.carteP.couleur) {
             case 1:
                 System.out.println("Fournir du TREFLE si vous en avez");
@@ -250,9 +242,6 @@ public class Moteur2 extends Moteur {
             config.joueur = 1;
         }
         System.out.println();
-
-        //j1.main.trier();
-        //j2.main.trier();
         return c;
     }
 
