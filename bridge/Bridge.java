@@ -1624,7 +1624,7 @@ public class Bridge extends Application {
             }
         });
 
-        pane.setHgap(largeur_scene / 18);
+        pane.setHgap(largeur_scene / 45);
         pane.setVgap(hauteur_scene / 50);
 
         principe.setFont(new Font("Impact",35));
@@ -1674,6 +1674,7 @@ public class Bridge extends Application {
         pane.add(prev5, 1, 6);
         HBox sortie = new HBox();
         sortie.setStyle("-fx-alignment: center;");
+        sortie.setSpacing(largeur_scene/20);
         sortie.getChildren().addAll(mp, np);
         pane.add(sortie, 3, 7);
 
@@ -1690,8 +1691,8 @@ public class Bridge extends Application {
         pane.setVgap(hauteur_scene / 18);
         Label menu = new Label("Menu Principal");
         Label nouvellegame = new Label("Nouvelle Partie");
-        menu.setFont(new Font("Impact",35));
-        nouvellegame.setFont(new Font("Impact",35));
+        menu.setFont(new Font("Impact",25));
+        nouvellegame.setFont(new Font("Impact",25));
         
         ImageView goldc = new ImageView(new Image("images/DEFAUSSE_OR.png"));
         ImageView greenc = new ImageView(new Image("images/DEFAUSSE_VERT.png"));
