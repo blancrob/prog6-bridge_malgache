@@ -149,7 +149,7 @@ public class Bridge extends Application {
         sauvno.setOnMouseClicked((MouseEvent me) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
-                pane.setStyle("-fx-background-color: #274e13;");
+                pane.setStyle("-fx-background-color: #4c1130;");
             } else {
                 pane.setStyle("-fx-background-color: #3b3f42;");
             }
@@ -164,7 +164,7 @@ public class Bridge extends Application {
             sauvegarder(primaryStage);
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
-                pane.setStyle("-fx-background-color: #274e13;");
+                pane.setStyle("-fx-background-color: #4c1130;");
             } else {
                 pane.setStyle("-fx-background-color: #3b3f42;");
             }
@@ -338,7 +338,7 @@ public class Bridge extends Application {
 
         bluebg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#042955;");
-            couleurPlateau= Bleu;
+            couleurPlateau = Bleu;
             bandeau.couleurBandeau(Bleu);
             init_pile(pile);
             changerCouleurDos(couleurDos);
@@ -346,7 +346,8 @@ public class Bridge extends Application {
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#274e13;");
-            couleurPlateau= Vert;
+            couleurPlateau = Vert;
+
             bandeau.couleurBandeau(Vert);
             init_pile(pile);
             changerCouleurDos(couleurDos);
@@ -354,7 +355,7 @@ public class Bridge extends Application {
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             root.setStyle("-fx-background-color:#480c19;");
-            couleurPlateau= Rouge;
+            couleurPlateau = Rouge;
             bandeau.couleurBandeau(Rouge);
             init_pile(pile);
             changerCouleurDos(couleurDos);
@@ -571,7 +572,7 @@ public class Bridge extends Application {
         }
         primaryStage.setFullScreen(true);
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
-        root.setStyle("-fx-background-color:#274e13;");
+        root.setStyle("-fx-background-color:#4c1130;");
         root.getChildren().add(bandeau);
 
         bandeau.load.setOnAction((ActionEvent event) -> {
@@ -731,6 +732,7 @@ public class Bridge extends Application {
             affichage_face_pile(pile);
             maj_handler_main();
             maj_handler_pile();
+            rafraichir_affichage();
         });
         redo = new Button();
         ImageView imgRedo = new ImageView(new Image("images/redo.png"));
@@ -778,6 +780,7 @@ public class Bridge extends Application {
             bandeau = new MenuJeu(m, couleurPlateau);
             bandeau.tourJ(tour_joueur);
             bandeau.mode(m.config.mode);
+            rafraichir_affichage();
         });
         if (m.config.mode == 2) {
             redo = new Button();
@@ -887,6 +890,7 @@ public class Bridge extends Application {
                 affichage_face_pile(pile);
                 maj_handler_main();
                 maj_handler_pile();
+                rafraichir_affichage();
             });
         }
         System.out.println(screenSize.getWidth());
@@ -1122,7 +1126,7 @@ public class Bridge extends Application {
                 affichage_face_pile(pile);
                 maj_handler_main();
                 maj_handler_pile();
-
+                rafraichir_affichage();
             });
         }
         if (m.config.mode == 2) {
@@ -1300,94 +1304,94 @@ public class Bridge extends Application {
         np.setFont(new Font(police,35));
 
         if (jour == 1) {
-            pane.setStyle("-fx-background-color: #274e13;");
-            principe.setFill(Color.BLACK);
-            principe2.setFill(Color.BLACK);
-            setup.setFill(Color.BLACK);
-            setup2.setFill(Color.BLACK);
-            but.setFill(Color.BLACK);
-            but2.setFill(Color.BLACK);
-            gagner.setFill(Color.BLACK);
-            gagner2.setFill(Color.BLACK);
-            manche12.setFill(Color.BLACK);
-            manche122.setFill(Color.BLACK);
-            manche22.setFill(Color.BLACK);
-            manche222.setFill(Color.BLACK);
-            end.setFill(Color.BLACK);
-            end2.setFill(Color.BLACK);
-            suiv1.setTextFill(Color.BLACK);
-            prev2.setTextFill(Color.BLACK);
-            suiv2.setTextFill(Color.BLACK);
-            prev3.setTextFill(Color.BLACK);
-            suiv3.setTextFill(Color.BLACK);
-            prev4.setTextFill(Color.BLACK);
-            suiv4.setTextFill(Color.BLACK);
-            prev5.setTextFill(Color.BLACK);
-            mp.setTextFill(Color.BLACK);
-            np.setTextFill(Color.BLACK);
+            pane.setStyle("-fx-background-color: #4c1130;");
+            principe.setFill(Color.WHITE);
+            principe2.setFill(Color.WHITE);
+            setup.setFill(Color.WHITE);
+            setup2.setFill(Color.WHITE);
+            but.setFill(Color.WHITE);
+            but2.setFill(Color.WHITE);
+            gagner.setFill(Color.WHITE);
+            gagner2.setFill(Color.WHITE);
+            manche12.setFill(Color.WHITE);
+            manche122.setFill(Color.WHITE);
+            manche22.setFill(Color.WHITE);
+            manche222.setFill(Color.WHITE);
+            end.setFill(Color.WHITE);
+            end2.setFill(Color.WHITE);
+            suiv1.setTextFill(Color.WHITE);
+            prev2.setTextFill(Color.WHITE);
+            suiv2.setTextFill(Color.WHITE);
+            prev3.setTextFill(Color.WHITE);
+            suiv3.setTextFill(Color.WHITE);
+            prev4.setTextFill(Color.WHITE);
+            suiv4.setTextFill(Color.WHITE);
+            prev5.setTextFill(Color.WHITE);
+            mp.setTextFill(Color.WHITE);
+            np.setTextFill(Color.WHITE);
             
             suiv1.setOnMouseEntered((MouseEvent me) -> {
                 suiv1.setTextFill(Color.GOLD);
             });
             suiv1.setOnMouseExited((MouseEvent me) -> {
-                suiv1.setTextFill(Color.BLACK);
+                suiv1.setTextFill(Color.WHITE);
             });
             prev2.setOnMouseEntered((MouseEvent me) -> {
                 prev2.setTextFill(Color.GOLD);
             });
             prev2.setOnMouseExited((MouseEvent me) -> {
-                prev2.setTextFill(Color.BLACK);
+                prev2.setTextFill(Color.WHITE);
             });
             suiv2.setOnMouseEntered((MouseEvent me) -> {
                 suiv2.setTextFill(Color.GOLD);
             });
             suiv2.setOnMouseExited((MouseEvent me) -> {
-                suiv2.setTextFill(Color.BLACK);
+                suiv2.setTextFill(Color.WHITE);
             });
             prev3.setOnMouseEntered((MouseEvent me) -> {
                 prev3.setTextFill(Color.GOLD);
             });
             prev3.setOnMouseExited((MouseEvent me) -> {
-                prev3.setTextFill(Color.BLACK);
+                prev3.setTextFill(Color.WHITE);
             });
             suiv3.setOnMouseEntered((MouseEvent me) -> {
                 suiv3.setTextFill(Color.GOLD);
             });
             suiv3.setOnMouseExited((MouseEvent me) -> {
-                suiv3.setTextFill(Color.BLACK);
+                suiv3.setTextFill(Color.WHITE);
             });
             prev4.setOnMouseEntered((MouseEvent me) -> {
                 prev4.setTextFill(Color.GOLD);
             });
             prev4.setOnMouseExited((MouseEvent me) -> {
-                prev4.setTextFill(Color.BLACK);
+                prev4.setTextFill(Color.WHITE);
             });
             suiv4.setOnMouseEntered((MouseEvent me) -> {
                 suiv4.setTextFill(Color.GOLD);
             });
             suiv4.setOnMouseExited((MouseEvent me) -> {
-                suiv4.setTextFill(Color.BLACK);
+                suiv4.setTextFill(Color.WHITE);
             });
             prev5.setOnMouseEntered((MouseEvent me) -> {
                 prev5.setTextFill(Color.GOLD);
             });
             prev5.setOnMouseExited((MouseEvent me) -> {
-                prev5.setTextFill(Color.BLACK);
+                prev5.setTextFill(Color.WHITE);
             });
             mp.setOnMouseEntered((MouseEvent me) -> {
                 mp.setTextFill(Color.GOLD);
             });
             mp.setOnMouseExited((MouseEvent me) -> {
-                mp.setTextFill(Color.BLACK);
+                mp.setTextFill(Color.WHITE);
             });
             np.setOnMouseEntered((MouseEvent me) -> {
                 np.setTextFill(Color.GOLD);
             });
             np.setOnMouseExited((MouseEvent me) -> {
-                np.setTextFill(Color.BLACK);
+                np.setTextFill(Color.WHITE);
             });
         } else {
-            pane.setStyle("-fx-color: black; -fx-background-color: #3b3f42;");
+            pane.setStyle("-fx-color: white; -fx-background-color: #3b3f42;");
             principe.setFill(Color.WHITE);
             principe2.setFill(Color.WHITE);
             setup.setFill(Color.WHITE);
@@ -1613,17 +1617,17 @@ public class Bridge extends Application {
         mp.setOnMouseClicked((MouseEvent me) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
-                pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
             } else {
-                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             }
         });
         np.setOnMouseClicked((MouseEvent me) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame);
             if (jour == 1) {
-                pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
             } else {
-                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             }
         });
 
@@ -1677,6 +1681,7 @@ public class Bridge extends Application {
         pane.add(prev5, 1, 6);
         HBox sortie = new HBox();
         sortie.setStyle("-fx-alignment: center;");
+        sortie.setSpacing(largeur_scene/20);
         sortie.getChildren().addAll(mp, np);
         pane.add(sortie, 3, 7);
 
@@ -1715,25 +1720,25 @@ public class Bridge extends Application {
         Text dos = new Text("Couleur des dos de cartes :");
         dos.setFont(new Font(police,25));
         if (jour == 1) {
-            pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
-            fond.setFill(Color.BLACK);
-            dos.setFill(Color.BLACK);
-            menu.setTextFill(Color.BLACK);
-            nouvellegame.setTextFill(Color.BLACK);
+            pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
+            fond.setFill(Color.WHITE);
+            dos.setFill(Color.WHITE);
+            menu.setTextFill(Color.WHITE);
+            nouvellegame.setTextFill(Color.WHITE);
             menu.setOnMouseEntered((MouseEvent me) -> {
                 menu.setTextFill(Color.GOLD);
             });
             menu.setOnMouseExited((MouseEvent me) -> {
-                menu.setTextFill(Color.BLACK);
+                menu.setTextFill(Color.WHITE);
             });
             nouvellegame.setOnMouseEntered((MouseEvent me) -> {
                 nouvellegame.setTextFill(Color.GOLD);
             });
             nouvellegame.setOnMouseExited((MouseEvent me) -> {
-                nouvellegame.setTextFill(Color.BLACK);
+                nouvellegame.setTextFill(Color.WHITE);
             });
         } else {
-            pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+            pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             fond.setFill(Color.WHITE);
             dos.setFill(Color.WHITE);
             menu.setTextFill(Color.WHITE);
@@ -1754,17 +1759,17 @@ public class Bridge extends Application {
 
         bluebg.setArcHeight(15);
         bluebg.setArcWidth(25);
-        bluebg.setStroke(Color.BLACK);
+        bluebg.setStroke(Color.WHITE);
         bluebg.setStrokeWidth(largeur_scene / 500);
 
         greenbg.setArcHeight(15);
         greenbg.setArcWidth(25);
-        greenbg.setStroke(Color.BLACK);
+        greenbg.setStroke(Color.WHITE);
         greenbg.setStrokeWidth(largeur_scene / 500);
 
         redbg.setArcHeight(15);
         redbg.setArcWidth(25);
-        redbg.setStroke(Color.BLACK);
+        redbg.setStroke(Color.WHITE);
         redbg.setStrokeWidth(largeur_scene / 500);
 
         bluec.setOnMouseClicked((MouseEvent me) -> {
@@ -1815,28 +1820,28 @@ public class Bridge extends Application {
         });
         bluebg.setOnMouseClicked((MouseEvent me) -> {
             bluebg.setStroke(Color.GOLD);
-            redbg.setStroke(Color.BLACK);
-            greenbg.setStroke(Color.BLACK);
+            redbg.setStroke(Color.WHITE);
+            greenbg.setStroke(Color.WHITE);
             couleurPlateau = (Bleu);
 
         });
         greenbg.setOnMouseClicked((MouseEvent me) -> {
             greenbg.setStroke(Color.GOLD);
-            redbg.setStroke(Color.BLACK);
-            bluebg.setStroke(Color.BLACK);
+            redbg.setStroke(Color.WHITE);
+            bluebg.setStroke(Color.WHITE);
             couleurPlateau = (Vert);
 
         });
         redbg.setOnMouseClicked((MouseEvent me) -> {
             redbg.setStroke(Color.GOLD);
-            bluebg.setStroke(Color.BLACK);
-            greenbg.setStroke(Color.BLACK);
+            bluebg.setStroke(Color.WHITE);
+            greenbg.setStroke(Color.WHITE);
             couleurPlateau = (Rouge);
         });
         menu.setOnMouseClicked((MouseEvent me) -> {
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
-                pane.setStyle("-fx-color : black; -fx-background-color: #274e13;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
             } else {
                 pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             }
@@ -1844,9 +1849,9 @@ public class Bridge extends Application {
         nouvellegame.setOnMouseClicked((MouseEvent me) -> {
             nouvellePartie(primaryStage, firstmenu, launchgame);
             if (jour == 1) {
-                pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
             } else {
-                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             }
         });
         goldcheck.setVisible(false);
@@ -1880,7 +1885,7 @@ public class Bridge extends Application {
         primaryStage.setTitle("Menu Principal");
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
-        pane.setStyle("-fx-background-color: #274e13;");
+        
         ImageView mjid = new ImageView(new Image("images/menuJourImageDroite.png"));
         ImageView mjig = new ImageView(new Image("images/menuJourImageGauche.png"));
         ImageView mnid = new ImageView(new Image("images/menuNuitImageDroite.png"));
@@ -1912,6 +1917,7 @@ public class Bridge extends Application {
         pane.add(quit, 0, 0);
         pane.add(bridgechinois, 2, 1);
         
+
         bridgechinois.setFont(new Font(police,75));
         newgame.setFont(new Font(police,45));
         loadgame.setFont(new Font(police,45));
@@ -1919,56 +1925,59 @@ public class Bridge extends Application {
         options.setFont(new Font(police,45));
         quit.setFont(new Font(police,30));
         daynight.setFont(new Font(police,45));
+
         
         if(jour==1){
-            bridgechinois.setStyle("-fx-text-fill: black;");
-            quit.setStyle("-fx-text-fill: black;");
-            newgame.setStyle("-fx-text-fill: black;");
-            loadgame.setStyle("-fx-text-fill: black;");
-            rules.setStyle("-fx-text-fill: black;");
-            options.setStyle("-fx-text-fill: black;");
-            daynight.setTextFill(Color.BLACK);
+            pane.setStyle("-fx-background-color: #4c1130;");
+            bridgechinois.setStyle("-fx-text-fill: white;");
+            quit.setStyle("-fx-text-fill: white;");
+            newgame.setStyle("-fx-text-fill: white;");
+            loadgame.setStyle("-fx-text-fill: white;");
+            rules.setStyle("-fx-text-fill: white;");
+            options.setStyle("-fx-text-fill: white;");
+            daynight.setTextFill(Color.WHITE);
             quit.setOnMouseEntered((MouseEvent men) -> {
                 quit.setStyle("-fx-text-fill: gold;");
             });
             quit.setOnMouseExited((MouseEvent men) -> {
-                quit.setStyle("-fx-text-fill: black;");
+                quit.setStyle("-fx-text-fill: white;");
             });
             newgame.setOnMouseEntered((MouseEvent men) -> {
                 newgame.setStyle("-fx-text-fill: gold;");
             });
             newgame.setOnMouseExited((MouseEvent men) -> {
-                newgame.setStyle("-fx-text-fill: black;");
+                newgame.setStyle("-fx-text-fill: white;");
             });
             loadgame.setOnMouseEntered((MouseEvent men) -> {
                 loadgame.setStyle("-fx-text-fill: gold;");
             });
             loadgame.setOnMouseExited((MouseEvent men) -> {
-                loadgame.setStyle("-fx-text-fill: black;");
+                loadgame.setStyle("-fx-text-fill: white;");
             });
             rules.setOnMouseEntered((MouseEvent men) -> {
                 rules.setStyle("-fx-text-fill: gold;");
             });
             rules.setOnMouseExited((MouseEvent men) -> {
-                rules.setStyle("-fx-text-fill: black;");
+                rules.setStyle("-fx-text-fill: white;");
             });
             options.setOnMouseEntered((MouseEvent men) -> {
                 options.setStyle("-fx-text-fill: gold;");
             });
             options.setOnMouseExited((MouseEvent men) -> {
-                options.setStyle("-fx-text-fill: black;");
+                options.setStyle("-fx-text-fill: white;");
             });
             daynight.setOnMouseEntered((MouseEvent men) -> {
                 daynight.setTextFill(Color.GOLD);
             });
             daynight.setOnMouseExited((MouseEvent men) -> {
-                daynight.setTextFill(Color.BLACK);
+                daynight.setTextFill(Color.WHITE);
             });
             imagejd.setVisible(true);
             imagejg.setVisible(true);
             imagend.setVisible(false);
             imageng.setVisible(false);
         }else{
+            pane.setStyle("-fx-background-color: #3b3f42;");
             bridgechinois.setStyle("-fx-text-fill: white;");
             quit.setStyle("-fx-text-fill: white;");
             newgame.setStyle("-fx-text-fill: white;");
@@ -2103,6 +2112,7 @@ public class Bridge extends Application {
                 });
                 loadgame.setOnMouseExited((MouseEvent men) -> {
                     loadgame.setStyle("-fx-text-fill: white;");
+
                 });
                 rules.setOnMouseEntered((MouseEvent men) -> {
                     rules.setStyle("-fx-text-fill: gold;");
@@ -2128,49 +2138,49 @@ public class Bridge extends Application {
                 imageng.setVisible(true);
                 jour = 0;
             } else {
-                pane.setStyle("-fx-background-color: #274e13;");
-                bridgechinois.setStyle("-fx-text-fill: black;");
-                quit.setStyle("-fx-text-fill: black;");
-                newgame.setStyle("-fx-text-fill: black;");
-                loadgame.setStyle("-fx-text-fill: black;");
-                rules.setStyle("-fx-text-fill: black;");
-                options.setStyle("-fx-text-fill: black;");
-                daynight.setTextFill(Color.BLACK);
+                pane.setStyle("-fx-background-color: #4c1130;");
+                bridgechinois.setStyle("-fx-text-fill: white;");
+                quit.setStyle("-fx-text-fill: white;");
+                newgame.setStyle("-fx-text-fill: white;");
+                loadgame.setStyle("-fx-text-fill: white;");
+                rules.setStyle("-fx-text-fill: white;");
+                options.setStyle("-fx-text-fill: white;");
+                daynight.setTextFill(Color.WHITE);
                 quit.setOnMouseEntered((MouseEvent men) -> {
                     quit.setStyle("-fx-text-fill: gold;");
                 });
                 quit.setOnMouseExited((MouseEvent men) -> {
-                    quit.setStyle("-fx-text-fill: black;");
+                    quit.setStyle("-fx-text-fill: white;");
                 });
                 newgame.setOnMouseEntered((MouseEvent men) -> {
                     newgame.setStyle("-fx-text-fill: gold;");
                 });
                 newgame.setOnMouseExited((MouseEvent men) -> {
-                    newgame.setStyle("-fx-text-fill: black;");
+                    newgame.setStyle("-fx-text-fill: white;");
                 });
                 loadgame.setOnMouseEntered((MouseEvent men) -> {
                     loadgame.setStyle("-fx-text-fill: gold;");
                 });
                 loadgame.setOnMouseExited((MouseEvent men) -> {
-                    loadgame.setStyle("-fx-text-fill: black;");
+                    loadgame.setStyle("-fx-text-fill: white;");
                 });
                 rules.setOnMouseEntered((MouseEvent men) -> {
                     rules.setStyle("-fx-text-fill: gold;");
                 });
                 rules.setOnMouseExited((MouseEvent men) -> {
-                    rules.setStyle("-fx-text-fill: black;");
+                    rules.setStyle("-fx-text-fill: white;");
                 });
                 options.setOnMouseEntered((MouseEvent men) -> {
                     options.setStyle("-fx-text-fill: gold;");
                 });
                 options.setOnMouseExited((MouseEvent men) -> {
-                    options.setStyle("-fx-text-fill: black;");
+                    options.setStyle("-fx-text-fill: white;");
                 });
                 daynight.setOnMouseEntered((MouseEvent men) -> {
                     daynight.setTextFill(Color.GOLD);
                 });
                 daynight.setOnMouseExited((MouseEvent men) -> {
-                    daynight.setTextFill(Color.BLACK);
+                    daynight.setTextFill(Color.WHITE);
                 });
                 imagejd.setVisible(true);
                 imagejg.setVisible(true);
@@ -2234,46 +2244,48 @@ public class Bridge extends Application {
         pane.add(imagend,3,3);
         pane.add(imageng,1,3);
         pane.add(optionB,3,4);
+
         firstmenu.setFont(new Font(police,35));
         launchgame.setFont(new Font(police,35));
         option.setFont(new Font(police,35));
         firstmenu.setTextFill(Color.BLACK);
         launchgame.setTextFill(Color.BLACK);
         option.setTextFill(Color.BLACK);
+
         
         if (jour == 1) {
-            pane.setStyle("-fx-background-color: #274e13;");
-            bridgechinois2.setTextFill(Color.BLACK);
-            configgame.setTextFill(Color.BLACK);
-            choiceplayer.setTextFill(Color.BLACK);
-            player1title.setTextFill(Color.BLACK);
-            player2title.setTextFill(Color.BLACK);
-            victorysetup.setTextFill(Color.BLACK);
-            p1human.setTextFill(Color.BLACK);
-            cbhuman2.setTextFill(Color.BLACK);
-            cbcomputer2.setTextFill(Color.BLACK);
-            cbpoints.setTextFill(Color.BLACK);
-            cbrounds.setTextFill(Color.BLACK);
-            firstmenu.setTextFill(Color.BLACK);
-            launchgame.setTextFill(Color.BLACK);
-            option.setTextFill(Color.BLACK);
+            pane.setStyle("-fx-background-color: #4c1130;");
+            bridgechinois2.setTextFill(Color.WHITE);
+            configgame.setTextFill(Color.WHITE);
+            choiceplayer.setTextFill(Color.WHITE);
+            player1title.setTextFill(Color.WHITE);
+            player2title.setTextFill(Color.WHITE);
+            victorysetup.setTextFill(Color.WHITE);
+            p1human.setTextFill(Color.WHITE);
+            cbhuman2.setTextFill(Color.WHITE);
+            cbcomputer2.setTextFill(Color.WHITE);
+            cbpoints.setTextFill(Color.WHITE);
+            cbrounds.setTextFill(Color.WHITE);
+            firstmenu.setTextFill(Color.WHITE);
+            launchgame.setTextFill(Color.WHITE);
+            option.setTextFill(Color.WHITE);
             firstmenu.setOnMouseEntered((MouseEvent me) -> {
                 firstmenu.setTextFill(Color.GOLD);
             });
             firstmenu.setOnMouseExited((MouseEvent me) -> {
-                firstmenu.setTextFill(Color.BLACK);
+                firstmenu.setTextFill(Color.WHITE);
             });
             launchgame.setOnMouseEntered((MouseEvent me) -> {
                 launchgame.setTextFill(Color.GOLD);
             });
             launchgame.setOnMouseExited((MouseEvent me) -> {
-                launchgame.setTextFill(Color.BLACK);
+                launchgame.setTextFill(Color.WHITE);
             });
             option.setOnMouseEntered((MouseEvent me) -> {
                 option.setTextFill(Color.GOLD);
             });
             option.setOnMouseExited((MouseEvent me) -> {
-                option.setTextFill(Color.BLACK);
+                option.setTextFill(Color.WHITE);
             });
             imagejd.setVisible(true);
             imagejg.setVisible(true);
@@ -2465,10 +2477,10 @@ public class Bridge extends Application {
             cbcomputer2.setSelected(false);
             firstMenu(primaryStage, newgame, loadgame, rules, options, quit);
             if (jour == 1) {
-                pane.setStyle("-fx-color : white; -fx-background-color: #274e13;");
-                bridgechinois.setTextFill(Color.BLACK);
+                pane.setStyle("-fx-color : white; -fx-background-color: #4c1130;");
+                bridgechinois.setTextFill(Color.WHITE);
             } else {
-                pane.setStyle("-fx-color : black; -fx-background-color: #3b3f42;");
+                pane.setStyle("-fx-color : white; -fx-background-color: #3b3f42;");
             }
         });
         //Config par defaut
@@ -2804,6 +2816,467 @@ public class Bridge extends Application {
         if (m.config.mode == 1) {
             message_t = -2;
         }
+        if(m.config.manche > 1){
+            bandeau.load.setOnAction((ActionEvent event) -> {
+                charger(primaryStage);
+            });
+
+            bandeau.load.setOnKeyPressed(keyEvent -> {
+                KeyCode l = keyEvent.getCode();
+                if (l.equals(KeyCode.L)) {
+                    charger(primaryStage);
+                }
+            });
+
+            bandeau.option.setOnAction((ActionEvent event) -> {
+                option();
+            });
+            bandeau.option.setOnKeyPressed(keyEvent -> {
+                KeyCode o = keyEvent.getCode();
+                if (o.equals(KeyCode.O)) {
+                    option();
+                }
+            });
+
+            bandeau.restart.setOnAction((ActionEvent event) -> {
+                cbrounds.setSelected(false);
+                nbrounds.setText("");
+                cbpoints.setSelected(false);
+                nbpoints.setText("");
+                cbhuman2.setSelected(false);
+                nouvellePartie(primaryStage, firstmenu, launchgame);
+            });
+            bandeau.restart.setOnKeyPressed(keyEvent -> {
+                KeyCode t = keyEvent.getCode();
+                if (t.equals(KeyCode.T)) {
+                    sauvegarder(primaryStage);
+                }
+            });
+
+            bandeau.quit.setOnKeyPressed(keyEvent -> {
+                KeyCode q = keyEvent.getCode();
+                if (q.equals(KeyCode.Q)) {
+                    quitter(primaryStage);
+                }
+            });
+            bandeau.quit.setOnAction((ActionEvent event) -> {
+                quitter(primaryStage);
+            });
+
+            bandeau.save.setOnAction((ActionEvent event) -> {
+                sauvegarder(primaryStage);
+            });
+            bandeau.save.setOnKeyPressed(keyEvent -> {
+                KeyCode s = keyEvent.getCode();
+                if (s.equals(KeyCode.S)) {
+                    sauvegarder(primaryStage);
+                }
+            });
+            if (m.config.mode == 2) {
+                undo = new Button();
+                ImageView imgUndo = new ImageView(new Image("images/undo.png"));
+                undo.setGraphic(imgUndo);
+                undo.setPrefWidth(55);
+                undo.setPrefHeight(5);
+                undo.setTranslateX(largeur_scene / 1.165);
+                undo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+                root.getChildren().add(undo);
+                undo.setOnMouseClicked((MouseEvent me) -> {
+                    m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+                            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+                            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+                            finTour, messageFinManche, messageFinPartie);
+                    m.undo();
+
+                    temps = m.config.temps;
+                    temps2 = m.config.temps2;
+                    carte_jouee = m.config.carte_jouee;
+                    tour_joueur = m.config.tour_joueur;
+                    tour_pioche = m.config.tour_pioche;
+                    k = m.config.k;
+                    J1_carte_jouee = m.config.J1_carte_jouee;
+                    J2_carte_jouee = m.config.J2_carte_jouee;
+                    clean = m.config.clean;
+                    pause = m.config.pause;
+                    j1_lock = m.config.j1_lock;
+                    j2_lock = m.config.j2_lock;
+                    select = m.config.select;
+                    cheat = m.config.cheat;
+                    message_t = m.config.message_t;
+                    animation_cartePiochee = m.config.animation_cartePiochee;
+                    animation_t = m.config.animation_t;
+                    J1_lastCard = m.config.J1_lastCard;
+                    J2_lastCard = m.config.J2_lastCard;
+                    affichage_initial_pioche = m.config.affichage_initial_pioche;
+                    messagePioche = m.config.messagePioche;
+                    finTour = m.config.finTour;
+                    messageFinManche = m.config.messageFinManche;
+                    messageFinPartie = m.config.messageFinPartie;
+
+                    init_mainJ1J2();
+                    init_pile(pile);
+
+                    System.out.println();
+                    System.out.println("Pile ");
+
+                    for (int j = 0; j < pile.length; j++) {
+                        for (int i = 0; i < pile[j].length; i++) {
+                            if (pile[j][i] != null) {
+                                m.afficherCarte(pile[j][i]);
+                                pile[j][i].dos.setVisible(false);
+                                pile[j][i].face.setVisible(true);
+                            }
+
+                        }
+                        System.out.println();
+                    }
+
+                    System.out.println("Main J1");
+
+                    for (int i = 0; i < j1main.length; i++) {
+                        if (j1main[i] != null) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].dos.setVisible(false);
+                            j1main[i].face.setVisible(true);
+                        }
+                    }
+
+                    System.out.println();
+                    System.out.println("Main J2");
+
+                    for (int i = 0; i < j2main.length; i++) {
+                        if (j2main[i] != null) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].dos.setVisible(false);
+                            j2main[i].face.setVisible(true);
+                        }
+                    }
+
+                    System.out.println();
+
+                    if (m.config.mode == 1 && m.config.donneur == J1) {
+                        tour_joueur = J1;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, J2);
+                    } else if (m.config.mode == 1 && m.config.donneur == J2) {
+                        tour_joueur = J2;
+                        affichage_face_main(j2main, J2);
+                        affichage_dos_main(j1main, J1);
+                    } else if (m.config.mode == 2 && m.config.donneur == J1) {
+                        tour_joueur = J1;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, IA);
+                    } else if (m.config.mode == 2 && m.config.donneur == IA) {
+                        tour_joueur = IA;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, IA);
+                        temps = System.currentTimeMillis();
+                    }
+
+                    affichage_dos_pile(pile);
+                    affichage_face_pile(pile);
+                    maj_handler_main();
+                    maj_handler_pile();
+
+                });
+            }
+            if (m.config.mode == 2) {
+                redo = new Button();
+                ImageView imgRedo = new ImageView(new Image("images/redo.png"));
+                redo.setGraphic(imgRedo);
+                redo.setPrefWidth(55);
+                redo.setPrefHeight(5);
+                redo.setTranslateX(largeur_scene / 1.12);
+                redo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+                root.getChildren().add(redo);
+                redo.setOnMouseClicked((MouseEvent me) -> {
+                    m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+                            J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+                            message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+                            finTour, messageFinManche, messageFinPartie);
+                    m.redo();
+
+                    temps = m.config.temps;
+                    temps2 = m.config.temps2;
+                    carte_jouee = m.config.carte_jouee;
+                    tour_joueur = m.config.tour_joueur;
+                    tour_pioche = m.config.tour_pioche;
+                    k = m.config.k;
+                    J1_carte_jouee = m.config.J1_carte_jouee;
+                    J2_carte_jouee = m.config.J2_carte_jouee;
+                    clean = m.config.clean;
+                    pause = m.config.pause;
+                    j1_lock = m.config.j1_lock;
+                    j2_lock = m.config.j2_lock;
+                    select = m.config.select;
+                    cheat = m.config.cheat;
+                    message_t = m.config.message_t;
+                    animation_cartePiochee = m.config.animation_cartePiochee;
+                    animation_t = m.config.animation_t;
+                    J1_lastCard = m.config.J1_lastCard;
+                    J2_lastCard = m.config.J2_lastCard;
+                    affichage_initial_pioche = m.config.affichage_initial_pioche;
+                    messagePioche = m.config.messagePioche;
+                    finTour = m.config.finTour;
+                    messageFinManche = m.config.messageFinManche;
+                    messageFinPartie = m.config.messageFinPartie;
+
+                    init_mainJ1J2();
+                    init_pile(pile);
+
+                    System.out.println();
+                    System.out.println("Pile ");
+
+                    for (int j = 0; j < pile.length; j++) {
+                        for (int i = 0; i < pile[j].length; i++) {
+                            if (pile[j][i] != null) {
+                                m.afficherCarte(pile[j][i]);
+                                pile[j][i].dos.setVisible(false);
+                                pile[j][i].face.setVisible(true);
+                            }
+                        }
+                        System.out.println();
+                    }
+
+                    System.out.println("Main J1");
+
+                    for (int i = 0; i < j1main.length; i++) {
+                        if (j1main[i] != null) {
+                            m.afficherCarte(j1main[i]);
+                            j1main[i].dos.setVisible(false);
+                            j1main[i].face.setVisible(true);
+                        }
+                    }
+
+                    System.out.println();
+                    System.out.println("Main J2");
+
+                    for (int i = 0; i < j2main.length; i++) {
+                        if (j2main[i] != null) {
+                            m.afficherCarte(j2main[i]);
+                            j2main[i].dos.setVisible(false);
+                            j2main[i].face.setVisible(true);
+                        }
+                    }
+
+                    System.out.println();
+
+                    if (m.config.mode == 1 && m.config.donneur == J1) {
+                        tour_joueur = J1;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, J2);
+                    } else if (m.config.mode == 1 && m.config.donneur == J2) {
+                        tour_joueur = J2;
+                        affichage_face_main(j2main, J2);
+                        affichage_dos_main(j1main, J1);
+                    } else if (m.config.mode == 2 && m.config.donneur == J1) {
+                        tour_joueur = J1;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, IA);
+                    } else if (m.config.mode == 2 && m.config.donneur == IA) {
+                        tour_joueur = IA;
+                        affichage_face_main(j1main, J1);
+                        affichage_dos_main(j2main, IA);
+                        temps = System.currentTimeMillis();
+                    }
+
+                    affichage_dos_pile(pile);
+                    affichage_face_pile(pile);
+                    maj_handler_main();
+                    maj_handler_pile();
+                });
+            }
+        }
+    }
+
+    public void rafraichir_affichage() {
+
+        temps = m.config.temps;
+        temps2 = m.config.temps2;
+        carte_jouee = m.config.carte_jouee;
+        tour_joueur = m.config.tour_joueur;
+        tour_pioche = m.config.tour_pioche;
+        k = m.config.k;
+        J1_carte_jouee = m.config.J1_carte_jouee;
+        J2_carte_jouee = m.config.J2_carte_jouee;
+        clean = m.config.clean;
+        pause = m.config.pause;
+        j1_lock = m.config.j1_lock;
+        j2_lock = m.config.j2_lock;
+        select = m.config.select;
+        cheat = m.config.cheat;
+        message_t = m.config.message_t;
+        animation_cartePiochee = m.config.animation_cartePiochee;
+        animation_t = m.config.animation_t;
+        J1_lastCard = m.config.J1_lastCard;
+        J2_lastCard = m.config.J2_lastCard;
+        affichage_initial_pioche = m.config.affichage_initial_pioche;
+        messagePioche = m.config.messagePioche;
+        finTour = m.config.finTour;
+        messageFinManche = m.config.messageFinManche;
+        messageFinPartie = m.config.messageFinPartie;
+        
+        carte_jouee = 0;
+        tour_pioche = 0;
+        temps = 0;
+        temps2 = 0;
+        k = 0;
+        clean = 0;
+        pause = 0;
+        select = 0;
+        affichage_initial_pioche = 0;
+        message_t = 0;
+        animation_cartePiochee = 0;
+        animation_t = 0;
+
+        j1main = new Carte[11];
+        j2main = new Carte[11];
+        pile = new Carte[6][5];
+        j1plis = new Carte[52];
+        j2plis = new Carte[52];
+
+        init_mainJ1J2();
+        init_pile(pile);
+
+        System.out.println();
+        System.out.println("Pile ");
+
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 0; i < pile[j].length; i++) {
+                if (pile[j][i] != null) {
+                    m.afficherCarte(pile[j][i]);
+                    pile[j][i].dos.setVisible(false);
+                    pile[j][i].face.setVisible(true);
+                }
+            }
+            System.out.println();
+        }
+
+        System.out.println("Main J1");
+
+        for (int i = 0; i < j1main.length; i++) {
+            if (j1main[i] != null) {
+                m.afficherCarte(j1main[i]);
+                j1main[i].dos.setVisible(false);
+                j1main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+        System.out.println("Main J2");
+
+        for (int i = 0; i < j2main.length; i++) {
+            if (j2main[i] != null) {
+                m.afficherCarte(j2main[i]);
+                j2main[i].dos.setVisible(false);
+                j2main[i].face.setVisible(true);
+            }
+        }
+
+        System.out.println();
+
+        if (m.config.mode == 1 && m.config.donneur == J1) {
+            //tour_joueur = J1;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, J2);
+        } else if (m.config.mode == 1 && m.config.donneur == J2) {
+            //tour_joueur = J2;
+            affichage_face_main(j2main, J2);
+            affichage_dos_main(j1main, J1);
+        } else if (m.config.mode == 2 && m.config.donneur == J1) {
+            //tour_joueur = J1;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, IA);
+        } else if (m.config.mode == 2 && m.config.donneur == IA) {
+            //tour_joueur = IA;
+            affichage_face_main(j1main, J1);
+            affichage_dos_main(j2main, IA);
+            temps = System.currentTimeMillis();
+        }
+
+        affichage_dos_pile(pile);
+        affichage_face_pile(pile);
+
+        bandeau.tourJ(tour_joueur);
+        bandeau.mode(m.config.mode);
+        bandeau.plisJ1.setText(String.valueOf("Plis : " + m.j1.score));
+        bandeau.plisJ2.setText(String.valueOf("Plis : " + m.j2.score));
+
+        tour_joueur = J1;
+
+        J1_carte_jouee = null;
+        
+        if(m.config.gagnant == J1){
+            J2_carte_jouee = null;
+        }
+
+        if (J1_carte_jouee != null) {
+            majCarte(J1_carte_jouee);
+            J1_carte_jouee.face.toFront();
+            J1_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J1_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J1_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
+            //root.getChildren().add(J1_carte_jouee.face);
+        }
+
+        if (J2_carte_jouee != null) {
+            majCarte(J2_carte_jouee);
+            J2_carte_jouee.face.toFront();
+            J2_carte_jouee.face.setVisible(true);
+            //Affichage de sa carte à l'IA
+            J2_carte_jouee.face.setTranslateX(largeur_scene / 1.8);
+            J2_carte_jouee.face.setTranslateY(hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte / 1.3);
+            //root.getChildren().add(J2_carte_jouee.face);
+        }
+        
+        maj_handler_main();
+        maj_handler_pile();
+        
+        carte_jouee = 0;
+        tour_pioche = 0;
+        clean = 0;
+        pause = 0;
+        message_t = 0;
+        
+        if(j1plis[0] != null){
+            if(j1_lock > 0){
+                j1plis[0].dos.setVisible(true);
+                j1plis[1].dos.setVisible(true);
+            }
+            else{
+                j1plis[0].dos.setVisible(false);
+                j1plis[1].dos.setVisible(false);
+            }
+        }
+        
+        if(j2plis[0] != null){
+            if(j2_lock > 0){
+                j2plis[0].dos.setVisible(true);
+                j2plis[1].dos.setVisible(true);
+            }
+            else{
+                j2plis[0].dos.setVisible(false);
+                j2plis[1].dos.setVisible(false);
+            }
+        }
+        
+        /*for (int i = 0; i < m.j1.main.taille(); i++) {
+            root.getChildren().add(j1main[i].face);
+            root.getChildren().add(j1main[i].dos);
+        }
+        for (int i = 0; i < m.j2.main.taille(); i++) {
+            root.getChildren().add(j2main[i].face);
+            root.getChildren().add(j2main[i].dos);
+        }
+        for (int j = 0; j < pile.length; j++) {
+            for (int i = 0; i < pile[j].length; i++) {
+                if (pile[j][i] != null) {
+                    root.getChildren().add(pile[j][i].face);
+                    root.getChildren().add(pile[j][i].dos);
+                }
+            }
+        }*/
     }
 
     public void majBandeau(Stage primaryStage) {
@@ -3227,7 +3700,6 @@ public class Bridge extends Application {
                     if(pile[j][0] != null){
                         pile[j][0].dos.setFill(Color.web(couleurPlateau));
                     }
-
                 }
             }
         }
@@ -4103,7 +4575,7 @@ public class Bridge extends Application {
 
                     //On rentre ici une fois que le donneur a joué sa carte et on tourne le plateau pour que le jeu du receveur soit en bas
                     if (m.config.mode == 1 && pause == 1 && m.config.carteP != null && temps + 1000 < System.currentTimeMillis()) {
-                        System.out.println("PAUSE 1 !");
+                        System.out.println("PAUSE 1");
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
