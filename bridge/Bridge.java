@@ -3245,23 +3245,6 @@ public class Bridge extends Application {
                 j2plis[1].dos.setVisible(false);
             }
         }
-        
-        /*for (int i = 0; i < m.j1.main.taille(); i++) {
-            root.getChildren().add(j1main[i].face);
-            root.getChildren().add(j1main[i].dos);
-        }
-        for (int i = 0; i < m.j2.main.taille(); i++) {
-            root.getChildren().add(j2main[i].face);
-            root.getChildren().add(j2main[i].dos);
-        }
-        for (int j = 0; j < pile.length; j++) {
-            for (int i = 0; i < pile[j].length; i++) {
-                if (pile[j][i] != null) {
-                    root.getChildren().add(pile[j][i].face);
-                    root.getChildren().add(pile[j][i].dos);
-                }
-            }
-        }*/
     }
 
     public void majBandeau(Stage primaryStage) {
@@ -3788,7 +3771,6 @@ public class Bridge extends Application {
             }
             carte_jouee = 0;
         }
-        //carte_jouee = 0;      Enlevé pour le gérer dans les messages en joueur contre joueur
     }
 
     public void carte_select_S(Carte[] main, int k) {
@@ -3909,8 +3891,6 @@ public class Bridge extends Application {
     }
 
     public void score() {
-        //m.j1.score = m.j1.tas.taille() / 2;
-        //m.j2.score = m.j2.tas.taille() / 2;
         System.out.println("Manche: " + m.config.manche);
         System.out.println("Score joueur 1: " + (m.j1.score));
         System.out.println("Score joueur 2: " + (m.j2.score));
@@ -3927,9 +3907,6 @@ public class Bridge extends Application {
         while (it.hasNext()) {
             m.afficherCarte(it.next());
         }
-
-        //m.j1.scoreTotal = m.j1.scoreTotal + m.j1.score;
-        //m.j2.scoreTotal = m.j2.scoreTotal + m.j2.score;
     }
 
     public boolean carte_jouable(Carte c, int j) {
@@ -4003,20 +3980,6 @@ public class Bridge extends Application {
                 }
             });
         }
-
-        /*j2main[n].face.setOnMouseClicked(new EventHandler<MouseEvent>() {
-         @Override
-         public void handle(MouseEvent me) {
-         if (m.config.mode == 2 && cheat == 1) {
-         for(int i=0;i<j2main.length;i++){
-         j2main[i].face.setVisible(false);
-         j2main[i].dos.setVisible(true);
-         j2main[i].dos.toFront();
-         cheat = 0;
-         }
-         }
-         }
-         });*/
         if (j2main[n] != null) {
             j2main[n].dos.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -4231,17 +4194,6 @@ public class Bridge extends Application {
                                 score();
                                 fin_manche();
                                 messageFinPartie = true;
-                                /*System.out.println();
-                                 System.out.println("Score Total joueur 1: " + (m.j1.scoreTotal));
-                                 System.out.println("Score Total joueur 2: " + (m.j2.scoreTotal));
-                                 if (m.j1.scoreTotal > m.j2.scoreTotal) {
-                                 System.out.println("LE JOUEUR 1 GAGNE LA PARTIE");
-                                 } else if (m.j1.scoreTotal < m.j2.scoreTotal) {
-                                 System.out.println("LE JOUEUR 2 GAGNE LA PARTIE");
-                                 } else {
-                                 System.out.println("EGALITE");
-                                 }
-                                 System.exit(0);*/
                             }
                         }
                     }
@@ -4560,7 +4512,7 @@ public class Bridge extends Application {
 
                     //On rentre ici une fois que le donneur a joué sa carte et on tourne le plateau pour que le jeu du receveur soit en bas
                     if (m.config.mode == 1 && pause == 1 && m.config.carteP != null && temps + 1000 < System.currentTimeMillis()) {
-                        System.out.println("PAUSE 1");
+          
                         if (m.config.donneur == J1) {
                             init_main(j1main, J1);
                             init_main(j2main, J2);
@@ -4637,12 +4589,11 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                         message_t = 1;
-                        System.out.println("FIN PAUSE 1");
+                   
                     }
 
                     //On rentre ici une fois que le receveur a joué sa carte et on tourne le plateau pour que le jeu du gagnant soit en bas
                     if (m.config.mode == 1 && pause == 2 && temps + 1000 < System.currentTimeMillis()) {
-                        System.out.println("PAUSE 2 !");
                         bandeau.tourJ(m.config.gagnant);
                         if (m.config.receveur == J1) {
                             for (int i = 0; i < m.j1.main.taille(); i++) {
@@ -4730,12 +4681,12 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                         message_t = 3;
-                        System.out.println("FIN PAUSE 2");
+                  
                     }
 
                     //On rentre ici une fois que le gagnant a pioché une carte dans l'une des pioches et on tourne le plateau pour que le jeu du perdant soit en bas
                     if (m.config.mode == 1 && pause == 3 && temps + 1000 < System.currentTimeMillis()) {
-                        System.out.println("PAUSE 3 !");
+                     
                         bandeau.tourJ(m.config.perdant);
                         if (m.config.gagnant == J1) {
                             J2_carte_jouee.face.setTranslateY(hauteur_scene / 1.5);
@@ -4807,12 +4758,12 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                         message_t = 5;
-                        System.out.println("FIN PAUSE 3");
+                  
                     }
 
                     //On rentre ici une fois que le perdant a pioché une carte dans l'une des pioches et on tourne le plateau pour que le jeu du nouveau donneur soit en bas
                     if (m.config.mode == 1 && pause == 4 && temps + 1000 < System.currentTimeMillis()) {
-                        System.out.println("PAUSE 4 !");
+                 
                         if (m.config.donneur == J1) {
                             affichage_dos_plis(j1plis, J1, (hauteur_scene / 1.5));
                             affichage_dos_plis(j2plis, J2, hauteur_scene - (hauteur_scene / 1.5) - J2_carte_jouee.hauteur_carte);
@@ -4896,7 +4847,7 @@ public class Bridge extends Application {
                         }
                         pause = 0;
                         message_t = 7;
-                        System.out.println("FIN PAUSE 4");
+
                     }
 
                     //Début du 1er tour de la partie
@@ -5144,7 +5095,6 @@ public class Bridge extends Application {
                     //On rentre ici quand les 2 joueurs ont joué une carte et que la pioche est vide, et on retourne le plateau pour que le gagnant soit en bas
                     if (!m.finManche() && m.config.mode == 1 && pause == 5 && temps + 1000 < System.currentTimeMillis()) {
 
-                        System.out.println("PAUSE 5 !");
 
                         init_main(j1main, J1);
                         init_main(j2main, J2);
@@ -5178,15 +5128,15 @@ public class Bridge extends Application {
                             bandeau.tourJ(J1);
                             //Cacher dos J1main
                             for (int i = 0; i < 11; i++) {
-                                //if (j1main[i] != J1_carte_jouee) {
+                           
                                 j1main[i].dos.setVisible(false);
-                                //}
+                               
                             }
                             //Cacher dos J2main
                             for (int i = 0; i < 11; i++) {
-                                //if (j2main[i] != J2_carte_jouee) {
+                  
                                 j2main[i].dos.setVisible(false);
-                                //}
+                          
                             }
                             //Afficher dos J2main
                             affichage_dos_main(j2main, J2);
@@ -5204,15 +5154,15 @@ public class Bridge extends Application {
                             bandeau.tourJ(J2);
                             //Cacher dos J1main
                             for (int i = 0; i < 11; i++) {
-                                //if (j1main[i] != J1_carte_jouee) {
+                            
                                 j1main[i].dos.setVisible(false);
-                                //}
+                               
                             }
                             //Cacher dos J2main
                             for (int i = 0; i < 11; i++) {
-                                //if (j2main[i] != J2_carte_jouee) {
+                             
                                 j2main[i].dos.setVisible(false);
-                                //}
+                                
                             }
                             //Afficher dos J1main
                             affichage_dos_main(j1main, J1);
@@ -5221,7 +5171,7 @@ public class Bridge extends Application {
 
                         pause = 0;
                         message_t = 7;
-                        System.out.println("FIN PAUSE 5");
+                        
                     }
                 }
             }

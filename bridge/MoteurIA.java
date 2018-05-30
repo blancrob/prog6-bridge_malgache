@@ -5,7 +5,6 @@
  */
 package bridge;
 
-import java.util.Iterator;
 
 public class MoteurIA extends Moteur{
     

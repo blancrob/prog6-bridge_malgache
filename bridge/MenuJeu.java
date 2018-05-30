@@ -8,9 +8,6 @@ package bridge;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -23,8 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import static javafx.util.Duration.seconds;
 
 /**
  *
@@ -351,7 +346,6 @@ public class MenuJeu extends Parent {
     public MenuJeu(Moteur m, String couleurPlateau) {
         this.m = m;
         couleurBandeau(couleurPlateau);
-        System.out.println("couleur : " +CouleurBandeau);
         menu = new Rectangle(largeur_scene/5, hauteur_scene, Color.web(CouleurBandeau));
         this.getChildren().add(menu);
         
