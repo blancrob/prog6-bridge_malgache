@@ -1627,20 +1627,20 @@ public class Bridge extends Application {
         pane.setHgap(largeur_scene / 18);
         pane.setVgap(hauteur_scene / 50);
 
-        principe.setFont(new Font(35));
-        principe2.setFont(new Font(20));
-        setup.setFont(new Font(35));
-        setup2.setFont(new Font(20));
-        but.setFont(new Font(35));
-        but2.setFont(new Font(20));
-        gagner.setFont(new Font(35));
-        gagner2.setFont(new Font(20));
-        manche12.setFont(new Font(35));
-        manche122.setFont(new Font(20));
-        manche22.setFont(new Font(35));
-        manche222.setFont(new Font(20));
-        end.setFont(new Font(35));
-        end2.setFont(new Font(20));
+        principe.setFont(new Font("Impact",35));
+        principe2.setFont(new Font("Impact",20));
+        setup.setFont(new Font("Impact",35));
+        setup2.setFont(new Font("Impact",20));
+        but.setFont(new Font("Impact",35));
+        but2.setFont(new Font("Impact",20));
+        gagner.setFont(new Font("Impact",35));
+        gagner2.setFont(new Font("Impact",20));
+        manche12.setFont(new Font("Impact",35));
+        manche122.setFont(new Font("Impact",20));
+        manche22.setFont(new Font("Impact",35));
+        manche222.setFont(new Font("Impact",20));
+        end.setFont(new Font("Impact",35));
+        end2.setFont(new Font("Impact",20));
 
         rules11.setVisible(true);
         rules12.setVisible(true);
@@ -2240,19 +2240,20 @@ public class Bridge extends Application {
         
         if (jour == 1) {
             pane.setStyle("-fx-background-color: #274e13;");
-            bridgechinois2.setStyle("-fx-text-fill: black");
-            configgame.setStyle("-fx-text-fill: black");
-            choiceplayer.setStyle("-fx-text-fill: black");
-            player1title.setStyle("-fx-text-fill: black");
-            player2title.setStyle("-fx-text-fill: black");
-            victorysetup.setStyle("-fx-text-fill: black");
-            p1human.setStyle("-fx-text-fill: black");
-            cbhuman2.setStyle("-fx-text-fill: black");
-            cbcomputer2.setStyle("-fx-text-fill: black");
-            cbpoints.setStyle("-fx-text-fill: black");
-            cbrounds.setStyle("-fx-text-fill: black");
+            bridgechinois2.setTextFill(Color.BLACK);
+            configgame.setTextFill(Color.BLACK);
+            choiceplayer.setTextFill(Color.BLACK);
+            player1title.setTextFill(Color.BLACK);
+            player2title.setTextFill(Color.BLACK);
+            victorysetup.setTextFill(Color.BLACK);
+            p1human.setTextFill(Color.BLACK);
+            cbhuman2.setTextFill(Color.BLACK);
+            cbcomputer2.setTextFill(Color.BLACK);
+            cbpoints.setTextFill(Color.BLACK);
+            cbrounds.setTextFill(Color.BLACK);
             firstmenu.setTextFill(Color.BLACK);
             launchgame.setTextFill(Color.BLACK);
+            option.setTextFill(Color.BLACK);
             firstmenu.setOnMouseEntered((MouseEvent me) -> {
                 firstmenu.setTextFill(Color.GOLD);
             });
@@ -2291,6 +2292,7 @@ public class Bridge extends Application {
             cbrounds.setTextFill(Color.WHITE);
             firstmenu.setTextFill(Color.WHITE);
             launchgame.setTextFill(Color.WHITE);
+            option.setTextFill(Color.WHITE);
             firstmenu.setOnMouseEntered((MouseEvent me) -> {
                 firstmenu.setTextFill(Color.GOLD);
             });
@@ -2383,17 +2385,17 @@ public class Bridge extends Application {
         victorycond.getChildren().addAll(victorysetup, pointscond, roundscond);
         pane.add(victorycond, 2, 3);
 
-        bridgechinois2.setFont(new Font(70));
-        configgame.setFont(new Font(40));
-        choiceplayer.setFont(new Font(40));
-        player1title.setFont(new Font(40));
-        player2title.setFont(new Font(40));
-        victorysetup.setFont(new Font(40));
-        p1human.setFont(new Font(20));
-        cbhuman2.setFont(new Font(20));
-        cbcomputer2.setFont(new Font(20));
-        cbpoints.setFont(new Font(20));
-        cbrounds.setFont(new Font(20));
+        bridgechinois2.setFont(new Font("Impact",70));
+        configgame.setFont(new Font("Impact",40));
+        choiceplayer.setFont(new Font("Impact",40));
+        player1title.setFont(new Font("Impact",40));
+        player2title.setFont(new Font("Impact",40));
+        victorysetup.setFont(new Font("Impact",40));
+        p1human.setFont(new Font("Impact",20));
+        cbhuman2.setFont(new Font("Impact",20));
+        cbcomputer2.setFont(new Font("Impact",20));
+        cbpoints.setFont(new Font("Impact",20));
+        cbrounds.setFont(new Font("Impact",20));
 
         player1name.setPrefColumnCount(l_scene / 76);
         player2name.setPrefColumnCount(l_scene / 76);
