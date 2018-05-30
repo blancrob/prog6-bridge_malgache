@@ -121,7 +121,7 @@ public class Bridge extends Application {
     public boolean messageFinManche = false;
     public boolean messageFinPartie = false;
     
-    public String police=("Baekmuk Headline");
+    public String police=("Lato Black");
     
     void sauver(Stage primaryStage) {
         Rectangle sauvno = new Rectangle(largeur_scene / 5.7, hauteur_scene / 5, Color.GREY);
@@ -1250,27 +1250,23 @@ public class Bridge extends Application {
         //1ST
         Text principe = new Text("\t\tPRINCIPE DU JEU\n");
         Text principe2 = new Text("Le Bridge chinois est un jeu de cartes qui se joue à deux joueur avec un jeu de 52 cartes.\nLe but du jeu est de marquer un maximum de points en réalisant des plis");
-        Text setup = new Text("\t\tMISE EN PLACE\n");
+        Text setup = new Text("\n\n\t\tMISE EN PLACE\n");
         Text setup2 = new Text("Le joueur désigné comme donneur distribue 11 cartes à chaque joueurs, puis dispose le reste des cartes en 6 piles de \n5 cartes faces cachées au centre du plateau, puis il retourne la carte au sommet de chaque pile.\n\nParmi les 6 cartes visibles, la cartes la plus forte donne la couleur de l'atout.\n\nNote: si toutes les cartes visibles ont une valeur inférieur à 10, la partie se joue sans atout.");
         Label suiv1 = new Label("  Suivant >");
         suiv1.setFont(new Font(police,35));
-        VBox rules11 = new VBox();
-        rules11.getChildren().addAll(principe, principe2);
-        VBox rules12 = new VBox();
-        rules12.getChildren().addAll(setup, setup2);
+        VBox rules1 = new VBox();
+        rules1.getChildren().addAll(principe, principe2, setup, setup2);
         //2ND
         Text but = new Text("\t\tBUT\n");
         Text but2 = new Text("Le but du jeu est de réaliser un plus grand nombre de pli que son adversaire. Un pli\n rapporte un point.\n\nChaque pli consiste en 2 cartes, chacune posée sur le plateau par l'un des joueurs, choisie\nparmi les cartes qu'il a en main. Le pli est rammassé par le joueur qui gagne le pli.");
-        Text gagner = new Text("\t\tGAGNER UN PLI\n");
+        Text gagner = new Text("\n\n\t\tGAGNER UN PLI\n");
         Text gagner2 = new Text("*   Si les deux cartes sont de même couleur, alors le joueur qui a la carte la plus forte remporte le pli.\n\n*   Si l'un des joueurs n'a pas la couleur demandée, il peut au choix:\n\n\t\t\t\t\t-   jouer une carte de la couleur de l'atout pour couper et remporter le pli\n\n\t\t\t\t\t-   donner une carte de son choix, mais il perdra le pli.");
         Label prev2 = new Label("< Précédent");
         prev2.setFont(new Font(police,35));
         Label suiv2 = new Label("  Suivant >");
         suiv2.setFont(new Font(police,35));
-        VBox rules21 = new VBox();
-        rules21.getChildren().addAll(but, but2);
-        VBox rules22 = new VBox();
-        rules22.getChildren().addAll(gagner, gagner2);
+        VBox rules2 = new VBox();
+        rules2.getChildren().addAll(but, but2, gagner, gagner2);
         //3RD
         Text manche12 = new Text("\t\tDEROULEMENT D'UNE MANCHE - 1/2\n");
         Text manche122 = new Text("Le joueur qui à donné les cartes a initialement la main, par la suite, elle est prise (ou gardée) par le joueur qui a remporté le pli.\n\n*   Le joueur qui à la main choisit une des cartes de sa main et la pose sur le\nplateau\n\n*   L'autre joueur pose à son tour une carte (il doit obligatoirement fournir la couleur\ndemandée par le premier joueur s'il le peut).\n\n*   Le joueur qui a gagné le pli le ramasse et le met de coté dans sa défausse.");
@@ -1479,10 +1475,8 @@ public class Bridge extends Application {
             });
         }
         suiv1.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(true);
-            rules22.setVisible(true);
+            rules1.setVisible(false);
+            rules2.setVisible(true);
             rules3.setVisible(false);
             rules4.setVisible(false);
             rules5.setVisible(false);
@@ -1496,10 +1490,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         prev2.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(true);
-            rules12.setVisible(true);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(true);
+            rules2.setVisible(false);
             rules3.setVisible(false);
             rules4.setVisible(false);
             rules5.setVisible(false);
@@ -1513,10 +1505,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         suiv2.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(false);
+            rules2.setVisible(false);
             rules3.setVisible(true);
             rules4.setVisible(false);
             rules5.setVisible(false);
@@ -1530,10 +1520,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         prev3.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(true);
-            rules22.setVisible(true);
+            rules1.setVisible(false);
+            rules2.setVisible(true);
             rules3.setVisible(false);
             rules4.setVisible(false);
             rules5.setVisible(false);
@@ -1547,10 +1535,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         suiv3.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(false);
+            rules2.setVisible(false);
             rules3.setVisible(false);
             rules4.setVisible(true);
             rules5.setVisible(false);
@@ -1564,10 +1550,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         prev4.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(false);
+            rules2.setVisible(false);
             rules3.setVisible(true);
             rules4.setVisible(false);
             rules5.setVisible(false);
@@ -1581,10 +1565,8 @@ public class Bridge extends Application {
             prev5.setVisible(false);
         });
         suiv4.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(false);
+            rules2.setVisible(false);
             rules3.setVisible(false);
             rules4.setVisible(false);
             rules5.setVisible(true);
@@ -1598,10 +1580,8 @@ public class Bridge extends Application {
             prev5.setVisible(true);
         });
         prev5.setOnMouseClicked((MouseEvent me) -> {
-            rules11.setVisible(false);
-            rules12.setVisible(false);
-            rules21.setVisible(false);
-            rules22.setVisible(false);
+            rules1.setVisible(false);
+            rules2.setVisible(false);
             rules3.setVisible(false);
             rules4.setVisible(true);
             rules5.setVisible(false);
@@ -1631,8 +1611,8 @@ public class Bridge extends Application {
             }
         });
 
-        pane.setHgap(largeur_scene / 45);
-        pane.setVgap(hauteur_scene / 50);
+        pane.setHgap(largeur_scene / 22.5);
+        pane.setVgap(hauteur_scene / 25);
 
         principe.setFont(new Font(police,35));
         principe2.setFont(new Font(police,20));
@@ -1649,10 +1629,8 @@ public class Bridge extends Application {
         end.setFont(new Font(police,35));
         end2.setFont(new Font(police,20));
 
-        rules11.setVisible(true);
-        rules12.setVisible(true);
-        rules21.setVisible(false);
-        rules22.setVisible(false);
+        rules1.setVisible(true);
+        rules2.setVisible(false);
         rules3.setVisible(false);
         rules4.setVisible(false);
         rules5.setVisible(false);
@@ -1664,13 +1642,11 @@ public class Bridge extends Application {
         prev4.setVisible(false);
         suiv4.setVisible(false);
         prev5.setVisible(false);
-        pane.add(rules11, 3, 2);
-        pane.add(rules12, 3, 3);
-        pane.add(rules21, 3, 2);
-        pane.add(rules22, 3, 3);
-        pane.add(rules3, 3, 2);
-        pane.add(rules4, 3, 2);
-        pane.add(rules5, 3, 2);
+        pane.add(rules1, 3, 3);
+        pane.add(rules2, 3, 3);
+        pane.add(rules3, 3, 3);
+        pane.add(rules4, 3, 3);
+        pane.add(rules5, 3, 3);
         pane.add(suiv1, 4, 6);
         pane.add(prev2, 1, 6);
         pane.add(suiv2, 4, 6);
@@ -1698,8 +1674,8 @@ public class Bridge extends Application {
         pane.setVgap(hauteur_scene / 18);
         Label menu = new Label("Menu Principal");
         Label nouvellegame = new Label("Nouvelle Partie");
-        menu.setFont(new Font(police,35));
-        nouvellegame.setFont(new Font(police,35));
+        menu.setFont(new Font(police,30));
+        nouvellegame.setFont(new Font(police,30));
         
         ImageView goldc = new ImageView(new Image("images/DEFAUSSE_OR.png"));
         ImageView greenc = new ImageView(new Image("images/DEFAUSSE_VERT.png"));
