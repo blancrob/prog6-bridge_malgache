@@ -406,6 +406,7 @@ public class Bridge extends Application {
     }
 
     public void initialiserCharger(Stage primaryStage) {
+        
         j1main = new Carte[11];
         j2main = new Carte[11];
         pile = new Carte[6][5];
@@ -477,6 +478,7 @@ public class Bridge extends Application {
         bandeau = new MenuJeu(m, couleurPlateau);
         bandeau.tourJ(tour_joueur);
         bandeau.mode(m.config.mode);
+        
 
         root = new AnchorPane();
 
@@ -571,8 +573,8 @@ public class Bridge extends Application {
             root.getChildren().add(j2plis[0].dos);
         }
         primaryStage.setFullScreen(true);
-        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web("274e13"));//bleu : 042955 vert :274e13 rouge : 480c19
-        root.setStyle("-fx-background-color:#4c1130;");
+        Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));//bleu : 042955 vert :274e13 rouge : 480c19
+        root.setStyle("-fx-background-color:#"+couleurPlateau+";");
         root.getChildren().add(bandeau);
 
         bandeau.load.setOnAction((ActionEvent event) -> {
