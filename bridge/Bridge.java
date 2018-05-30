@@ -92,15 +92,15 @@ public class Bridge extends Application {
     public static int joueur1level = 0;
     public static int joueur2level = 0;
     //Les ComboBox
-    public ComboBox iaLevel2 = new ComboBox();
+    public ComboBox iaLevel2;
     public int combobox1set = 0;
     public int combobox2set = 0;
 
     //Les RadioButtons
-    public RadioButton cbhuman2 = new RadioButton("Humain");
-    public RadioButton cbcomputer2 = new RadioButton("Ordinateur");
-    public RadioButton cbpoints = new RadioButton("Points");
-    public RadioButton cbrounds = new RadioButton("Manches");
+    public RadioButton cbhuman2;
+    public RadioButton cbcomputer2;
+    public RadioButton cbpoints;
+    public RadioButton cbrounds;
 
     public String computer1final = ("");
     public String computer2final = ("");
@@ -2075,12 +2075,18 @@ public class Bridge extends Application {
     }
 
     public void nouvellePartie(Stage primaryStage, Label firstmenu, Label launchgame) {
-
+        
         nbpointsfinal = 0;
         nbroundsfinal = 0;
         joueur1level = 0;
         joueur2level = 0;
-
+        iaLevel2 = new ComboBox();
+        cbhuman2 = new RadioButton("Humain");
+        cbcomputer2 = new RadioButton("Ordinateur");
+        cbpoints = new RadioButton("Points");
+        cbrounds = new RadioButton("Manches");
+        
+        
         primaryStage.setTitle("Nouvelle Partie");
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
@@ -2406,31 +2412,38 @@ public class Bridge extends Application {
                 computer2final = iaLevel2.getSelectionModel().getSelectedItem().toString();
                 System.out.println("niveau de l'IA 2: " + computer2final);
             } else {
+                computer2final = "";
                 System.out.println("Joueur 2 : Humain");
             }
             System.out.println(name1final + " contre " + name2final);
-
+            System.err.println("coucou, typemode = "+ typemode);
             joueur1level = stringToIntDifficulte(computer1final);
             joueur2level = stringToIntDifficulte(computer2final);
             if (joueur1level == 0 && joueur2level == 0) {
                 typemode = 1;
+                System.err.println("entrée 1 , typemode = "+ typemode);
             } else {
                 if ((joueur1level != 0 && joueur2level == 0) || (joueur1level == 0 && joueur2level != 0)) {
                     typemode = 2;
+                    System.err.println("entrée 2 , typemode = "+ typemode);
                 } else {
                     if (joueur1level != 0 && joueur2level != 0) {
                         typemode = 3;
+                        System.err.println("entrée 3 , typemode = "+ typemode);
                     }
                 }
             }
 
             //param final nombre de points/manches
+            System.err.println("typegame = "+ typegame);
             if (cbpoints.isSelected()) {
                 System.out.println("Partie en " + nbpointsfinal + " points");
                 typegame = 2;
+                System.err.println("typegame in 2  = "+ typegame);
             } else if (cbrounds.isSelected()) {
                 System.out.println("Partie en " + nbroundsfinal + " manches");
                 typegame = 1;
+                System.err.println("typegame in 1 = "+ typegame);
             }
             System.out.println("");
             System.out.println("level joueur 2: " + joueur2level);
