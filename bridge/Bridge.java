@@ -629,7 +629,95 @@ public class Bridge extends Application {
                 sauvegarder(primaryStage);
             }
         });
+        if (m.config.mode == 2) {
+            undo = new Button();
+            ImageView imgUndo = new ImageView(new Image("images/undo.png"));
+            undo.setGraphic(imgUndo);
+            undo.setPrefWidth(55);
+            undo.setPrefHeight(5);
+            undo.setTranslateX(largeur_scene / 1.165);
+            undo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+            root.getChildren().add(undo);
+            undo.setOnMouseClicked((MouseEvent me) -> {
+                m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+                        J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+                        message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+                        finTour, messageFinManche, messageFinPartie);
+                m.undo();
 
+                temps = m.config.temps;
+                temps2 = m.config.temps2;
+                carte_jouee = m.config.carte_jouee;
+                tour_joueur = m.config.tour_joueur;
+                tour_pioche = m.config.tour_pioche;
+                k = m.config.k;
+                J1_carte_jouee = m.config.J1_carte_jouee;
+                J2_carte_jouee = m.config.J2_carte_jouee;
+                clean = m.config.clean;
+                pause = m.config.pause;
+                j1_lock = m.config.j1_lock;
+                j2_lock = m.config.j2_lock;
+                select = m.config.select;
+                cheat = m.config.cheat;
+                message_t = m.config.message_t;
+                animation_cartePiochee = m.config.animation_cartePiochee;
+                animation_t = m.config.animation_t;
+                J1_lastCard = m.config.J1_lastCard;
+                J2_lastCard = m.config.J2_lastCard;
+                affichage_initial_pioche = m.config.affichage_initial_pioche;
+                messagePioche = m.config.messagePioche;
+                finTour = m.config.finTour;
+                messageFinManche = m.config.messageFinManche;
+                messageFinPartie = m.config.messageFinPartie;                
+
+                rafraichir_affichage(primaryStage);
+            });
+        }
+        if (m.config.mode == 2) {
+            redo = new Button();
+            ImageView imgRedo = new ImageView(new Image("images/redo.png"));
+            redo.setGraphic(imgRedo);
+            redo.setPrefWidth(55);
+            redo.setPrefHeight(5);
+            redo.setTranslateX(largeur_scene / 1.12);
+            redo.setTranslateY(hauteur_scene - hauteur_scene / 14);
+            root.getChildren().add(redo);
+            redo.setOnMouseClicked((MouseEvent me) -> {
+                m.maj(temps, temps2, carte_jouee, tour_joueur, tour_pioche, k,
+                        J1_carte_jouee, J2_carte_jouee, clean, pause, j1_lock, j2_lock, select, cheat,
+                        message_t, animation_cartePiochee, animation_t, J1_lastCard, J2_lastCard, affichage_initial_pioche, messagePioche,
+                        finTour, messageFinManche, messageFinPartie);
+                m.redo();
+
+                temps = m.config.temps;
+                temps2 = m.config.temps2;
+                carte_jouee = m.config.carte_jouee;
+                tour_joueur = m.config.tour_joueur;
+                tour_pioche = m.config.tour_pioche;
+                k = m.config.k;
+                J1_carte_jouee = m.config.J1_carte_jouee;
+                J2_carte_jouee = m.config.J2_carte_jouee;
+                clean = m.config.clean;
+                pause = m.config.pause;
+                j1_lock = m.config.j1_lock;
+                j2_lock = m.config.j2_lock;
+                select = m.config.select;
+                cheat = m.config.cheat;
+                message_t = m.config.message_t;
+                animation_cartePiochee = m.config.animation_cartePiochee;
+                animation_t = m.config.animation_t;
+                J1_lastCard = m.config.J1_lastCard;
+                J2_lastCard = m.config.J2_lastCard;
+                affichage_initial_pioche = m.config.affichage_initial_pioche;
+                messagePioche = m.config.messagePioche;
+                finTour = m.config.finTour;
+                messageFinManche = m.config.messageFinManche;
+                messageFinPartie = m.config.messageFinPartie;
+
+                rafraichir_affichage(primaryStage);
+                
+            });
+        }
         primaryStage.setTitle("Bridge Chinois");
         primaryStage.setScene(scene);
         primaryStage.setFullScreenExitHint("");
