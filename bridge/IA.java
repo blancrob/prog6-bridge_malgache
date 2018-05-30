@@ -5,8 +5,6 @@
  */
 package bridge;
 
-import java.util.Iterator;
-import java.util.Random;
 
 /**
  * Interface qui contient une méthode jouer et une méthode piocher.
