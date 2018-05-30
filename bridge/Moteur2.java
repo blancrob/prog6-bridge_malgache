@@ -258,6 +258,7 @@ public class Moteur2 extends Moteur {
         } else {
             j2.main.ajouter(tmp);
         }
+        config.piochees.ajouter(tmp);
     }
 
 }

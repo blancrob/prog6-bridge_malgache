@@ -24,8 +24,7 @@ public class IaDifficile extends IaAvancee {
     @Override
     public Carte jouer(){
         if(courante == null){ // si l'IA commence elle joue la plus grosse carte
-            PileCartes test = IA_Util.adversaire(main, cartesDejaJouees, cartesPiochees);
-            Iterator<Carte> it2= test.iterateur();
+            
             return IA_Util.meilleurCoupCommence(main, cartesDejaJouees, cartesPiochees, atout, pioche, lg);
         }
         else{ // si l'adversaire a déjà joué 

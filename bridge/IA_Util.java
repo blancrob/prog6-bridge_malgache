@@ -185,6 +185,15 @@ public class IA_Util {
      * @return Une carte étant la meilleur a jouer
      */
     public static Carte meilleurCoupCommence(PileCartes main, PileCartes cartesDejaJouees, PileCartes cartesPiochees, int atout, Carte[] pioche, int lg){
+        Iterator<Carte> affiche = cartesPiochees.iterateur();
+        Carte a;
+        Moteur test = new Moteur();
+        while(affiche.hasNext()){
+            a=affiche.next();
+            System.err.println("hey");
+            test.afficherCarte(a);
+        }
+        
         Carte res = null;
         double h = 0;
         Iterator<Carte> it = main.iterateur();
@@ -612,7 +621,6 @@ public class IA_Util {
                }
            }
         }
-        
         return res;
     }
     /**

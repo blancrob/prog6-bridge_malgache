@@ -671,8 +671,8 @@ public class Moteur {
      * Enlève les deux cartes jouées de la table pour les ranger dans le tas du gagnant
      */
     public void rangerPli(){
-        config.piochees.retirer(config.carteP);
-        config.piochees.retirer(config.carteS);
+        /*config.piochees.retirer(config.carteP);
+        config.piochees.retirer(config.carteS);*/
         if(config.gagnant==1){
             j1.tas.ajouter(config.carteP);
             j1.tas.ajouter(config.carteS);
@@ -731,15 +731,15 @@ public class Moteur {
             
             for(int i=0; i<6; i++){ //On ajoute à la main du joueur la carte choisie
                 if(choix==i+1){
-                    c = config.pioche[i].retirer();
+                    c = config.pioche[i].premiere();
                     if(piocheur == 1){
-                        j1.main.ajouter(c);
+                        j1.main.ajouter(config.pioche[i].retirer());
                     }else{
-                        j2.main.ajouter(c);
+                        j2.main.ajouter(config.pioche[i].retirer());
                     }
                 }
             }
-           
+            
             config.piochees.ajouter(c);
             
         }else{  //Si c'est à l'ordinateur de jouer
