@@ -2210,7 +2210,7 @@ public class Bridge extends Application {
         primaryStage.setTitle("Nouvelle Partie");
         pane = new GridPane();
         scene = new Scene(pane, l_scene, h_scene);
-        
+        Label option = new Label("Options");
         ImageView cjid = new ImageView(new Image("images/configJourImageDroite.png"));
         ImageView cjig = new ImageView(new Image("images/configJourImageGauche.png"));
         ImageView cnid = new ImageView(new Image("images/configNuitImageDroite.png"));
@@ -2223,15 +2223,20 @@ public class Bridge extends Application {
         imagend.getChildren().add(cnid);
         HBox imageng = new HBox();
         imageng.getChildren().add(cnig);
+        HBox optionB = new HBox();
+        optionB.getChildren().add(option);
+        optionB.setStyle("-fx-alignment: center;");
         pane.add(imagejd,3,3);
         pane.add(imagejg,1,3);
         pane.add(imagend,3,3);
         pane.add(imageng,1,3);
-                
+        pane.add(optionB,3,4);
         firstmenu.setFont(new Font("Impact",35));
         launchgame.setFont(new Font("Impact",35));
+        option.setFont(new Font("Impact",35));
         firstmenu.setTextFill(Color.BLACK);
         launchgame.setTextFill(Color.BLACK);
+        option.setTextFill(Color.BLACK);
         
         if (jour == 1) {
             pane.setStyle("-fx-background-color: #274e13;");
@@ -2259,6 +2264,12 @@ public class Bridge extends Application {
             });
             launchgame.setOnMouseExited((MouseEvent me) -> {
                 launchgame.setTextFill(Color.BLACK);
+            });
+            option.setOnMouseEntered((MouseEvent me) -> {
+                option.setTextFill(Color.GOLD);
+            });
+            option.setOnMouseExited((MouseEvent me) -> {
+                option.setTextFill(Color.BLACK);
             });
             imagejd.setVisible(true);
             imagejg.setVisible(true);
@@ -2291,6 +2302,12 @@ public class Bridge extends Application {
             });
             launchgame.setOnMouseExited((MouseEvent me) -> {
                 launchgame.setTextFill(Color.WHITE);
+            });
+            option.setOnMouseEntered((MouseEvent me) -> {
+                option.setTextFill(Color.GOLD);
+            });
+            option.setOnMouseExited((MouseEvent me) -> {
+                option.setTextFill(Color.WHITE);
             });
             imagejd.setVisible(false);
             imagejg.setVisible(false);
@@ -2382,7 +2399,11 @@ public class Bridge extends Application {
         player2name.setPrefColumnCount(l_scene / 76);
         player1name.setPromptText("Entrez votre nom");
         player2name.setPromptText("Entrez le nom de l'adversaire");
-
+        
+        option.setOnMouseClicked((MouseEvent me) -> {
+            menuoptions(primaryStage);
+        });
+        
         //checkbox humain 2
         cbhuman2.setOnAction((ActionEvent event) -> {
             cbcomputer2.setSelected(false);
