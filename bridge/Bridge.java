@@ -4394,7 +4394,7 @@ public class Bridge extends Application {
                                 }
                             }
                             //Cacher dos J2main
-                            for (int i = 0; i < 11; i++) {
+                            for (int i = 0; i < m.j2.main.taille(); i++) {
                                 if (j2main[i] != J2_carte_jouee) {
                                     j2main[i].dos.setVisible(false);
                                 }
@@ -4417,17 +4417,17 @@ public class Bridge extends Application {
 
                             init_main(j1main, J1);
                             init_main(j2main, J2);
-                            for (int i = 0; i < j2main.length; i++) {
+                            for (int i = 0; i < m.j2.main.taille(); i++) {
                                 j2main[i].face.setVisible(false);
                             }
                             //Cacher dos J1main
-                            for (int i = 0; i < 11; i++) {
+                            for (int i = 0; i < m.j1.main.taille(); i++) {
                                 if (j1main[i] != J1_carte_jouee) {
                                     j1main[i].dos.setVisible(false);
                                 }
                             }
                             //Cacher dos J2main
-                            for (int i = 0; i < 11; i++) {
+                            for (int i = 0; i < m.j2.main.taille(); i++) {
                                 if (j2main[i] != J2_carte_jouee) {
                                     j2main[i].dos.setVisible(false);
                                 }
