@@ -405,8 +405,9 @@ public class Bridge extends Application {
         });
     }
 
-    public void initialiserCharger(Stage primaryStage) {
-        
+
+    public void initialiserCharger(Stage primaryStage) { 
+
         j1main = new Carte[11];
         j2main = new Carte[11];
         pile = new Carte[6][5];
@@ -566,12 +567,18 @@ public class Bridge extends Application {
                 }
             }
         }
+        if(tour_joueur==2 || m.config.gagnant==2 && tour_pioche==1 || m.config.perdant==2 && tour_pioche==2){
+            bandeau.nom_plisJ2.setTranslateY(hauteur_scene/1.18);
+            bandeau.nom_plisJ1.setTranslateY(hauteur_scene/14);
+            bandeau.plisJ2.setTranslateY(hauteur_scene/1.15);
+            bandeau.plisJ2.setTranslateY(hauteur_scene/10.5);
+        }
         if(j1plis[0]!=null){
             root.getChildren().add(j1plis[0].dos);
         }
         if(j2plis[0]!=null){
             root.getChildren().add(j2plis[0].dos);
-        }
+        }        
         primaryStage.setFullScreen(true);
         Scene scene = new Scene(root, largeur_scene, hauteur_scene, Color.web(couleurPlateau));//bleu : 042955 vert :274e13 rouge : 480c19
         root.setStyle("-fx-background-color:#"+couleurPlateau+";");
