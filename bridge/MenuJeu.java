@@ -356,6 +356,8 @@ public class MenuJeu extends Parent {
         this.getChildren().add(menu);
         
         quit = new Button("Quitter la partie");
+        quit.setStyle("-fx-focus-color: transparent;");
+        
         quit.setPrefWidth(largeur_scene/6.4);
         quit.setPrefHeight(hauteur_scene/12);
         quit.setTranslateX(largeur_scene/48);
@@ -363,6 +365,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(quit);
         
         save = new Button("Sauvegarder");
+        save.setStyle("-fx-focus-color: transparent;");
         save.setPrefWidth(largeur_scene/13.715);
         save.setPrefHeight(hauteur_scene/12);
         save.setTranslateX(largeur_scene/9.6);
@@ -370,6 +373,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(save);
         
         load = new Button("Charger");
+        load.setStyle("-fx-focus-color: transparent;");
         load.setPrefWidth(largeur_scene/13.715);
         load.setPrefHeight(hauteur_scene/12);
         load.setTranslateX(largeur_scene/48);
@@ -377,6 +381,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(load);
 
         option = new Button("Options");
+        option.setStyle("-fx-focus-color: transparent;");
         option.setPrefWidth(largeur_scene/13.715);
         option.setPrefHeight(hauteur_scene/12);
         option.setTranslateX(largeur_scene/48);
@@ -384,6 +389,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(option);
         
         help = new Button("Aide");
+        help.setStyle("-fx-focus-color: transparent;");
         help.setPrefWidth(largeur_scene/13.715);
         help.setPrefHeight(hauteur_scene/12);
         help.setTranslateX(largeur_scene/9.6);
@@ -401,6 +407,7 @@ public class MenuJeu extends Parent {
        
         
         restart = new Button("Recommencer");
+        restart.setStyle("-fx-focus-color: transparent;");
         restart.setPrefWidth(largeur_scene/13.715);
         restart.setPrefHeight(hauteur_scene/12);
         restart.setTranslateX(largeur_scene/48);
@@ -408,6 +415,7 @@ public class MenuJeu extends Parent {
         this.getChildren().add(restart);
         
         rules = new Button("Regles");
+        rules.setStyle("-fx-focus-color: transparent;");
         rules.setPrefWidth(largeur_scene/13.715);
         rules.setPrefHeight(hauteur_scene/12);
         rules.setTranslateX(largeur_scene/9.6);
@@ -574,6 +582,7 @@ public class MenuJeu extends Parent {
         hist.setOnAction((ActionEvent event) -> {
             historique();
         });
+        
         
         nom_plisJ1 = new Label(m.j1.nom);
         nom_plisJ1.setFont(new Font("Arial",18));
