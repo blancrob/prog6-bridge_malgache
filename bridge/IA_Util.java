@@ -185,15 +185,6 @@ public class IA_Util {
      * @return Une carte étant la meilleur a jouer
      */
     public static Carte meilleurCoupCommence(PileCartes main, PileCartes cartesDejaJouees, PileCartes cartesPiochees, int atout, Carte[] pioche, int lg){
-        Iterator<Carte> affiche = cartesPiochees.iterateur();
-        Carte a;
-        Moteur test = new Moteur();
-        while(affiche.hasNext()){
-            a=affiche.next();
-            System.err.println("hey");
-            test.afficherCarte(a);
-        }
-        
         Carte res = null;
         double h = 0;
         Iterator<Carte> it = main.iterateur();
@@ -212,7 +203,7 @@ public class IA_Util {
                 }
             }
         }
-        if(h==0){
+        if(h==0 && minHorsAtout(atout,main) != null){
             return minHorsAtout(atout, main);
         }else{
             return res;
@@ -512,7 +503,7 @@ public class IA_Util {
      */
     public static boolean ImtheBest(int nbPlisIA,int nbPlisAdv,int conditionVictoire){
         if(conditionVictoire == 1){
-            return((nbPlisIA - nbPlisAdv)>2 || (nbPlisIA != 13));
+            return((nbPlisIA - nbPlisAdv)>2 && (nbPlisIA != 13));
         }
         else{
             return((nbPlisIA - nbPlisAdv) > 5);
