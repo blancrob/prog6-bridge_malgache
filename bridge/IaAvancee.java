@@ -124,9 +124,11 @@ public class IaAvancee implements IA {
                 }
                 i++;
             }
-            if(gagnant){ //Si on est gagnant  
+            if(IA_Util.ImtheBest(nbPlisIA, nbPlisAdv, conditionVictoire)){ //Si on est gagnant  
                 if (h<0.4){ //mais que la pioche est pas très cool                             
-                    res = IA_Util.meilleurPioche(nbCartes, lg, pioche);  //Choisir la carte de la pile qui a le moins de cartes
+                    if(IA_Util.meilleurPioche(nbCartes, lg, pioche) != null ){
+                        res = IA_Util.meilleurPioche(nbCartes, lg, pioche);  //Choisir la carte de la pile qui a le moins de cartes
+                    }
                 }
             }
         }

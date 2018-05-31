@@ -255,16 +255,21 @@ public class IA_Util {
      */
     public static Carte meilleurPioche(int[] nbCartes, int lg, Carte[] pioche){
         int i = 0;
-        int taille = 10;
+        int taille = 10000;
         int res = 0;
         while(i<lg){
-            if(nbCartes[i] < taille){
+            if(nbCartes[i] == 1){
                 res = i;
                 taille = nbCartes[i];
             }
             i++;
         }
-        return pioche[res];
+        if(taille == 1){
+            return pioche[res];
+        }
+        else{
+            return null;
+        }
     }
     
     /**
@@ -315,22 +320,22 @@ public class IA_Util {
         int taille = 0;
         int res = 0;
         if(c.couleur == atout){ // Si la carte est 1 atout, elle battra toutes les cartes sauf les atouts plus grands qu'elle 
-            do{ 
+            while(it.hasNext()){ 
                 tmp = it.next();
                 taille++;
                 if (tmp.couleur != atout || tmp.valeur < c.valeur){
                     res++;
                 }
-            }while(it.hasNext());
+            }
         }
         else{ // Si la carte est une couleur autre, elle battra toutes les cartes d'une autre couleurs (hors atouts) et les cartes inférieures de même couleur
-            do{
+            while(it.hasNext()){
                 tmp = it.next();
                 taille++;
                 if (tmp.couleur != atout && (tmp.couleur != c.couleur || tmp.valeur < c.valeur)){
                     res++;
                 }
-            }while(it.hasNext());
+            }
         }
         return (double)res/(double)taille;
     }
@@ -353,22 +358,22 @@ public class IA_Util {
         int res = 0;
         int taille = 0;
         if(c.couleur == atout){ // Si la carte est 1 atout, elle battra toutes les cartes sauf les atouts plus grands qu'elle 
-            do{
+            while(it.hasNext()){
                 tmp = it.next();
                 taille++;
                 if(tmp.couleur != atout || tmp.valeur < c.valeur){
                     res++;
                 }
-            }while(it.hasNext());
+            }
         }
         else{// Si la carte est une couleur autre, elle battra les cartes de la couleur demandée de valeur inférieure
-            do{
+            while(it.hasNext()){
                 tmp = it.next();
                 taille++;
                 if(tmp.couleur != atout && (tmp.couleur == c.couleur && tmp.valeur < c.valeur)){
                     res++;
                 }
-            }while(it.hasNext());
+            }
         }
         return (double)res/(double)taille;
     }
